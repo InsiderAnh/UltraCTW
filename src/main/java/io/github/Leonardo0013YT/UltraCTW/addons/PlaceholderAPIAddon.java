@@ -1,4 +1,4 @@
-package io.github.Leonardo0013YT.UltraSkyWars.addons;
+package io.github.Leonardo0013YT.UltraCTW.addons;
 
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.entity.Player;
