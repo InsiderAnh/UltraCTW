@@ -10,13 +10,17 @@ public class ArenaSetup {
 
     private Main plugin;
     private Player p;
+    private String name;
+    private String schematic;
     private Location lobby, spectator;
     private HashMap<Integer, TeamSetup> teams = new HashMap<>();
     private TeamSetup actual;
 
-    public ArenaSetup(Main plugin, Player p){
+    public ArenaSetup(Main plugin, Player p, String name, String schematic){
         this.plugin = plugin;
         this.p = p;
+        this.name = name;
+        this.schematic = schematic;
     }
 
     public void setActual(TeamSetup actual) {

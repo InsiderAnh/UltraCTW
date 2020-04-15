@@ -1,10 +1,9 @@
 package io.github.Leonardo0013YT.UltraCTW;
 
+import io.github.Leonardo0013YT.UltraCTW.cmds.SetupCMD;
 import io.github.Leonardo0013YT.UltraCTW.config.Settings;
-import io.github.Leonardo0013YT.UltraCTW.managers.AddonManager;
-import io.github.Leonardo0013YT.UltraCTW.managers.ConfigManager;
-import io.github.Leonardo0013YT.UltraCTW.managers.GameManager;
-import io.github.Leonardo0013YT.UltraCTW.managers.SetupManager;
+import io.github.Leonardo0013YT.UltraCTW.controllers.WorldController;
+import io.github.Leonardo0013YT.UltraCTW.managers.*;
 import io.github.Leonardo0013YT.UltraCTW.menus.SetupMenu;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -12,13 +11,15 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class Main extends JavaPlugin {
 
     private static Main instance;
-    private Settings arenas;
+    private Settings arenas, lang;
     private boolean debugMode;
     private GameManager gm;
     private ConfigManager cm;
     private AddonManager adm;
     private SetupManager sm;
     private SetupMenu sem;
+    private ItemManager im;
+    private WorldController wc;
 
     @Override
     public void onEnable() {
@@ -26,12 +27,16 @@ public class Main extends JavaPlugin {
         getConfig().options().copyDefaults(true);
         saveConfig();
         arenas = new Settings(this, "arenas", false, false);
+        lang = new Settings(this, "lang", true, false);
         debugMode = getConfig().getBoolean("debugMode");
         cm = new ConfigManager(this);
         adm = new AddonManager(this);
+        im = new ItemManager(this);
         sm = new SetupManager(this);
         sem = new SetupMenu(this);
         gm = new GameManager(this);
+        wc = new WorldController(this);
+        getCommand("ctws").setExecutor(new SetupCMD(this));
     }
 
     @Override
@@ -49,8 +54,20 @@ public class Main extends JavaPlugin {
         return instance;
     }
 
+    public WorldController getWc() {
+        return wc;
+    }
+
+    public Settings getLang() {
+        return lang;
+    }
+
     public Settings getArenas() {
         return arenas;
+    }
+
+    public ItemManager getIm() {
+        return im;
     }
 
     public SetupManager getSm() {

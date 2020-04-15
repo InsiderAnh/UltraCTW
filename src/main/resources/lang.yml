@@ -1,0 +1,58 @@
+setup:
+  alreadyCreating: "&cYou are already creating an arena."
+  noSchema: "&cThere is no schematic by that name."
+menus:
+  setup:
+    title: "&aSetup Arena"
+    name:
+      nameItem: "&eName of Arena"
+      loreItem: |-
+        &7The Arena name is:
+        &7
+        &eName: &b<name>
+        &7
+    schematic:
+      nameItem: "&eName of Schematic"
+      loreItem: |-
+        &7The Schematic name is:
+        &7
+        &eSchematic: &b<schematic>
+        &7
+    min:
+      nameItem: "&eMin Players"
+      loreItem: |-
+        &7Min players to start arena:
+        &7
+        &eMin: &b<min>
+        &7
+        &eClick to change!
+    teamSize:
+      nameItem: "&eTeamSize"
+      loreItem: |-
+        &7Team size of arena:
+        &7
+        &eTeamSize: &b<teamSize>
+        &7
+        &eClick to change!
+    lobby:
+      nameItem: "&eLobby Location"
+      loreItem: |-
+        &7Sets the lobby location
+        &7
+        &eLobby: &b<lobby>
+        &7
+        &eClick to set location!
+    spect:
+      nameItem: "&eSpectator Location"
+      loreItem: |-
+        &7Sets the spect location
+        &7
+        &eSpectator: &b<spect>
+        &7
+        &eClick to set location!
+    save:
+      nameItem: "&eSave Arena"
+      loreItem: |-
+        &7Save the arena in config
+        &7
+        &eClick to save!

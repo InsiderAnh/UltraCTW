@@ -4,11 +4,17 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 
+import java.io.File;
 import java.text.DecimalFormat;
 
 public class Utils {
 
     private static DecimalFormat df = new DecimalFormat("##.#");
+
+    public static boolean existsFile(String schematic) {
+        File file = new File(Bukkit.getWorldContainer() + "/plugins/WorldEdit/schematics", schematic);
+        return file.exists();
+    }
 
     public static String getFormatedLocation(Location loc) {
         if (loc == null) {
