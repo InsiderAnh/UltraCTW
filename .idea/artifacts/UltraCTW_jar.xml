@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="UltraCTW:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/UltraCTW_jar</output-path>
+    <root id="archive" name="UltraCTW.jar">
+      <element id="module-output" name="UltraCTW" />
+    </root>
+  </artifact>
+</component>
