@@ -2,6 +2,7 @@ package io.github.Leonardo0013YT.UltraCTW.listeners;
 
 import io.github.Leonardo0013YT.UltraCTW.Main;
 import io.github.Leonardo0013YT.UltraCTW.setup.ArenaSetup;
+import io.github.Leonardo0013YT.UltraCTW.utils.Utils;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -28,7 +29,17 @@ public class SetupListener implements Listener {
         }
         ItemStack item = p.getItemInHand();
         if (item.equals(plugin.getIm().getSetup())){
-            plugin.getSem().createSetupMenu(p);
+            if (plugin.getSm().isSetup(p)){
+                return;
+            }
+            ArenaSetup as = plugin.getSm().getSetup(p);
+            plugin.getUim().openInventory(p, plugin.getUim().getMenus("setup"),
+                    new String[]{"<name>", as.getName()},
+                    new String[]{"<schematic>", as.getSchematic()},
+                    new String[]{"<min>", "" + as.getMin()},
+                    new String[]{"<teamSize>", "" + as.getTeamSize()},
+                    new String[]{"<lobby>", Utils.getFormatedLocation(as.getLobby())},
+                    new String[]{"<spect>", Utils.getFormatedLocation(as.getSpectator())});
         }
     }
 
@@ -46,6 +57,33 @@ public class SetupListener implements Listener {
                 plugin.getSm().setSetupName(p, "min");
                 p.closeInventory();
                 p.sendMessage(plugin.getLang().get(p, "setup.arena.setMin"));
+            }
+            if (display.equals(plugin.getLang().get(p, "menus.setup.teamSize.nameItem"))) {
+                plugin.getSm().setSetupName(p, "teamsize");
+                p.closeInventory();
+                p.sendMessage(plugin.getLang().get(p, "setup.arena.setTeamSize"));
+            }
+            if (display.equals(plugin.getLang().get(p, "menus.setup.lobby.nameItem"))) {
+                as.setLobby(p.getLocation());
+                plugin.getUim().openInventory(p, plugin.getUim().getMenus("setup"),
+                        new String[]{"<name>", as.getName()},
+                        new String[]{"<schematic>", as.getSchematic()},
+                        new String[]{"<min>", "" + as.getMin()},
+                        new String[]{"<teamSize>", "" + as.getTeamSize()},
+                        new String[]{"<lobby>", Utils.getFormatedLocation(as.getLobby())},
+                        new String[]{"<spect>", Utils.getFormatedLocation(as.getSpectator())});
+                p.sendMessage(plugin.getLang().get(p, "setup.arena.setLobby"));
+            }
+            if (display.equals(plugin.getLang().get(p, "menus.setup.spect.nameItem"))) {
+                as.setSpectator(p.getLocation());
+                plugin.getUim().openInventory(p, plugin.getUim().getMenus("setup"),
+                        new String[]{"<name>", as.getName()},
+                        new String[]{"<schematic>", as.getSchematic()},
+                        new String[]{"<min>", "" + as.getMin()},
+                        new String[]{"<teamSize>", "" + as.getTeamSize()},
+                        new String[]{"<lobby>", Utils.getFormatedLocation(as.getLobby())},
+                        new String[]{"<spect>", Utils.getFormatedLocation(as.getSpectator())});
+                p.sendMessage(plugin.getLang().get(p, "setup.arena.setSpect"));
             }
         }
     }

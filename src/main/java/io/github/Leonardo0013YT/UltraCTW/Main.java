@@ -5,13 +5,14 @@ import io.github.Leonardo0013YT.UltraCTW.config.Settings;
 import io.github.Leonardo0013YT.UltraCTW.controllers.WorldController;
 import io.github.Leonardo0013YT.UltraCTW.managers.*;
 import io.github.Leonardo0013YT.UltraCTW.menus.SetupMenu;
+import io.github.Leonardo0013YT.UltraCTW.menus.UltraInventoryMenu;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class Main extends JavaPlugin {
 
     private static Main instance;
-    private Settings arenas, lang;
+    private Settings arenas, lang, menus;
     private boolean debugMode;
     private GameManager gm;
     private ConfigManager cm;
@@ -20,6 +21,7 @@ public class Main extends JavaPlugin {
     private SetupMenu sem;
     private ItemManager im;
     private WorldController wc;
+    private UltraInventoryMenu uim;
 
     @Override
     public void onEnable() {
@@ -28,6 +30,7 @@ public class Main extends JavaPlugin {
         saveConfig();
         arenas = new Settings(this, "arenas", false, false);
         lang = new Settings(this, "lang", true, false);
+        menus = new Settings(this, "menus", false, false);
         debugMode = getConfig().getBoolean("debugMode");
         cm = new ConfigManager(this);
         adm = new AddonManager(this);
@@ -36,6 +39,7 @@ public class Main extends JavaPlugin {
         sem = new SetupMenu(this);
         gm = new GameManager(this);
         wc = new WorldController(this);
+        uim = new UltraInventoryMenu(this);
         getCommand("ctws").setExecutor(new SetupCMD(this));
     }
 
@@ -54,6 +58,10 @@ public class Main extends JavaPlugin {
         return instance;
     }
 
+    public UltraInventoryMenu getUim() {
+        return uim;
+    }
+
     public WorldController getWc() {
         return wc;
     }
@@ -64,6 +72,10 @@ public class Main extends JavaPlugin {
 
     public Settings getArenas() {
         return arenas;
+    }
+
+    public Settings getMenus() {
+        return menus;
     }
 
     public ItemManager getIm() {

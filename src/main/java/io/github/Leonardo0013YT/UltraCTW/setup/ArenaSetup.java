@@ -13,6 +13,7 @@ public class ArenaSetup {
     private String name;
     private String schematic;
     private Location lobby, spectator;
+    private int min, teamSize;
     private HashMap<Integer, TeamSetup> teams = new HashMap<>();
     private TeamSetup actual;
 
@@ -21,6 +22,8 @@ public class ArenaSetup {
         this.p = p;
         this.name = name;
         this.schematic = schematic;
+        this.min = 10;
+        this.teamSize = 5;
     }
 
     public void setActual(TeamSetup actual) {
@@ -41,6 +44,22 @@ public class ArenaSetup {
 
     public Location getSpectator() {
         return spectator;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getSchematic() {
+        return schematic;
+    }
+
+    public int getMin() {
+        return min;
+    }
+
+    public int getTeamSize() {
+        return teamSize;
     }
 
     public void save(Player p){
