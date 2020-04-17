@@ -12,6 +12,7 @@ import java.util.Collection;
 public class Team {
 
     private Collection<Player> members = new ArrayList<>();
+    private Collection<Location> wools = new ArrayList<>();
     private Main plugin;
     private Game game;
     private int id;
@@ -23,7 +24,7 @@ public class Team {
         this.game = game;
         this.id = id;
         this.kills = 0;
-        this.spawn = Utils.getStringLocation(plugin.getArenas().get(null, path + ".spawn"));
+        this.spawn = Utils.getStringLocation(plugin.getArenas().get(path + ".spawn"));
     }
 
     public void addKill() {

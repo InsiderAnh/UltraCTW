@@ -1,6 +1,7 @@
 package io.github.Leonardo0013YT.UltraCTW.cmds;
 
 import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.interfaces.UltraInventory;
 import io.github.Leonardo0013YT.UltraCTW.setup.ArenaSetup;
 import io.github.Leonardo0013YT.UltraCTW.utils.Utils;
 import org.bukkit.Material;
@@ -50,10 +51,34 @@ public class SetupCMD implements CommandExecutor {
                     plugin.getSm().setSetup(p, new ArenaSetup(plugin, p, name, schematic));
                     World w = plugin.getWc().createEmptyWorld(name);
                     w.getBlockAt(0, 75, 0).setType(Material.STONE);
+                    w.setSpawnLocation(0, 75, 0);
                     plugin.getWc().resetMap(w.getSpawnLocation(), schematic);
                     p.teleport(w.getSpawnLocation());
                     p.getInventory().remove(plugin.getIm().getSetup());
                     p.getInventory().addItem(plugin.getIm().getSetup());
+                    break;
+                case "inventory":
+                    if (args.length < 2) {
+                        sendHelp(p);
+                        return true;
+                    }
+                    switch (args[1].toLowerCase()) {
+                        case "setup":
+                            UltraInventory setup = plugin.getUim().getMenus("setup");
+                            plugin.getUim().openInventory(p, setup);
+                            plugin.getSm().setSetupInventory(p, setup);
+                            break;
+                        case "teamsetup":
+                            UltraInventory teamsetup = plugin.getUim().getMenus("teamsetup");
+                            plugin.getUim().openInventory(p, teamsetup);
+                            plugin.getSm().setSetupInventory(p, teamsetup);
+                            break;
+                        default:
+                            p.sendMessage("§cThe available menus are:");
+                            p.sendMessage("§7 - §eSetup");
+                            p.sendMessage("§7 - §eTeamSetup");
+                            break;
+                    }
                     break;
                 default:
                     sendHelp(sender);

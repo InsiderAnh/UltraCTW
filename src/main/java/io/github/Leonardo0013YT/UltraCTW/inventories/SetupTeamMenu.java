@@ -9,7 +9,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SetupArenaMenu implements UltraInventory {
+public class SetupTeamMenu implements UltraInventory {
 
     private String title;
     private Map<Integer, ItemStack> config = new HashMap<>();
@@ -18,7 +18,7 @@ public class SetupArenaMenu implements UltraInventory {
     private String name;
     private Main plugin;
 
-    public SetupArenaMenu(Main plugin, String name) {
+    public SetupTeamMenu(Main plugin, String name) {
         this.plugin = plugin;
         this.name = name;
         this.title = plugin.getLang().get("menus." + name + ".title");
@@ -31,14 +31,11 @@ public class SetupArenaMenu implements UltraInventory {
                 int slot = Integer.parseInt(c);
                 ItemStack litem = plugin.getMenus().getConfig().getItemStack("menus." + name + ".items." + c);
                 ItemStack item = ItemBuilder.parse(plugin.getMenus().getConfig().getItemStack("menus." + name + ".items." + c).clone(),
-                        new String[]{"{NAME}", plugin.getLang().get("menus.setup.name.nameItem"), plugin.getLang().get("menus.setup.name.loreItem")},
-                        new String[]{"{SCHEMATIC}", plugin.getLang().get("menus.setup.schematic.nameItem"), plugin.getLang().get("menus.setup.schematic.loreItem")},
-                        new String[]{"{MIN}", plugin.getLang().get("menus.setup.min.nameItem"), plugin.getLang().get("menus.setup.min.loreItem")},
-                        new String[]{"{TEAMS}", plugin.getLang().get("menus.setup.teams.nameItem"), plugin.getLang().get("menus.setup.teams.loreItem")},
-                        new String[]{"{TEAMSIZE}", plugin.getLang().get("menus.setup.teamSize.nameItem"), plugin.getLang().get("menus.setup.teamSize.loreItem")},
-                        new String[]{"{LOBBY}", plugin.getLang().get("menus.setup.lobby.nameItem"), plugin.getLang().get("menus.setup.lobby.loreItem")},
-                        new String[]{"{SPECT}", plugin.getLang().get("menus.setup.spect.nameItem"), plugin.getLang().get("menus.setup.spect.loreItem")},
-                        new String[]{"{SAVE}", plugin.getLang().get("menus.setup.save.nameItem"), plugin.getLang().get("menus.setup.save.loreItem")});
+                        new String[]{"{TEAMCOLOR}", plugin.getLang().get("menus.teamsetup.color.nameItem"), plugin.getLang().get("menus.teamsetup.color.loreItem")},
+                        new String[]{"{TEAMWOOLS}", plugin.getLang().get("menus.teamsetup.wools.nameItem"), plugin.getLang().get("menus.teamsetup.wools.loreItem")},
+                        new String[]{"{TEAMSPAWNER}", plugin.getLang().get("menus.teamsetup.spawner.nameItem"), plugin.getLang().get("menus.teamsetup.spawner.loreItem")},
+                        new String[]{"{TEAMSPAWN}", plugin.getLang().get("menus.teamsetup.spawn.nameItem"), plugin.getLang().get("menus.teamsetup.spawn.loreItem")},
+                        new String[]{"{TEAMSAVE}", plugin.getLang().get("menus.teamsetup.save.nameItem"), plugin.getLang().get("menus.teamsetup.save.loreItem")});
                 contents.put(slot, item);
                 config.put(slot, litem);
             }
@@ -119,14 +116,11 @@ public class SetupArenaMenu implements UltraInventory {
                 int slot = Integer.parseInt(c);
                 ItemStack litem = plugin.getMenus().getConfig().getItemStack("menus." + name + ".items." + c);
                 ItemStack item = ItemBuilder.parse(plugin.getMenus().getConfig().getItemStack("menus." + name + ".items." + c).clone(),
-                        new String[]{"{NAME}", plugin.getLang().get("menus.setup.name.nameItem"), plugin.getLang().get("menus.setup.name.loreItem")},
-                        new String[]{"{SCHEMATIC}", plugin.getLang().get("menus.setup.schematic.nameItem"), plugin.getLang().get("menus.setup.schematic.loreItem")},
-                        new String[]{"{TEAMS}", plugin.getLang().get("menus.setup.teams.nameItem"), plugin.getLang().get("menus.setup.teams.loreItem")},
-                        new String[]{"{MIN}", plugin.getLang().get("menus.setup.min.nameItem"), plugin.getLang().get("menus.setup.min.loreItem")},
-                        new String[]{"{TEAMSIZE}", plugin.getLang().get("menus.setup.teamSize.nameItem"), plugin.getLang().get("menus.setup.teamSize.loreItem")},
-                        new String[]{"{LOBBY}", plugin.getLang().get("menus.setup.lobby.nameItem"), plugin.getLang().get("menus.setup.lobby.loreItem")},
-                        new String[]{"{SPECT}", plugin.getLang().get("menus.setup.spect.nameItem"), plugin.getLang().get("menus.setup.spect.loreItem")},
-                        new String[]{"{SAVE}", plugin.getLang().get("menus.setup.save.nameItem"), plugin.getLang().get("menus.setup.save.loreItem")});
+                        new String[]{"{TEAMCOLOR}", plugin.getLang().get("menus.teamsetup.color.nameItem"), plugin.getLang().get("menus.teamsetup.color.loreItem")},
+                        new String[]{"{TEAMWOOLS}", plugin.getLang().get("menus.teamsetup.wools.nameItem"), plugin.getLang().get("menus.teamsetup.wools.loreItem")},
+                        new String[]{"{TEAMSPAWNER}", plugin.getLang().get("menus.teamsetup.spawner.nameItem"), plugin.getLang().get("menus.teamsetup.spawner.loreItem")},
+                        new String[]{"{TEAMSPAWN}", plugin.getLang().get("menus.teamsetup.spawn.nameItem"), plugin.getLang().get("menus.teamsetup.spawn.loreItem")},
+                        new String[]{"{TEAMSAVE}", plugin.getLang().get("menus.teamsetup.save.nameItem"), plugin.getLang().get("menus.teamsetup.save.loreItem")});
                 contents.put(slot, item);
                 config.put(slot, litem);
             }

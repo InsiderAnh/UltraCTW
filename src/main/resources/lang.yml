@@ -1,7 +1,81 @@
 setup:
   alreadyCreating: "&cYou are already creating an arena."
   noSchema: "&cThere is no schematic by that name."
+  arena:
+    setLobby: |-
+      &6&lARENA SETUP:
+      &aThe lobby location has been established.
+    setSpect: |-
+      &6&lARENA SETUP:
+      &aThe spect location has been established.
+    setMin: |-
+      &6&lARENA SETUP:
+      &aWrite the amount of min in the chat.
+    setTeamSize: |-
+      &6&lARENA SETUP:
+      &aWrite the amount of team size in the chat.
+  menus:
+    finishEdit: "&aYou have edited the menu correctly."
+items:
+  setup:
+    nameItem: "&eSetup Arena"
+    loreItem: |-
+      &7Item to setup arena.
+      &7
+      &7Right click to open.
 menus:
+  back:
+    nameItem: "&eReturn Menu"
+    loreItem: |-
+      &7Back to <menu>
+  teamsColor:
+    title: "&aSetup Color Team"
+    color:
+      nameItem: "<color><name>"
+      loreItem: |-
+        &7The team color you want
+        &7to set is selected.
+        &7
+        &eClick to setup!
+  teamsetup:
+    title: "&aSetup Team"
+    color:
+      nameItem: "&eTeam Color"
+      loreItem: |-
+        67The color name is:
+        &7
+        &eColor: &b<color>
+        &7
+    wools:
+      nameItem: "&eAdd Wool"
+      loreItem: |-
+        &7When you click, you will
+        &7be given the available
+        &7wool colors.
+        &7
+        &eClick to setup!
+    spawner:
+      nameItem: "&eAdd Spawner"
+      loreItem: |-
+        &7Add a wool spawn:
+        &7
+        <generators>
+        &7
+        &eClick to add!
+    spawn:
+      nameItem: "&eTeam Spawn"
+      loreItem: |-
+        &7Set the team spawn:
+        &7
+        &eLocation: &b<spawn>
+        &7
+        &eClick to set!
+    save:
+      nameItem: "&eSave Arena"
+      loreItem: |-
+        &7Save the arena in config
+        &7
+        &eClick to save!
   setup:
     title: "&aSetup Arena"
     name:
@@ -18,6 +92,12 @@ menus:
         &7
         &eSchematic: &b<schematic>
         &7
+    teams:
+      nameItem: "&eTeams"
+      loreItem: |-
+        &7Opens the menu team:
+        &7
+        &eClick to open!
     min:
       nameItem: "&eMin Players"
       loreItem: |-
@@ -56,3 +136,20 @@ menus:
         &7Save the arena in config
         &7
         &eClick to save!
+teams:
+  aqua: "&bAqua"
+  dark_blue: "&1Dark Blue"
+  black: "&0Black"
+  blue: "&9Blue"
+  dark_aqua: "&3Dark Aqua"
+  dark_red: "&4Dark Red"
+  red: "&cRed"
+  dark_gray: "&8Dark Gray"
+  gray: "&7Gray"
+  dark_green: "&2Dark Green"
+  green: "&aGreen"
+  light_purple: "&dLight Purple"
+  dark_purple: "&5Dark Purple"
+  white: "&fWhite"
+  yellow: "&eYellow"
+  gold: "&6Gold"

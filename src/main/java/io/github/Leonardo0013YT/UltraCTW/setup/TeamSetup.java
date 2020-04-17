@@ -15,6 +15,10 @@ public class TeamSetup {
         this.color = color;
     }
 
+    public ChatColor getColor() {
+        return color;
+    }
+
     public void setSpawn(Location spawn) {
         this.spawn = spawn;
     }

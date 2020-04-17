@@ -1,7 +1,9 @@
 package io.github.Leonardo0013YT.UltraCTW.managers;
 
 import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.interfaces.UltraInventory;
 import io.github.Leonardo0013YT.UltraCTW.setup.ArenaSetup;
+import io.github.Leonardo0013YT.UltraCTW.setup.TeamSetup;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
@@ -9,8 +11,10 @@ import java.util.HashMap;
 public class SetupManager {
 
     private Main plugin;
+    private HashMap<Player, UltraInventory> setupInventory = new HashMap<>();
     private HashMap<Player, String> editName = new HashMap<>();
     private HashMap<Player, ArenaSetup> setup = new HashMap<>();
+    private HashMap<Player, TeamSetup> setupTeam = new HashMap<>();
 
     public SetupManager(Main plugin) {
         this.plugin = plugin;
@@ -18,6 +22,22 @@ public class SetupManager {
 
     public void setSetupName(Player p, String a) {
         editName.put(p, a);
+    }
+
+    public void setSetupInventory(Player p, UltraInventory a) {
+        setupInventory.put(p, a);
+    }
+
+    public UltraInventory getSetupInventory(Player p) {
+        return setupInventory.get(p);
+    }
+
+    public boolean isSetupInventory(Player p) {
+        return setupInventory.containsKey(p);
+    }
+
+    public void removeInventory(Player p) {
+        setupInventory.remove(p);
     }
 
     public String getSetupName(Player p) {
@@ -46,6 +66,22 @@ public class SetupManager {
 
     public void remove(Player p) {
         setup.remove(p);
+    }
+
+    public void setSetupTeam(Player p, TeamSetup a) {
+        setupTeam.put(p, a);
+    }
+
+    public TeamSetup getSetupTeam(Player p) {
+        return setupTeam.get(p);
+    }
+
+    public boolean isSetupTeam(Player p) {
+        return setupTeam.containsKey(p);
+    }
+
+    public void removeTeam(Player p) {
+        setupTeam.remove(p);
     }
 
 }

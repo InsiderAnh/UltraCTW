@@ -3,6 +3,7 @@ package io.github.Leonardo0013YT.UltraCTW;
 import io.github.Leonardo0013YT.UltraCTW.cmds.SetupCMD;
 import io.github.Leonardo0013YT.UltraCTW.config.Settings;
 import io.github.Leonardo0013YT.UltraCTW.controllers.WorldController;
+import io.github.Leonardo0013YT.UltraCTW.listeners.SetupListener;
 import io.github.Leonardo0013YT.UltraCTW.managers.*;
 import io.github.Leonardo0013YT.UltraCTW.menus.SetupMenu;
 import io.github.Leonardo0013YT.UltraCTW.menus.UltraInventoryMenu;
@@ -41,6 +42,7 @@ public class Main extends JavaPlugin {
         wc = new WorldController(this);
         uim = new UltraInventoryMenu(this);
         getCommand("ctws").setExecutor(new SetupCMD(this));
+        getServer().getPluginManager().registerEvents(new SetupListener(this), this);
     }
 
     @Override

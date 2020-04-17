@@ -16,4 +16,5 @@ public class ItemManager {
     public ItemStack getSetup() {
         return setup;
     }
+
 }

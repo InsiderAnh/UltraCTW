@@ -3,6 +3,7 @@ package io.github.Leonardo0013YT.UltraCTW.menus;
 import io.github.Leonardo0013YT.UltraCTW.Main;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.UltraInventory;
 import io.github.Leonardo0013YT.UltraCTW.inventories.SetupArenaMenu;
+import io.github.Leonardo0013YT.UltraCTW.inventories.SetupTeamMenu;
 import io.github.Leonardo0013YT.UltraCTW.utils.ItemBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -27,6 +28,7 @@ public class UltraInventoryMenu {
     public void loadMenus() {
         menus.clear();
         menus.put("setup", new SetupArenaMenu(plugin, "setup"));
+        menus.put("teamsetup", new SetupTeamMenu(plugin, "teamsetup"));
     }
 
     public UltraInventory getMenus(String t) {
