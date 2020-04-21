@@ -1,7 +1,18 @@
 setup:
   alreadyCreating: "&cYou are already creating an arena."
   noSchema: "&cThere is no schematic by that name."
+  team:
+    giveAvailableWools: "&aYou have been given the available wools to set up."
+    firstTeamColors: "&cFirst you need to set the colors of the teams."
   arena:
+    createDontWools: "&cWhen you create the first team, you can no longer change the number of wools."
+    minMin: "&cThe minimum player to start must be 2."
+    minTeamSize: "&cThe minimum team size is 1."
+    minWoolSize: "&cThe minimum wool size is 1."
+    minAmountTeams: "&cThe minimum teams amounts is 2."
+    alreadyTeam: "&cYou can no longer change the amount of wools as you already have a team in place."
+    addColor: "&aThe color of <color>&a wool was added to the team."
+    setColors: "&aAdded colors used by this computer."
     setLobby: |-
       &6&lARENA SETUP:
       &aThe lobby location has been established.
@@ -14,6 +25,12 @@ setup:
     setTeamSize: |-
       &6&lARENA SETUP:
       &aWrite the amount of team size in the chat.
+    setWoolSize: |-
+      &6&lARENA SETUP:
+      &aWrite the amount of wool size in the chat.
+    setAmountTeams: |-
+      &6&lARENA SETUP:
+      &aWrite the amount of teams in the chat.
   menus:
     finishEdit: "&aYou have edited the menu correctly."
 items:
@@ -37,6 +54,8 @@ menus:
         &7to set is selected.
         &7
         &eClick to setup!
+  teamColor:
+    title: "&aSetup Teams Colors"
   teamsetup:
     title: "&aSetup Team"
     color:
@@ -47,11 +66,18 @@ menus:
         &eColor: &b<color>
         &7
     wools:
-      nameItem: "&eAdd Wool"
+      nameItem: "&eAdd Wools"
       loreItem: |-
         &7When you click, you will
         &7be given the available
         &7wool colors.
+        &7
+        &eClick to setup!
+    wool:
+      nameItem: "&eSet Wools"
+      loreItem: |-
+        &7You'll set the wool colors
+        &7this team used.
         &7
         &eClick to setup!
     spawner:
@@ -106,12 +132,29 @@ menus:
         &eMin: &b<min>
         &7
         &eClick to change!
+    teamsAmount:
+      nameItem: "&eAmount Teams"
+      loreItem: |-
+        &7Sets the number of teams
+        &7the arena will have.
+        &7
+        &eAmount Teams: &b<teamAmount>
+        &7
+        &eClick to change!
     teamSize:
-      nameItem: "&eTeamSize"
+      nameItem: "&eTeam Size"
       loreItem: |-
         &7Team size of arena:
         &7
         &eTeamSize: &b<teamSize>
+        &7
+        &eClick to change!
+    woolSize:
+      nameItem: "&eWool Size"
+      loreItem: |-
+        &7Wool size of arena:
+        &7
+        &eWoolSize: &b<woolSize>
         &7
         &eClick to change!
     lobby:

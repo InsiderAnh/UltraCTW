@@ -4,12 +4,15 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class TeamSetup {
 
     private ChatColor color;
     private Location spawn;
     private ArrayList<Location> spawners = new ArrayList<>();
+    private HashMap<ChatColor, Location> wools = new HashMap<>();
+    private ArrayList<ChatColor> colors = new ArrayList<>();
 
     public TeamSetup(ChatColor color){
         this.color = color;
@@ -19,11 +22,24 @@ public class TeamSetup {
         return color;
     }
 
+    public Location getSpawn() {
+        return spawn;
+    }
+
     public void setSpawn(Location spawn) {
         this.spawn = spawn;
+    }
+
+    public ArrayList<ChatColor> getColors() {
+        return colors;
+    }
+
+    public HashMap<ChatColor, Location> getWools() {
+        return wools;
     }
 
     public ArrayList<Location> getSpawners() {
         return spawners;
     }
+
 }
