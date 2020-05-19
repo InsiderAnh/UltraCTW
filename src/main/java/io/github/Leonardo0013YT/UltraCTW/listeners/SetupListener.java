@@ -9,9 +9,13 @@ import io.github.Leonardo0013YT.UltraCTW.utils.Utils;
 import io.github.Leonardo0013YT.UltraCTW.utils.XMaterial;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryType;
@@ -160,6 +164,23 @@ public class SetupListener implements Listener {
                     new String[]{"<lobby>", Utils.getFormatedLocation(as.getLobby())},
                     new String[]{"<spect>", Utils.getFormatedLocation(as.getSpectator())});
         }
+        if (e.getAction().equals(Action.RIGHT_CLICK_BLOCK)){
+            if (!plugin.getSm().isSetup(p)){
+                return;
+            }
+            ArenaSetup as = plugin.getSm().getSetup(p);
+            if (as.getActual() == null){
+                return;
+            }
+            if (item.getType().name().contains("WOOL")){
+                XMaterial ma = XMaterial.matchXMaterial(item);
+                TeamSetup ts = as.getActual();
+                Block b = e.getClickedBlock();
+                ts.getWools().put(Utils.getColorByXMaterial(ma), b.getLocation());
+                removeItemInHand(p);
+                p.sendMessage(plugin.getLang().get("setup.arena.addWool").replaceAll("<loc>", Utils.getFormatedLocation(b.getLocation())));
+            }
+        }
     }
 
     @EventHandler
@@ -168,6 +189,9 @@ public class SetupListener implements Listener {
             return;
         }
         Player p = (Player) e.getWhoClicked();
+        if (plugin.getSm().isSetupInventory(p)){
+            return;
+        }
         if (e.getView().getTitle().equals(plugin.getLang().get("menus.teamColor.title"))) {
             e.setCancelled(true);
             ArenaSetup as = plugin.getSm().getSetup(p);
@@ -181,10 +205,12 @@ public class SetupListener implements Listener {
             ts.getColors().add(color);
             if (ts.getColors().size() >= as.getWoolSize()){
                 p.sendMessage(plugin.getLang().get("setup.arena.setColors"));
+                ArrayList<String> sp = new ArrayList<>();
+                ts.getSpawners().forEach(l -> sp.add(Utils.getFormatedLocation(l)));
                 plugin.getUim().openInventory(p, plugin.getUim().getMenus("teamsetup"),
-                        new String[]{"<color>", as.getName()},
-                        new String[]{"<generators>", as.getSchematic()},
-                        new String[]{"<spawn>", "" + as.getMin()});
+                        new String[]{"<color>", ts.getColor().name()},
+                        new String[]{"<generators>", getString(sp)},
+                        new String[]{"<spawn>", "" + Utils.getFormatedLocation(ts.getSpawn())});
                 return;
             }
             p.sendMessage(plugin.getLang().get("setup.arena.addColor").replaceAll("<color>", plugin.getLang().get("teams." + color.name().toLowerCase())));
@@ -201,12 +227,59 @@ public class SetupListener implements Listener {
                     p.sendMessage(plugin.getLang().get("setup.team.firstTeamColors"));
                     return;
                 }
-                ArrayList<ChatColor> wools = as.getWools();
+                ArrayList<ChatColor> wools = ts.getColors();
                 wools.forEach(w -> p.getInventory().addItem(Utils.getXMaterialByColor(w).parseItem()));
                 p.sendMessage(plugin.getLang().get("setup.team.giveAvailableWools"));
             }
+            if (display.equals(plugin.getLang().get(p, "menus.teamsetup.spawn.nameItem"))) {
+                ts.setSpawn(p.getLocation());
+                p.sendMessage(plugin.getLang().get("setup.arena.setSpawn").replaceAll("<location>", Utils.getFormatedLocation(p.getLocation())));
+                ArrayList<String> sp = new ArrayList<>();
+                ts.getSpawners().forEach(l -> sp.add(Utils.getFormatedLocation(l)));
+                plugin.getUim().openInventory(p, plugin.getUim().getMenus("teamsetup"),
+                        new String[]{"<color>", ts.getColor().name()},
+                        new String[]{"<generators>", getString(sp)},
+                        new String[]{"<spawn>", "" + Utils.getFormatedLocation(ts.getSpawn())});
+
+            }
+            if (display.equals(plugin.getLang().get(p, "menus.teamsetup.spawner.nameItem"))) {
+                if (e.getClick().equals(ClickType.RIGHT)){
+                    if (ts.getSpawners().size() == 0){
+                        p.sendMessage(plugin.getLang().get("setup.arena.noSpawner"));
+                        return;
+                    }
+                    ts.getSpawners().remove(ts.getSpawners().size() - 1);
+                    p.sendMessage(plugin.getLang().get("setup.arena.spawnerRemoved"));
+                } else {
+                    ts.getSpawners().add(p.getLocation());
+                    p.sendMessage(plugin.getLang().get("setup.arena.addSpawner").replaceAll("<location>", Utils.getFormatedLocation(p.getLocation())));
+                }
+                ArrayList<String> sp = new ArrayList<>();
+                ts.getSpawners().forEach(l -> sp.add(Utils.getFormatedLocation(l)));
+                plugin.getUim().openInventory(p, plugin.getUim().getMenus("teamsetup"),
+                        new String[]{"<color>", ts.getColor().name()},
+                        new String[]{"<generators>", getString(sp)},
+                        new String[]{"<spawn>", "" + Utils.getFormatedLocation(ts.getSpawn())});
+            }
             if (display.equals(plugin.getLang().get(p, "menus.teamsetup.wool.nameItem"))) {
+                if (ts.getColors().size() >= as.getWoolSize()){
+                    p.sendMessage(plugin.getLang().get("setup.arena.alreadySetWool"));
+                    return;
+                }
                 plugin.getSem().createSetupColorTeam(p, as);
+            }
+            if (display.equals(plugin.getLang().get(p, "menus.teamsetup.save.nameItem"))) {
+                as.saveTeam();
+                p.sendMessage(plugin.getLang().get("setup.arena.teamSaved"));
+                plugin.getUim().openInventory(p, plugin.getUim().getMenus("setup"),
+                        new String[]{"<name>", as.getName()},
+                        new String[]{"<schematic>", as.getSchematic()},
+                        new String[]{"<min>", "" + as.getMin()},
+                        new String[]{"<teamSize>", "" + as.getTeamSize()},
+                        new String[]{"<woolSize>", "" + as.getWoolSize()},
+                        new String[]{"<teamAmount>", "" + as.getAmountTeams()},
+                        new String[]{"<lobby>", Utils.getFormatedLocation(as.getLobby())},
+                        new String[]{"<spect>", Utils.getFormatedLocation(as.getSpectator())});
             }
         }
         if (e.getView().getTitle().equals(plugin.getLang().get("menus.teamsColor.title"))) {
@@ -234,11 +307,13 @@ public class SetupListener implements Listener {
             ChatColor color = ChatColor.valueOf(c);
             TeamSetup ts = new TeamSetup(color);
             plugin.getSm().setSetupTeam(p, ts);
+            ArrayList<String> sp = new ArrayList<>();
+            ts.getSpawners().forEach(l -> sp.add(Utils.getFormatedLocation(l)));
             plugin.getUim().openInventory(p, plugin.getUim().getMenus("teamsetup"),
                     new String[]{"<color>", ts.getColor().name()},
-                    new String[]{"<generators>", as.getSchematic()},
+                    new String[]{"<generators>", getString(sp)},
                     new String[]{"<spawn>", "" + Utils.getFormatedLocation(ts.getSpawn())});
-
+            p.sendMessage(plugin.getLang().get("setup.arena.createDontWools"));
         }
         if (e.getView().getTitle().equals(plugin.getLang().get("menus.setup.title"))){
             e.setCancelled(true);
@@ -249,11 +324,14 @@ public class SetupListener implements Listener {
                 if (!plugin.getSm().isSetupTeam(p)){
                     plugin.getSem().createSetupSelectMenu(p, as);
                 } else {
+                    TeamSetup ts = plugin.getSm().getSetupTeam(p);
+                    as.setActual(ts);
+                    ArrayList<String> sp = new ArrayList<>();
+                    ts.getSpawners().forEach(l -> sp.add(Utils.getFormatedLocation(l)));
                     plugin.getUim().openInventory(p, plugin.getUim().getMenus("teamsetup"),
-                            new String[]{"<color>", as.getName()},
-                            new String[]{"<generators>", as.getSchematic()},
-                            new String[]{"<spawn>", "" + as.getMin()});
-                    p.sendMessage(plugin.getLang().get("setup.arena.createDontWools"));
+                            new String[]{"<color>", ts.getColor().name()},
+                            new String[]{"<generators>", getString(sp)},
+                            new String[]{"<spawn>", "" + Utils.getFormatedLocation(ts.getSpawn())});
                 }
             }
             if (display.equals(plugin.getLang().get(p, "menus.setup.min.nameItem"))) {
@@ -287,6 +365,7 @@ public class SetupListener implements Listener {
                         new String[]{"<schematic>", as.getSchematic()},
                         new String[]{"<min>", "" + as.getMin()},
                         new String[]{"<teamSize>", "" + as.getTeamSize()},
+                        new String[]{"<woolSize>", "" + as.getWoolSize()},
                         new String[]{"<teamAmount>", "" + as.getAmountTeams()},
                         new String[]{"<lobby>", Utils.getFormatedLocation(as.getLobby())},
                         new String[]{"<spect>", Utils.getFormatedLocation(as.getSpectator())});
@@ -299,6 +378,7 @@ public class SetupListener implements Listener {
                         new String[]{"<schematic>", as.getSchematic()},
                         new String[]{"<min>", "" + as.getMin()},
                         new String[]{"<teamSize>", "" + as.getTeamSize()},
+                        new String[]{"<woolSize>", "" + as.getWoolSize()},
                         new String[]{"<teamAmount>", "" + as.getAmountTeams()},
                         new String[]{"<lobby>", Utils.getFormatedLocation(as.getLobby())},
                         new String[]{"<spect>", Utils.getFormatedLocation(as.getSpectator())});
@@ -315,6 +395,23 @@ public class SetupListener implements Listener {
             plugin.getUim().setInventory(i.getName(), e.getInventory());
             plugin.getSm().removeInventory(p);
             p.sendMessage(plugin.getLang().get(p, "setup.menus.finishEdit"));
+        }
+    }
+
+    public String getString(ArrayList<String> list){
+        StringBuilder r = new StringBuilder();
+        for (String s : list){
+            r.append("<newLine>").append(s);
+        }
+        return r.toString().replaceFirst("<newLine>", "");
+    }
+
+    private void removeItemInHand(Player p) {
+        ItemStack item = p.getItemInHand();
+        if (item.getAmount() > 1) {
+            item.setAmount(item.getAmount() - 1);
+        } else {
+            p.setItemInHand(null);
         }
     }
 

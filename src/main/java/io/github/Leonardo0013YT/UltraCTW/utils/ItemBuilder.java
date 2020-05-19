@@ -42,8 +42,10 @@ public class ItemBuilder {
             for (int k = 0; k < lore.size(); k++) {
                 String value = lore.get(k);
                 if (value.contains(s1)) {
-                    String newValue = value.replace(s1, s2);
-                    lore.set(k, Main.get().getAdm().parsePlaceholders(p, newValue));
+                    for (String l : s2.split("<newLine>")){
+                        String newValue = value.replace(s1, s2);
+                        lore.set(k, Main.get().getAdm().parsePlaceholders(p, newValue));
+                    }
                 } else {
                     lore.set(k, Main.get().getAdm().parsePlaceholders(p, value));
                 }

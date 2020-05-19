@@ -5,6 +5,11 @@ setup:
     giveAvailableWools: "&aYou have been given the available wools to set up."
     firstTeamColors: "&cFirst you need to set the colors of the teams."
   arena:
+    alreadySetWool: "&aTeam colors have already been set."
+    setSpawn: "&aThe team's spawn has been established in &e<location>&a."
+    addSpawner: "&aA spawner has been added in &e<location>&a."
+    spawnerRemoved: "&aThe last spawner has been removed."
+    noSpawner: "&cThere is no Spawner established."
     createDontWools: "&cWhen you create the first team, you can no longer change the number of wools."
     minMin: "&cThe minimum player to start must be 2."
     minTeamSize: "&cThe minimum team size is 1."
@@ -12,7 +17,10 @@ setup:
     minAmountTeams: "&cThe minimum teams amounts is 2."
     alreadyTeam: "&cYou can no longer change the amount of wools as you already have a team in place."
     addColor: "&aThe color of <color>&a wool was added to the team."
-    setColors: "&aAdded colors used by this computer."
+    setColors: "&aAdded colors used by this team."
+    addWool: "&aA wool has been established in &e<loc>&a."
+    teamSaved: "&aThe team has been saved."
+    saveGame: "&aThe sand has been kept."
     setLobby: |-
       &6&lARENA SETUP:
       &aThe lobby location has been established.
@@ -61,7 +69,7 @@ menus:
     color:
       nameItem: "&eTeam Color"
       loreItem: |-
-        67The color name is:
+        &7The color name is:
         &7
         &eColor: &b<color>
         &7
@@ -88,6 +96,7 @@ menus:
         <generators>
         &7
         &eClick to add!
+        &cRigth click to remove last!
     spawn:
       nameItem: "&eTeam Spawn"
       loreItem: |-
@@ -97,9 +106,9 @@ menus:
         &7
         &eClick to set!
     save:
-      nameItem: "&eSave Arena"
+      nameItem: "&eSave Team"
       loreItem: |-
-        &7Save the arena in config
+        &7Save the team in arena
         &7
         &eClick to save!
   setup:

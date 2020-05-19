@@ -229,4 +229,50 @@ public class Utils {
         return XMaterial.AIR;
     }
 
+    public static ChatColor getColorByXMaterial(XMaterial material) {
+        if (material.equals(XMaterial.LIGHT_BLUE_WOOL)) {
+            return ChatColor.AQUA;
+        }
+        if (material.equals(XMaterial.BLACK_WOOL)) {
+            return ChatColor.BLACK;
+        }
+        if (material.equals(XMaterial.BLUE_WOOL)) {
+            return ChatColor.BLUE;
+        }
+        if (material.equals(XMaterial.CYAN_WOOL)) {
+            return ChatColor.DARK_AQUA;
+        }
+        if (material.equals(XMaterial.RED_WOOL)){
+            return ChatColor.RED;
+        }
+        if (material.equals(XMaterial.ORANGE_WOOL)) {
+            return ChatColor.GOLD;
+        }
+        if (material.equals(XMaterial.GRAY_WOOL)) {
+            return ChatColor.DARK_GRAY;
+        }
+        if (material.equals(XMaterial.LIGHT_GRAY_WOOL)) {
+            return ChatColor.GRAY;
+        }
+        if (material.equals(XMaterial.GREEN_WOOL)) {
+            return ChatColor.DARK_GREEN;
+        }
+        if (material.equals(XMaterial.LIME_WOOL)) {
+            return ChatColor.GREEN;
+        }
+        if (material.equals(XMaterial.PINK_WOOL)) {
+            return ChatColor.LIGHT_PURPLE;
+        }
+        if (material.equals(XMaterial.PURPLE_WOOL)) {
+            return ChatColor.DARK_PURPLE;
+        }
+        if (material.equals(XMaterial.WHITE_WOOL)) {
+            return ChatColor.WHITE;
+        }
+        if (material.equals(XMaterial.YELLOW_WOOL)) {
+            return ChatColor.YELLOW;
+        }
+        return ChatColor.WHITE;
+    }
+
 }

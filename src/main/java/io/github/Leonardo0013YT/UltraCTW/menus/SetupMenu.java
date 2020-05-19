@@ -24,10 +24,10 @@ public class SetupMenu {
     public void createSetupSelectMenu(Player p, ArenaSetup as){
         Inventory inv = Bukkit.createInventory(null, 45, plugin.getLang().get("menus.teamsColor.title"));
         int i = 0;
-        int max = as.getWoolSize() * as.getAmountTeams();
+        int max = as.getAmountTeams();
         int amount = 0;
         for (ChatColor color : ChatColor.values()){
-            if (color.isFormat() || color.equals(ChatColor.RESET) || color.equals(ChatColor.DARK_RED) || color.equals(ChatColor.DARK_BLUE)) continue;
+            if (color.isFormat() || color.equals(ChatColor.BLACK) || color.equals(ChatColor.RESET) || color.equals(ChatColor.DARK_RED) || color.equals(ChatColor.DARK_BLUE)) continue;
             ItemStack wool = NBTEditor.set(new ItemUtils(Utils.getXMaterialByColor(color)).setDisplayName(plugin.getLang().get("menus.teamsColor.color.nameItem").replaceAll("<name>", plugin.getLang().get("teams." + color.name().toLowerCase())).replaceAll("<color>", "" + color)).setLore(plugin.getLang().get("menus.teamsColor.color.loreItem")).build(), color.name(), "SETUP", "TEAM", "COLOR");
             inv.setItem(slots[i], wool);
             amount++;

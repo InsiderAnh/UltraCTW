@@ -64,14 +64,10 @@ public class SetupCMD implements CommandExecutor {
                     }
                     switch (args[1].toLowerCase()) {
                         case "setup":
-                            UltraInventory setup = plugin.getUim().getMenus("setup");
-                            plugin.getUim().openInventory(p, setup);
-                            plugin.getSm().setSetupInventory(p, setup);
-                            break;
                         case "teamsetup":
-                            UltraInventory teamsetup = plugin.getUim().getMenus("teamsetup");
-                            plugin.getUim().openInventory(p, teamsetup);
-                            plugin.getSm().setSetupInventory(p, teamsetup);
+                            UltraInventory inv = plugin.getUim().getMenus(args[1].toLowerCase());
+                            plugin.getUim().openInventory(p, inv);
+                            plugin.getSm().setSetupInventory(p, inv);
                             break;
                         default:
                             p.sendMessage("§cThe available menus are:");
@@ -91,6 +87,7 @@ public class SetupCMD implements CommandExecutor {
     private void sendHelp(CommandSender s){
         s.sendMessage("§7§m--------------------------------");
         s.sendMessage("§e/ctws create <name> <schematic> §7- §aCreate a new arena.");
+        s.sendMessage("§e/ctws inventory <type> §7- §aEdit a inventory.");
         s.sendMessage("§7§m--------------------------------");
     }
 
