@@ -269,6 +269,7 @@ public class SetupListener implements Listener {
                 plugin.getSem().createSetupColorTeam(p, as);
             }
             if (display.equals(plugin.getLang().get(p, "menus.teamsetup.save.nameItem"))) {
+                plugin.getSm().removeTeam(p);
                 as.saveTeam();
                 p.sendMessage(plugin.getLang().get("setup.arena.teamSaved"));
                 plugin.getUim().openInventory(p, plugin.getUim().getMenus("setup"),
@@ -383,6 +384,9 @@ public class SetupListener implements Listener {
                         new String[]{"<lobby>", Utils.getFormatedLocation(as.getLobby())},
                         new String[]{"<spect>", Utils.getFormatedLocation(as.getSpectator())});
                 p.sendMessage(plugin.getLang().get(p, "setup.arena.setSpect"));
+            }
+            if (display.equals(plugin.getLang().get(p, "menus.setup.save.nameItem"))) {
+                as.save(p);
             }
         }
     }

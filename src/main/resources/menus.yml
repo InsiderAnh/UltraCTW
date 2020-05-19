@@ -60,6 +60,14 @@ menus:
           meta-type: UNSPECIFIC
           display-name: '{SCHEMATIC}'
           repair-cost: 1
+      '29':
+        ==: org.bukkit.inventory.ItemStack
+        type: IRON_INGOT
+        meta:
+          ==: ItemMeta
+          meta-type: UNSPECIFIC
+          display-name: '{WOOLSIZE}'
+          repair-cost: 1
       '15':
         ==: org.bukkit.inventory.ItemStack
         type: BOOK_AND_QUILL
@@ -68,6 +76,15 @@ menus:
           meta-type: BOOK
           display-name: '{MIN}'
           repair-cost: 1
+      '31':
+        ==: org.bukkit.inventory.ItemStack
+        type: ENCHANTMENT_TABLE
+        meta:
+          ==: ItemMeta
+          meta-type: TILE_ENTITY
+          display-name: '{AMOUNTTEAMS}'
+          repair-cost: 3
+          blockMaterial: ENCHANTMENT_TABLE
   teamsetup:
     rows: 5
     items:
@@ -83,13 +100,13 @@ menus:
           base-color: ORANGE
       '22':
         ==: org.bukkit.inventory.ItemStack
-        type: BEACON
+        type: WOOL
+        damage: 1
         meta:
           ==: ItemMeta
-          meta-type: TILE_ENTITY
-          display-name: '{TEAMSPAWN}'
+          meta-type: UNSPECIFIC
+          display-name: '{TEAMWOOL}'
           repair-cost: 1
-          blockMaterial: BEACON
       '40':
         ==: org.bukkit.inventory.ItemStack
         type: NETHER_STAR
@@ -98,7 +115,7 @@ menus:
           meta-type: UNSPECIFIC
           display-name: '{TEAMSAVE}'
           repair-cost: 1
-      '12':
+      '11':
         ==: org.bukkit.inventory.ItemStack
         type: WOOL
         meta:
@@ -106,7 +123,16 @@ menus:
           meta-type: UNSPECIFIC
           display-name: '{TEAMWOOLS}'
           repair-cost: 1
-      '14':
+      '13':
+        ==: org.bukkit.inventory.ItemStack
+        type: BEACON
+        meta:
+          ==: ItemMeta
+          meta-type: TILE_ENTITY
+          display-name: '{TEAMSPAWN}'
+          repair-cost: 1
+          blockMaterial: BEACON
+      '15':
         ==: org.bukkit.inventory.ItemStack
         type: MONSTER_EGG
         damage: 51

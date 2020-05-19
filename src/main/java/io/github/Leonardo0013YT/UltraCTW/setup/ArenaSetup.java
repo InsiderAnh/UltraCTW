@@ -97,11 +97,6 @@ public class ArenaSetup {
         this.actual = actual;
     }
 
-    public void saveTeam(){
-        teams.put(teams.size(), actual);
-        setActual(null);
-    }
-
     public void setLobby(Location lobby) {
         this.lobby = lobby;
     }
@@ -140,6 +135,11 @@ public class ArenaSetup {
 
     public int getWoolSize() {
         return woolSize;
+    }
+
+    public void saveTeam(){
+        teams.put(teams.size(), actual);
+        setActual(null);
     }
 
     public void save(Player p){
