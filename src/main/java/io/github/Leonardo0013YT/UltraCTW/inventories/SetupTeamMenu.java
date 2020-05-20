@@ -32,7 +32,6 @@ public class SetupTeamMenu implements UltraInventory {
                 ItemStack litem = plugin.getMenus().getConfig().getItemStack("menus." + name + ".items." + c);
                 ItemStack item = ItemBuilder.parse(plugin.getMenus().getConfig().getItemStack("menus." + name + ".items." + c).clone(),
                         new String[]{"{TEAMCOLOR}", plugin.getLang().get("menus.teamsetup.color.nameItem"), plugin.getLang().get("menus.teamsetup.color.loreItem")},
-                        new String[]{"{TEAMWOOLS}", plugin.getLang().get("menus.teamsetup.wools.nameItem"), plugin.getLang().get("menus.teamsetup.wools.loreItem")},
                         new String[]{"{TEAMWOOL}", plugin.getLang().get("menus.teamsetup.wool.nameItem"), plugin.getLang().get("menus.teamsetup.wool.loreItem")},
                         new String[]{"{TEAMSPAWNER}", plugin.getLang().get("menus.teamsetup.spawner.nameItem"), plugin.getLang().get("menus.teamsetup.spawner.loreItem")},
                         new String[]{"{TEAMSPAWN}", plugin.getLang().get("menus.teamsetup.spawn.nameItem"), plugin.getLang().get("menus.teamsetup.spawn.loreItem")},
@@ -118,7 +117,6 @@ public class SetupTeamMenu implements UltraInventory {
                 ItemStack litem = plugin.getMenus().getConfig().getItemStack("menus." + name + ".items." + c);
                 ItemStack item = ItemBuilder.parse(plugin.getMenus().getConfig().getItemStack("menus." + name + ".items." + c).clone(),
                         new String[]{"{TEAMCOLOR}", plugin.getLang().get("menus.teamsetup.color.nameItem"), plugin.getLang().get("menus.teamsetup.color.loreItem")},
-                        new String[]{"{TEAMWOOLS}", plugin.getLang().get("menus.teamsetup.wools.nameItem"), plugin.getLang().get("menus.teamsetup.wools.loreItem")},
                         new String[]{"{TEAMWOOL}", plugin.getLang().get("menus.teamsetup.wool.nameItem"), plugin.getLang().get("menus.teamsetup.wool.loreItem")},
                         new String[]{"{TEAMSPAWNER}", plugin.getLang().get("menus.teamsetup.spawner.nameItem"), plugin.getLang().get("menus.teamsetup.spawner.loreItem")},
                         new String[]{"{TEAMSPAWN}", plugin.getLang().get("menus.teamsetup.spawn.nameItem"), plugin.getLang().get("menus.teamsetup.spawn.loreItem")},

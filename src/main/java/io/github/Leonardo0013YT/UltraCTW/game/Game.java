@@ -2,6 +2,7 @@ package io.github.Leonardo0013YT.UltraCTW.game;
 
 import io.github.Leonardo0013YT.UltraCTW.Main;
 import io.github.Leonardo0013YT.UltraCTW.team.Team;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ public class Game {
 
     private Main plugin;
     private ArrayList<Team> teams = new ArrayList<>();
+    private Location lobby, spectator;
     private int teamSize;
 
     public Game(Main plugin, String path){

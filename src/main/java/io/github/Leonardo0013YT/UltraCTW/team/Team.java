@@ -3,16 +3,21 @@ package io.github.Leonardo0013YT.UltraCTW.team;
 import io.github.Leonardo0013YT.UltraCTW.Main;
 import io.github.Leonardo0013YT.UltraCTW.game.Game;
 import io.github.Leonardo0013YT.UltraCTW.utils.Utils;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Team {
 
     private Collection<Player> members = new ArrayList<>();
-    private Collection<Location> wools = new ArrayList<>();
+    private Collection<ChatColor> colors = new ArrayList<>();
+    private Map<Location, ChatColor> wools = new HashMap<>();
+    private Map<Location, ChatColor> spawners = new HashMap<>();
     private Main plugin;
     private Game game;
     private int id;
@@ -25,6 +30,7 @@ public class Team {
         this.id = id;
         this.kills = 0;
         this.spawn = Utils.getStringLocation(plugin.getArenas().get(path + ".spawn"));
+
     }
 
     public void addKill() {

@@ -156,9 +156,11 @@ public class ArenaSetup {
             String tpath = "arenas." + name + "." + ts.getColor().name();
             plugin.getArenas().set(tpath + ".spawn", Utils.getLocationString(ts.getSpawn()));
             plugin.getArenas().set(tpath + ".color", ts.getColor().name());
-            ArrayList<String> spawners = new ArrayList<>();
-            ts.getSpawners().forEach(l -> spawners.add(Utils.getLocationString(l)));
-            plugin.getArenas().set(tpath + ".spawners", spawners);
+            String spath = tpath + ".spawners";
+            for (ChatColor c : ts.getSpawners().keySet()){
+                plugin.getArenas().set(spath + "." + c.name() + ".color", c.name());
+                plugin.getArenas().set(spath + "." + c.name() + ".loc", Utils.getLocationString(ts.getSpawners().get(c)));
+            }
             String lpath = tpath + ".wools";
             for (ChatColor c : ts.getWools().keySet()){
                 plugin.getArenas().set(lpath + "." + c.name() + ".color", c.name());

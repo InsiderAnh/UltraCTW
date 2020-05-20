@@ -3,7 +3,8 @@ setup:
   noSchema: "&cThere is no schematic by that name."
   team:
     giveAvailableWools: "&aYou have been given the available wools to set up."
-    firstTeamColors: "&cFirst you need to set the colors of the teams."
+  kits:
+    created: "&aYou have created a new kit."
   arena:
     alreadySetWool: "&aTeam colors have already been set."
     setSpawn: "&aThe team's spawn has been established in &e<location>&a."
@@ -49,10 +50,134 @@ items:
       &7
       &7Right click to open.
 menus:
+  kititems:
+    title: "&aSetup Level Items"
+    analize:
+      nameItem: "&eAnalize"
+      loreItem: |-
+        &7When you click analyze
+        &7the items in order to
+        &7set attributes.
+        &7
+        &eClick to analize!
+    save:
+      nameItem: "&aSave Items"
+      loreItem: |-
+        &7Clicking save items
+        &7will save the items.
+        &7
+        &eClick to save!
+  kitlevelssetup:
+    title: "&aSetup Kit Level"
+    price:
+      nameItem: "&ePrice of Level"
+      loreItem: |-
+        &7This is the price of this
+        &7level of the kit.
+        &7
+        &ePrice: &b<price>
+        &7
+        &eClick to change!
+    items:
+      nameItem: "&eLevel Items"
+      loreItem: |-
+        &7Here you can set the items
+        &7of this kit.
+        &7
+        &eClick to open!
+    buy:
+      nameItem: "&eBuy"
+      loreItem: |-
+        &7Sets whether this level
+        &7is buyable.
+        &7
+        &eBuy: <status>
+        &7
+        &eClick to alternate!
+    slot:
+      nameItem: "&eSlot of Level"
+      loreItem: |-
+        &7This is the level slot:
+        &7
+        &eSlot: &b<slot>
+        &7
+        &eClick to change!
+    page:
+      nameItem: "&ePage of Level"
+      loreItem: |-
+        &7This is the level page:
+        &7
+        &ePage: &b<page>
+        &7
+        &eClick to change!
+    save:
+      nameItem: "&aSave Level"
+      loreItem: |-
+        &7Save the level in the kit.
+        &7
+        &eClick to save!
+  kitsetup:
+    title: "&aSetup Kit"
+    name:
+      nameItem: "&eName of Kit"
+      loreItem: |-
+        &7This is a kit name:
+        &7
+        &eName: &b<name>
+        &7
+    icon:
+      nameItem: "&eKit Icon"
+      loreItem: |-
+        &7Click the item to
+        &7change the icon:
+        &7
+        &eClick with item to change!
+    levels:
+      nameItem: "&eLevels of Kit"
+      loreItem: |-
+        &7Clicking will add a new level,
+        &7if you are setting one and
+        &7did not save it you will open
+        &7the same level.
+        &7
+        &eClick to open!
+    permission:
+      nameItem: "&ePermission of Kit"
+      loreItem: |-
+        &7This is a permission for
+        &7this kit:
+        &7
+        &ePermission: &b<permission>
+        &7
+        &eClick to change!
+    slot:
+      nameItem: "&eSlot of Kit"
+      loreItem: |-
+        &7This is the kit slot:
+        &7
+        &eSlot: &b<slot>
+        &7
+        &eClick to change!
+    page:
+      nameItem: "&ePage of Kit"
+      loreItem: |-
+        &7This is the kit page:
+        &7
+        &ePage: &b<page>
+        &7
+        &eClick to change!
+    save:
+      nameItem: "&aSave Kit"
+      loreItem: |-
+        &7Save the kit in the file.
+        &7
+        &eClick to save!
   back:
     nameItem: "&eReturn Menu"
     loreItem: |-
       &7Back to <menu>
+  spawners:
+    title: "&aSetup Spawners"
   teamsColor:
     title: "&aSetup Color Team"
     color:
@@ -73,14 +198,6 @@ menus:
         &7
         &eColor: &b<color>
         &7
-    wools:
-      nameItem: "&eAdd Wools"
-      loreItem: |-
-        &7When you click, you will
-        &7be given the available
-        &7wool colors.
-        &7
-        &eClick to setup!
     wool:
       nameItem: "&eSet Wools"
       loreItem: |-

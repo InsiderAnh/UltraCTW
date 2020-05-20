@@ -98,7 +98,7 @@ menus:
           display-name: '{TEAMCOLOR}'
           repair-cost: 1
           base-color: ORANGE
-      '22':
+      '11':
         ==: org.bukkit.inventory.ItemStack
         type: WOOL
         damage: 1
@@ -114,14 +114,6 @@ menus:
           ==: ItemMeta
           meta-type: UNSPECIFIC
           display-name: '{TEAMSAVE}'
-          repair-cost: 1
-      '11':
-        ==: org.bukkit.inventory.ItemStack
-        type: WOOL
-        meta:
-          ==: ItemMeta
-          meta-type: UNSPECIFIC
-          display-name: '{TEAMWOOLS}'
           repair-cost: 1
       '13':
         ==: org.bukkit.inventory.ItemStack

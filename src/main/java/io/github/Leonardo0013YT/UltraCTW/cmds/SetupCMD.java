@@ -3,6 +3,7 @@ package io.github.Leonardo0013YT.UltraCTW.cmds;
 import io.github.Leonardo0013YT.UltraCTW.Main;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.UltraInventory;
 import io.github.Leonardo0013YT.UltraCTW.setup.ArenaSetup;
+import io.github.Leonardo0013YT.UltraCTW.setup.KitSetup;
 import io.github.Leonardo0013YT.UltraCTW.utils.Utils;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -56,6 +57,20 @@ public class SetupCMD implements CommandExecutor {
                     p.teleport(w.getSpawnLocation());
                     p.getInventory().remove(plugin.getIm().getSetup());
                     p.getInventory().addItem(plugin.getIm().getSetup());
+                    break;
+                case "kits":
+                    if (args.length < 2){
+                        sendHelp(sender);
+                        return true;
+                    }
+                    if (plugin.getSm().isSetupKit(p)) {
+                        plugin.getSem().createSetupKitMenu(p, plugin.getSm().getSetupKit(p));
+                        return true;
+                    }
+                    String kitName = args[1];
+                    p.sendMessage(plugin.getLang().get(p, "setup.kits.created"));
+                    plugin.getSm().setSetupKit(p, new KitSetup(plugin, kitName));
+                    plugin.getSem().createSetupKitMenu(p, plugin.getSm().getSetupKit(p));
                     break;
                 case "inventory":
                     if (args.length < 2) {

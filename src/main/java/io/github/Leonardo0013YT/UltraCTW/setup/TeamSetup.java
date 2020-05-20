@@ -10,7 +10,7 @@ public class TeamSetup {
 
     private ChatColor color;
     private Location spawn;
-    private ArrayList<Location> spawners = new ArrayList<>();
+    private HashMap<ChatColor, Location> spawners = new HashMap<>();
     private HashMap<ChatColor, Location> wools = new HashMap<>();
     private ArrayList<ChatColor> colors = new ArrayList<>();
 
@@ -38,8 +38,7 @@ public class TeamSetup {
         return wools;
     }
 
-    public ArrayList<Location> getSpawners() {
+    public HashMap<ChatColor, Location> getSpawners() {
         return spawners;
     }
-
 }

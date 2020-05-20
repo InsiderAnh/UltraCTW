@@ -3,6 +3,7 @@ package io.github.Leonardo0013YT.UltraCTW.managers;
 import io.github.Leonardo0013YT.UltraCTW.Main;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.UltraInventory;
 import io.github.Leonardo0013YT.UltraCTW.setup.ArenaSetup;
+import io.github.Leonardo0013YT.UltraCTW.setup.KitSetup;
 import io.github.Leonardo0013YT.UltraCTW.setup.TeamSetup;
 import org.bukkit.entity.Player;
 
@@ -15,9 +16,26 @@ public class SetupManager {
     private HashMap<Player, String> editName = new HashMap<>();
     private HashMap<Player, ArenaSetup> setup = new HashMap<>();
     private HashMap<Player, TeamSetup> setupTeam = new HashMap<>();
+    private HashMap<Player, KitSetup> setupKit = new HashMap<>();
 
     public SetupManager(Main plugin) {
         this.plugin = plugin;
+    }
+
+    public void setSetupKit(Player p, KitSetup ks){
+        setupKit.put(p, ks);
+    }
+
+    public boolean isSetupKit(Player p){
+        return setupKit.containsKey(p);
+    }
+
+    public KitSetup getSetupKit(Player p){
+        return setupKit.get(p);
+    }
+
+    public void removeSetupKit(Player p){
+        setupKit.remove(p);
     }
 
     public void setSetupName(Player p, String a) {
