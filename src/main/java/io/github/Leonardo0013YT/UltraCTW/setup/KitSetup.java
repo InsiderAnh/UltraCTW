@@ -28,4 +28,24 @@ public class KitSetup {
         kls = null;
     }
 
+    public void save(){
+        String n = "kits." + name;
+        plugin.getKits().set(n + ".name", name);
+        plugin.getKits().set(n + ".permission", permission);
+        plugin.getKits().set(n + ".icon", icon);
+        plugin.getKits().set(n + ".slot", slot);
+        plugin.getKits().set(n + ".page", page);
+        for (KitLevelSetup kls : levels.values()){
+            String nl = "kits." + name + ".levels." + kls.getLevel();
+            plugin.getKits().set(nl + ".level", kls.getLevel());
+            plugin.getKits().set(nl + ".price", kls.getPrice());
+            plugin.getKits().set(nl + ".slot", kls.getSlot());
+            plugin.getKits().set(nl + ".page", kls.getPage());
+            plugin.getKits().set(nl + ".armor", kls.getArmor());
+            plugin.getKits().set(nl + ".inv", kls.getInv());
+            plugin.getKits().set(nl + ".permission", permission + "." + kls.getLevel());
+        }
+        plugin.getKits().save();
+    }
+
 }

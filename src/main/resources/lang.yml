@@ -1,3 +1,5 @@
+activated: "&aActivated"
+deactivated: "&cDeactivated"
 setup:
   alreadyCreating: "&cYou are already creating an arena."
   noSchema: "&cThere is no schematic by that name."
@@ -15,6 +17,9 @@ setup:
     created: "&aYou have created a new kit."
     setIcon: "&aThe icon has been set."
     newLevel: "&aA new level has been created."
+    save: "&aThe kit items have been saved."
+    saveLevel: "&aThe kit level has been saved."
+    saveKit: "&aThe kit has been saved."
   arena:
     alreadySetWool: "&aTeam colors have already been set."
     setSpawn: "&aThe team's spawn has been established in &e<location>&a."

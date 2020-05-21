@@ -15,10 +15,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class SetupMenu {
 
     private int[] slots = {10, 11, 12, 13, 14, 15, 16, 19, 20, 21, 22, 23, 24, 25, 31};
-    private int[] whites = {4, 5, 6, 36, 37, 38, 39, 40, 41, 42, 43, 44};
+    private ArrayList<Integer> whites = new ArrayList<>(Arrays.asList(4, 5, 6, 36, 37, 38, 39, 40, 41, 42, 43, 44));
     private Main plugin;
 
     public SetupMenu(Main plugin) {
@@ -61,22 +64,45 @@ public class SetupMenu {
         p.openInventory(inv);
     }
 
-    public void createSetupKitItemsMenu(Player p){
-        Inventory inv = Bukkit.createInventory(null, 45, plugin.getLang().get("menus.kititems.title"));
+    public void createSetupKitItemsMenu(Player p, KitLevelSetup kls){
+        Inventory inv = Bukkit.createInventory(null, 54, plugin.getLang().get("menus.kititems.title"));
         ItemStack white = new ItemUtils(XMaterial.WHITE_STAINED_GLASS_PANE).setDisplayName("§7").setLore("§7").build();
         ItemStack helmet = new ItemUtils(XMaterial.BARRIER).setDisplayName("§cHelmet").setLore("§7Click to change!").build();
         ItemStack chestplate = new ItemUtils(XMaterial.BARRIER).setDisplayName("§cChestplate").setLore("§7Click to change!").build();
         ItemStack leggings = new ItemUtils(XMaterial.BARRIER).setDisplayName("§cLeggings").setLore("§7Click to change!").build();
         ItemStack boots = new ItemUtils(XMaterial.BARRIER).setDisplayName("§cBoots").setLore("§7Click to change!").build();
-        ItemStack analize = new ItemUtils(XMaterial.BARRIER).setDisplayName(plugin.getLang().get("menus.kititems.analize.nameItem")).setLore(plugin.getLang().get("menus.kititems.analize.loreItem")).build();
-        ItemStack save = new ItemUtils(XMaterial.BARRIER).setDisplayName(plugin.getLang().get("menus.kititems.save.nameItem")).setLore(plugin.getLang().get("menus.kititems.save.loreItem")).build();
+        ItemStack analize = new ItemUtils(XMaterial.ENDER_EYE).setDisplayName(plugin.getLang().get("menus.kititems.analize.nameItem")).setLore(plugin.getLang().get("menus.kititems.analize.loreItem")).build();
+        ItemStack save = new ItemUtils(XMaterial.NETHER_STAR).setDisplayName(plugin.getLang().get("menus.kititems.save.nameItem")).setLore(plugin.getLang().get("menus.kititems.save.loreItem")).build();
         for (int i : whites){
             inv.setItem(i, white);
         }
-        inv.setItem(0, helmet);
-        inv.setItem(1, chestplate);
-        inv.setItem(2, leggings);
-        inv.setItem(3, boots);
+        if (kls.getArmor()[0] == null){
+            inv.setItem(0, helmet);
+        } else {
+            inv.setItem(0, kls.getArmor()[0]);
+        }
+        if (kls.getArmor()[1] == null){
+            inv.setItem(1, chestplate);
+        } else {
+            inv.setItem(1, kls.getArmor()[1]);
+        }
+        if (kls.getArmor()[2] == null){
+            inv.setItem(2, leggings);
+        } else {
+            inv.setItem(2, kls.getArmor()[2]);
+        }
+        if (kls.getArmor()[3] == null){
+            inv.setItem(3, boots);
+        } else {
+            inv.setItem(3, kls.getArmor()[3]);
+        }
+        for (int i = 0; i < 36; i++){
+            if (i < 9){
+                inv.setItem(45 + i, kls.getInv()[i]);
+            } else {
+                inv.setItem(i, kls.getInv()[i]);
+            }
+        }
         inv.setItem(7, analize);
         inv.setItem(8, save);
         p.openInventory(inv);
@@ -122,4 +148,7 @@ public class SetupMenu {
         p.openInventory(inv);
     }
 
+    public ArrayList<Integer> getWhites() {
+        return whites;
+    }
 }

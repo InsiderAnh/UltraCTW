@@ -7,6 +7,7 @@ import io.github.Leonardo0013YT.UltraCTW.setup.ArenaSetup;
 import io.github.Leonardo0013YT.UltraCTW.setup.KitLevelSetup;
 import io.github.Leonardo0013YT.UltraCTW.setup.KitSetup;
 import io.github.Leonardo0013YT.UltraCTW.setup.TeamSetup;
+import io.github.Leonardo0013YT.UltraCTW.utils.ItemUtils;
 import io.github.Leonardo0013YT.UltraCTW.utils.NBTEditor;
 import io.github.Leonardo0013YT.UltraCTW.utils.Utils;
 import io.github.Leonardo0013YT.UltraCTW.utils.XMaterial;
@@ -24,8 +25,10 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class SetupListener implements Listener {
 
@@ -277,12 +280,114 @@ public class SetupListener implements Listener {
             return;
         }
         if (e.getView().getTitle().equals(plugin.getLang().get("menus.kititems.title"))) {
-            e.setCancelled(true);
             KitSetup ks = plugin.getSm().getSetupKit(p);
             KitLevelSetup kls = ks.getKls();
             ItemStack item = e.getCurrentItem();
             String display = item.getItemMeta().getDisplayName();
-
+            if (e.getSlot() == 0) {
+                e.setCancelled(true);
+                if (e.getCursor() == null || e.getCursor().getType().equals(Material.AIR) || p.getItemOnCursor() == null || p.getItemOnCursor().getType().equals(Material.AIR)) {
+                    new BukkitRunnable() {
+                        @Override
+                        public void run() {
+                            p.setItemOnCursor(kls.getArmor()[0]);
+                            kls.getArmor()[0] = null;
+                            plugin.getSem().createSetupKitItemsMenu(p, kls);
+                        }
+                    }.runTaskLater(plugin, 1);
+                } else {
+                    kls.getArmor()[0] = p.getItemOnCursor();
+                    new BukkitRunnable() {
+                        @Override
+                        public void run() {
+                            p.setItemOnCursor(null);
+                            plugin.getSem().createSetupKitItemsMenu(p, kls);
+                        }
+                    }.runTaskLater(plugin, 1);
+                }
+            }
+            if (e.getSlot() == 1){
+                e.setCancelled(true);
+                if (e.getCursor() == null || e.getCursor().getType().equals(Material.AIR) || p.getItemOnCursor() == null || p.getItemOnCursor().getType().equals(Material.AIR)) {
+                    new BukkitRunnable() {
+                        @Override
+                        public void run() {
+                            p.setItemOnCursor(kls.getArmor()[1]);
+                            kls.getArmor()[1] = null;
+                            plugin.getSem().createSetupKitItemsMenu(p, kls);
+                        }
+                    }.runTaskLater(plugin, 1);
+                } else {
+                    kls.getArmor()[1] = p.getItemOnCursor();
+                    new BukkitRunnable() {
+                        @Override
+                        public void run() {
+                            p.setItemOnCursor(null);
+                            plugin.getSem().createSetupKitItemsMenu(p, kls);
+                        }
+                    }.runTaskLater(plugin, 1);
+                }
+            }
+            if (e.getSlot() == 2){
+                e.setCancelled(true);
+                if (e.getCursor() == null || e.getCursor().getType().equals(Material.AIR) || p.getItemOnCursor() == null || p.getItemOnCursor().getType().equals(Material.AIR)) {
+                    new BukkitRunnable() {
+                        @Override
+                        public void run() {
+                            p.setItemOnCursor(kls.getArmor()[2]);
+                            kls.getArmor()[2] = null;
+                            plugin.getSem().createSetupKitItemsMenu(p, kls);
+                        }
+                    }.runTaskLater(plugin, 1);
+                } else {
+                    kls.getArmor()[2] = p.getItemOnCursor();
+                    new BukkitRunnable() {
+                        @Override
+                        public void run() {
+                            p.setItemOnCursor(null);
+                            plugin.getSem().createSetupKitItemsMenu(p, kls);
+                        }
+                    }.runTaskLater(plugin, 1);
+                }
+            }
+            if (e.getSlot() == 3){
+                if (e.getCursor() == null || e.getCursor().getType().equals(Material.AIR) || p.getItemOnCursor() == null || p.getItemOnCursor().getType().equals(Material.AIR)) {
+                    new BukkitRunnable() {
+                        @Override
+                        public void run() {
+                            p.setItemOnCursor(kls.getArmor()[3]);
+                            kls.getArmor()[3] = null;
+                            plugin.getSem().createSetupKitItemsMenu(p, kls);
+                        }
+                    }.runTaskLater(plugin, 1);
+                } else {
+                    kls.getArmor()[3] = p.getItemOnCursor();
+                    new BukkitRunnable() {
+                        @Override
+                        public void run() {
+                            p.setItemOnCursor(null);
+                            plugin.getSem().createSetupKitItemsMenu(p, kls);
+                        }
+                    }.runTaskLater(plugin, 1);
+                }
+            }
+            if (plugin.getSem().getWhites().contains(e.getSlot())){
+                e.setCancelled(true);
+            }
+            if (e.getSlot() == 7){
+                e.setCancelled(true);
+            }
+            if (e.getSlot() == 8) {
+                e.setCancelled(true);
+                for (int i = 10; i < 36; i++) {
+                    kls.getInv()[i] = e.getInventory().getItem(i);
+                }
+                for (int i = 45; i < 54; i++) {
+                    kls.getInv()[i - 45] = e.getInventory().getItem(i);
+                }
+                p.sendMessage(plugin.getLang().get("setup.kits.save"));
+                plugin.getSem().createSetupKitLevelsMenu(p, kls);
+            }
         }
         if (e.getView().getTitle().equals(plugin.getLang().get("menus.kitlevelssetup.title"))) {
             e.setCancelled(true);
@@ -302,8 +407,8 @@ public class SetupListener implements Listener {
             }
             if (display.equals(plugin.getLang().get("menus.kitlevelssetup.buy.nameItem"))){
                 kls.setBuy(!kls.isBuy());
-                p.sendMessage(plugin.getLang().get(p, "setup.balloons.setBuy").replace("<state>", Utils.parseBoolean(kls.isBuy())));
-                p.sendMessage(plugin.getLang().get(p, "setup.setBuy"));
+                p.sendMessage(plugin.getLang().get(p, "setup.setBuy").replaceAll("<state>", Utils.parseBoolean(kls.isBuy())));
+                plugin.getSem().createSetupKitLevelsMenu(p, kls);
             }
             if (display.equals(plugin.getLang().get("menus.kitlevelssetup.price.nameItem"))){
                 plugin.getSm().setSetupName(p, "kitlevelprice");
@@ -311,7 +416,12 @@ public class SetupListener implements Listener {
                 p.sendMessage(plugin.getLang().get(p, "setup.setPrice"));
             }
             if (display.equals(plugin.getLang().get("menus.kitlevelssetup.items.nameItem"))) {
-                plugin.getSem().createSetupKitItemsMenu(p);
+                plugin.getSem().createSetupKitItemsMenu(p, kls);
+            }
+            if (display.equals(plugin.getLang().get("menus.kitlevelssetup.save.nameItem"))) {
+                ks.saveKitLevel();
+                plugin.getSem().createSetupKitMenu(p, ks);
+                p.sendMessage(plugin.getLang().get("setup.kits.saveLevel"));
             }
         }
         if (e.getView().getTitle().equals(plugin.getLang().get("menus.kitsetup.title"))) {
@@ -355,6 +465,12 @@ public class SetupListener implements Listener {
                     p.sendMessage(plugin.getLang().get(p, "setup.kits.newLevel"));
                 }
                 plugin.getSem().createSetupKitLevelsMenu(p, ks.getKls());
+            }
+            if (display.equals(plugin.getLang().get("menus.kitsetup.save.nameItem"))){
+                plugin.getSm().removeSetupKit(p);
+                ks.save();
+                p.closeInventory();
+                p.sendMessage(plugin.getLang().get("setup.kits.saveKit"));
             }
         }
         if (e.getView().getTitle().equals(plugin.getLang().get("menus.teamColor.title"))) {

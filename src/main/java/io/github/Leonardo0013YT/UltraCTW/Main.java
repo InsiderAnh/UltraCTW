@@ -13,7 +13,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class Main extends JavaPlugin {
 
     private static Main instance;
-    private Settings arenas, lang, menus;
+    private Settings arenas, lang, menus, kits;
     private boolean debugMode;
     private GameManager gm;
     private ConfigManager cm;
@@ -32,6 +32,7 @@ public class Main extends JavaPlugin {
         arenas = new Settings(this, "arenas", false, false);
         lang = new Settings(this, "lang", true, false);
         menus = new Settings(this, "menus", false, false);
+        kits = new Settings(this, "kits", false, false);
         debugMode = getConfig().getBoolean("debugMode");
         cm = new ConfigManager(this);
         adm = new AddonManager(this);
@@ -78,6 +79,10 @@ public class Main extends JavaPlugin {
 
     public Settings getMenus() {
         return menus;
+    }
+
+    public Settings getKits() {
+        return kits;
     }
 
     public ItemManager getIm() {
