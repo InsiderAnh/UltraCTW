@@ -2,6 +2,7 @@ package io.github.Leonardo0013YT.UltraCTW.listeners;
 
 import io.github.Leonardo0013YT.UltraCTW.Main;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.UltraInventory;
+import io.github.Leonardo0013YT.UltraCTW.objects.Selection;
 import io.github.Leonardo0013YT.UltraCTW.setup.ArenaSetup;
 import io.github.Leonardo0013YT.UltraCTW.setup.KitLevelSetup;
 import io.github.Leonardo0013YT.UltraCTW.setup.KitSetup;
@@ -238,8 +239,8 @@ public class SetupListener implements Listener {
             if (plugin.getSm().isSetup(p)){
                 ArenaSetup as = plugin.getSm().getSetup(p);
                 if (item.equals(plugin.getIm().getPoints())){
-                    as.getSelection().setPos1(e.getClickedBlock().getLocation());
-                    p.sendMessage(plugin.getLang().get("messages.setPosition").replaceAll("<pos>", "1"));
+                    as.getSelection().setPos2(e.getClickedBlock().getLocation());
+                    p.sendMessage(plugin.getLang().get("setup.setPosition").replaceAll("<pos>", "2"));
                 }
                 if (as.getActual() == null){
                     return;
@@ -258,8 +259,9 @@ public class SetupListener implements Listener {
             if (plugin.getSm().isSetup(p)) {
                 ArenaSetup as = plugin.getSm().getSetup(p);
                 if (item.equals(plugin.getIm().getPoints())) {
-                    as.getSelection().setPos2(e.getClickedBlock().getLocation());
-                    p.sendMessage(plugin.getLang().get("messages.setPosition").replaceAll("<pos>", "2"));
+                    e.setCancelled(true);
+                    as.getSelection().setPos1(e.getClickedBlock().getLocation());
+                    p.sendMessage(plugin.getLang().get("setup.setPosition").replaceAll("<pos>", "1"));
                 }
             }
         }
@@ -273,6 +275,14 @@ public class SetupListener implements Listener {
         Player p = (Player) e.getWhoClicked();
         if (plugin.getSm().isSetupInventory(p)){
             return;
+        }
+        if (e.getView().getTitle().equals(plugin.getLang().get("menus.kititems.title"))) {
+            e.setCancelled(true);
+            KitSetup ks = plugin.getSm().getSetupKit(p);
+            KitLevelSetup kls = ks.getKls();
+            ItemStack item = e.getCurrentItem();
+            String display = item.getItemMeta().getDisplayName();
+
         }
         if (e.getView().getTitle().equals(plugin.getLang().get("menus.kitlevelssetup.title"))) {
             e.setCancelled(true);
@@ -339,6 +349,13 @@ public class SetupListener implements Listener {
                 p.closeInventory();
                 p.sendMessage(plugin.getLang().get(p, "setup.setPage"));
             }
+            if (display.equals(plugin.getLang().get("menus.kitsetup.levels.nameItem"))){
+                if (ks.getKls() == null) {
+                    ks.setKls(new KitLevelSetup(ks.getLevels().size() + 1));
+                    p.sendMessage(plugin.getLang().get(p, "setup.kits.newLevel"));
+                }
+                plugin.getSem().createSetupKitLevelsMenu(p, ks.getKls());
+            }
         }
         if (e.getView().getTitle().equals(plugin.getLang().get("menus.teamColor.title"))) {
             e.setCancelled(true);
@@ -401,6 +418,17 @@ public class SetupListener implements Listener {
                         new String[]{"<generators>", getString(sp)},
                         new String[]{"<spawn>", "" + Utils.getFormatedLocation(ts.getSpawn())});
 
+            }
+            if (display.equals(plugin.getLang().get(p, "menus.teamsetup.squared.nameItem"))) {
+                Selection s = as.getSelection();
+                if (s.getPos1() == null || s.getPos2() == null){
+                    p.sendMessage(plugin.getLang().get("setup.arena.needPositions"));
+                    return;
+                }
+                ts.addSquared(s);
+                p.sendMessage(plugin.getLang().get("setup.arena.setProteccion"));
+                s.setPos1(null);
+                s.setPos2(null);
             }
             if (display.equals(plugin.getLang().get(p, "menus.teamsetup.spawner.nameItem"))) {
                 plugin.getSem().createSetupSpawnerColor(p, ts);

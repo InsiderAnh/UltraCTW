@@ -27,12 +27,12 @@ public class SetupMenu {
 
     public void createSetupKitMenu(Player p, KitSetup ks){
         Inventory inv = Bukkit.createInventory(null, 45, plugin.getLang().get("menus.kitsetup.title"));
-        ItemStack name = new ItemUtils(XMaterial.OAK_SIGN).setDisplayName(plugin.getLang().get("menus.kitsetup.name.nameItem")).setLore(plugin.getLang().get("menus.kitsetup.name.loreItem")).build();
+        ItemStack name = new ItemUtils(XMaterial.OAK_SIGN).setDisplayName(plugin.getLang().get("menus.kitsetup.name.nameItem")).setLore(plugin.getLang().get("menus.kitsetup.name.loreItem").replaceAll("<name>", ks.getName())).build();
         ItemStack icon = new ItemUtils(XMaterial.DIAMOND_SWORD).setDisplayName(plugin.getLang().get("menus.kitsetup.icon.nameItem")).setLore(plugin.getLang().get("menus.kitsetup.icon.loreItem")).build();
         ItemStack levels = new ItemUtils(XMaterial.EXPERIENCE_BOTTLE).setDisplayName(plugin.getLang().get("menus.kitsetup.levels.nameItem")).setLore(plugin.getLang().get("menus.kitsetup.levels.loreItem")).build();
-        ItemStack permission = new ItemUtils(XMaterial.BARRIER).setDisplayName(plugin.getLang().get("menus.kitsetup.permission.nameItem")).setLore(plugin.getLang().get("menus.kitsetup.permission.loreItem")).build();
-        ItemStack slot = new ItemUtils(XMaterial.PAPER).setDisplayName(plugin.getLang().get("menus.kitsetup.slot.nameItem")).setLore(plugin.getLang().get("menus.kitsetup.slot.loreItem")).build();
-        ItemStack page = new ItemUtils(XMaterial.MAP).setDisplayName(plugin.getLang().get("menus.kitsetup.page.nameItem")).setLore(plugin.getLang().get("menus.kitsetup.page.loreItem")).build();
+        ItemStack permission = new ItemUtils(XMaterial.BARRIER).setDisplayName(plugin.getLang().get("menus.kitsetup.permission.nameItem")).setLore(plugin.getLang().get("menus.kitsetup.permission.loreItem").replaceAll("<permission>", ks.getPermission())).build();
+        ItemStack slot = new ItemUtils(XMaterial.PAPER).setDisplayName(plugin.getLang().get("menus.kitsetup.slot.nameItem")).setLore(plugin.getLang().get("menus.kitsetup.slot.loreItem").replaceAll("<slot>", String.valueOf(ks.getSlot()))).build();
+        ItemStack page = new ItemUtils(XMaterial.MAP).setDisplayName(plugin.getLang().get("menus.kitsetup.page.nameItem")).setLore(plugin.getLang().get("menus.kitsetup.page.loreItem").replaceAll("<page>", String.valueOf(ks.getPage()))).build();
         ItemStack save = new ItemUtils(XMaterial.NETHER_STAR).setDisplayName(plugin.getLang().get("menus.kitsetup.save.nameItem")).setLore(plugin.getLang().get("menus.kitsetup.save.loreItem")).build();
         inv.setItem(4, name);
         inv.setItem(11, icon);
@@ -46,12 +46,12 @@ public class SetupMenu {
 
     public void createSetupKitLevelsMenu(Player p, KitLevelSetup kls){
         Inventory inv = Bukkit.createInventory(null, 45, plugin.getLang().get("menus.kitlevelssetup.title"));
-        ItemStack price = new ItemUtils(XMaterial.GOLD_NUGGET).setDisplayName(plugin.getLang().get("menus.kitlevelssetup.price.nameItem")).setLore(plugin.getLang().get("menus.kitsetup.price.loreItem")).build();
-        ItemStack items = new ItemUtils(XMaterial.CHEST).setDisplayName(plugin.getLang().get("menus.kitlevelssetup.items.nameItem")).setLore(plugin.getLang().get("menus.kitsetup.items.loreItem")).build();
-        ItemStack buy = new ItemUtils(XMaterial.DIAMOND).setDisplayName(plugin.getLang().get("menus.kitlevelssetup.buy.nameItem")).setLore(plugin.getLang().get("menus.kitsetup.buy.loreItem")).build();
-        ItemStack slot = new ItemUtils(XMaterial.PAPER).setDisplayName(plugin.getLang().get("menus.kitlevelssetup.slot.nameItem")).setLore(plugin.getLang().get("menus.kitsetup.slot.loreItem")).build();
-        ItemStack page = new ItemUtils(XMaterial.MAP).setDisplayName(plugin.getLang().get("menus.kitlevelssetup.page.nameItem")).setLore(plugin.getLang().get("menus.kitsetup.page.loreItem")).build();
-        ItemStack save = new ItemUtils(XMaterial.NETHER_STAR).setDisplayName(plugin.getLang().get("menus.kitlevelssetup.save.nameItem")).setLore(plugin.getLang().get("menus.kitsetup.save.loreItem")).build();
+        ItemStack price = new ItemUtils(XMaterial.GOLD_NUGGET).setDisplayName(plugin.getLang().get("menus.kitlevelssetup.price.nameItem")).setLore(plugin.getLang().get("menus.kitlevelssetup.price.loreItem").replaceAll("<price>", String.valueOf(kls.getPrice()))).build();
+        ItemStack items = new ItemUtils(XMaterial.CHEST).setDisplayName(plugin.getLang().get("menus.kitlevelssetup.items.nameItem")).setLore(plugin.getLang().get("menus.kitlevelssetup.items.loreItem")).build();
+        ItemStack buy = new ItemUtils(XMaterial.DIAMOND).setDisplayName(plugin.getLang().get("menus.kitlevelssetup.buy.nameItem")).setLore(plugin.getLang().get("menus.kitlevelssetup.buy.loreItem").replaceAll("<status>", Utils.parseBoolean(kls.isBuy()))).build();
+        ItemStack slot = new ItemUtils(XMaterial.PAPER).setDisplayName(plugin.getLang().get("menus.kitlevelssetup.slot.nameItem")).setLore(plugin.getLang().get("menus.kitlevelssetup.slot.loreItem").replaceAll("<slot>", String.valueOf(kls.getSlot()))).build();
+        ItemStack page = new ItemUtils(XMaterial.MAP).setDisplayName(plugin.getLang().get("menus.kitlevelssetup.page.nameItem")).setLore(plugin.getLang().get("menus.kitlevelssetup.page.loreItem").replaceAll("<page>", String.valueOf(kls.getPage()))).build();
+        ItemStack save = new ItemUtils(XMaterial.NETHER_STAR).setDisplayName(plugin.getLang().get("menus.kitlevelssetup.save.nameItem")).setLore(plugin.getLang().get("menus.kitlevelssetup.save.loreItem")).build();
         inv.setItem(11, price);
         inv.setItem(13, items);
         inv.setItem(15, buy);
@@ -68,8 +68,8 @@ public class SetupMenu {
         ItemStack chestplate = new ItemUtils(XMaterial.BARRIER).setDisplayName("§cChestplate").setLore("§7Click to change!").build();
         ItemStack leggings = new ItemUtils(XMaterial.BARRIER).setDisplayName("§cLeggings").setLore("§7Click to change!").build();
         ItemStack boots = new ItemUtils(XMaterial.BARRIER).setDisplayName("§cBoots").setLore("§7Click to change!").build();
-        ItemStack analize = new ItemUtils(XMaterial.BARRIER).setDisplayName(plugin.getLang().get("menus.kititems.analize.nameItem")).setLore(plugin.getLang().get("menus.kititems.analize.nameItem")).build();
-        ItemStack save = new ItemUtils(XMaterial.BARRIER).setDisplayName(plugin.getLang().get("menus.kititems.save.nameItem")).setLore(plugin.getLang().get("menus.kititems.save.nameItem")).build();
+        ItemStack analize = new ItemUtils(XMaterial.BARRIER).setDisplayName(plugin.getLang().get("menus.kititems.analize.nameItem")).setLore(plugin.getLang().get("menus.kititems.analize.loreItem")).build();
+        ItemStack save = new ItemUtils(XMaterial.BARRIER).setDisplayName(plugin.getLang().get("menus.kititems.save.nameItem")).setLore(plugin.getLang().get("menus.kititems.save.loreItem")).build();
         for (int i : whites){
             inv.setItem(i, white);
         }

@@ -3,7 +3,6 @@ package io.github.Leonardo0013YT.UltraCTW.utils;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import io.github.Leonardo0013YT.UltraCTW.Main;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -34,7 +33,7 @@ public class ItemBuilder {
     }
 
     public static ItemStack parseVariables(Player p, ItemStack i, String[]... t) {
-        String d = i.getItemMeta().getDisplayName();
+        String d = (i.hasItemMeta() && i.getItemMeta().hasDisplayName()) ? i.getItemMeta().getDisplayName() : "";
         List<String> lore = (i.hasItemMeta() && i.getItemMeta().hasLore()) ? i.getItemMeta().getLore() : Collections.emptyList();
         for (String[] s : t) {
             String s1 = s[0];
@@ -43,7 +42,7 @@ public class ItemBuilder {
                 String value = lore.get(k);
                 if (value.contains(s1)) {
                     for (String l : s2.split("<newLine>")){
-                        String newValue = value.replace(s1, s2);
+                        String newValue = value.replace(s1, l);
                         lore.set(k, Main.get().getAdm().parsePlaceholders(p, newValue));
                     }
                 } else {

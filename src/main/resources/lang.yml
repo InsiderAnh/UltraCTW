@@ -2,6 +2,7 @@ setup:
   alreadyCreating: "&cYou are already creating an arena."
   noSchema: "&cThere is no schematic by that name."
   noCursor: "&cYou must have the icon on the cursor."
+  noNumber: "&cPlease write a number."
   setPermission: "&aWrite the permission to use this in the chat."
   setSlot: "&aWrite the slot to this in the chat."
   setPage: "&aWrite the page to this in the chat."
@@ -13,6 +14,7 @@ setup:
   kits:
     created: "&aYou have created a new kit."
     setIcon: "&aThe icon has been set."
+    newLevel: "&aA new level has been created."
   arena:
     alreadySetWool: "&aTeam colors have already been set."
     setSpawn: "&aThe team's spawn has been established in &e<location>&a."
@@ -28,6 +30,8 @@ setup:
     addColor: "&aThe color of <color>&a wool was added to the team."
     setColors: "&aAdded colors used by this team."
     addWool: "&aA wool has been established in &e<loc>&a."
+    setProteccion: "&aA new protection square has been created."
+    needPositions: "&cYou need to have the two positions selected first."
     teamSaved: "&aThe team has been saved."
     saveGame: "&aThe sand has been kept."
     setLobby: |-

@@ -25,7 +25,7 @@ public class ArenaSetup {
     private HashMap<Integer, TeamSetup> teams = new HashMap<>();
     private ArrayList<ChatColor> colors = new ArrayList<>();
     private TeamSetup actual;
-    private Selection selection;
+    private Selection selection = new Selection();
 
     public ArenaSetup(Main plugin, Player p, String name, String schematic){
         this.plugin = plugin;
@@ -107,6 +107,13 @@ public class ArenaSetup {
             for (ChatColor c : ts.getWools().keySet()){
                 plugin.getArenas().set(lpath + "." + c.name() + ".color", c.name());
                 plugin.getArenas().set(lpath + "." + c.name() + ".loc", Utils.getLocationString(ts.getWools().get(c)));
+            }
+            String sqpath = tpath + ".squareds";
+            int i = 0;
+            for (Squared c : ts.getSquareds()){
+                plugin.getArenas().set(sqpath + "." + i + ".min", Utils.getLocationString(c.getMin()));
+                plugin.getArenas().set(sqpath + "." + i + ".max", Utils.getLocationString(c.getMax()));
+                i++;
             }
         }
         plugin.getArenas().save();
