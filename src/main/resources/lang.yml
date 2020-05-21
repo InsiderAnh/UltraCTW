@@ -1,10 +1,18 @@
 setup:
   alreadyCreating: "&cYou are already creating an arena."
   noSchema: "&cThere is no schematic by that name."
+  noCursor: "&cYou must have the icon on the cursor."
+  setPermission: "&aWrite the permission to use this in the chat."
+  setSlot: "&aWrite the slot to this in the chat."
+  setPage: "&aWrite the page to this in the chat."
+  setPrice: "&aWrite the price to this in the chat."
+  setBuy: "&eThe state of this is now: <state>"
+  setPosition: "&ePosition &a<pos> &ehas been established"
   team:
     giveAvailableWools: "&aYou have been given the available wools to set up."
   kits:
     created: "&aYou have created a new kit."
+    setIcon: "&aThe icon has been set."
   arena:
     alreadySetWool: "&aTeam colors have already been set."
     setSpawn: "&aThe team's spawn has been established in &e<location>&a."
@@ -49,6 +57,11 @@ items:
       &7Item to setup arena.
       &7
       &7Right click to open.
+  points:
+    nameItem: "&eSelect Points"
+    loreItem: |-
+      &7Click for position 1.
+      &7Right-click for position 2.
 menus:
   kititems:
     title: "&aSetup Level Items"
@@ -191,6 +204,15 @@ menus:
     title: "&aSetup Teams Colors"
   teamsetup:
     title: "&aSetup Team"
+    squared:
+      nameItem: "&eSquareds"
+      loreItem: |-
+        &7Team anti-entry protection squared.
+        &7
+        <squareds>
+        &7
+        &eClick to add!
+        &cRigth click to remove last!
     color:
       nameItem: "&eTeam Color"
       loreItem: |-

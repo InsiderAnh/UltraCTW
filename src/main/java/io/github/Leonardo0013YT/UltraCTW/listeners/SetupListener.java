@@ -3,6 +3,8 @@ package io.github.Leonardo0013YT.UltraCTW.listeners;
 import io.github.Leonardo0013YT.UltraCTW.Main;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.UltraInventory;
 import io.github.Leonardo0013YT.UltraCTW.setup.ArenaSetup;
+import io.github.Leonardo0013YT.UltraCTW.setup.KitLevelSetup;
+import io.github.Leonardo0013YT.UltraCTW.setup.KitSetup;
 import io.github.Leonardo0013YT.UltraCTW.setup.TeamSetup;
 import io.github.Leonardo0013YT.UltraCTW.utils.NBTEditor;
 import io.github.Leonardo0013YT.UltraCTW.utils.Utils;
@@ -14,8 +16,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryType;
@@ -37,8 +37,8 @@ public class SetupListener implements Listener {
     @EventHandler
     public void onChat(AsyncPlayerChatEvent e) {
         Player p = e.getPlayer();
-        if (plugin.getSm().isSetup(p)) {
-            if (plugin.getSm().isSetupName(p)) {
+        if (plugin.getSm().isSetupName(p)) {
+            if (plugin.getSm().isSetup(p)) {
                 e.setCancelled(true);
                 ArenaSetup as = plugin.getSm().getSetup(p);
                 String type = plugin.getSm().getSetupName(p);
@@ -139,6 +139,76 @@ public class SetupListener implements Listener {
                             new String[]{"<spect>", Utils.getFormatedLocation(as.getSpectator())});
                 }
             }
+            if (plugin.getSm().isSetupKit(p)) {
+                e.setCancelled(true);
+                KitSetup ks = plugin.getSm().getSetupKit(p);
+                String type = plugin.getSm().getSetupName(p);
+                if (type.equals("kitpermission")) {
+                    ks.setPermission(e.getMessage());
+                    plugin.getSm().removeName(p);
+                    plugin.getSem().createSetupKitMenu(p, ks);
+                }
+                if (type.equals("kitslot")) {
+                    int slot;
+                    try {
+                        slot = Integer.parseInt(e.getMessage());
+                    } catch (NumberFormatException ex) {
+                        p.sendMessage(plugin.getLang().get(p, "setup.noNumber"));
+                        return;
+                    }
+                    ks.setSlot(slot);
+                    plugin.getSm().removeName(p);
+                    plugin.getSem().createSetupKitMenu(p, ks);
+                }
+                if (type.equals("kitpage")) {
+                    int page;
+                    try {
+                        page = Integer.parseInt(e.getMessage());
+                    } catch (NumberFormatException ex) {
+                        p.sendMessage(plugin.getLang().get(p, "setup.noNumber"));
+                        return;
+                    }
+                    ks.setPage(page);
+                    plugin.getSm().removeName(p);
+                    plugin.getSem().createSetupKitMenu(p, ks);
+                }
+                if (type.equals("kitlevelslot")) {
+                    int slot;
+                    try {
+                        slot = Integer.parseInt(e.getMessage());
+                    } catch (NumberFormatException ex) {
+                        p.sendMessage(plugin.getLang().get(p, "setup.noNumber"));
+                        return;
+                    }
+                    ks.getKls().setSlot(slot);
+                    plugin.getSm().removeName(p);
+                    plugin.getSem().createSetupKitLevelsMenu(p, ks.getKls());
+                }
+                if (type.equals("kitlevelpage")) {
+                    int page;
+                    try {
+                        page = Integer.parseInt(e.getMessage());
+                    } catch (NumberFormatException ex) {
+                        p.sendMessage(plugin.getLang().get(p, "setup.noNumber"));
+                        return;
+                    }
+                    ks.getKls().setPage(page);
+                    plugin.getSm().removeName(p);
+                    plugin.getSem().createSetupKitLevelsMenu(p, ks.getKls());
+                }
+                if (type.equals("kitlevelprice")) {
+                    double price;
+                    try {
+                        price = Double.parseDouble(e.getMessage());
+                    } catch (NumberFormatException ex) {
+                        p.sendMessage(plugin.getLang().get(p, "setup.noNumber"));
+                        return;
+                    }
+                    ks.getKls().setPrice(price);
+                    plugin.getSm().removeName(p);
+                    plugin.getSem().createSetupKitLevelsMenu(p, ks.getKls());
+                }
+            }
         }
     }
 
@@ -165,20 +235,32 @@ public class SetupListener implements Listener {
                     new String[]{"<spect>", Utils.getFormatedLocation(as.getSpectator())});
         }
         if (e.getAction().equals(Action.RIGHT_CLICK_BLOCK)){
-            if (!plugin.getSm().isSetup(p)){
-                return;
+            if (plugin.getSm().isSetup(p)){
+                ArenaSetup as = plugin.getSm().getSetup(p);
+                if (item.equals(plugin.getIm().getPoints())){
+                    as.getSelection().setPos1(e.getClickedBlock().getLocation());
+                    p.sendMessage(plugin.getLang().get("messages.setPosition").replaceAll("<pos>", "1"));
+                }
+                if (as.getActual() == null){
+                    return;
+                }
+                if (item.getType().name().contains("WOOL")){
+                    XMaterial ma = XMaterial.matchXMaterial(item);
+                    TeamSetup ts = as.getActual();
+                    Block b = e.getClickedBlock();
+                    ts.getWools().put(Utils.getColorByXMaterial(ma), b.getLocation());
+                    removeItemInHand(p);
+                    p.sendMessage(plugin.getLang().get("setup.arena.addWool").replaceAll("<loc>", Utils.getFormatedLocation(b.getLocation())));
+                }
             }
-            ArenaSetup as = plugin.getSm().getSetup(p);
-            if (as.getActual() == null){
-                return;
-            }
-            if (item.getType().name().contains("WOOL")){
-                XMaterial ma = XMaterial.matchXMaterial(item);
-                TeamSetup ts = as.getActual();
-                Block b = e.getClickedBlock();
-                ts.getWools().put(Utils.getColorByXMaterial(ma), b.getLocation());
-                removeItemInHand(p);
-                p.sendMessage(plugin.getLang().get("setup.arena.addWool").replaceAll("<loc>", Utils.getFormatedLocation(b.getLocation())));
+        }
+        if (e.getAction().equals(Action.LEFT_CLICK_BLOCK)) {
+            if (plugin.getSm().isSetup(p)) {
+                ArenaSetup as = plugin.getSm().getSetup(p);
+                if (item.equals(plugin.getIm().getPoints())) {
+                    as.getSelection().setPos2(e.getClickedBlock().getLocation());
+                    p.sendMessage(plugin.getLang().get("messages.setPosition").replaceAll("<pos>", "2"));
+                }
             }
         }
     }
@@ -191,6 +273,72 @@ public class SetupListener implements Listener {
         Player p = (Player) e.getWhoClicked();
         if (plugin.getSm().isSetupInventory(p)){
             return;
+        }
+        if (e.getView().getTitle().equals(plugin.getLang().get("menus.kitlevelssetup.title"))) {
+            e.setCancelled(true);
+            KitSetup ks = plugin.getSm().getSetupKit(p);
+            KitLevelSetup kls = ks.getKls();
+            ItemStack item = e.getCurrentItem();
+            String display = item.getItemMeta().getDisplayName();
+            if (display.equals(plugin.getLang().get("menus.kitlevelssetup.slot.nameItem"))){
+                plugin.getSm().setSetupName(p, "kitlevelslot");
+                p.closeInventory();
+                p.sendMessage(plugin.getLang().get(p, "setup.setSlot"));
+            }
+            if (display.equals(plugin.getLang().get("menus.kitlevelssetup.page.nameItem"))){
+                plugin.getSm().setSetupName(p, "kitlevelpage");
+                p.closeInventory();
+                p.sendMessage(plugin.getLang().get(p, "setup.setPage"));
+            }
+            if (display.equals(plugin.getLang().get("menus.kitlevelssetup.buy.nameItem"))){
+                kls.setBuy(!kls.isBuy());
+                p.sendMessage(plugin.getLang().get(p, "setup.balloons.setBuy").replace("<state>", Utils.parseBoolean(kls.isBuy())));
+                p.sendMessage(plugin.getLang().get(p, "setup.setBuy"));
+            }
+            if (display.equals(plugin.getLang().get("menus.kitlevelssetup.price.nameItem"))){
+                plugin.getSm().setSetupName(p, "kitlevelprice");
+                p.closeInventory();
+                p.sendMessage(plugin.getLang().get(p, "setup.setPrice"));
+            }
+            if (display.equals(plugin.getLang().get("menus.kitlevelssetup.items.nameItem"))) {
+                plugin.getSem().createSetupKitItemsMenu(p);
+            }
+        }
+        if (e.getView().getTitle().equals(plugin.getLang().get("menus.kitsetup.title"))) {
+            e.setCancelled(true);
+            KitSetup ks = plugin.getSm().getSetupKit(p);
+            ItemStack item = e.getCurrentItem();
+            String display = item.getItemMeta().getDisplayName();
+            if (display.equals(plugin.getLang().get("menus.kitsetup.icon.nameItem"))){
+                if (e.getCursor() == null || e.getCursor().getType().equals(Material.AIR) || p.getItemOnCursor() == null || p.getItemOnCursor().getType().equals(Material.AIR)) {
+                    p.sendMessage(plugin.getLang().get(p, "setup.noCursor"));
+                    return;
+                }
+                ItemStack it = p.getItemOnCursor();
+                if (it.hasItemMeta()) {
+                    ItemMeta imt = it.getItemMeta();
+                    imt.setDisplayName("§a" + ks.getName());
+                    imt.setLore(null);
+                    it.setItemMeta(imt);
+                }
+                ks.setIcon(it);
+                p.sendMessage(plugin.getLang().get(p, "setup.kits.setIcon"));
+            }
+            if (display.equals(plugin.getLang().get("menus.kitsetup.permission.nameItem"))){
+                plugin.getSm().setSetupName(p, "kitpermission");
+                p.closeInventory();
+                p.sendMessage(plugin.getLang().get(p, "setup.setPermission"));
+            }
+            if (display.equals(plugin.getLang().get("menus.kitsetup.slot.nameItem"))){
+                plugin.getSm().setSetupName(p, "kitslot");
+                p.closeInventory();
+                p.sendMessage(plugin.getLang().get(p, "setup.setSlot"));
+            }
+            if (display.equals(plugin.getLang().get("menus.kitsetup.page.nameItem"))){
+                plugin.getSm().setSetupName(p, "kitpage");
+                p.closeInventory();
+                p.sendMessage(plugin.getLang().get(p, "setup.setPage"));
+            }
         }
         if (e.getView().getTitle().equals(plugin.getLang().get("menus.teamColor.title"))) {
             e.setCancelled(true);

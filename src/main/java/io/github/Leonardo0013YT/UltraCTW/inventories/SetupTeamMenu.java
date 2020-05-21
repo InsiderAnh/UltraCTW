@@ -31,6 +31,7 @@ public class SetupTeamMenu implements UltraInventory {
                 int slot = Integer.parseInt(c);
                 ItemStack litem = plugin.getMenus().getConfig().getItemStack("menus." + name + ".items." + c);
                 ItemStack item = ItemBuilder.parse(plugin.getMenus().getConfig().getItemStack("menus." + name + ".items." + c).clone(),
+                        new String[]{"{TEAMSQUARED}", plugin.getLang().get("menus.teamsetup.squared.nameItem"), plugin.getLang().get("menus.teamsetup.squared.loreItem")},
                         new String[]{"{TEAMCOLOR}", plugin.getLang().get("menus.teamsetup.color.nameItem"), plugin.getLang().get("menus.teamsetup.color.loreItem")},
                         new String[]{"{TEAMWOOL}", plugin.getLang().get("menus.teamsetup.wool.nameItem"), plugin.getLang().get("menus.teamsetup.wool.loreItem")},
                         new String[]{"{TEAMSPAWNER}", plugin.getLang().get("menus.teamsetup.spawner.nameItem"), plugin.getLang().get("menus.teamsetup.spawner.loreItem")},
@@ -116,6 +117,7 @@ public class SetupTeamMenu implements UltraInventory {
                 int slot = Integer.parseInt(c);
                 ItemStack litem = plugin.getMenus().getConfig().getItemStack("menus." + name + ".items." + c);
                 ItemStack item = ItemBuilder.parse(plugin.getMenus().getConfig().getItemStack("menus." + name + ".items." + c).clone(),
+                        new String[]{"{TEAMSQUARED}", plugin.getLang().get("menus.teamsetup.squared.nameItem"), plugin.getLang().get("menus.teamsetup.squared.loreItem")},
                         new String[]{"{TEAMCOLOR}", plugin.getLang().get("menus.teamsetup.color.nameItem"), plugin.getLang().get("menus.teamsetup.color.loreItem")},
                         new String[]{"{TEAMWOOL}", plugin.getLang().get("menus.teamsetup.wool.nameItem"), plugin.getLang().get("menus.teamsetup.wool.loreItem")},
                         new String[]{"{TEAMSPAWNER}", plugin.getLang().get("menus.teamsetup.spawner.nameItem"), plugin.getLang().get("menus.teamsetup.spawner.loreItem")},

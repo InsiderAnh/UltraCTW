@@ -2,6 +2,7 @@ package io.github.Leonardo0013YT.UltraCTW.menus;
 
 import io.github.Leonardo0013YT.UltraCTW.Main;
 import io.github.Leonardo0013YT.UltraCTW.setup.ArenaSetup;
+import io.github.Leonardo0013YT.UltraCTW.setup.KitLevelSetup;
 import io.github.Leonardo0013YT.UltraCTW.setup.KitSetup;
 import io.github.Leonardo0013YT.UltraCTW.setup.TeamSetup;
 import io.github.Leonardo0013YT.UltraCTW.utils.ItemUtils;
@@ -43,7 +44,7 @@ public class SetupMenu {
         p.openInventory(inv);
     }
 
-    public void createSetupKitLevelsMenu(Player p){
+    public void createSetupKitLevelsMenu(Player p, KitLevelSetup kls){
         Inventory inv = Bukkit.createInventory(null, 45, plugin.getLang().get("menus.kitlevelssetup.title"));
         ItemStack price = new ItemUtils(XMaterial.GOLD_NUGGET).setDisplayName(plugin.getLang().get("menus.kitlevelssetup.price.nameItem")).setLore(plugin.getLang().get("menus.kitsetup.price.loreItem")).build();
         ItemStack items = new ItemUtils(XMaterial.CHEST).setDisplayName(plugin.getLang().get("menus.kitlevelssetup.items.nameItem")).setLore(plugin.getLang().get("menus.kitsetup.items.loreItem")).build();

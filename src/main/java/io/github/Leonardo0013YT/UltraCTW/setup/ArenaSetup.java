@@ -1,7 +1,11 @@
 package io.github.Leonardo0013YT.UltraCTW.setup;
 
 import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.objects.Selection;
+import io.github.Leonardo0013YT.UltraCTW.objects.Squared;
 import io.github.Leonardo0013YT.UltraCTW.utils.Utils;
+import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -9,6 +13,7 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+@Setter@Getter
 public class ArenaSetup {
 
     private Main plugin;
@@ -20,6 +25,7 @@ public class ArenaSetup {
     private HashMap<Integer, TeamSetup> teams = new HashMap<>();
     private ArrayList<ChatColor> colors = new ArrayList<>();
     private TeamSetup actual;
+    private Selection selection;
 
     public ArenaSetup(Main plugin, Player p, String name, String schematic){
         this.plugin = plugin;
@@ -71,70 +77,6 @@ public class ArenaSetup {
 
     public HashMap<Integer, TeamSetup> getTeams() {
         return teams;
-    }
-
-    public void setAmountTeams(int amountTeams) {
-        this.amountTeams = amountTeams;
-    }
-
-    public void setWoolSize(int woolSize) {
-        this.woolSize = woolSize;
-    }
-
-    public void setTeamSize(int teamSize) {
-        this.teamSize = teamSize;
-    }
-
-    public void setMin(int min) {
-        this.min = min;
-    }
-
-    public TeamSetup getActual() {
-        return actual;
-    }
-
-    public void setActual(TeamSetup actual) {
-        this.actual = actual;
-    }
-
-    public void setLobby(Location lobby) {
-        this.lobby = lobby;
-    }
-
-    public Location getLobby() {
-        return lobby;
-    }
-
-    public void setSpectator(Location spectator) {
-        this.spectator = spectator;
-    }
-
-    public int getAmountTeams() {
-        return amountTeams;
-    }
-
-    public Location getSpectator() {
-        return spectator;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getSchematic() {
-        return schematic;
-    }
-
-    public int getMin() {
-        return min;
-    }
-
-    public int getTeamSize() {
-        return teamSize;
-    }
-
-    public int getWoolSize() {
-        return woolSize;
     }
 
     public void saveTeam(){

@@ -1,5 +1,6 @@
 package io.github.Leonardo0013YT.UltraCTW.utils;
 
+import io.github.Leonardo0013YT.UltraCTW.Main;
 import org.bukkit.*;
 
 import java.io.File;
@@ -8,6 +9,10 @@ import java.text.DecimalFormat;
 public class Utils {
 
     private static DecimalFormat df = new DecimalFormat("##.#");
+
+    public static String parseBoolean(boolean bool) {
+        return (bool) ? Main.get().getLang().get(null, "activated") : Main.get().getLang().get(null, "deactivated");
+    }
 
     public static boolean existsFile(String schematic) {
         File file = new File(Bukkit.getWorldContainer() + "/plugins/WorldEdit/schematics", schematic);
