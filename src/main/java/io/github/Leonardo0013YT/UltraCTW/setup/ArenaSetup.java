@@ -95,7 +95,7 @@ public class ArenaSetup {
         plugin.getArenas().set(path + ".min", min);
         plugin.getArenas().set(path + ".amountTeams", amountTeams);
         for (TeamSetup ts : teams.values()){
-            String tpath = "arenas." + name + "." + ts.getColor().name();
+            String tpath = "arenas." + name + ".teams." + ts.getColor().name();
             plugin.getArenas().set(tpath + ".spawn", Utils.getLocationString(ts.getSpawn()));
             plugin.getArenas().set(tpath + ".color", ts.getColor().name());
             String spath = tpath + ".spawners";

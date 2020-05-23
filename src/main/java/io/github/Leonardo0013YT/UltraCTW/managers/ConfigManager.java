@@ -1,7 +1,9 @@
 package io.github.Leonardo0013YT.UltraCTW.managers;
 
 import io.github.Leonardo0013YT.UltraCTW.Main;
+import lombok.Getter;
 
+@Getter
 public class ConfigManager {
 
     private Main plugin;
@@ -14,9 +16,5 @@ public class ConfigManager {
 
     public void reload() {
         this.placeholdersAPI = plugin.getConfig().getBoolean("addons.placeholdersAPI");
-    }
-
-    public boolean isPlaceholdersAPI() {
-        return placeholdersAPI;
     }
 }
