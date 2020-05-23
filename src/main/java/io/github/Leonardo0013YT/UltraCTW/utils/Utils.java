@@ -27,7 +27,9 @@ public class Utils {
     }
 
     public static Location getStringLocation(String location) {
+        if (location == null) return null;
         String[] l = location.split(";");
+        if (l.length < 5) return null;
         World world = Bukkit.getWorld(l[0]);
         double x = Double.parseDouble(l[1]);
         double y = Double.parseDouble(l[2]);

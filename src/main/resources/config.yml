@@ -1,3 +1,4 @@
 debugMode: false
 addons:
   placeholdersAPI: true
+mainLobby: null
