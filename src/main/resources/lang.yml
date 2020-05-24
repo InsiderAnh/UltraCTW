@@ -1,6 +1,8 @@
 activated: "&aActivated"
 deactivated: "&cDeactivated"
+messages:
 setup:
+  setMainLobby: "&aThe main lobby has been established."
   alreadyCreating: "&cYou are already creating an arena."
   noSchema: "&cThere is no schematic by that name."
   noCursor: "&cYou must have the icon on the cursor."
@@ -37,6 +39,7 @@ setup:
     addWool: "&aA wool has been established in &e<loc>&a."
     setProteccion: "&aA new protection square has been created."
     needPositions: "&cYou need to have the two positions selected first."
+    firstWool: "&cFirst you must set the colors of wool."
     teamSaved: "&aThe team has been saved."
     saveGame: "&aThe sand has been kept."
     setLobby: |-
@@ -57,6 +60,13 @@ setup:
     setAmountTeams: |-
       &6&lARENA SETUP:
       &aWrite the amount of teams in the chat.
+    noSet:
+      lobby: "&cThe lobby location has not been established."
+      spectator: "&cThe spectator location has not been established."
+      needTwoTeams: "&cYou need at least two teams."
+      spawn: "&cThe spawn location has not been established."
+      noColors: "&cYou haven't set the colors of the wools."
+      noSpawner: "&cYou have not set the spawners of these colors."
   menus:
     finishEdit: "&aYou have edited the menu correctly."
 items:
@@ -261,6 +271,15 @@ menus:
         &eClick to save!
   setup:
     title: "&aSetup Arena"
+    squared:
+      nameItem: "&eSquareds"
+      loreItem: |-
+        &7Team anti-break protection squared.
+        &7
+        <squareds>
+        &7
+        &eClick to add!
+        &cRigth click to remove last!
     name:
       nameItem: "&eName of Arena"
       loreItem: |-

@@ -2,6 +2,14 @@ menus:
   setup:
     rows: 6
     items:
+      '33':
+        ==: org.bukkit.inventory.ItemStack
+        type: BARRIER
+        meta:
+          ==: ItemMeta
+          meta-type: UNSPECIFIC
+          display-name: '{SQUARED}'
+          repair-cost: 1
       '49':
         ==: org.bukkit.inventory.ItemStack
         type: NETHER_STAR

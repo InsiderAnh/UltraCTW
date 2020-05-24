@@ -38,6 +38,7 @@ public class SetupArenaMenu implements UltraInventory {
                         new String[]{"{AMOUNTTEAMS}", plugin.getLang().get("menus.setup.teamsAmount.nameItem"), plugin.getLang().get("menus.setup.teamsAmount.loreItem")},
                         new String[]{"{TEAMSIZE}", plugin.getLang().get("menus.setup.teamSize.nameItem"), plugin.getLang().get("menus.setup.teamSize.loreItem")},
                         new String[]{"{WOOLSIZE}", plugin.getLang().get("menus.setup.woolSize.nameItem"), plugin.getLang().get("menus.setup.woolSize.loreItem")},
+                        new String[]{"{SQUARED}", plugin.getLang().get("menus.setup.squared.nameItem"), plugin.getLang().get("menus.setup.squared.loreItem")},
                         new String[]{"{LOBBY}", plugin.getLang().get("menus.setup.lobby.nameItem"), plugin.getLang().get("menus.setup.lobby.loreItem")},
                         new String[]{"{SPECT}", plugin.getLang().get("menus.setup.spect.nameItem"), plugin.getLang().get("menus.setup.spect.loreItem")},
                         new String[]{"{SAVE}", plugin.getLang().get("menus.setup.save.nameItem"), plugin.getLang().get("menus.setup.save.loreItem")});
@@ -128,6 +129,7 @@ public class SetupArenaMenu implements UltraInventory {
                         new String[]{"{AMOUNTTEAMS}", plugin.getLang().get("menus.setup.teamsAmount.nameItem"), plugin.getLang().get("menus.setup.teamsAmount.loreItem")},
                         new String[]{"{TEAMSIZE}", plugin.getLang().get("menus.setup.teamSize.nameItem"), plugin.getLang().get("menus.setup.teamSize.loreItem")},
                         new String[]{"{WOOLSIZE}", plugin.getLang().get("menus.setup.woolSize.nameItem"), plugin.getLang().get("menus.setup.woolSize.loreItem")},
+                        new String[]{"{SQUARED}", plugin.getLang().get("menus.setup.squared.nameItem"), plugin.getLang().get("menus.setup.squared.loreItem")},
                         new String[]{"{LOBBY}", plugin.getLang().get("menus.setup.lobby.nameItem"), plugin.getLang().get("menus.setup.lobby.loreItem")},
                         new String[]{"{SPECT}", plugin.getLang().get("menus.setup.spect.nameItem"), plugin.getLang().get("menus.setup.spect.loreItem")},
                         new String[]{"{SAVE}", plugin.getLang().get("menus.setup.save.nameItem"), plugin.getLang().get("menus.setup.save.loreItem")});

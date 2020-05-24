@@ -35,25 +35,38 @@ public class ItemBuilder {
     public static ItemStack parseVariables(Player p, ItemStack i, String[]... t) {
         String d = (i.hasItemMeta() && i.getItemMeta().hasDisplayName()) ? i.getItemMeta().getDisplayName() : "";
         List<String> lore = (i.hasItemMeta() && i.getItemMeta().hasLore()) ? i.getItemMeta().getLore() : Collections.emptyList();
+        List<String> newLore = new ArrayList<>();
+        boolean anyVariable = true;
         for (String[] s : t) {
             String s1 = s[0];
             String s2 = s[1];
-            for (int k = 0; k < lore.size(); k++) {
-                String value = lore.get(k);
+            if (!preCheck(lore, s1)) {
+                continue;
+            }
+            anyVariable = false;
+            for (String value : lore) {
                 if (value.contains(s1)) {
-                    for (String l : s2.split("<newLine>")){
-                        String newValue = value.replace(s1, l);
-                        lore.set(k, Main.get().getAdm().parsePlaceholders(p, newValue));
+                    if (s2.contains("<newLine>")) {
+                        for (String l : s2.split("<newLine>")) {
+                            String newValue = value.replace(s1, l);
+                            newLore.add(Main.get().getAdm().parsePlaceholders(p, newValue));
+                        }
+                    } else {
+                        String newValue = value.replace(s1, s2);
+                        newLore.add(Main.get().getAdm().parsePlaceholders(p, newValue));
                     }
                 } else {
-                    lore.set(k, Main.get().getAdm().parsePlaceholders(p, value));
+                    newLore.add(Main.get().getAdm().parsePlaceholders(p, value));
                 }
             }
             d = d.replaceAll(s1, s2);
         }
         ItemMeta im = i.getItemMeta();
         im.setDisplayName(d);
-        im.setLore(lore);
+        if (!anyVariable){
+            im.setLore(null);
+            im.setLore(newLore);
+        }
         i.setItemMeta(im);
         return i;
     }
@@ -152,6 +165,17 @@ public class ItemBuilder {
 
     public static void addItemFlags(ItemMeta itemMeta) {
         itemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_DESTROYS, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_PLACED_ON, ItemFlag.HIDE_POTION_EFFECTS, ItemFlag.HIDE_UNBREAKABLE);
+    }
+
+    public static boolean preCheck(List<String> lore, String variable){
+        boolean check = false;
+        for (String l : lore){
+            if (l.contains(variable)) {
+                check = true;
+                break;
+            }
+        }
+        return check;
     }
 
 }

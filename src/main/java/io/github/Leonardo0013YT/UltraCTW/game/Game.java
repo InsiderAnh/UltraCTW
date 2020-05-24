@@ -31,6 +31,14 @@ public class Game {
         }
     }
 
+    public void addPlayer(Player p){
+        p.teleport(lobby);
+    }
+
+    public void removePlayer(Player p){
+
+    }
+
     public void addPlayerTeam(Player p, Team team) {
         team.addMember(p);
     }

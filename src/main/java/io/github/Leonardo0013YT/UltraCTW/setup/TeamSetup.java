@@ -25,7 +25,7 @@ public class TeamSetup {
     }
 
     public void addSquared(Selection s){
-        squareds.add(new Squared(s.getPos2(), s.getPos1(), false, false));
+        squareds.add(new Squared(s.getPos2(), s.getPos1(), false, true));
     }
 
 }

@@ -75,7 +75,11 @@ public class SetupCMD implements CommandExecutor {
                     plugin.getSem().createSetupKitMenu(p, plugin.getSm().getSetupKit(p));
                     break;
                 case "setmainlobby":
-
+                    plugin.getConfig().set("mainLobby", Utils.getLocationString(p.getLocation()));
+                    plugin.saveConfig();
+                    plugin.reloadConfig();
+                    plugin.getCm().reload();
+                    p.sendMessage(plugin.getLang().get("setup.setMainLobby"));
                     break;
                 case "inventory":
                     if (args.length < 2) {

@@ -24,6 +24,7 @@ public class ArenaSetup {
     private int min, teamSize, woolSize, amountTeams;
     private HashMap<Integer, TeamSetup> teams = new HashMap<>();
     private ArrayList<ChatColor> colors = new ArrayList<>();
+    private ArrayList<Squared> squareds = new ArrayList<>();
     private TeamSetup actual;
     private Selection selection = new Selection();
 
@@ -75,6 +76,10 @@ public class ArenaSetup {
         return materials;
     }
 
+    public void addSquared(Selection s){
+        squareds.add(new Squared(s.getPos2(), s.getPos1(), true, true));
+    }
+
     public HashMap<Integer, TeamSetup> getTeams() {
         return teams;
     }
@@ -94,6 +99,13 @@ public class ArenaSetup {
         plugin.getArenas().set(path + ".woolSize", woolSize);
         plugin.getArenas().set(path + ".min", min);
         plugin.getArenas().set(path + ".amountTeams", amountTeams);
+        String ssqpath = path + ".squareds";
+        int ii = 0;
+        for (Squared c : squareds){
+            plugin.getArenas().set(ssqpath + "." + ii + ".min", Utils.getLocationString(c.getMin()));
+            plugin.getArenas().set(ssqpath + "." + ii + ".max", Utils.getLocationString(c.getMax()));
+            ii++;
+        }
         for (TeamSetup ts : teams.values()){
             String tpath = "arenas." + name + ".teams." + ts.getColor().name();
             plugin.getArenas().set(tpath + ".spawn", Utils.getLocationString(ts.getSpawn()));

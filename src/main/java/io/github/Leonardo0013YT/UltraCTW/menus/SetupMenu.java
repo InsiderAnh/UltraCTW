@@ -22,6 +22,7 @@ public class SetupMenu {
 
     private int[] slots = {10, 11, 12, 13, 14, 15, 16, 19, 20, 21, 22, 23, 24, 25, 31};
     private ArrayList<Integer> whites = new ArrayList<>(Arrays.asList(4, 5, 6, 36, 37, 38, 39, 40, 41, 42, 43, 44));
+    private ChatColor[] colors = {ChatColor.RED, ChatColor.BLUE, ChatColor.YELLOW, ChatColor.GOLD, ChatColor.GREEN, ChatColor.GRAY, ChatColor.DARK_GRAY, ChatColor.AQUA, ChatColor.DARK_AQUA, ChatColor.LIGHT_PURPLE, ChatColor.DARK_PURPLE, ChatColor.DARK_AQUA};
     private Main plugin;
 
     public SetupMenu(Main plugin) {
@@ -113,8 +114,7 @@ public class SetupMenu {
         int i = 0;
         int max = as.getAmountTeams();
         int amount = 0;
-        for (ChatColor color : ChatColor.values()){
-            if (color.isFormat() || color.equals(ChatColor.BLACK) || color.equals(ChatColor.RESET) || color.equals(ChatColor.DARK_RED) || color.equals(ChatColor.DARK_BLUE)) continue;
+        for (ChatColor color : colors){
             ItemStack wool = NBTEditor.set(new ItemUtils(Utils.getXMaterialByColor(color)).setDisplayName(plugin.getLang().get("menus.teamsColor.color.nameItem").replaceAll("<name>", plugin.getLang().get("teams." + color.name().toLowerCase())).replaceAll("<color>", "" + color)).setLore(plugin.getLang().get("menus.teamsColor.color.loreItem")).build(), color.name(), "SETUP", "TEAM", "COLOR");
             inv.setItem(slots[i], wool);
             amount++;

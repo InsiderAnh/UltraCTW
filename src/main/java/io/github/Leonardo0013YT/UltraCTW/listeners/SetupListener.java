@@ -3,6 +3,7 @@ package io.github.Leonardo0013YT.UltraCTW.listeners;
 import io.github.Leonardo0013YT.UltraCTW.Main;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.UltraInventory;
 import io.github.Leonardo0013YT.UltraCTW.objects.Selection;
+import io.github.Leonardo0013YT.UltraCTW.objects.Squared;
 import io.github.Leonardo0013YT.UltraCTW.setup.ArenaSetup;
 import io.github.Leonardo0013YT.UltraCTW.setup.KitLevelSetup;
 import io.github.Leonardo0013YT.UltraCTW.setup.KitSetup;
@@ -28,7 +29,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class SetupListener implements Listener {
 
@@ -60,12 +60,19 @@ public class SetupListener implements Listener {
                     }
                     as.setMin(min);
                     plugin.getSm().removeName(p);
+                    ArrayList<String> sq = new ArrayList<>();
+                    for (Squared s : as.getSquareds()){
+                        sq.add("§bMax: §e" + Utils.getFormatedLocation(s.getMax()));
+                        sq.add("§bMin: §e" + Utils.getFormatedLocation(s.getMin()));
+                        sq.add("§7");
+                    }
                     plugin.getUim().openInventory(p, plugin.getUim().getMenus("setup"),
                             new String[]{"<name>", as.getName()},
                             new String[]{"<schematic>", as.getSchematic()},
                             new String[]{"<min>", "" + as.getMin()},
                             new String[]{"<teamSize>", "" + as.getTeamSize()},
                             new String[]{"<woolSize>", "" + as.getWoolSize()},
+                            new String[]{"<squareds>", "" + getString(sq)},
                             new String[]{"<teamAmount>", "" + as.getAmountTeams()},
                             new String[]{"<lobby>", Utils.getFormatedLocation(as.getLobby())},
                             new String[]{"<spect>", Utils.getFormatedLocation(as.getSpectator())});
@@ -84,12 +91,19 @@ public class SetupListener implements Listener {
                     }
                     as.setTeamSize(teamsize);
                     plugin.getSm().removeName(p);
+                    ArrayList<String> sq = new ArrayList<>();
+                    for (Squared s : as.getSquareds()){
+                        sq.add("§bMax: §e" + Utils.getFormatedLocation(s.getMax()));
+                        sq.add("§bMin: §e" + Utils.getFormatedLocation(s.getMin()));
+                        sq.add("§7");
+                    }
                     plugin.getUim().openInventory(p, plugin.getUim().getMenus("setup"),
                             new String[]{"<name>", as.getName()},
                             new String[]{"<schematic>", as.getSchematic()},
                             new String[]{"<min>", "" + as.getMin()},
                             new String[]{"<teamSize>", "" + as.getTeamSize()},
                             new String[]{"<woolSize>", "" + as.getWoolSize()},
+                            new String[]{"<squareds>", "" + getString(sq)},
                             new String[]{"<teamAmount>", "" + as.getAmountTeams()},
                             new String[]{"<lobby>", Utils.getFormatedLocation(as.getLobby())},
                             new String[]{"<spect>", Utils.getFormatedLocation(as.getSpectator())});
@@ -108,12 +122,19 @@ public class SetupListener implements Listener {
                     }
                     as.setWoolSize(woolsize);
                     plugin.getSm().removeName(p);
+                    ArrayList<String> sq = new ArrayList<>();
+                    for (Squared s : as.getSquareds()){
+                        sq.add("§bMax: §e" + Utils.getFormatedLocation(s.getMax()));
+                        sq.add("§bMin: §e" + Utils.getFormatedLocation(s.getMin()));
+                        sq.add("§7");
+                    }
                     plugin.getUim().openInventory(p, plugin.getUim().getMenus("setup"),
                             new String[]{"<name>", as.getName()},
                             new String[]{"<schematic>", as.getSchematic()},
                             new String[]{"<min>", "" + as.getMin()},
                             new String[]{"<teamSize>", "" + as.getTeamSize()},
                             new String[]{"<woolSize>", "" + as.getWoolSize()},
+                            new String[]{"<squareds>", "" + getString(sq)},
                             new String[]{"<teamAmount>", "" + as.getAmountTeams()},
                             new String[]{"<lobby>", Utils.getFormatedLocation(as.getLobby())},
                             new String[]{"<spect>", Utils.getFormatedLocation(as.getSpectator())});
@@ -132,12 +153,19 @@ public class SetupListener implements Listener {
                     }
                     as.setAmountTeams(amountteams);
                     plugin.getSm().removeName(p);
+                    ArrayList<String> sq = new ArrayList<>();
+                    for (Squared s : as.getSquareds()){
+                        sq.add("§bMax: §e" + Utils.getFormatedLocation(s.getMax()));
+                        sq.add("§bMin: §e" + Utils.getFormatedLocation(s.getMin()));
+                        sq.add("§7");
+                    }
                     plugin.getUim().openInventory(p, plugin.getUim().getMenus("setup"),
                             new String[]{"<name>", as.getName()},
                             new String[]{"<schematic>", as.getSchematic()},
                             new String[]{"<min>", "" + as.getMin()},
                             new String[]{"<teamSize>", "" + as.getTeamSize()},
                             new String[]{"<woolSize>", "" + as.getWoolSize()},
+                            new String[]{"<squareds>", "" + getString(sq)},
                             new String[]{"<teamAmount>", "" + as.getAmountTeams()},
                             new String[]{"<lobby>", Utils.getFormatedLocation(as.getLobby())},
                             new String[]{"<spect>", Utils.getFormatedLocation(as.getSpectator())});
@@ -228,12 +256,19 @@ public class SetupListener implements Listener {
                 return;
             }
             ArenaSetup as = plugin.getSm().getSetup(p);
+            ArrayList<String> sq = new ArrayList<>();
+            for (Squared s : as.getSquareds()){
+                sq.add("§bMax: §e" + Utils.getFormatedLocation(s.getMax()));
+                sq.add("§bMin: §e" + Utils.getFormatedLocation(s.getMin()));
+                sq.add("§7");
+            }
             plugin.getUim().openInventory(p, plugin.getUim().getMenus("setup"),
                     new String[]{"<name>", as.getName()},
                     new String[]{"<schematic>", as.getSchematic()},
                     new String[]{"<min>", "" + as.getMin()},
                     new String[]{"<teamSize>", "" + as.getTeamSize()},
                     new String[]{"<woolSize>", "" + as.getWoolSize()},
+                    new String[]{"<squareds>", "" + getString(sq)},
                     new String[]{"<teamAmount>", "" + as.getAmountTeams()},
                     new String[]{"<lobby>", Utils.getFormatedLocation(as.getLobby())},
                     new String[]{"<spect>", Utils.getFormatedLocation(as.getSpectator())});
@@ -510,9 +545,16 @@ public class SetupListener implements Listener {
             if (ts.getSpawners().size() >= ts.getColors().size()){
                 ArrayList<String> sp = new ArrayList<>();
                 ts.getSpawners().values().forEach(l -> sp.add(Utils.getFormatedLocation(l)));
+                ArrayList<String> sq = new ArrayList<>();
+                for (Squared s : ts.getSquareds()){
+                    sq.add("§bMax: §e" + Utils.getFormatedLocation(s.getMax()));
+                    sq.add("§bMin: §e" + Utils.getFormatedLocation(s.getMin()));
+                    sq.add("§7");
+                }
                 plugin.getUim().openInventory(p, plugin.getUim().getMenus("teamsetup"),
                         new String[]{"<color>", ts.getColor().name()},
                         new String[]{"<generators>", getString(sp)},
+                        new String[]{"<squareds>", getString(sq)},
                         new String[]{"<spawn>", "" + Utils.getFormatedLocation(ts.getSpawn())});
             } else {
                 plugin.getSem().createSetupSpawnerColor(p, ts);
@@ -529,9 +571,16 @@ public class SetupListener implements Listener {
                 p.sendMessage(plugin.getLang().get("setup.arena.setSpawn").replaceAll("<location>", Utils.getFormatedLocation(p.getLocation())));
                 ArrayList<String> sp = new ArrayList<>();
                 ts.getSpawners().values().forEach(l -> sp.add(Utils.getFormatedLocation(l)));
+                ArrayList<String> sq = new ArrayList<>();
+                for (Squared s : ts.getSquareds()){
+                    sq.add("§bMax: §e" + Utils.getFormatedLocation(s.getMax()));
+                    sq.add("§bMin: §e" + Utils.getFormatedLocation(s.getMin()));
+                    sq.add("§7");
+                }
                 plugin.getUim().openInventory(p, plugin.getUim().getMenus("teamsetup"),
                         new String[]{"<color>", ts.getColor().name()},
                         new String[]{"<generators>", getString(sp)},
+                        new String[]{"<squareds>", getString(sq)},
                         new String[]{"<spawn>", "" + Utils.getFormatedLocation(ts.getSpawn())});
 
             }
@@ -545,8 +594,25 @@ public class SetupListener implements Listener {
                 p.sendMessage(plugin.getLang().get("setup.arena.setProteccion"));
                 s.setPos1(null);
                 s.setPos2(null);
+                ArrayList<String> sp = new ArrayList<>();
+                ts.getSpawners().values().forEach(l -> sp.add(Utils.getFormatedLocation(l)));
+                ArrayList<String> sq = new ArrayList<>();
+                for (Squared ss : ts.getSquareds()){
+                    sq.add("§bMax: §e" + Utils.getFormatedLocation(ss.getMax()));
+                    sq.add("§bMin: §e" + Utils.getFormatedLocation(ss.getMin()));
+                    sq.add("§7");
+                }
+                plugin.getUim().openInventory(p, plugin.getUim().getMenus("teamsetup"),
+                        new String[]{"<color>", ts.getColor().name()},
+                        new String[]{"<generators>", getString(sp)},
+                        new String[]{"<squareds>", getString(sq)},
+                        new String[]{"<spawn>", "" + Utils.getFormatedLocation(ts.getSpawn())});
             }
             if (display.equals(plugin.getLang().get(p, "menus.teamsetup.spawner.nameItem"))) {
+                if (ts.getColors().size() < as.getWoolSize()){
+                    p.sendMessage(plugin.getLang().get("setup.arena.firstWool"));
+                    return;
+                }
                 plugin.getSem().createSetupSpawnerColor(p, ts);
             }
             if (display.equals(plugin.getLang().get(p, "menus.teamsetup.wool.nameItem"))) {
@@ -557,15 +623,34 @@ public class SetupListener implements Listener {
                 plugin.getSem().createSetupColorTeam(p, as);
             }
             if (display.equals(plugin.getLang().get(p, "menus.teamsetup.save.nameItem"))) {
+                if (ts.getSpawn() == null){
+                    p.sendMessage(plugin.getLang().get("setup.arena.noSet.spawn"));
+                    return;
+                }
+                if (ts.getColors().size() < as.getWoolSize()){
+                    p.sendMessage(plugin.getLang().get("setup.arena.noSet.noColors"));
+                    return;
+                }
+                if (ts.getSpawners().size() < as.getWoolSize()){
+                    p.sendMessage(plugin.getLang().get("setup.arena.noSet.noSpawner"));
+                    return;
+                }
                 plugin.getSm().removeTeam(p);
                 as.saveTeam();
                 p.sendMessage(plugin.getLang().get("setup.arena.teamSaved"));
+                ArrayList<String> sq = new ArrayList<>();
+                for (Squared s : as.getSquareds()){
+                    sq.add("§bMax: §e" + Utils.getFormatedLocation(s.getMax()));
+                    sq.add("§bMin: §e" + Utils.getFormatedLocation(s.getMin()));
+                    sq.add("§7");
+                }
                 plugin.getUim().openInventory(p, plugin.getUim().getMenus("setup"),
                         new String[]{"<name>", as.getName()},
                         new String[]{"<schematic>", as.getSchematic()},
                         new String[]{"<min>", "" + as.getMin()},
                         new String[]{"<teamSize>", "" + as.getTeamSize()},
                         new String[]{"<woolSize>", "" + as.getWoolSize()},
+                        new String[]{"<squareds>", "" + getString(sq)},
                         new String[]{"<teamAmount>", "" + as.getAmountTeams()},
                         new String[]{"<lobby>", Utils.getFormatedLocation(as.getLobby())},
                         new String[]{"<spect>", Utils.getFormatedLocation(as.getSpectator())});
@@ -578,12 +663,19 @@ public class SetupListener implements Listener {
             ItemMeta im = item.getItemMeta();
             String display = im.getDisplayName();
             if (display.equals(plugin.getLang().get("menus.back.nameItem"))){
+                ArrayList<String> sq = new ArrayList<>();
+                for (Squared s : as.getSquareds()){
+                    sq.add("§bMax: §e" + Utils.getFormatedLocation(s.getMax()));
+                    sq.add("§bMin: §e" + Utils.getFormatedLocation(s.getMin()));
+                    sq.add("§7");
+                }
                 plugin.getUim().openInventory(p, plugin.getUim().getMenus("setup"),
                         new String[]{"<name>", as.getName()},
                         new String[]{"<schematic>", as.getSchematic()},
                         new String[]{"<min>", "" + as.getMin()},
                         new String[]{"<teamSize>", "" + as.getTeamSize()},
                         new String[]{"<woolSize>", "" + as.getWoolSize()},
+                        new String[]{"<squareds>", "" + getString(sq)},
                         new String[]{"<teamAmount>", "" + as.getAmountTeams()},
                         new String[]{"<lobby>", Utils.getFormatedLocation(as.getLobby())},
                         new String[]{"<spect>", Utils.getFormatedLocation(as.getSpectator())});
@@ -598,9 +690,16 @@ public class SetupListener implements Listener {
             plugin.getSm().setSetupTeam(p, ts);
             ArrayList<String> sp = new ArrayList<>();
             ts.getSpawners().values().forEach(l -> sp.add(Utils.getFormatedLocation(l)));
+            ArrayList<String> sq = new ArrayList<>();
+            for (Squared s : ts.getSquareds()){
+                sq.add("§bMax: §e" + Utils.getFormatedLocation(s.getMax()));
+                sq.add("§bMin: §e" + Utils.getFormatedLocation(s.getMin()));
+                sq.add("§7");
+            }
             plugin.getUim().openInventory(p, plugin.getUim().getMenus("teamsetup"),
                     new String[]{"<color>", ts.getColor().name()},
                     new String[]{"<generators>", getString(sp)},
+                    new String[]{"<squareds>", getString(sq)},
                     new String[]{"<spawn>", "" + Utils.getFormatedLocation(ts.getSpawn())});
             p.sendMessage(plugin.getLang().get("setup.arena.createDontWools"));
         }
@@ -617,11 +716,45 @@ public class SetupListener implements Listener {
                     as.setActual(ts);
                     ArrayList<String> sp = new ArrayList<>();
                     ts.getSpawners().values().forEach(l -> sp.add(Utils.getFormatedLocation(l)));
+                    ArrayList<String> sq = new ArrayList<>();
+                    for (Squared s : ts.getSquareds()){
+                        sq.add("§bMax: §e" + Utils.getFormatedLocation(s.getMax()));
+                        sq.add("§bMin: §e" + Utils.getFormatedLocation(s.getMin()));
+                        sq.add("§7");
+                    }
                     plugin.getUim().openInventory(p, plugin.getUim().getMenus("teamsetup"),
                             new String[]{"<color>", ts.getColor().name()},
                             new String[]{"<generators>", getString(sp)},
+                            new String[]{"<squareds>", getString(sq)},
                             new String[]{"<spawn>", "" + Utils.getFormatedLocation(ts.getSpawn())});
                 }
+            }
+            if (display.equals(plugin.getLang().get(p, "menus.setup.squared.nameItem"))) {
+                Selection s = as.getSelection();
+                if (s.getPos1() == null || s.getPos2() == null){
+                    p.sendMessage(plugin.getLang().get("setup.arena.needPositions"));
+                    return;
+                }
+                as.addSquared(s);
+                p.sendMessage(plugin.getLang().get("setup.arena.setProteccion"));
+                s.setPos1(null);
+                s.setPos2(null);
+                ArrayList<String> sq = new ArrayList<>();
+                for (Squared ss : as.getSquareds()){
+                    sq.add("§bMax: §e" + Utils.getFormatedLocation(ss.getMax()));
+                    sq.add("§bMin: §e" + Utils.getFormatedLocation(ss.getMin()));
+                    sq.add("§7");
+                }
+                plugin.getUim().openInventory(p, plugin.getUim().getMenus("setup"),
+                        new String[]{"<name>", as.getName()},
+                        new String[]{"<schematic>", as.getSchematic()},
+                        new String[]{"<min>", "" + as.getMin()},
+                        new String[]{"<teamSize>", "" + as.getTeamSize()},
+                        new String[]{"<woolSize>", "" + as.getWoolSize()},
+                        new String[]{"<squareds>", "" + getString(sq)},
+                        new String[]{"<teamAmount>", "" + as.getAmountTeams()},
+                        new String[]{"<lobby>", Utils.getFormatedLocation(as.getLobby())},
+                        new String[]{"<spect>", Utils.getFormatedLocation(as.getSpectator())});
             }
             if (display.equals(plugin.getLang().get(p, "menus.setup.min.nameItem"))) {
                 plugin.getSm().setSetupName(p, "min");
@@ -649,12 +782,19 @@ public class SetupListener implements Listener {
             }
             if (display.equals(plugin.getLang().get(p, "menus.setup.lobby.nameItem"))) {
                 as.setLobby(p.getLocation());
+                ArrayList<String> sq = new ArrayList<>();
+                for (Squared s : as.getSquareds()){
+                    sq.add("§bMax: §e" + Utils.getFormatedLocation(s.getMax()));
+                    sq.add("§bMin: §e" + Utils.getFormatedLocation(s.getMin()));
+                    sq.add("§7");
+                }
                 plugin.getUim().openInventory(p, plugin.getUim().getMenus("setup"),
                         new String[]{"<name>", as.getName()},
                         new String[]{"<schematic>", as.getSchematic()},
                         new String[]{"<min>", "" + as.getMin()},
                         new String[]{"<teamSize>", "" + as.getTeamSize()},
                         new String[]{"<woolSize>", "" + as.getWoolSize()},
+                        new String[]{"<squareds>", "" + getString(sq)},
                         new String[]{"<teamAmount>", "" + as.getAmountTeams()},
                         new String[]{"<lobby>", Utils.getFormatedLocation(as.getLobby())},
                         new String[]{"<spect>", Utils.getFormatedLocation(as.getSpectator())});
@@ -662,18 +802,37 @@ public class SetupListener implements Listener {
             }
             if (display.equals(plugin.getLang().get(p, "menus.setup.spect.nameItem"))) {
                 as.setSpectator(p.getLocation());
+                ArrayList<String> sq = new ArrayList<>();
+                for (Squared s : as.getSquareds()){
+                    sq.add("§bMax: §e" + Utils.getFormatedLocation(s.getMax()));
+                    sq.add("§bMin: §e" + Utils.getFormatedLocation(s.getMin()));
+                    sq.add("§7");
+                }
                 plugin.getUim().openInventory(p, plugin.getUim().getMenus("setup"),
                         new String[]{"<name>", as.getName()},
                         new String[]{"<schematic>", as.getSchematic()},
                         new String[]{"<min>", "" + as.getMin()},
                         new String[]{"<teamSize>", "" + as.getTeamSize()},
                         new String[]{"<woolSize>", "" + as.getWoolSize()},
+                        new String[]{"<squareds>", "" + getString(sq)},
                         new String[]{"<teamAmount>", "" + as.getAmountTeams()},
                         new String[]{"<lobby>", Utils.getFormatedLocation(as.getLobby())},
                         new String[]{"<spect>", Utils.getFormatedLocation(as.getSpectator())});
                 p.sendMessage(plugin.getLang().get(p, "setup.arena.setSpect"));
             }
             if (display.equals(plugin.getLang().get(p, "menus.setup.save.nameItem"))) {
+                if (as.getLobby() == null){
+                    p.sendMessage(plugin.getLang().get("setup.arena.noSet.lobby"));
+                    return;
+                }
+                if (as.getSpectator() == null){
+                    p.sendMessage(plugin.getLang().get("setup.arena.noSet.spectator"));
+                    return;
+                }
+                if (as.getTeams().size() < 2){
+                    p.sendMessage(plugin.getLang().get("setup.arena.noSet.needTwoTeams"));
+                    return;
+                }
                 p.closeInventory();
                 as.save(p);
             }
@@ -692,9 +851,12 @@ public class SetupListener implements Listener {
     }
 
     public String getString(ArrayList<String> list){
+        if (list.isEmpty()){
+            return "§cEmpty";
+        }
         StringBuilder r = new StringBuilder();
         for (String s : list){
-            r.append("<newLine>").append(s);
+            r.append("<newLine>").append("§e").append(s);
         }
         return r.toString().replaceFirst("<newLine>", "");
     }
