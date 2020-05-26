@@ -1,0 +1,53 @@
+package io.github.Leonardo0013YT.UltraCTW.menus;
+
+import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.game.Game;
+import io.github.Leonardo0013YT.UltraCTW.team.Team;
+import io.github.Leonardo0013YT.UltraCTW.utils.ItemUtils;
+import io.github.Leonardo0013YT.UltraCTW.utils.NBTEditor;
+import io.github.Leonardo0013YT.UltraCTW.utils.Utils;
+import io.github.Leonardo0013YT.UltraCTW.utils.XMaterial;
+import org.bukkit.Bukkit;
+import org.bukkit.DyeColor;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.BannerMeta;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+public class GameMenu {
+
+    private List<Integer> slots = Arrays.asList(19, 20, 21, 22, 23, 24, 25, 28, 29, 30, 31, 32, 33, 34);
+    private Main plugin;
+
+    public GameMenu(Main plugin) {
+        this.plugin = plugin;
+    }
+
+    public void createTeamsMenu(Player p, Game game){
+        Inventory inv = Bukkit.createInventory(null, 45, plugin.getLang().get("menus.teams.title"));
+        ItemStack random = new ItemUtils(XMaterial.EXPERIENCE_BOTTLE).setDisplayName(plugin.getLang().get("menus.teams.random.nameItem")).setLore(plugin.getLang().get("menus.teams.random.loreItem")).build();
+        int i = 0;
+        inv.setItem(4, random);
+        for (Team t : game.getTeams().values()){
+            inv.setItem(slots.get(i), getTeamItem(t));
+            i++;
+        }
+        p.openInventory(inv);
+    }
+
+    private ItemStack getTeamItem(Team team){
+        ItemStack banner = new ItemUtils(XMaterial.WHITE_BANNER, 1).build();
+        BannerMeta bm = (BannerMeta) banner.getItemMeta();
+        bm.setBaseColor(DyeColor.getByColor(Utils.getColorByChatColor(team.getColor())));
+        bm.setDisplayName(plugin.getLang().get("menus.teams.team.nameItem").replaceAll("<name>", team.getName()));
+        String lore = plugin.getLang().get("menus.teams.team.loreItem").replaceAll("<players>", String.valueOf(team.getTeamSize()));
+        bm.setLore(lore.isEmpty() ? new ArrayList<>() : Arrays.asList(lore.split("\\n")));
+        banner.setItemMeta(bm);
+        return NBTEditor.set(banner, team.getColor().name(), "SELECTOR", "TEAM", "COLOR");
+    }
+
+}

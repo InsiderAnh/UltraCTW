@@ -4,6 +4,7 @@ import io.github.Leonardo0013YT.UltraCTW.Main;
 import io.github.Leonardo0013YT.UltraCTW.game.Game;
 import io.github.Leonardo0013YT.UltraCTW.objects.Squared;
 import io.github.Leonardo0013YT.UltraCTW.utils.Utils;
+import lombok.Getter;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -13,6 +14,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+@Getter
 public class Team {
 
     private Collection<Player> members = new ArrayList<>();
@@ -26,6 +28,7 @@ public class Team {
     private int id;
     private int kills;
     private Location spawn;
+    private String name;
 
     public Team(Main plugin, Game game, String path, int id) {
         this.plugin = plugin;
@@ -34,6 +37,7 @@ public class Team {
         this.kills = 0;
         this.spawn = Utils.getStringLocation(plugin.getArenas().get(path + ".spawn"));
         this.color = ChatColor.valueOf(plugin.getArenas().get(path + ".color"));
+        this.name = plugin.getLang().get("teams." + color.name().toLowerCase());
         for (String c : plugin.getArenas().getConfig().getConfigurationSection(path + ".spawners").getKeys(false)) {
             String nowPath = path + ".spawners." + c;
             spawners.put(Utils.getStringLocation(plugin.getArenas().get(nowPath + ".loc")), ChatColor.valueOf(plugin.getArenas().get(nowPath + ".color")));
@@ -42,6 +46,7 @@ public class Team {
             String nowPath = path + ".wools." + c;
             wools.put(Utils.getStringLocation(plugin.getArenas().get(nowPath + ".loc")), ChatColor.valueOf(plugin.getArenas().get(nowPath + ".color")));
         }
+        if (!plugin.getArenas().isSet(path + ".squareds")) return;
         for (String c : plugin.getArenas().getConfig().getConfigurationSection(path + ".squareds").getKeys(false)) {
             String nowPath = path + ".squareds." + c;
             squareds.add(new Squared(Utils.getStringLocation(plugin.getArenas().get(nowPath + ".min")), Utils.getStringLocation(plugin.getArenas().get(nowPath + ".max")), false, true));
@@ -50,10 +55,6 @@ public class Team {
 
     public void addKill() {
         kills++;
-    }
-
-    public int getKills() {
-        return kills;
     }
 
     public void reset() {
@@ -72,26 +73,6 @@ public class Team {
 
     public int getTeamSize() {
         return members.size();
-    }
-
-    public Collection<Player> getMembers() {
-        return members;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public Location getSpawn() {
-        return spawn;
-    }
-
-    public void setSpawn(Location spawn) {
-        this.spawn = spawn;
     }
 
 }

@@ -430,6 +430,21 @@ public class SetupListener implements Listener {
             KitLevelSetup kls = ks.getKls();
             ItemStack item = e.getCurrentItem();
             String display = item.getItemMeta().getDisplayName();
+            if (display.equals(plugin.getLang().get("menus.kitlevelssetup.icon.nameItem"))){
+                if (e.getCursor() == null || e.getCursor().getType().equals(Material.AIR) || p.getItemOnCursor() == null || p.getItemOnCursor().getType().equals(Material.AIR)) {
+                    p.sendMessage(plugin.getLang().get(p, "setup.noCursor"));
+                    return;
+                }
+                ItemStack it = p.getItemOnCursor();
+                if (it.hasItemMeta()) {
+                    ItemMeta imt = it.getItemMeta();
+                    imt.setDisplayName("§a" + ks.getName());
+                    imt.setLore(null);
+                    it.setItemMeta(imt);
+                }
+                kls.setIcon(it);
+                p.sendMessage(plugin.getLang().get(p, "setup.kits.setIcon"));
+            }
             if (display.equals(plugin.getLang().get("menus.kitlevelssetup.slot.nameItem"))){
                 plugin.getSm().setSetupName(p, "kitlevelslot");
                 p.closeInventory();
@@ -464,21 +479,6 @@ public class SetupListener implements Listener {
             KitSetup ks = plugin.getSm().getSetupKit(p);
             ItemStack item = e.getCurrentItem();
             String display = item.getItemMeta().getDisplayName();
-            if (display.equals(plugin.getLang().get("menus.kitsetup.icon.nameItem"))){
-                if (e.getCursor() == null || e.getCursor().getType().equals(Material.AIR) || p.getItemOnCursor() == null || p.getItemOnCursor().getType().equals(Material.AIR)) {
-                    p.sendMessage(plugin.getLang().get(p, "setup.noCursor"));
-                    return;
-                }
-                ItemStack it = p.getItemOnCursor();
-                if (it.hasItemMeta()) {
-                    ItemMeta imt = it.getItemMeta();
-                    imt.setDisplayName("§a" + ks.getName());
-                    imt.setLore(null);
-                    it.setItemMeta(imt);
-                }
-                ks.setIcon(it);
-                p.sendMessage(plugin.getLang().get(p, "setup.kits.setIcon"));
-            }
             if (display.equals(plugin.getLang().get("menus.kitsetup.permission.nameItem"))){
                 plugin.getSm().setSetupName(p, "kitpermission");
                 p.closeInventory();

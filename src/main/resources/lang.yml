@@ -1,6 +1,9 @@
 activated: "&aActivated"
 deactivated: "&cDeactivated"
 messages:
+  gameNotExists: "&cThis game not exists."
+  randomTeam: "&aYou've joined a random team, you've had the team <team>"
+  joinTeam: "&aYou've joined the team: <team>"
 setup:
   setMainLobby: "&aThe main lobby has been established."
   alreadyCreating: "&cYou are already creating an arena."
@@ -81,7 +84,67 @@ items:
     loreItem: |-
       &7Click for position 1.
       &7Right-click for position 2.
+  teams:
+    nameItem: "&bTeam Selector"
+    loreItem: |-
+      &7Al abrir este menu podras
+      &7elegir el equipo.
+scoreboards:
+  team: "&7» <TColor>Team <TName>"
+  teams: "&7» <TColor><TName> <TWools>"
+  main:
+    title: "&e&lCAPTURE THE WOOL"
+    lines: |-
+      &7
+      &fKills: &a<kills>
+      &f
+      &emc.spigot.net
+  simple-game:
+    title: "&e&lCAPTURE THE WOOL"
+    lines: |-
+      &7
+      &fTeam: <team>
+      &fExp: &a<now>&7/&c<max>
+      &7
+      <T1>
+      <T1Wools>
+      &7
+      <T2>
+      <T2Wools>
+      &7
+      &fKills: &a<kills>
+      &fDeaths: &a<deaths>
+      &7
+      &emc.spigot.net
+  big-game:
+    title: "&e&lCAPTURE THE WOOL"
+    lines: |-
+      &7
+      &fTeam: <team>
+      &fExp: &a<now>&7/&c<max>
+      &7
+      <teams>
+      &7
+      &fKills: &a<kills>
+      &fDeaths: &a<deaths>
+      &7
+      &emc.spigot.net
 menus:
+  teams:
+    title: "&aTeam Selector"
+    random:
+      nameItem: "&eRandom Team"
+      loreItem: |-
+        &7You will automatically enter
+        &7the team with minor people.
+    team:
+      nameItem: "<team>"
+      loreItem: |-
+        &7Join to this team:
+        &7
+        &fPlayers: &a<players>
+        &7
+        &eClick to join!
   kititems:
     title: "&aSetup Level Items"
     analize:
@@ -101,6 +164,13 @@ menus:
         &eClick to save!
   kitlevelssetup:
     title: "&aSetup Kit Level"
+    icon:
+      nameItem: "&eKit Icon"
+      loreItem: |-
+        &7Click the item to
+        &7change the icon:
+        &7
+        &eClick with item to change!
     price:
       nameItem: "&ePrice of Level"
       loreItem: |-
@@ -157,13 +227,6 @@ menus:
         &7
         &eName: &b<name>
         &7
-    icon:
-      nameItem: "&eKit Icon"
-      loreItem: |-
-        &7Click the item to
-        &7change the icon:
-        &7
-        &eClick with item to change!
     levels:
       nameItem: "&eLevels of Kit"
       loreItem: |-

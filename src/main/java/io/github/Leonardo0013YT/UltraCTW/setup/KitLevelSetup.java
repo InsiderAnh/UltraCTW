@@ -8,6 +8,7 @@ import org.bukkit.inventory.ItemStack;
 @Setter
 public class KitLevelSetup {
 
+    private ItemStack icon;
     private ItemStack[] inv = new ItemStack[36], armor = {null, null, null, null};
     private double price;
     private boolean buy;

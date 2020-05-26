@@ -1,7 +1,10 @@
 package io.github.Leonardo0013YT.UltraCTW.utils;
 
 import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.game.Game;
+import io.github.Leonardo0013YT.UltraCTW.team.Team;
 import org.bukkit.*;
+import org.bukkit.entity.Player;
 
 import java.io.File;
 import java.text.DecimalFormat;
@@ -9,6 +12,19 @@ import java.text.DecimalFormat;
 public class Utils {
 
     private static DecimalFormat df = new DecimalFormat("##.#");
+
+    public static void updateSB(){
+        if (Main.get().getCm().getMainLobby() == null) return;
+        Main.get().getCm().getMainLobby().getWorld().getPlayers().forEach(p -> Main.get().getSb().update(p));
+    }
+
+    public static void updateSB(Game game){
+        game.getCached().forEach(p -> Main.get().getSb().update(p));
+    }
+
+    public static void updateSB(Player p){
+        Main.get().getSb().update(p);
+    }
 
     public static String parseBoolean(boolean bool) {
         return (bool) ? Main.get().getLang().get(null, "activated") : Main.get().getLang().get(null, "deactivated");
@@ -37,6 +53,18 @@ public class Utils {
         float yaw = Float.parseFloat(l[4]);
         float pitch = Float.parseFloat(l[5]);
         return new Location(world, x, y, z, yaw, pitch);
+    }
+
+    public static Team getMinorPlayersTeam(Game game){
+        Team t = null;
+        int menor = 100000;
+        for (Team tt : game.getTeams().values()){
+            if (tt.getTeamSize() <= menor){
+                t = tt;
+                menor = tt.getTeamSize();
+            }
+        }
+        return t;
     }
 
     public static String getLocationString(Location loc) {
