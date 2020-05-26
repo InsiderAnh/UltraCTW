@@ -30,6 +30,7 @@ public class Game {
         this.plugin = plugin;
         this.id = id;
         this.name = plugin.getArenas().get(path + ".name");
+        plugin.getWc().createEmptyWorld(name);
         this.schematic = plugin.getArenas().get(path + ".schematic");
         this.lobby = Utils.getStringLocation(plugin.getArenas().get(path + ".lobby"));
         this.spectator = Utils.getStringLocation(plugin.getArenas().get(path + ".spectator"));

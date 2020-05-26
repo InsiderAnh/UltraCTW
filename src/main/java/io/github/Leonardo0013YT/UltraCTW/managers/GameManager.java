@@ -26,7 +26,7 @@ public class GameManager {
             Game game = new Game(plugin, "arenas." + s, id);
             games.put(id, game);
             gameNames.put(game.getName(), id);
-            plugin.sendLogMessage("§aGame §e" + s + ". §aloaded correctly.");
+            plugin.sendLogMessage("§aGame §e" + s + "§a loaded correctly.");
         }
     }
 

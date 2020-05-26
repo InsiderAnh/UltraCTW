@@ -53,6 +53,7 @@ public class Main extends JavaPlugin {
         menus = new Settings(this, "menus", false, false);
         kits = new Settings(this, "kits", false, false);
         debugMode = getConfig().getBoolean("debugMode");
+        wc = new WorldController(this);
         db = new MySQLDatabase(this);
         cm = new ConfigManager(this);
         adm = new AddonManager(this);
@@ -60,7 +61,6 @@ public class Main extends JavaPlugin {
         sm = new SetupManager(this);
         sem = new SetupMenu(this);
         gm = new GameManager(this);
-        wc = new WorldController(this);
         uim = new UltraInventoryMenu(this);
         km = new KitManager(this);
         sb = new ScoreboardManager(this);

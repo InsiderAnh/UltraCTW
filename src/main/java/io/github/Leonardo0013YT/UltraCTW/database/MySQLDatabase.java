@@ -19,13 +19,11 @@ public class MySQLDatabase implements IDatabase {
     private boolean enabled;
     private HikariDataSource hikari;
     private Connection connection;
-    private String CREATE_ISLAND_DB = "CREATE TABLE IF NOT EXISTS UltraSB_Islands(IslandUUID varchar(36) primary key, OwnerUUID varchar(36), Name varchar(36), Data TEXT);";
-    private String CREATE_MEMBER_DB = "CREATE TABLE IF NOT EXISTS UltraSB_Members(ID INT AUTO_INCREMENT, MemberUUID varchar(36), IslandUUID varchar(36), Data TEXT, primary key(ID));";
-    private String CREATE_PD_DB = "CREATE TABLE IF NOT EXISTS UltraSB_PD(UUID varchar(36) primary key, Name varchar(36), Data TEXT);";
-    private String INSERT_PD = "INSERT INTO UltraSB_PD VALUES(?,?,?) ON DUPLICATE KEY UPDATE Name=?;";
-    private String INSERT_PD2 = "INSERT INTO UltraSB_PD (UUID, Name, Data) VALUES (?, ?, ?);";
-    private String SELECT_PD = "SELECT * FROM UltraSB_PD WHERE UUID=?";
-    private String SAVE_PD = "UPDATE UltraSB_PD SET Data=? WHERE UUID=?";
+    private String CREATE_PD_DB = "CREATE TABLE IF NOT EXISTS UltraCTW_PD(UUID varchar(36) primary key, Name varchar(36), Data TEXT);";
+    private String INSERT_PD = "INSERT INTO UltraCTW_PD VALUES(?,?,?) ON DUPLICATE KEY UPDATE Name=?;";
+    private String INSERT_PD2 = "INSERT INTO UltraCTW_PD (UUID, Name, Data) VALUES (?, ?, ?);";
+    private String SELECT_PD = "SELECT * FROM UltraCTW_PD WHERE UUID=?";
+    private String SAVE_PD = "UPDATE UltraCTW_PD SET Data=? WHERE UUID=?";
     private HashMap<UUID, CTWPlayer> players = new HashMap<>();
 
     public MySQLDatabase(Main plugin) {
@@ -43,7 +41,7 @@ public class MySQLDatabase implements IDatabase {
             hikari.setMaxLifetime(Long.MAX_VALUE);
             plugin.sendLogMessage("§eMySQL connected correctly.");
         } else {
-            File DataFile = new File(plugin.getDataFolder(), "/UltraSkyBlock.db");
+            File DataFile = new File(plugin.getDataFolder(), "/UltraCTW.db");
             if (!DataFile.exists()) {
                 try {
                     DataFile.createNewFile();
@@ -158,12 +156,8 @@ public class MySQLDatabase implements IDatabase {
         try {
             Connection connection = getConnection();
             Statement st = connection.createStatement();
-            st.executeUpdate(CREATE_ISLAND_DB);
-            plugin.sendLogMessage("§eThe §aUltraSB_Islands§e table has been created.");
-            st.executeUpdate(CREATE_MEMBER_DB);
-            plugin.sendLogMessage("§eThe §aUltraSB_Members§e table has been created.");
             st.executeUpdate(CREATE_PD_DB);
-            plugin.sendLogMessage("§eThe §aUltraSB_PD§e table has been created.");
+            plugin.sendLogMessage("§eThe §aUltraCTW_PD§e table has been created.");
             close(connection, st, null);
         } catch (SQLException e) {
             plugin.sendLogMessage("§cThe tables could not be created.");
