@@ -19,6 +19,10 @@ public class Kit {
         this.page = plugin.getKits().getInt(path + ".page");
         this.name = plugin.getKits().get(null, path + ".name");
         this.permission = plugin.getKits().get(null, path + ".permission");
+        for (String s : plugin.getKits().getConfig().getConfigurationSection(path + ".levels").getKeys(false)){
+            String lpa = path + ".levels." + s;
+            levels.put(plugin.getKits().getInt(lpa + ".level"), new KitLevel(plugin, lpa));
+        }
     }
 
     public void giveKit(Player p, int level){

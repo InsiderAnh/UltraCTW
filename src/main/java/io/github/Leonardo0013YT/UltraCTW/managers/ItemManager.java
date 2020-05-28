@@ -2,7 +2,7 @@ package io.github.Leonardo0013YT.UltraCTW.managers;
 
 import io.github.Leonardo0013YT.UltraCTW.Main;
 import io.github.Leonardo0013YT.UltraCTW.utils.ItemUtils;
-import io.github.Leonardo0013YT.UltraCTW.utils.XMaterial;
+import io.github.Leonardo0013YT.UltraCTW.xseries.XMaterial;
 import lombok.Getter;
 import org.bukkit.inventory.ItemStack;
 

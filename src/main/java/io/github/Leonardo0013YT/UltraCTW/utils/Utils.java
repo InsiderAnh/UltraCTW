@@ -3,8 +3,10 @@ package io.github.Leonardo0013YT.UltraCTW.utils;
 import io.github.Leonardo0013YT.UltraCTW.Main;
 import io.github.Leonardo0013YT.UltraCTW.game.Game;
 import io.github.Leonardo0013YT.UltraCTW.team.Team;
+import io.github.Leonardo0013YT.UltraCTW.xseries.XMaterial;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
+import org.bukkit.potion.PotionEffect;
 
 import java.io.File;
 import java.text.DecimalFormat;
@@ -12,6 +14,38 @@ import java.text.DecimalFormat;
 public class Utils {
 
     private static DecimalFormat df = new DecimalFormat("##.#");
+
+    public static String getWoolsString(Team team){
+        StringBuilder wools = new StringBuilder();
+        for (ChatColor c : team.getColors()){
+            boolean inInProgress = team.isInProgress(c);
+            boolean isCaptured = team.isCaptured(c);
+            if (isCaptured){
+                wools.append(c).append(Main.get().getLang().get("scoreboards.wools.captured")).append(" ");
+            } else if (inInProgress){
+                wools.append(c).append(Main.get().getLang().get("scoreboards.wools.inProcess")).append(" ");
+            } else {
+                wools.append(c).append(Main.get().getLang().get("scoreboards.wools.noCaptured")).append(" ");
+            }
+        }
+        return wools.toString();
+    }
+
+    public static void setCleanPlayer(Player p) {
+        p.getInventory().clear();
+        p.getInventory().setArmorContents(null);
+        for (PotionEffect e : p.getActivePotionEffects()) {
+            p.removePotionEffect(e.getType());
+        }
+        p.setFlying(false);
+        p.setAllowFlight(false);
+        p.setWalkSpeed(0.2f);
+        p.setFlySpeed(0.1f);
+        p.setFoodLevel(20);
+        p.setMaxHealth(20.0D);
+        p.setHealth(20.0D);
+        p.setGameMode(GameMode.SURVIVAL);
+    }
 
     public static void updateSB(){
         if (Main.get().getCm().getMainLobby() == null) return;
@@ -214,6 +248,49 @@ public class Utils {
         }
         if (color.equals(ChatColor.YELLOW)) {
             return Color.YELLOW;
+        }
+        return null;
+    }
+
+    public static DyeColor getDyeColorByChatColor(ChatColor color) {
+        if (color.equals(ChatColor.AQUA)) {
+            return DyeColor.LIGHT_BLUE;
+        }
+        if (color.equals(ChatColor.DARK_BLUE)) {
+            return DyeColor.BLUE;
+        }
+        if (color.equals(ChatColor.BLACK)) {
+            return DyeColor.BLACK;
+        }
+        if (color.equals(ChatColor.BLUE)) {
+            return DyeColor.BLUE;
+        }
+        if (color.equals(ChatColor.DARK_AQUA)) {
+            return DyeColor.CYAN;
+        }
+        if (color.equals(ChatColor.RED) || color.equals(ChatColor.DARK_RED)) {
+            return DyeColor.RED;
+        }
+        if (color.equals(ChatColor.DARK_GRAY) || color.equals(ChatColor.GRAY)) {
+            return DyeColor.GRAY;
+        }
+        if (color.equals(ChatColor.DARK_GREEN)) {
+            return DyeColor.GREEN;
+        }
+        if (color.equals(ChatColor.GREEN)) {
+            return DyeColor.LIME;
+        }
+        if (color.equals(ChatColor.LIGHT_PURPLE)) {
+            return DyeColor.PINK;
+        }
+        if (color.equals(ChatColor.DARK_PURPLE)) {
+            return DyeColor.PURPLE;
+        }
+        if (color.equals(ChatColor.WHITE)) {
+            return DyeColor.WHITE;
+        }
+        if (color.equals(ChatColor.YELLOW)) {
+            return DyeColor.YELLOW;
         }
         return null;
     }

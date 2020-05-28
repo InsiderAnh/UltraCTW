@@ -1,4 +1,4 @@
-package io.github.Leonardo0013YT.UltraCTW.utils;
+package io.github.Leonardo0013YT.UltraCTW.xseries;
 
 import com.google.common.base.Enums;
 import com.google.common.cache.Cache;

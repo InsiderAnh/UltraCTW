@@ -8,17 +8,18 @@ import io.github.Leonardo0013YT.UltraCTW.setup.ArenaSetup;
 import io.github.Leonardo0013YT.UltraCTW.setup.KitLevelSetup;
 import io.github.Leonardo0013YT.UltraCTW.setup.KitSetup;
 import io.github.Leonardo0013YT.UltraCTW.setup.TeamSetup;
-import io.github.Leonardo0013YT.UltraCTW.utils.ItemUtils;
 import io.github.Leonardo0013YT.UltraCTW.utils.NBTEditor;
 import io.github.Leonardo0013YT.UltraCTW.utils.Utils;
-import io.github.Leonardo0013YT.UltraCTW.utils.XMaterial;
+import io.github.Leonardo0013YT.UltraCTW.xseries.XMaterial;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryType;
@@ -29,6 +30,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
+import java.util.TreeMap;
 
 public class SetupListener implements Listener {
 
@@ -325,13 +327,13 @@ public class SetupListener implements Listener {
                     new BukkitRunnable() {
                         @Override
                         public void run() {
-                            p.setItemOnCursor(kls.getArmor()[0]);
-                            kls.getArmor()[0] = null;
+                            p.setItemOnCursor(kls.getArmor()[3]);
+                            kls.getArmor()[3] = null;
                             plugin.getSem().createSetupKitItemsMenu(p, kls);
                         }
                     }.runTaskLater(plugin, 1);
                 } else {
-                    kls.getArmor()[0] = p.getItemOnCursor();
+                    kls.getArmor()[3] = p.getItemOnCursor();
                     new BukkitRunnable() {
                         @Override
                         public void run() {
@@ -342,28 +344,6 @@ public class SetupListener implements Listener {
                 }
             }
             if (e.getSlot() == 1){
-                e.setCancelled(true);
-                if (e.getCursor() == null || e.getCursor().getType().equals(Material.AIR) || p.getItemOnCursor() == null || p.getItemOnCursor().getType().equals(Material.AIR)) {
-                    new BukkitRunnable() {
-                        @Override
-                        public void run() {
-                            p.setItemOnCursor(kls.getArmor()[1]);
-                            kls.getArmor()[1] = null;
-                            plugin.getSem().createSetupKitItemsMenu(p, kls);
-                        }
-                    }.runTaskLater(plugin, 1);
-                } else {
-                    kls.getArmor()[1] = p.getItemOnCursor();
-                    new BukkitRunnable() {
-                        @Override
-                        public void run() {
-                            p.setItemOnCursor(null);
-                            plugin.getSem().createSetupKitItemsMenu(p, kls);
-                        }
-                    }.runTaskLater(plugin, 1);
-                }
-            }
-            if (e.getSlot() == 2){
                 e.setCancelled(true);
                 if (e.getCursor() == null || e.getCursor().getType().equals(Material.AIR) || p.getItemOnCursor() == null || p.getItemOnCursor().getType().equals(Material.AIR)) {
                     new BukkitRunnable() {
@@ -385,18 +365,40 @@ public class SetupListener implements Listener {
                     }.runTaskLater(plugin, 1);
                 }
             }
+            if (e.getSlot() == 2){
+                e.setCancelled(true);
+                if (e.getCursor() == null || e.getCursor().getType().equals(Material.AIR) || p.getItemOnCursor() == null || p.getItemOnCursor().getType().equals(Material.AIR)) {
+                    new BukkitRunnable() {
+                        @Override
+                        public void run() {
+                            p.setItemOnCursor(kls.getArmor()[1]);
+                            kls.getArmor()[1] = null;
+                            plugin.getSem().createSetupKitItemsMenu(p, kls);
+                        }
+                    }.runTaskLater(plugin, 1);
+                } else {
+                    kls.getArmor()[1] = p.getItemOnCursor();
+                    new BukkitRunnable() {
+                        @Override
+                        public void run() {
+                            p.setItemOnCursor(null);
+                            plugin.getSem().createSetupKitItemsMenu(p, kls);
+                        }
+                    }.runTaskLater(plugin, 1);
+                }
+            }
             if (e.getSlot() == 3){
                 if (e.getCursor() == null || e.getCursor().getType().equals(Material.AIR) || p.getItemOnCursor() == null || p.getItemOnCursor().getType().equals(Material.AIR)) {
                     new BukkitRunnable() {
                         @Override
                         public void run() {
-                            p.setItemOnCursor(kls.getArmor()[3]);
-                            kls.getArmor()[3] = null;
+                            p.setItemOnCursor(kls.getArmor()[0]);
+                            kls.getArmor()[0] = null;
                             plugin.getSem().createSetupKitItemsMenu(p, kls);
                         }
                     }.runTaskLater(plugin, 1);
                 } else {
-                    kls.getArmor()[3] = p.getItemOnCursor();
+                    kls.getArmor()[0] = p.getItemOnCursor();
                     new BukkitRunnable() {
                         @Override
                         public void run() {
@@ -613,7 +615,17 @@ public class SetupListener implements Listener {
                     p.sendMessage(plugin.getLang().get("setup.arena.firstWool"));
                     return;
                 }
-                plugin.getSem().createSetupSpawnerColor(p, ts);
+                if (e.getClick().equals(ClickType.RIGHT)){
+                    if (ts.getSpawners().isEmpty()){
+                        p.sendMessage(plugin.getLang().get("setup.team.noSpawners"));
+                        return;
+                    }
+                    TreeMap<ChatColor, Location> tm = new TreeMap<>(ts.getSpawners());
+                    tm.remove(tm.lastKey());
+                    p.sendMessage(plugin.getLang().get("setup.team.removed"));
+                } else {
+                    plugin.getSem().createSetupSpawnerColor(p, ts);
+                }
             }
             if (display.equals(plugin.getLang().get(p, "menus.teamsetup.wool.nameItem"))) {
                 if (ts.getColors().size() >= as.getWoolSize()){

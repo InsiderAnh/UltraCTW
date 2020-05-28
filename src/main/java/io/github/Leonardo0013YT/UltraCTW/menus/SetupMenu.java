@@ -8,7 +8,7 @@ import io.github.Leonardo0013YT.UltraCTW.setup.TeamSetup;
 import io.github.Leonardo0013YT.UltraCTW.utils.ItemUtils;
 import io.github.Leonardo0013YT.UltraCTW.utils.NBTEditor;
 import io.github.Leonardo0013YT.UltraCTW.utils.Utils;
-import io.github.Leonardo0013YT.UltraCTW.utils.XMaterial;
+import io.github.Leonardo0013YT.UltraCTW.xseries.XMaterial;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;

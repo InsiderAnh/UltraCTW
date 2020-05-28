@@ -1,5 +1,6 @@
 package io.github.Leonardo0013YT.UltraCTW.utils;
 
+import io.github.Leonardo0013YT.UltraCTW.xseries.XMaterial;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;

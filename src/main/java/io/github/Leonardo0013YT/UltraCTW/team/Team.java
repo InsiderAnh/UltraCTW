@@ -4,15 +4,15 @@ import io.github.Leonardo0013YT.UltraCTW.Main;
 import io.github.Leonardo0013YT.UltraCTW.game.Game;
 import io.github.Leonardo0013YT.UltraCTW.objects.Squared;
 import io.github.Leonardo0013YT.UltraCTW.utils.Utils;
+import io.github.Leonardo0013YT.UltraCTW.xseries.XSound;
 import lombok.Getter;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
+import org.bukkit.metadata.FixedMetadataValue;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Getter
 public class Team {
@@ -21,6 +21,9 @@ public class Team {
     private Collection<ChatColor> colors = new ArrayList<>();
     private Map<Location, ChatColor> wools = new HashMap<>();
     private Map<Location, ChatColor> spawners = new HashMap<>();
+    private Map<ChatColor, Item> dropped = new HashMap<>();
+    private Map<ChatColor, ArrayList<UUID>> inProgress = new HashMap<>();
+    private ArrayList<ChatColor> captured = new ArrayList<>();
     private ArrayList<Squared> squareds = new ArrayList<>();
     private Main plugin;
     private Game game;
@@ -46,11 +49,41 @@ public class Team {
             String nowPath = path + ".wools." + c;
             wools.put(Utils.getStringLocation(plugin.getArenas().get(nowPath + ".loc")), ChatColor.valueOf(plugin.getArenas().get(nowPath + ".color")));
         }
+        colors.addAll(wools.values());
+        colors.forEach(c -> inProgress.put(c, new ArrayList<>()));
         if (!plugin.getArenas().isSet(path + ".squareds")) return;
         for (String c : plugin.getArenas().getConfig().getConfigurationSection(path + ".squareds").getKeys(false)) {
             String nowPath = path + ".squareds." + c;
             squareds.add(new Squared(Utils.getStringLocation(plugin.getArenas().get(nowPath + ".min")), Utils.getStringLocation(plugin.getArenas().get(nowPath + ".max")), false, true));
         }
+    }
+
+    public void updateSpawner(){
+        for (Location l : spawners.keySet()){
+            ChatColor c = spawners.get(l);
+            if (!dropped.containsKey(c)){
+                Item i = l.getWorld().dropItemNaturally(l, Utils.getXMaterialByColor(c).parseItem());
+                i.setMetadata("DROPPED", new FixedMetadataValue(Main.get(), c.name()));
+                dropped.put(c, i);
+            }
+        }
+    }
+
+    public boolean isInProgress(ChatColor c){
+        return inProgress.containsKey(c);
+    }
+
+    public boolean isCaptured(ChatColor c){
+        return captured.contains(c);
+    }
+
+
+    public void playSound(XSound sound, float v1, float v2){
+        members.forEach(m -> m.playSound(m.getLocation(), sound.parseSound(), v1, v2));
+    }
+
+    public void sendTitle(String title, String subtitle, int in, int stay, int out){
+        members.forEach(m -> plugin.getVc().getNMS().sendTitle(m, title, subtitle, in, stay, out));
     }
 
     public void addKill() {
@@ -73,6 +106,24 @@ public class Team {
 
     public int getTeamSize() {
         return members.size();
+    }
+
+    public Squared getPlayerSquared(Player p){
+        for (Squared s : squareds){
+            if (s.isInCuboid(p)) {
+                return s;
+            }
+        }
+        return null;
+    }
+
+    public Squared getPlayerSquared(Location loc){
+        for (Squared s : squareds){
+            if (s.isInCuboid(loc)) {
+                return s;
+            }
+        }
+        return null;
     }
 
 }

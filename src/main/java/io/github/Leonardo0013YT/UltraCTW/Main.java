@@ -6,8 +6,10 @@ import io.github.Leonardo0013YT.UltraCTW.adapters.ICTWPlayerAdapter;
 import io.github.Leonardo0013YT.UltraCTW.cmds.CTWCMD;
 import io.github.Leonardo0013YT.UltraCTW.cmds.SetupCMD;
 import io.github.Leonardo0013YT.UltraCTW.config.Settings;
+import io.github.Leonardo0013YT.UltraCTW.controllers.VersionController;
 import io.github.Leonardo0013YT.UltraCTW.controllers.WorldController;
 import io.github.Leonardo0013YT.UltraCTW.database.MySQLDatabase;
+import io.github.Leonardo0013YT.UltraCTW.game.Game;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.CTWPlayer;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.IDatabase;
 import io.github.Leonardo0013YT.UltraCTW.listeners.MenuListener;
@@ -20,6 +22,7 @@ import io.github.Leonardo0013YT.UltraCTW.menus.UltraInventoryMenu;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 @Getter
 public class Main extends JavaPlugin {
@@ -40,6 +43,7 @@ public class Main extends JavaPlugin {
     private UltraInventoryMenu uim;
     private GameMenu gem;
     private IDatabase db;
+    private VersionController vc;
 
     @Override
     public void onEnable() {
@@ -65,11 +69,18 @@ public class Main extends JavaPlugin {
         km = new KitManager(this);
         sb = new ScoreboardManager(this);
         gem = new GameMenu(this);
+        vc = new VersionController(this);
         getCommand("ctws").setExecutor(new SetupCMD(this));
         getCommand("ctw").setExecutor(new CTWCMD(this));
         getServer().getPluginManager().registerEvents(new SetupListener(this), this);
         getServer().getPluginManager().registerEvents(new MenuListener(this), this);
         getServer().getPluginManager().registerEvents(new PlayerListener(this), this);
+        new BukkitRunnable(){
+            @Override
+            public void run() {
+                getGm().getGames().values().forEach(Game::update);
+            }
+        }.runTaskTimer(this, 20, 20);
     }
 
     @Override

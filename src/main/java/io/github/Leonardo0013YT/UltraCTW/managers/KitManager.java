@@ -31,6 +31,10 @@ public class KitManager {
 
     }
 
+    public int getNextID(){
+        return kits.size();
+    }
+
     public HashMap<Integer, Kit> getKits() {
         return kits;
     }

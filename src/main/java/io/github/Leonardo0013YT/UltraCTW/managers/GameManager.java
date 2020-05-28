@@ -38,6 +38,10 @@ public class GameManager {
         return games.get(playerGame.get(p.getUniqueId()));
     }
 
+    public HashMap<Integer, Game> getGames() {
+        return games;
+    }
+
     public void addPlayerGame(Player p, int id){
         Game game = games.get(id);
         game.addPlayer(p);

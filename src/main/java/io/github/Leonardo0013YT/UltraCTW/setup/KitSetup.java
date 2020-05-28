@@ -29,7 +29,7 @@ public class KitSetup {
 
     public void save(){
         String n = "kits." + name;
-        plugin.getKits().set(n + ".id", name);
+        plugin.getKits().set(n + ".id", plugin.getKm().getNextID());
         plugin.getKits().set(n + ".name", name);
         plugin.getKits().set(n + ".permission", permission);
         plugin.getKits().set(n + ".slot", slot);

@@ -4,6 +4,9 @@ messages:
   gameNotExists: "&cThis game not exists."
   randomTeam: "&aYou've joined a random team, you've had the team <team>"
   joinTeam: "&aYou've joined the team: <team>"
+  noEntry: "&cYou can't join in here."
+  noBreak: "&cYou can't break here."
+  noPlace: "&cYou can't place here."
 setup:
   setMainLobby: "&aThe main lobby has been established."
   alreadyCreating: "&cYou are already creating an arena."
@@ -18,6 +21,8 @@ setup:
   setPosition: "&ePosition &a<pos> &ehas been established"
   team:
     giveAvailableWools: "&aYou have been given the available wools to set up."
+    removed: "&cThe last Spawner has been removed."
+    noSpawners: "&cSpawners are no longer available."
   kits:
     created: "&aYou have created a new kit."
     setIcon: "&aThe icon has been set."
@@ -72,6 +77,13 @@ setup:
       noSpawner: "&cYou have not set the spawners of these colors."
   menus:
     finishEdit: "&aYou have edited the menu correctly."
+titles:
+  otherpick:
+    title: "&c&lPICKED"
+    subtitle: "&fThey picked up your wool <wool>"
+  teampick:
+    title: "<color>&lPICKED"
+    subtitle: "&fThey picked up wool <wool>"
 items:
   setup:
     nameItem: "&eSetup Arena"
@@ -92,6 +104,10 @@ items:
 scoreboards:
   team: "&7» <TColor>Team <TName>"
   teams: "&7» <TColor><TName> <TWools>"
+  wools:
+    captured: "⬛"
+    inProcess: "⚠"
+    noCaptured: "⬜"
   main:
     title: "&e&lCAPTURE THE WOOL"
     lines: |-

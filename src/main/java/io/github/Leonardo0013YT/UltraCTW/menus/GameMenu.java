@@ -6,9 +6,9 @@ import io.github.Leonardo0013YT.UltraCTW.team.Team;
 import io.github.Leonardo0013YT.UltraCTW.utils.ItemUtils;
 import io.github.Leonardo0013YT.UltraCTW.utils.NBTEditor;
 import io.github.Leonardo0013YT.UltraCTW.utils.Utils;
-import io.github.Leonardo0013YT.UltraCTW.utils.XMaterial;
+import io.github.Leonardo0013YT.UltraCTW.xseries.XMaterial;
 import org.bukkit.Bukkit;
-import org.bukkit.DyeColor;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -40,14 +40,14 @@ public class GameMenu {
     }
 
     private ItemStack getTeamItem(Team team){
-        ItemStack banner = new ItemUtils(XMaterial.WHITE_BANNER, 1).build();
+        ItemStack banner = NBTEditor.set(new ItemStack(Material.BANNER, 1), team.getColor().name(), "SELECTOR", "TEAM", "COLOR");
         BannerMeta bm = (BannerMeta) banner.getItemMeta();
-        bm.setBaseColor(DyeColor.getByColor(Utils.getColorByChatColor(team.getColor())));
-        bm.setDisplayName(plugin.getLang().get("menus.teams.team.nameItem").replaceAll("<name>", team.getName()));
+        bm.setBaseColor(Utils.getDyeColorByChatColor(team.getColor()));
+        bm.setDisplayName(plugin.getLang().get("menus.teams.team.nameItem").replaceAll("<team>", team.getName()));
         String lore = plugin.getLang().get("menus.teams.team.loreItem").replaceAll("<players>", String.valueOf(team.getTeamSize()));
         bm.setLore(lore.isEmpty() ? new ArrayList<>() : Arrays.asList(lore.split("\\n")));
         banner.setItemMeta(bm);
-        return NBTEditor.set(banner, team.getColor().name(), "SELECTOR", "TEAM", "COLOR");
+        return banner;
     }
 
 }
