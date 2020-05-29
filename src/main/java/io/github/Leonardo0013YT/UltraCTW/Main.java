@@ -29,7 +29,7 @@ public class Main extends JavaPlugin {
 
     private static Main instance;
     private Gson ctw;
-    private Settings arenas, lang, menus, kits, sources;
+    private Settings arenas, lang, menus, kits, sources, windance, wineffect;
     private boolean debugMode;
     private GameManager gm;
     private ConfigManager cm;
@@ -44,11 +44,15 @@ public class Main extends JavaPlugin {
     private GameMenu gem;
     private IDatabase db;
     private VersionController vc;
+    private WinDancesManager wdm;
+    private WinEffectsManager wem;
 
     @Override
     public void onEnable() {
         instance = this;
         getConfig().options().copyDefaults(true);
+        vc = new VersionController(this);
+        setupSounds();
         saveConfig();
         ctw = new GsonBuilder().registerTypeAdapter(CTWPlayer.class, new ICTWPlayerAdapter()).create();
         arenas = new Settings(this, "arenas", false, false);
@@ -56,6 +60,8 @@ public class Main extends JavaPlugin {
         sources = new Settings(this, "sources", true, false);
         menus = new Settings(this, "menus", false, false);
         kits = new Settings(this, "kits", false, false);
+        windance = new Settings(this, "windance", false, false);
+        wineffect = new Settings(this, "wineffect", false, false);
         debugMode = getConfig().getBoolean("debugMode");
         wc = new WorldController(this);
         db = new MySQLDatabase(this);
@@ -69,7 +75,10 @@ public class Main extends JavaPlugin {
         km = new KitManager(this);
         sb = new ScoreboardManager(this);
         gem = new GameMenu(this);
-        vc = new VersionController(this);
+        wdm = new WinDancesManager(this);
+        wdm.loadWinDances();
+        wem = new WinEffectsManager(this);
+        wem.loadWinEffects();
         getCommand("ctws").setExecutor(new SetupCMD(this));
         getCommand("ctw").setExecutor(new CTWCMD(this));
         getServer().getPluginManager().registerEvents(new SetupListener(this), this);
@@ -92,6 +101,25 @@ public class Main extends JavaPlugin {
         reloadConfig();
         cm.reload();
         adm.reload();
+    }
+
+    private void setupSounds() {
+        if (vc.is1_9to15()) {
+            getConfig().addDefault("sounds.wineffects.vulcanwool", "ENTITY_CHICKEN_EGG");
+            getConfig().addDefault("sounds.wineffects.vulcanfire", "ENTITY_CREEPER_HURT");
+            if (vc.getVersion().equals("v1_15_R1")) {
+                getConfig().addDefault("sounds.wineffects.notes", "ENTITY_FIREWORK_ROCKET_LAUNCH");
+                getConfig().addDefault("sounds.wineffects.chicken", "ENTITY_FIREWORK_ROCKET_LAUNCH");
+            } else {
+                getConfig().addDefault("sounds.wineffects.notes", "ENTITY_FIREWORK_LAUNCH");
+                getConfig().addDefault("sounds.wineffects.chicken", "ENTITY_FIREWORK_LAUNCH");
+            }
+        } else {
+            getConfig().addDefault("sounds.wineffects.vulcanwool", "CHICKEN_EGG_POP");
+            getConfig().addDefault("sounds.wineffects.vulcanfire", "FUSE");
+            getConfig().addDefault("sounds.wineffects.notes", "FIREWORK_LAUNCH");
+            getConfig().addDefault("sounds.wineffects.chicken", "FIREWORK_LAUNCH");
+        }
     }
 
     public static Main get() {

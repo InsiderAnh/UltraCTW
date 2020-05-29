@@ -183,4 +183,9 @@ public class MySQLDatabase implements IDatabase {
         return connection;
     }
 
+    @Override
+    public CTWPlayer getCTWPlayer(Player p){
+        return players.get(p.getUniqueId());
+    }
+
 }

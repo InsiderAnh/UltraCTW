@@ -14,6 +14,7 @@ import java.text.DecimalFormat;
 public class Utils {
 
     private static DecimalFormat df = new DecimalFormat("##.#");
+    private static Main plugin = Main.get();
 
     public static String getWoolsString(Team team){
         StringBuilder wools = new StringBuilder();
@@ -21,11 +22,11 @@ public class Utils {
             boolean inInProgress = team.isInProgress(c);
             boolean isCaptured = team.isCaptured(c);
             if (isCaptured){
-                wools.append(c).append(Main.get().getLang().get("scoreboards.wools.captured")).append(" ");
+                wools.append(c).append(plugin.getLang().get("scoreboards.wools.captured")).append(" ");
             } else if (inInProgress){
-                wools.append(c).append(Main.get().getLang().get("scoreboards.wools.inProcess")).append(" ");
+                wools.append(c).append(plugin.getLang().get("scoreboards.wools.inProcess")).append(" ");
             } else {
-                wools.append(c).append(Main.get().getLang().get("scoreboards.wools.noCaptured")).append(" ");
+                wools.append(c).append(plugin.getLang().get("scoreboards.wools.noCaptured")).append(" ");
             }
         }
         return wools.toString();
@@ -48,20 +49,20 @@ public class Utils {
     }
 
     public static void updateSB(){
-        if (Main.get().getCm().getMainLobby() == null) return;
-        Main.get().getCm().getMainLobby().getWorld().getPlayers().forEach(p -> Main.get().getSb().update(p));
+        if (plugin.getCm().getMainLobby() == null) return;
+        plugin.getCm().getMainLobby().getWorld().getPlayers().forEach(p -> plugin.getSb().update(p));
     }
 
     public static void updateSB(Game game){
-        game.getCached().forEach(p -> Main.get().getSb().update(p));
+        game.getCached().forEach(p -> plugin.getSb().update(p));
     }
 
     public static void updateSB(Player p){
-        Main.get().getSb().update(p);
+        plugin.getSb().update(p);
     }
 
     public static String parseBoolean(boolean bool) {
-        return (bool) ? Main.get().getLang().get(null, "activated") : Main.get().getLang().get(null, "deactivated");
+        return (bool) ? plugin.getLang().get(null, "activated") : plugin.getLang().get(null, "deactivated");
     }
 
     public static boolean existsFile(String schematic) {

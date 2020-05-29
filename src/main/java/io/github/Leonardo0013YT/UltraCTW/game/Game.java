@@ -2,6 +2,8 @@ package io.github.Leonardo0013YT.UltraCTW.game;
 
 import io.github.Leonardo0013YT.UltraCTW.Main;
 import io.github.Leonardo0013YT.UltraCTW.enums.State;
+import io.github.Leonardo0013YT.UltraCTW.interfaces.WinDance;
+import io.github.Leonardo0013YT.UltraCTW.interfaces.WinEffect;
 import io.github.Leonardo0013YT.UltraCTW.objects.Squared;
 import io.github.Leonardo0013YT.UltraCTW.team.Team;
 import io.github.Leonardo0013YT.UltraCTW.utils.Utils;
@@ -24,6 +26,8 @@ public class Game {
     private HashMap<Integer, ChatColor> teamsID = new HashMap<>();
     private HashMap<Player, GamePlayer> gamePlayer = new HashMap<>();
     private ArrayList<Squared> protection = new ArrayList<>();
+    private ArrayList<WinEffect> winEffects = new ArrayList<>();
+    private ArrayList<WinDance> winDances = new ArrayList<>();
     private Location lobby, spectator;
     private int teamSize, woolSize, min, starting;
     private State state;
@@ -83,6 +87,12 @@ public class Game {
         teams.values().forEach(Team::updateSpawner);
     }
 
+    public void win(Team team){
+        for (Player on : team.getMembers()){
+
+        }
+    }
+
     public void setState(State state){
         this.state = state;
     }
@@ -105,6 +115,15 @@ public class Game {
         Utils.updateSB(p);
     }
 
+    public void addWinEffects(WinEffect e){
+        winEffects.add(e);
+    }
+
+    public void addWinDance(WinDance e){
+        winDances.add(e);
+    }
+
+
     public void removePlayerTeam(Player p, Team team) {
         team.removeMember(p);
     }
@@ -119,6 +138,16 @@ public class Game {
 
     public Team getTeamByColor(ChatColor color) {
         return teams.get(color);
+    }
+
+    public Team getTeamByWool(ChatColor color) {
+        Team t = null;
+        for (Team tt : teams.values()){
+            if (tt.getColors().contains(color)){
+                return tt;
+            }
+        }
+        return null;
     }
 
     public void joinRandomTeam(Player p) {

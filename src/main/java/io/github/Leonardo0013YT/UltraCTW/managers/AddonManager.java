@@ -35,4 +35,8 @@ public class AddonManager {
         return value;
     }
 
+    public double getCoins(Player p){
+        return plugin.getDb().getCTWPlayer(p).getCoins();
+    }
+
 }

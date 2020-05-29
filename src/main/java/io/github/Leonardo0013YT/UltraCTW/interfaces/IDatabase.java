@@ -13,4 +13,6 @@ public interface IDatabase {
     void close();
 
     HashMap<UUID, CTWPlayer> getPlayers();
+
+    CTWPlayer getCTWPlayer(Player p);
 }

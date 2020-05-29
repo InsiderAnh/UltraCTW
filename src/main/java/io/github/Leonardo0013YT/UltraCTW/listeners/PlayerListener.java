@@ -4,8 +4,10 @@ import io.github.Leonardo0013YT.UltraCTW.Main;
 import io.github.Leonardo0013YT.UltraCTW.game.Game;
 import io.github.Leonardo0013YT.UltraCTW.objects.Squared;
 import io.github.Leonardo0013YT.UltraCTW.team.Team;
+import io.github.Leonardo0013YT.UltraCTW.utils.NBTEditor;
 import io.github.Leonardo0013YT.UltraCTW.xseries.XSound;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
@@ -21,6 +23,7 @@ import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 public class PlayerListener implements Listener {
 
@@ -44,8 +47,13 @@ public class PlayerListener implements Listener {
         Team team = g.getTeamPlayer(p);
         if (team == null) return;
         Squared s1 = g.getPlayerSquared(e.getBlock().getLocation());
+        Squared s2 = team.getPlayerSquared(e.getBlock().getLocation());
         if (s1 != null){
             e.setCancelled(s1.isNoBreak());
+            p.sendMessage(plugin.getLang().get("messages.noBreak"));
+        }
+        if (s2 != null){
+            e.setCancelled(s2.isNoBreak());
             p.sendMessage(plugin.getLang().get("messages.noBreak"));
         }
     }
@@ -57,9 +65,36 @@ public class PlayerListener implements Listener {
         if (g == null) return;
         Team team = g.getTeamPlayer(p);
         if (team == null) return;
-        Squared s1 = g.getPlayerSquared(e.getBlockPlaced().getLocation());
+        Location l = e.getBlockPlaced().getLocation();
+        if (team.getWools().containsKey(l)){
+            ItemStack item = p.getItemInHand();
+            if (item == null || item.getType().equals(Material.AIR)) return;
+            String co = NBTEditor.getString(item, "TEAM", "WOOL", "CAPTURE");
+            if (co == null) return;
+            ChatColor c = ChatColor.valueOf(co);
+            ChatColor to = team.getWools().get(l);
+            if (!to.equals(c)){
+                e.setCancelled(true);
+                p.sendMessage(plugin.getLang().get("messages.incorrectPlace").replaceAll("<wool>", c + plugin.getLang().get("scoreboards.wools.captured")));
+                return;
+            }
+            p.sendMessage(plugin.getLang().get("messages.placeTeam").replaceAll("<place>", c + plugin.getLang().get("scoreboards.wools.captured")));
+            team.getCaptured().add(c);
+            team.sendTitle(plugin.getLang().get("titles.captured.title").replaceAll("<color>", c + ""), plugin.getLang().get("titles.captured.subtitle").replaceAll("<wool>", c + plugin.getLang().get("scoreboards.wools.captured")), 0, 30, 10);
+            team.playSound(XSound.ENTITY_PLAYER_LEVELUP, 1.0f, 1.0f);
+            if (team.checkWools()){
+                g.win(team);
+            }
+            return;
+        }
+        Squared s1 = g.getPlayerSquared(l);
+        Squared s2 = team.getPlayerSquared(l);
         if (s1 != null){
             e.setCancelled(s1.isNoBreak());
+            p.sendMessage(plugin.getLang().get("messages.noPlace"));
+        }
+        if (s2 != null){
+            e.setCancelled(s2.isNoBreak());
             p.sendMessage(plugin.getLang().get("messages.noPlace"));
         }
     }
@@ -109,13 +144,13 @@ public class PlayerListener implements Listener {
             Team team = g.getTeamPlayer(p);
             if (team == null) return;
             ChatColor c = ChatColor.valueOf(i.getMetadata("DROPPED").get(0).asString());
-            Team other = g.getTeamByColor(c);
-            other.getDropped().remove(c);
+            ArrayList<Team> others = g.getTeams().values().stream().filter(t -> t.getId() != team.getId()).collect(Collectors.toCollection(ArrayList::new));
+            team.getDropped().remove(c);
             team.getInProgress().get(c).add(p.getUniqueId());
             team.sendTitle(plugin.getLang().get("titles.teampick.title").replaceAll("<color>", c + ""), plugin.getLang().get("titles.teampick.subtitle").replaceAll("<wool>", c + plugin.getLang().get("scoreboards.wools.captured")), 0, 30, 10);
-            other.sendTitle(plugin.getLang().get("titles.otherpick.title").replaceAll("<color>", c + ""), plugin.getLang().get("titles.otherpick.subtitle").replaceAll("<wool>", c + plugin.getLang().get("scoreboards.wools.captured")), 0, 30, 10);
+            others.forEach(t -> t.sendTitle(plugin.getLang().get("titles.otherpick.title").replaceAll("<color>", c + ""), plugin.getLang().get("titles.otherpick.subtitle").replaceAll("<wool>", c + plugin.getLang().get("scoreboards.wools.captured")), 0, 30, 10));
             team.playSound(XSound.ENTITY_FIREWORK_ROCKET_BLAST, 1.0f, 1.0f);
-            other.playSound(XSound.ENTITY_WITHER_HURT, 1.0f, 1.0f);
+            others.forEach(t -> t.playSound(XSound.ENTITY_WITHER_HURT, 1.0f, 1.0f));
         }
     }
 
@@ -129,9 +164,7 @@ public class PlayerListener implements Listener {
             if (team == null) return;
             if (e.getFinalDamage() >= p.getHealth()){
                 e.setCancelled(true);
-                p.setNoDamageTicks(40);
-                p.teleport(team.getSpawn());
-                p.setHealth(p.getMaxHealth());
+                respawn(team, p);
             }
         }
     }
@@ -146,9 +179,7 @@ public class PlayerListener implements Listener {
             if (team == null) return;
             if (e.getFinalDamage() >= p.getHealth()){
                 e.setCancelled(true);
-                p.setNoDamageTicks(40);
-                p.teleport(team.getSpawn());
-                p.setHealth(p.getMaxHealth());
+                respawn(team, p);
             }
         }
     }
@@ -176,6 +207,14 @@ public class PlayerListener implements Listener {
     public void onKick(PlayerKickEvent e){
         Player p = e.getPlayer();
         plugin.getDb().savePlayer(p.getUniqueId(), false);
+    }
+
+    private void respawn(Team team, Player p){
+        p.getInventory().clear();
+        p.setNoDamageTicks(40);
+        p.teleport(team.getSpawn());
+        p.setHealth(p.getMaxHealth());
+        plugin.getKm().giveDefaultKit(p);
     }
 
 }

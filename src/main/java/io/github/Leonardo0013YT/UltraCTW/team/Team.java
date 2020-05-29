@@ -3,6 +3,7 @@ package io.github.Leonardo0013YT.UltraCTW.team;
 import io.github.Leonardo0013YT.UltraCTW.Main;
 import io.github.Leonardo0013YT.UltraCTW.game.Game;
 import io.github.Leonardo0013YT.UltraCTW.objects.Squared;
+import io.github.Leonardo0013YT.UltraCTW.utils.NBTEditor;
 import io.github.Leonardo0013YT.UltraCTW.utils.Utils;
 import io.github.Leonardo0013YT.UltraCTW.xseries.XSound;
 import lombok.Getter;
@@ -12,6 +13,7 @@ import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.metadata.FixedMetadataValue;
 
+import java.lang.reflect.Array;
 import java.util.*;
 
 @Getter
@@ -54,7 +56,7 @@ public class Team {
         if (!plugin.getArenas().isSet(path + ".squareds")) return;
         for (String c : plugin.getArenas().getConfig().getConfigurationSection(path + ".squareds").getKeys(false)) {
             String nowPath = path + ".squareds." + c;
-            squareds.add(new Squared(Utils.getStringLocation(plugin.getArenas().get(nowPath + ".min")), Utils.getStringLocation(plugin.getArenas().get(nowPath + ".max")), false, true));
+            squareds.add(new Squared(Utils.getStringLocation(plugin.getArenas().get(nowPath + ".min")), Utils.getStringLocation(plugin.getArenas().get(nowPath + ".max")), true, true));
         }
     }
 
@@ -62,15 +64,19 @@ public class Team {
         for (Location l : spawners.keySet()){
             ChatColor c = spawners.get(l);
             if (!dropped.containsKey(c)){
-                Item i = l.getWorld().dropItemNaturally(l, Utils.getXMaterialByColor(c).parseItem());
+                Item i = l.getWorld().dropItemNaturally(l, NBTEditor.set(Utils.getXMaterialByColor(c).parseItem(), c.name(), "TEAM", "WOOL", "CAPTURE"));
                 i.setMetadata("DROPPED", new FixedMetadataValue(Main.get(), c.name()));
                 dropped.put(c, i);
             }
         }
     }
 
+    public boolean checkWools(){
+        return captured.equals(new ArrayList<>(wools.values()));
+    }
+
     public boolean isInProgress(ChatColor c){
-        return inProgress.containsKey(c);
+        return !inProgress.get(c).isEmpty();
     }
 
     public boolean isCaptured(ChatColor c){

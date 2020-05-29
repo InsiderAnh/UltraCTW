@@ -19,6 +19,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
@@ -276,22 +277,11 @@ public class SetupListener implements Listener {
                     new String[]{"<spect>", Utils.getFormatedLocation(as.getSpectator())});
         }
         if (e.getAction().equals(Action.RIGHT_CLICK_BLOCK)){
-            if (plugin.getSm().isSetup(p)){
+            if (plugin.getSm().isSetup(p)) {
                 ArenaSetup as = plugin.getSm().getSetup(p);
-                if (item.equals(plugin.getIm().getPoints())){
+                if (item.equals(plugin.getIm().getPoints())) {
                     as.getSelection().setPos2(e.getClickedBlock().getLocation());
                     p.sendMessage(plugin.getLang().get("setup.setPosition").replaceAll("<pos>", "2"));
-                }
-                if (as.getActual() == null){
-                    return;
-                }
-                if (item.getType().name().contains("WOOL")){
-                    XMaterial ma = XMaterial.matchXMaterial(item);
-                    TeamSetup ts = as.getActual();
-                    Block b = e.getClickedBlock();
-                    ts.getWools().put(Utils.getColorByXMaterial(ma), b.getLocation());
-                    removeItemInHand(p);
-                    p.sendMessage(plugin.getLang().get("setup.arena.addWool").replaceAll("<loc>", Utils.getFormatedLocation(b.getLocation())));
                 }
             }
         }
@@ -303,6 +293,25 @@ public class SetupListener implements Listener {
                     as.getSelection().setPos1(e.getClickedBlock().getLocation());
                     p.sendMessage(plugin.getLang().get("setup.setPosition").replaceAll("<pos>", "1"));
                 }
+            }
+        }
+    }
+
+    @EventHandler
+    public void onPlace(BlockPlaceEvent e){
+        Player p = e.getPlayer();
+        if (plugin.getSm().isSetup(p)){
+            ArenaSetup as = plugin.getSm().getSetup(p);
+            ItemStack item = p.getItemInHand();
+            if (item == null || item.getType().equals(Material.AIR)) return;
+            if (as.getActual() == null) return;
+            if (item.getType().name().contains("WOOL")){
+                XMaterial ma = XMaterial.matchXMaterial(item);
+                TeamSetup ts = as.getActual();
+                Block b = e.getBlockPlaced();
+                ts.getWools().put(Utils.getColorByXMaterial(ma), b.getLocation());
+                removeItemInHand(p);
+                p.sendMessage(plugin.getLang().get("setup.arena.addWool").replaceAll("<loc>", Utils.getFormatedLocation(b.getLocation())));
             }
         }
     }
