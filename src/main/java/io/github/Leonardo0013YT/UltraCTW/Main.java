@@ -29,7 +29,7 @@ public class Main extends JavaPlugin {
 
     private static Main instance;
     private Gson ctw;
-    private Settings arenas, lang, menus, kits, sources, windance, wineffect;
+    private Settings arenas, lang, menus, kits, sources, windance, wineffect, killsound, taunt, trail, parting, killeffect;
     private boolean debugMode;
     private GameManager gm;
     private ConfigManager cm;
@@ -46,6 +46,13 @@ public class Main extends JavaPlugin {
     private VersionController vc;
     private WinDancesManager wdm;
     private WinEffectsManager wem;
+    private TrailsManager tlm;
+    private TauntsManager tm;
+    private PartingManager pm;
+    private KillSoundManager ksm;
+    private KillEffectsManager kem;
+    private TaggedManager tgm;
+    private ShopManager shm;
 
     @Override
     public void onEnable() {
@@ -62,6 +69,11 @@ public class Main extends JavaPlugin {
         kits = new Settings(this, "kits", false, false);
         windance = new Settings(this, "windance", false, false);
         wineffect = new Settings(this, "wineffect", false, false);
+        killsound = new Settings(this, "killsounds", false, false);
+        taunt = new Settings(this, "taunts", false, false);
+        trail = new Settings(this, "trails", false, false);
+        parting = new Settings(this, "partings", false, false);
+        killeffect = new Settings(this, "killeffect", false, false);
         debugMode = getConfig().getBoolean("debugMode");
         wc = new WorldController(this);
         db = new MySQLDatabase(this);
@@ -79,6 +91,18 @@ public class Main extends JavaPlugin {
         wdm.loadWinDances();
         wem = new WinEffectsManager(this);
         wem.loadWinEffects();
+        tlm = new TrailsManager(this);
+        tlm.loadTrails();
+        tm = new TauntsManager(this);
+        tm.loadTaunts();
+        pm = new PartingManager(this);
+        pm.loadPartings();
+        ksm = new KillSoundManager(this);
+        ksm.loadKillSounds();
+        kem = new KillEffectsManager(this);
+        kem.loadKillEffects();
+        tgm = new TaggedManager(this);
+        shm = new ShopManager(this);
         getCommand("ctws").setExecutor(new SetupCMD(this));
         getCommand("ctw").setExecutor(new CTWCMD(this));
         getServer().getPluginManager().registerEvents(new SetupListener(this), this);
@@ -114,11 +138,15 @@ public class Main extends JavaPlugin {
                 getConfig().addDefault("sounds.wineffects.notes", "ENTITY_FIREWORK_LAUNCH");
                 getConfig().addDefault("sounds.wineffects.chicken", "ENTITY_FIREWORK_LAUNCH");
             }
+            getConfig().addDefault("sounds.killeffects.tnt", "ENTITY_GENERIC_EXPLODE");
+            getConfig().addDefault("sounds.killeffects.squid", "ENTITY_ITEM_PICKUP");
         } else {
             getConfig().addDefault("sounds.wineffects.vulcanwool", "CHICKEN_EGG_POP");
             getConfig().addDefault("sounds.wineffects.vulcanfire", "FUSE");
             getConfig().addDefault("sounds.wineffects.notes", "FIREWORK_LAUNCH");
             getConfig().addDefault("sounds.wineffects.chicken", "FIREWORK_LAUNCH");
+            getConfig().addDefault("sounds.killeffects.tnt", "EXPLODE");
+            getConfig().addDefault("sounds.killeffects.squid", "ITEM_PICKUP");
         }
     }
 

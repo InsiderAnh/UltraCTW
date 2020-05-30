@@ -2,6 +2,7 @@ package io.github.Leonardo0013YT.UltraCTW.game;
 
 import io.github.Leonardo0013YT.UltraCTW.Main;
 import io.github.Leonardo0013YT.UltraCTW.enums.State;
+import io.github.Leonardo0013YT.UltraCTW.interfaces.KillEffect;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.WinDance;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.WinEffect;
 import io.github.Leonardo0013YT.UltraCTW.objects.Squared;
@@ -28,6 +29,7 @@ public class Game {
     private ArrayList<Squared> protection = new ArrayList<>();
     private ArrayList<WinEffect> winEffects = new ArrayList<>();
     private ArrayList<WinDance> winDances = new ArrayList<>();
+    private ArrayList<KillEffect> killEffects = new ArrayList<>();
     private Location lobby, spectator;
     private int teamSize, woolSize, min, starting;
     private State state;
@@ -123,6 +125,9 @@ public class Game {
         winDances.add(e);
     }
 
+    public void addKillEffects(KillEffect e){
+        killEffects.add(e);
+    }
 
     public void removePlayerTeam(Player p, Team team) {
         team.removeMember(p);

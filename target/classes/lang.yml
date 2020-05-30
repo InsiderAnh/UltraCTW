@@ -163,6 +163,672 @@ scoreboards:
       &7
       &emc.spigot.net
 menus:
+  kitselector:
+    title: "&eKit Selector"
+    noPermission: "&cYou can't buy this kit!"
+    hasBuy: "&aYou already have this kit!"
+    buy: "&eYou can buy this kit!"
+    noMoney: "&cYou don't have money to buy."
+    level: "&aLevel: &6<level>"
+    price: "&aPrice: &6<price>"
+    noBuyable: "&cNot buyable."
+    buyed: "&6Bought"
+    deselect:
+      nameItem: "&eDeselect Kit"
+      loreItem: |-
+        &7By clicking you will
+        &7deselect this kit.
+        &7
+        &eClick to deselect!
+    kit:
+      nameItem: "&eKit Selected"
+      loreItem: |-
+        &7By clicking you can see
+        &7the contents of this kit.
+        &7
+        &eClick to view!
+    close:
+      nameItem: "&cClose"
+      loreItem: |-
+        &7Close this inventory.
+        &7
+        &eClick to close!
+  killsoundsselector:
+    title: "&eKillSound Selector"
+    noPermission: "&cYou can't buy this killsound!"
+    hasBuy: "&aYou already have this killsound!"
+    buy: "&eYou can buy this killsound!"
+    noMoney: "&cYou don't have money to buy."
+    price: "&aPrice: &6<price>"
+    noBuyable: "&cNot buyable."
+    buyed: "&6Bought"
+    deselect:
+      nameItem: "&eDeselect KillSound"
+      loreItem: |-
+        &7By clicking you will
+        &7deselect this killsound.
+        &7
+        &eClick to deselect!
+    killsound:
+      nameItem: "&eKillSound Selected"
+      loreItem: |-
+        &7By clicking you can see
+        &7the contents of this killsound.
+        &7
+        &eClick to view!
+    close:
+      nameItem: "&cClose"
+      loreItem: |-
+        &7Close this inventory.
+        &7
+        &eClick to close!
+  wineffectsselector:
+    title: "&eWinEffect Selector"
+    noPermission: "&cYou can't buy this wineffect!"
+    hasBuy: "&aYou already have this wineffect!"
+    buy: "&eYou can buy this wineffect!"
+    noMoney: "&cYou don't have money to buy."
+    price: "&aPrice: &6<price>"
+    noBuyable: "&cNot buyable."
+    buyed: "&6Bought"
+    deselect:
+      nameItem: "&eDeselect WinEffect"
+      loreItem: |-
+        &7By clicking you will
+        &7deselect this wineffect.
+        &7
+        &eClick to deselect!
+    wineffect:
+      nameItem: "&eWinEffect Selected"
+      loreItem: |-
+        &7By clicking you can see
+        &7the contents of this wineffect.
+        &7
+        &eClick to view!
+    close:
+      nameItem: "&cClose"
+      loreItem: |-
+        &7Close this inventory.
+        &7
+        &eClick to close!
+  killeffectsselector:
+    title: "&eKillEffect Selector"
+    noPermission: "&cYou can't buy this killeffect!"
+    hasBuy: "&aYou already have this killeffect!"
+    buy: "&eYou can buy this killeffect!"
+    noMoney: "&cYou don't have money to buy."
+    price: "&aPrice: &6<price>"
+    noBuyable: "&cNot buyable."
+    buyed: "&6Bought"
+    deselect:
+      nameItem: "&eDeselect KillEffect"
+      loreItem: |-
+        &7By clicking you will
+        &7deselect this killeffect.
+        &7
+        &eClick to deselect!
+    killeffect:
+      nameItem: "&eKillEffect Selected"
+      loreItem: |-
+        &7By clicking you can see
+        &7the contents of this killeffect.
+        &7
+        &eClick to view!
+    close:
+      nameItem: "&cClose"
+      loreItem: |-
+        &7Close this inventory.
+        &7
+        &eClick to close!
+  windancesselector:
+    title: "&eWinDances Selector"
+    noPermission: "&cYou can't buy this windances!"
+    hasBuy: "&aYou already have this windances!"
+    buy: "&eYou can buy this gwindanceslass!"
+    noMoney: "&cYou don't have money to buy."
+    price: "&aPrice: &6<price>"
+    noBuyable: "&cNot buyable."
+    buyed: "&6Bought"
+    deselect:
+      nameItem: "&eDeselect WinDances"
+      loreItem: |-
+        &7By clicking you will
+        &7deselect this windances.
+        &7
+        &eClick to deselect!
+    windance:
+      nameItem: "&eWinDances Selected"
+      loreItem: |-
+        &7By clicking you can see
+        &7the contents of this windances.
+        &7
+        &eClick to view!
+    close:
+      nameItem: "&cClose"
+      loreItem: |-
+        &7Close this inventory.
+        &7
+        &eClick to close!
+  trailsselector:
+    title: "&eTrail Selector"
+    noPermission: "&cYou can't buy this trail!"
+    hasBuy: "&aYou already have this trail!"
+    buy: "&eYou can buy this trail!"
+    noMoney: "&cYou don't have money to buy."
+    price: "&aPrice: &6<price>"
+    noBuyable: "&cNot buyable."
+    buyed: "&6Bought"
+    deselect:
+      nameItem: "&eDeselect Trail"
+      loreItem: |-
+        &7By clicking you will
+        &7deselect this trail.
+        &7
+        &eClick to deselect!
+    trail:
+      nameItem: "&eTrail Selected"
+      loreItem: |-
+        &7By clicking you can see
+        &7the contents of this trail.
+        &7
+        &eClick to view!
+    close:
+      nameItem: "&cClose"
+      loreItem: |-
+        &7Close this inventory.
+        &7
+        &eClick to close!
+  tauntsselector:
+    title: "&eTaunt Selector"
+    noPermission: "&cYou can't buy this taunt!"
+    hasBuy: "&aYou already have this taunt!"
+    buy: "&eYou can buy this taunt!"
+    noMoney: "&cYou don't have money to buy."
+    price: "&aPrice: &6<price>"
+    noBuyable: "&cNot buyable."
+    buyed: "&6Bought"
+    deselect:
+      nameItem: "&eDeselect Taunt"
+      loreItem: |-
+        &7By clicking you will
+        &7deselect this taunt.
+        &7
+        &eClick to deselect!
+    taunt:
+      nameItem: "&eTaunt Selected"
+      loreItem: |-
+        &7By clicking you can see
+        &7the contents of this taunt.
+        &7
+        &eClick to view!
+    close:
+      nameItem: "&cClose"
+      loreItem: |-
+        &7Close this inventory.
+        &7
+        &eClick to close!
+  taunts:
+    title: "&eSetup Taunts"
+    settitle:
+      nameItem: "&eSet Title"
+      loreItem: |-
+        &7When you click you must type
+        &7the title that will
+        &7appear when it dies.
+        &7
+        &eTitle: &b<title>
+        &7
+        &eClick to write in chat!
+    setsubtitle:
+      nameItem: "&eSet SubTitle"
+      loreItem: |-
+        &7When you click you must type
+        &7the subtitle that will
+        &7appear when it dies.
+        &7
+        &eSubTitle: &b<subtitle>
+        &7
+        &eClick to write in chat!
+    setplayer:
+      nameItem: "&eSet Player"
+      loreItem: |-
+        &7By clicking you should
+        &7type in the chat the
+        &7final message when
+        &7there is killer.
+        &7
+        &ePlayer: &b<player>
+        &7
+        &eClick to write in chat!
+    setnone:
+      nameItem: "&eSet None"
+      loreItem: |-
+        &7By clicking you should
+        &7type in the chat the
+        &7final message when
+        &7there is no killer.
+        &7
+        &eNone: &b<none>
+        &7
+        &eClick to write in chat!
+    damage:
+      loreItem: |-
+        &7Clicking will open a
+        &7menu to add messages
+        &7by damage type.
+        &7
+        &eClick to open!
+    icon:
+      nameItem: "&eTaunt Icon"
+      loreItem: |-
+        &7Taunt icon in menu.
+        &7
+        &eClick with item to change!
+    price:
+      nameItem: "&eTaunt Price"
+      loreItem: |-
+        &7Price of Taunt:
+        &7
+        &ePrice: &b<price>
+        &7
+        &eClick to change!
+    slot:
+      nameItem: "&eTaunt Slot"
+      loreItem: |-
+        &7Slot of Taunt:
+        &7
+        &eSlot: &b<slot>
+        &7
+        &eClick to change!
+    page:
+      nameItem: "&eTaunt Page"
+      loreItem: |-
+        &7Page of Taunt:
+        &7
+        &ePage: &b<page>
+        &7
+        &eClick to change!
+    permission:
+      nameItem: "&ePermission of Taunt"
+      loreItem: |-
+        &7The Permission name is:
+        &7
+        &ePermission: &b<permission>
+        &7
+        &eClick to change!
+    name:
+      nameItem: "&aName Taunt"
+      loreItem: |-
+        &7Name of this Taunt:
+        &7
+        &eName: &b<name>
+        &7
+    isBuy:
+      nameItem: "&ePurchasable"
+      loreItem: |-
+        &7Sets whether this taunt
+        &7is purchaseable.
+        &e
+        &eValue: &b<purchasable>
+        &7
+        &eClick to change!
+    save:
+      nameItem: "&eSave"
+      loreItem: |-
+        &7Saves this taunt in config.
+        &7
+        &eClick to save!
+  tauntstype:
+    title: "&eTaunts Type"
+    add:
+      nameItem: "&eAdd Message"
+      loreItem: |-
+        &7When you click you will need
+        &7to type the message in the
+        &7chat, use the following variables:
+        &7
+        &e<death> &7- &aFor the dead.
+        &e<killer> &7- &aFor the killer.
+        &7
+        &eClick to add!
+    save:
+      nameItem: "&eSave Type"
+      loreItem: |-
+        &7Saves the type of taunt.
+        &7
+        &eClick to save!
+  parting:
+    title: "&eSetup Parting"
+    icon:
+      nameItem: "&eParting Icon"
+      loreItem: |-
+        &7Parting icon in menu.
+        &7
+        &eClick with item to change!
+    price:
+      nameItem: "&eParting Price"
+      loreItem: |-
+        &7Price of Parting:
+        &7
+        &ePrice: &b<price>
+        &7
+        &eClick to change!
+    slot:
+      nameItem: "&eParting Slot"
+      loreItem: |-
+        &7Slot of Parting:
+        &7
+        &eSlot: &b<slot>
+        &7
+        &eClick to change!
+    page:
+      nameItem: "&eParting Page"
+      loreItem: |-
+        &7Page of Parting:
+        &7
+        &ePage: &b<page>
+        &7
+        &eClick to change!
+    message:
+      nameItem: "&eParting Message"
+      loreItem: |-
+        &7Messages of Parting:
+        &7
+        <messages>
+        &eClick to add!
+        &eRight Click to remove!
+    permission:
+      nameItem: "&ePermission of Parting"
+      loreItem: |-
+        &7The Permission name is:
+        &7
+        &ePermission: &b<permission>
+        &7
+        &eClick to change!
+    name:
+      nameItem: "&aName Parting"
+      loreItem: |-
+        &7Name of this Parting:
+        &7
+        &eName: &b<name>
+        &7
+    isBuy:
+      nameItem: "&ePurchasable"
+      loreItem: |-
+        &7Sets whether this Parting
+        &7is purchaseable.
+        &e
+        &eValue: &b<purchasable>
+        &7
+        &eClick to change!
+    save:
+      nameItem: "&eSave"
+      loreItem: |-
+        &7Saves this Parting in config.
+        &7
+        &eClick to save!
+  killsounds:
+    title: "&eSetup KillSound"
+    icon:
+      nameItem: "&eKillSound Icon"
+      loreItem: |-
+        &7KillSound icon in menu.
+        &7
+        &eClick with item to change!
+    price:
+      nameItem: "&eKillSound Price"
+      loreItem: |-
+        &7Price of KillSound:
+        &7
+        &ePrice: &b<price>
+        &7
+        &eClick to change!
+    slot:
+      nameItem: "&eKillSound Slot"
+      loreItem: |-
+        &7Slot of KillSound:
+        &7
+        &eSlot: &b<slot>
+        &7
+        &eClick to change!
+    page:
+      nameItem: "&eKillSound Page"
+      loreItem: |-
+        &7Page of KillSound:
+        &7
+        &ePage: &b<page>
+        &7
+        &eClick to change!
+    sound:
+      nameItem: "&eKillSound Sound"
+      loreItem: |-
+        &7Sound of KillSound:
+        &7
+        &eSound: &b<sound>
+        &7
+        &eClick to change!
+    vol1:
+      nameItem: "&eKillSound Vol 1"
+      loreItem: |-
+        &7Vol 1 Sound of KillSound:
+        &7
+        &eVol 1: &b<vol1>
+        &7
+        &eClick to change!
+    vol2:
+      nameItem: "&eKillSound Vol 2"
+      loreItem: |-
+        &7Vol 2 Sound of KillSound:
+        &7
+        &eVol 2: &b<vol2>
+        &7
+        &eClick to change!
+    permission:
+      nameItem: "&ePermission of KillSound"
+      loreItem: |-
+        &7The Permission name is:
+        &7
+        &ePermission: &b<permission>
+        &7
+        &eClick to change!
+    name:
+      nameItem: "&aName KillSound"
+      loreItem: |-
+        &7Name of this KillSound:
+        &7
+        &eName: &b<name>
+        &7
+    isBuy:
+      nameItem: "&ePurchasable"
+      loreItem: |-
+        &7Sets whether this KillSound
+        &7is purchaseable.
+        &e
+        &eValue: &b<purchasable>
+        &7
+        &eClick to change!
+    save:
+      nameItem: "&eSave"
+      loreItem: |-
+        &7Saves this KillSound in config.
+        &7
+        &eClick to save!
+  trails:
+    title: "&eSetup Trail"
+    icon:
+      nameItem: "&eTrail Icon"
+      loreItem: |-
+        &7Trail icon in menu.
+        &7
+        &eClick with item to change!
+    speed:
+      nameItem: "&eTrail Speed"
+      loreItem: |-
+        &7Speed of Trail:
+        &7
+        &eSpeed: &b<speed>
+        &7
+        &eClick to change!
+    offsetX:
+      nameItem: "&eTrail OffSetX"
+      loreItem: |-
+        &7OffSetX of Trail:
+        &7
+        &eOffSetX: &b<offsetX>
+        &7
+        &eClick to change!
+    offsetY:
+      nameItem: "&eTrail OffSetY"
+      loreItem: |-
+        &7OffSetY of Trail:
+        &7
+        &eOffSetY: &b<offsetY>
+        &7
+        &eClick to change!
+    offsetZ:
+      nameItem: "&eTrail OffSetZ"
+      loreItem: |-
+        &7OffSetZ of Trail:
+        &7
+        &eOffSetZ: &b<offsetZ>
+        &7
+        &eClick to change!
+    amount:
+      nameItem: "&eTrail Amount"
+      loreItem: |-
+        &7Amount of Trail:
+        &7
+        &eAmount: &b<amount>
+        &7
+        &eClick to change!
+    range:
+      nameItem: "&eTrail Range"
+      loreItem: |-
+        &7Range of Trail:
+        &7
+        &eRange: &b<range>
+        &7
+        &eClick to change!
+    price:
+      nameItem: "&eTrail Price"
+      loreItem: |-
+        &7Price of Trail:
+        &7
+        &ePrice: &b<price>
+        &7
+        &eClick to change!
+    slot:
+      nameItem: "&eTrail Slot"
+      loreItem: |-
+        &7Slot of Trail:
+        &7
+        &eSlot: &b<slot>
+        &7
+        &eClick to change!
+    page:
+      nameItem: "&eTrail Page"
+      loreItem: |-
+        &7Page of Trail:
+        &7
+        &ePage: &b<page>
+        &7
+        &eClick to change!
+    particle:
+      nameItem: "&eParticle of Trail"
+      loreItem: |-
+        &7The Particle name is:
+        &7
+        &eParticle: &b<particle>
+        &7
+        &eClick to change!
+    permission:
+      nameItem: "&ePermission of Trail"
+      loreItem: |-
+        &7The Permission name is:
+        &7
+        &ePermission: &b<permission>
+        &7
+        &eClick to change!
+    name:
+      nameItem: "&aName Trail"
+      loreItem: |-
+        &7Name of this Trail:
+        &7
+        &eName: &b<name>
+        &7
+    isBuy:
+      nameItem: "&ePurchasable"
+      loreItem: |-
+        &7Sets whether this trail
+        &7is purchaseable.
+        &e
+        &eValue: &b<purchasable>
+        &7
+        &eClick to change!
+    save:
+      nameItem: "&eSave"
+      loreItem: |-
+        &7Saves this Trail in config.
+        &7
+        &eClick to save!
+  lobby:
+    title: "&eLobby Menu"
+    perks:
+      nameItem: "&aPerks Menu"
+      loreItem: |-
+        &7Open a menu to see
+        &7yours perks.
+        &7
+        &eClick to open!
+    trails:
+      nameItem: "&aTrails Menu"
+      loreItem: |-
+        &7Open a menu to select
+        &7or purchase trails.
+        &7
+        &eClick to open!
+    taunts:
+      nameItem: "&aTaunts Menu"
+      loreItem: |-
+        &7Open a menu to select
+        &7or purchase taunts.
+        &7
+        &eClick to open!
+    wineffects:
+      nameItem: "&aWinEffects Menu"
+      loreItem: |-
+        &7Open a menu to select
+        &7or purchase win effects.
+        &7
+        &eClick to open!
+    killeffects:
+      nameItem: "&aKillEffects Menu"
+      loreItem: |-
+        &7Open a menu to select
+        &7or purchase kill effects.
+        &7
+        &eClick to open!
+    windances:
+      nameItem: "&aWinDances Menu"
+      loreItem: |-
+        &7Open a menu to select
+        &7or purchase win dances.
+        &7
+        &eClick to open!
+    killsound:
+      nameItem: "&aKillSound Menu"
+      loreItem: |-
+        &7Open a menu to select
+        &7or purchase kill sounds.
+        &7
+        &eClick to open!
+    parting:
+      nameItem: "&aParting Menu"
+      loreItem: |-
+        &7Open a menu to select
+        &7or purchase partings.
+        &7
+        &eClick to open!
   teams:
     title: "&aTeam Selector"
     random:

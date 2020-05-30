@@ -14,8 +14,8 @@ public class ConfigManager {
     private boolean placeholdersAPI, redPanelInLocked;
     private Location mainLobby;
     private short redPanelData;
-    private Material redPanelMaterial;
-    private Sound wineffectschicken, wineffectsvulcanfire, wineffectvulcanwool, wineffectnotes;
+    private Material back, redPanelMaterial;
+    private Sound wineffectschicken, wineffectsvulcanfire, wineffectvulcanwool, wineffectnotes, killEffectTNT, killEffectSquid;
 
     public ConfigManager(Main plugin) {
         this.plugin = plugin;
@@ -32,5 +32,8 @@ public class ConfigManager {
         this.redPanelData = (short) plugin.getConfig().getInt("redPanel.data");
         this.redPanelMaterial = Material.valueOf(plugin.getConfig().getString("redPanel.material"));
         this.redPanelInLocked = plugin.getConfig().getBoolean("redPanelInLocked");
+        this.killEffectTNT = Sound.valueOf(plugin.getConfig().getString("sounds.killeffects.tnt"));
+        this.killEffectSquid = Sound.valueOf(plugin.getConfig().getString("sounds.killeffects.squid"));
+        this.back = Material.valueOf(plugin.getConfig().getString("materials.closeitem"));
     }
 }

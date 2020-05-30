@@ -39,4 +39,8 @@ public class AddonManager {
         return plugin.getDb().getCTWPlayer(p).getCoins();
     }
 
+    public void removeCoins(Player p, double price){
+
+    }
+
 }

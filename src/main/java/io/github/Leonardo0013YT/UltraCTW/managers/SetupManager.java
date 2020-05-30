@@ -2,9 +2,7 @@ package io.github.Leonardo0013YT.UltraCTW.managers;
 
 import io.github.Leonardo0013YT.UltraCTW.Main;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.UltraInventory;
-import io.github.Leonardo0013YT.UltraCTW.setup.ArenaSetup;
-import io.github.Leonardo0013YT.UltraCTW.setup.KitSetup;
-import io.github.Leonardo0013YT.UltraCTW.setup.TeamSetup;
+import io.github.Leonardo0013YT.UltraCTW.setup.*;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
@@ -17,6 +15,10 @@ public class SetupManager {
     private HashMap<Player, ArenaSetup> setup = new HashMap<>();
     private HashMap<Player, TeamSetup> setupTeam = new HashMap<>();
     private HashMap<Player, KitSetup> setupKit = new HashMap<>();
+    private HashMap<Player, KillSoundSetup> setupKillSound = new HashMap<>();
+    private HashMap<Player, PartingSetup> setupParting = new HashMap<>();
+    private HashMap<Player, TauntSetup> setupTaunt = new HashMap<>();
+    private HashMap<Player, TrailSetup> setupTrail = new HashMap<>();
 
     public SetupManager(Main plugin) {
         this.plugin = plugin;
@@ -100,6 +102,70 @@ public class SetupManager {
 
     public void removeTeam(Player p) {
         setupTeam.remove(p);
+    }
+
+    public void setSetupParting(Player p, PartingSetup a) {
+        setupParting.put(p, a);
+    }
+
+    public PartingSetup getSetupParting(Player p) {
+        return setupParting.get(p);
+    }
+
+    public boolean isSetupParting(Player p) {
+        return setupParting.containsKey(p);
+    }
+
+    public void removeParting(Player p) {
+        setupParting.remove(p);
+    }
+
+    public void setSetupKillSound(Player p, KillSoundSetup a) {
+        setupKillSound.put(p, a);
+    }
+
+    public KillSoundSetup getSetupKillSound(Player p) {
+        return setupKillSound.get(p);
+    }
+
+    public boolean isSetupKillSound(Player p) {
+        return setupKillSound.containsKey(p);
+    }
+
+    public void removeKillSound(Player p) {
+        setupKillSound.remove(p);
+    }
+
+    public void setSetupTrail(Player p, TrailSetup a) {
+        setupTrail.put(p, a);
+    }
+
+    public TrailSetup getSetupTrail(Player p) {
+        return setupTrail.get(p);
+    }
+
+    public boolean isSetupTrail(Player p) {
+        return setupTrail.containsKey(p);
+    }
+
+    public void removeTrail(Player p) {
+        setupTrail.remove(p);
+    }
+
+    public void setSetupTaunt(Player p, TauntSetup a) {
+        setupTaunt.put(p, a);
+    }
+
+    public TauntSetup getSetupTaunt(Player p) {
+        return setupTaunt.get(p);
+    }
+
+    public boolean isSetupTaunt(Player p) {
+        return setupTaunt.containsKey(p);
+    }
+
+    public void removeTaunt(Player p) {
+        setupTaunt.remove(p);
     }
 
 }

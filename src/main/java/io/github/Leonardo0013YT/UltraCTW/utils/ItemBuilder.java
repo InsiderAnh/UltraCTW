@@ -164,6 +164,15 @@ public class ItemBuilder {
         return head;
     }
 
+    public static ItemStack nameLore(ItemStack itemStack, String displayName, String s) {
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        itemMeta.setDisplayName(displayName);
+        itemMeta.setLore(null);
+        itemMeta.setLore(s.isEmpty() ? new ArrayList<>() : Arrays.asList(s.split("\\n")));
+        itemStack.setItemMeta(itemMeta);
+        return itemStack;
+    }
+
     public static void addItemFlags(ItemMeta itemMeta) {
         itemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_DESTROYS, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_PLACED_ON, ItemFlag.HIDE_POTION_EFFECTS, ItemFlag.HIDE_UNBREAKABLE);
     }

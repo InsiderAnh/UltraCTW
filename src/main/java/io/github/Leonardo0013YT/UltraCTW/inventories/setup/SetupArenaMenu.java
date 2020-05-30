@@ -1,4 +1,4 @@
-package io.github.Leonardo0013YT.UltraCTW.inventories;
+package io.github.Leonardo0013YT.UltraCTW.inventories.setup;
 
 import io.github.Leonardo0013YT.UltraCTW.Main;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.UltraInventory;

@@ -4,16 +4,14 @@ import io.github.Leonardo0013YT.UltraCTW.Main;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.UltraInventory;
 import io.github.Leonardo0013YT.UltraCTW.objects.Selection;
 import io.github.Leonardo0013YT.UltraCTW.objects.Squared;
-import io.github.Leonardo0013YT.UltraCTW.setup.ArenaSetup;
-import io.github.Leonardo0013YT.UltraCTW.setup.KitLevelSetup;
-import io.github.Leonardo0013YT.UltraCTW.setup.KitSetup;
-import io.github.Leonardo0013YT.UltraCTW.setup.TeamSetup;
+import io.github.Leonardo0013YT.UltraCTW.setup.*;
 import io.github.Leonardo0013YT.UltraCTW.utils.NBTEditor;
 import io.github.Leonardo0013YT.UltraCTW.utils.Utils;
 import io.github.Leonardo0013YT.UltraCTW.xseries.XMaterial;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -31,6 +29,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.TreeMap;
 
 public class SetupListener implements Listener {
@@ -45,6 +45,808 @@ public class SetupListener implements Listener {
     public void onChat(AsyncPlayerChatEvent e) {
         Player p = e.getPlayer();
         if (plugin.getSm().isSetupName(p)) {
+            if (plugin.getSm().isSetupTaunt(p)) {
+                if (plugin.getSm().isSetupName(p)) {
+                    e.setCancelled(true);
+                    TauntSetup ts = plugin.getSm().getSetupTaunt(p);
+                    String type = plugin.getSm().getSetupName(p);
+                    if (ts.getActual() != null) {
+                        TauntTypeSetup tts = ts.getActual();
+                        if (type.equals("tauntstypeadd")) {
+                            tts.getMsg().add(e.getMessage());
+                            plugin.getUim().openTauntInventory(p, plugin.getUim().getMenus("tauntstype"), tts);
+                        }
+                        return;
+                    }
+                    if (type.equals("tauntslot")) {
+                        int slot;
+                        try {
+                            slot = Integer.parseInt(e.getMessage());
+                        } catch (NumberFormatException ex) {
+                            p.sendMessage(plugin.getLang().get(p, "setup.noNumber"));
+                            return;
+                        }
+                        if (slot < 0) {
+                            p.sendMessage(plugin.getLang().get(p, "setup.taunts.minSlot"));
+                            return;
+                        }
+                        if (slot > 53) {
+                            p.sendMessage(plugin.getLang().get(p, "setup.taunts.maxSlot"));
+                            return;
+                        }
+                        ts.setSlot(slot);
+                        plugin.getSm().removeName(p);
+                        plugin.getUim().openInventory(p, plugin.getUim().getMenus("taunts"),
+                                new String[]{"<title>", ts.getTitle()},
+                                new String[]{"<subtitle>", ts.getSubtitle()},
+                                new String[]{"<name>", ts.getName()},
+                                new String[]{"<player>", ts.getPlayer()},
+                                new String[]{"<none>", ts.getNone()},
+                                new String[]{"<slot>", "" + ts.getSlot()},
+                                new String[]{"<price>", "" + ts.getPrice()},
+                                new String[]{"<page>", "" + ts.getPage()},
+                                new String[]{"<permission>", ts.getPermission()},
+                                new String[]{"<purchasable>", Utils.parseBoolean(ts.isBuy())});
+                    }
+                    if (type.equals("tauntpage")) {
+                        int page;
+                        try {
+                            page = Integer.parseInt(e.getMessage());
+                        } catch (NumberFormatException ex) {
+                            p.sendMessage(plugin.getLang().get(p, "setup.noNumber"));
+                            return;
+                        }
+                        if (page < 0) {
+                            p.sendMessage(plugin.getLang().get(p, "setup.taunts.minPage"));
+                            return;
+                        }
+                        ts.setPage(page);
+                        plugin.getSm().removeName(p);
+                        plugin.getUim().openInventory(p, plugin.getUim().getMenus("taunts"),
+                                new String[]{"<title>", ts.getTitle()},
+                                new String[]{"<subtitle>", ts.getSubtitle()},
+                                new String[]{"<name>", ts.getName()},
+                                new String[]{"<player>", ts.getPlayer()},
+                                new String[]{"<none>", ts.getNone()},
+                                new String[]{"<slot>", "" + ts.getSlot()},
+                                new String[]{"<price>", "" + ts.getPrice()},
+                                new String[]{"<page>", "" + ts.getPage()},
+                                new String[]{"<permission>", ts.getPermission()},
+                                new String[]{"<purchasable>", Utils.parseBoolean(ts.isBuy())});
+                    }
+                    if (type.equals("tauntprice")) {
+                        int price;
+                        try {
+                            price = Integer.parseInt(e.getMessage());
+                        } catch (NumberFormatException ex) {
+                            p.sendMessage(plugin.getLang().get(p, "setup.noNumber"));
+                            return;
+                        }
+                        if (price < 0) {
+                            p.sendMessage(plugin.getLang().get(p, "setup.taunts.minPrice"));
+                            return;
+                        }
+                        ts.setPrice(price);
+                        plugin.getSm().removeName(p);
+                        plugin.getUim().openInventory(p, plugin.getUim().getMenus("taunts"),
+                                new String[]{"<title>", ts.getTitle()},
+                                new String[]{"<subtitle>", ts.getSubtitle()},
+                                new String[]{"<name>", ts.getName()},
+                                new String[]{"<player>", ts.getPlayer()},
+                                new String[]{"<none>", ts.getNone()},
+                                new String[]{"<slot>", "" + ts.getSlot()},
+                                new String[]{"<price>", "" + ts.getPrice()},
+                                new String[]{"<page>", "" + ts.getPage()},
+                                new String[]{"<permission>", ts.getPermission()},
+                                new String[]{"<purchasable>", Utils.parseBoolean(ts.isBuy())});
+                    }
+                    if (type.equals("tauntpermission")) {
+                        ts.setPermission(e.getMessage());
+                        plugin.getSm().removeName(p);
+                        plugin.getUim().openInventory(p, plugin.getUim().getMenus("taunts"),
+                                new String[]{"<title>", ts.getTitle()},
+                                new String[]{"<subtitle>", ts.getSubtitle()},
+                                new String[]{"<name>", ts.getName()},
+                                new String[]{"<player>", ts.getPlayer()},
+                                new String[]{"<none>", ts.getNone()},
+                                new String[]{"<slot>", "" + ts.getSlot()},
+                                new String[]{"<price>", "" + ts.getPrice()},
+                                new String[]{"<page>", "" + ts.getPage()},
+                                new String[]{"<permission>", ts.getPermission()},
+                                new String[]{"<purchasable>", Utils.parseBoolean(ts.isBuy())});
+                    }
+                    if (type.equals("taunttitle")) {
+                        ts.setTitle(e.getMessage());
+                        plugin.getSm().removeName(p);
+                        plugin.getUim().openInventory(p, plugin.getUim().getMenus("taunts"),
+                                new String[]{"<title>", ts.getTitle()},
+                                new String[]{"<subtitle>", ts.getSubtitle()},
+                                new String[]{"<name>", ts.getName()},
+                                new String[]{"<player>", ts.getPlayer()},
+                                new String[]{"<none>", ts.getNone()},
+                                new String[]{"<slot>", "" + ts.getSlot()},
+                                new String[]{"<price>", "" + ts.getPrice()},
+                                new String[]{"<page>", "" + ts.getPage()},
+                                new String[]{"<permission>", ts.getPermission()},
+                                new String[]{"<purchasable>", Utils.parseBoolean(ts.isBuy())});
+                    }
+                    if (type.equals("tauntsubtitle")) {
+                        ts.setSubtitle(e.getMessage());
+                        plugin.getSm().removeName(p);
+                        plugin.getUim().openInventory(p, plugin.getUim().getMenus("taunts"),
+                                new String[]{"<title>", ts.getTitle()},
+                                new String[]{"<subtitle>", ts.getSubtitle()},
+                                new String[]{"<name>", ts.getName()},
+                                new String[]{"<player>", ts.getPlayer()},
+                                new String[]{"<none>", ts.getNone()},
+                                new String[]{"<slot>", "" + ts.getSlot()},
+                                new String[]{"<price>", "" + ts.getPrice()},
+                                new String[]{"<page>", "" + ts.getPage()},
+                                new String[]{"<permission>", ts.getPermission()},
+                                new String[]{"<purchasable>", Utils.parseBoolean(ts.isBuy())});
+                    }
+                    if (type.equals("tauntplayer")) {
+                        ts.setPlayer(e.getMessage());
+                        plugin.getSm().removeName(p);
+                        plugin.getUim().openInventory(p, plugin.getUim().getMenus("taunts"),
+                                new String[]{"<title>", ts.getTitle()},
+                                new String[]{"<subtitle>", ts.getSubtitle()},
+                                new String[]{"<name>", ts.getName()},
+                                new String[]{"<player>", ts.getPlayer()},
+                                new String[]{"<none>", ts.getNone()},
+                                new String[]{"<slot>", "" + ts.getSlot()},
+                                new String[]{"<price>", "" + ts.getPrice()},
+                                new String[]{"<page>", "" + ts.getPage()},
+                                new String[]{"<permission>", ts.getPermission()},
+                                new String[]{"<purchasable>", Utils.parseBoolean(ts.isBuy())});
+                    }
+                    if (type.equals("tauntnone")) {
+                        ts.setNone(e.getMessage());
+                        plugin.getSm().removeName(p);
+                        plugin.getUim().openInventory(p, plugin.getUim().getMenus("taunts"),
+                                new String[]{"<title>", ts.getTitle()},
+                                new String[]{"<subtitle>", ts.getSubtitle()},
+                                new String[]{"<name>", ts.getName()},
+                                new String[]{"<player>", ts.getPlayer()},
+                                new String[]{"<none>", ts.getNone()},
+                                new String[]{"<slot>", "" + ts.getSlot()},
+                                new String[]{"<price>", "" + ts.getPrice()},
+                                new String[]{"<page>", "" + ts.getPage()},
+                                new String[]{"<permission>", ts.getPermission()},
+                                new String[]{"<purchasable>", Utils.parseBoolean(ts.isBuy())});
+                    }
+                }
+            }
+            if (plugin.getSm().isSetupTrail(p)) {
+                if (plugin.getSm().isSetupName(p)) {
+                    e.setCancelled(true);
+                    TrailSetup ts = plugin.getSm().getSetupTrail(p);
+                    String type = plugin.getSm().getSetupName(p);
+                    if (type.equals("trailspeed")) {
+                        int speed;
+                        try {
+                            speed = Integer.parseInt(e.getMessage());
+                        } catch (NumberFormatException ex) {
+                            p.sendMessage(plugin.getLang().get(p, "setup.noNumber"));
+                            return;
+                        }
+                        if (speed < 0) {
+                            p.sendMessage(plugin.getLang().get(p, "setup.trails.minSpeed"));
+                            return;
+                        }
+                        ts.setSpeed(speed);
+                        plugin.getSm().removeName(p);
+                        plugin.getUim().openInventory(p, plugin.getUim().getMenus("trails"),
+                                new String[]{"<name>", ts.getName()},
+                                new String[]{"<slot>", "" + ts.getSlot()},
+                                new String[]{"<price>", "" + ts.getPrice()},
+                                new String[]{"<page>", "" + ts.getPage()},
+                                new String[]{"<speed>", "" + ts.getSpeed()},
+                                new String[]{"<offsetX>", "" + ts.getOffsetX()},
+                                new String[]{"<offsetY>", "" + ts.getOffsetY()},
+                                new String[]{"<offsetZ>", "" + ts.getOffsetZ()},
+                                new String[]{"<amount>", "" + ts.getAmount()},
+                                new String[]{"<range>", "" + ts.getRange()},
+                                new String[]{"<particle>", ts.getParticle()},
+                                new String[]{"<permission>", ts.getPermission()},
+                                new String[]{"<name>", ts.getName()},
+                                new String[]{"<purchasable>", Utils.parseBoolean(ts.isBuy())});
+                    }
+                    if (type.equals("trailoffsetx")) {
+                        float offsetX;
+                        try {
+                            offsetX = Float.parseFloat(e.getMessage());
+                        } catch (NumberFormatException ex) {
+                            p.sendMessage(plugin.getLang().get(p, "setup.noNumber"));
+                            return;
+                        }
+                        if (offsetX < 0) {
+                            p.sendMessage(plugin.getLang().get(p, "setup.trails.minoffsetX"));
+                            return;
+                        }
+                        ts.setOffsetX(offsetX);
+                        plugin.getSm().removeName(p);
+                        plugin.getUim().openInventory(p, plugin.getUim().getMenus("trails"),
+                                new String[]{"<name>", ts.getName()},
+                                new String[]{"<slot>", "" + ts.getSlot()},
+                                new String[]{"<price>", "" + ts.getPrice()},
+                                new String[]{"<page>", "" + ts.getPage()},
+                                new String[]{"<speed>", "" + ts.getSpeed()},
+                                new String[]{"<offsetX>", "" + ts.getOffsetX()},
+                                new String[]{"<offsetY>", "" + ts.getOffsetY()},
+                                new String[]{"<offsetZ>", "" + ts.getOffsetZ()},
+                                new String[]{"<amount>", "" + ts.getAmount()},
+                                new String[]{"<range>", "" + ts.getRange()},
+                                new String[]{"<particle>", ts.getParticle()},
+                                new String[]{"<permission>", ts.getPermission()},
+                                new String[]{"<name>", ts.getName()},
+                                new String[]{"<purchasable>", Utils.parseBoolean(ts.isBuy())});
+                    }
+                    if (type.equals("trailoffsety")) {
+                        float offsetY;
+                        try {
+                            offsetY = Float.parseFloat(e.getMessage());
+                        } catch (NumberFormatException ex) {
+                            p.sendMessage(plugin.getLang().get(p, "setup.noNumber"));
+                            return;
+                        }
+                        if (offsetY < 0) {
+                            p.sendMessage(plugin.getLang().get(p, "setup.trails.minoffsetY"));
+                            return;
+                        }
+                        ts.setOffsetY(offsetY);
+                        plugin.getSm().removeName(p);
+                        plugin.getUim().openInventory(p, plugin.getUim().getMenus("trails"),
+                                new String[]{"<name>", ts.getName()},
+                                new String[]{"<slot>", "" + ts.getSlot()},
+                                new String[]{"<price>", "" + ts.getPrice()},
+                                new String[]{"<page>", "" + ts.getPage()},
+                                new String[]{"<speed>", "" + ts.getSpeed()},
+                                new String[]{"<offsetX>", "" + ts.getOffsetX()},
+                                new String[]{"<offsetY>", "" + ts.getOffsetY()},
+                                new String[]{"<offsetZ>", "" + ts.getOffsetZ()},
+                                new String[]{"<amount>", "" + ts.getAmount()},
+                                new String[]{"<range>", "" + ts.getRange()},
+                                new String[]{"<particle>", ts.getParticle()},
+                                new String[]{"<permission>", ts.getPermission()},
+                                new String[]{"<name>", ts.getName()},
+                                new String[]{"<purchasable>", Utils.parseBoolean(ts.isBuy())});
+                    }
+                    if (type.equals("trailoffsetz")) {
+                        float offsetZ;
+                        try {
+                            offsetZ = Float.parseFloat(e.getMessage());
+                        } catch (NumberFormatException ex) {
+                            p.sendMessage(plugin.getLang().get(p, "setup.noNumber"));
+                            return;
+                        }
+                        if (offsetZ < 0) {
+                            p.sendMessage(plugin.getLang().get(p, "setup.trails.minoffsetZ"));
+                            return;
+                        }
+                        ts.setOffsetZ(offsetZ);
+                        plugin.getSm().removeName(p);
+                        plugin.getUim().openInventory(p, plugin.getUim().getMenus("trails"),
+                                new String[]{"<name>", ts.getName()},
+                                new String[]{"<slot>", "" + ts.getSlot()},
+                                new String[]{"<price>", "" + ts.getPrice()},
+                                new String[]{"<page>", "" + ts.getPage()},
+                                new String[]{"<speed>", "" + ts.getSpeed()},
+                                new String[]{"<offsetX>", "" + ts.getOffsetX()},
+                                new String[]{"<offsetY>", "" + ts.getOffsetY()},
+                                new String[]{"<offsetZ>", "" + ts.getOffsetZ()},
+                                new String[]{"<amount>", "" + ts.getAmount()},
+                                new String[]{"<range>", "" + ts.getRange()},
+                                new String[]{"<particle>", ts.getParticle()},
+                                new String[]{"<permission>", ts.getPermission()},
+                                new String[]{"<name>", ts.getName()},
+                                new String[]{"<purchasable>", Utils.parseBoolean(ts.isBuy())});
+                    }
+                    if (type.equals("trailpermission")) {
+                        ts.setPermission(e.getMessage());
+                        plugin.getSm().removeName(p);
+                        plugin.getUim().openInventory(p, plugin.getUim().getMenus("trails"),
+                                new String[]{"<name>", ts.getName()},
+                                new String[]{"<slot>", "" + ts.getSlot()},
+                                new String[]{"<price>", "" + ts.getPrice()},
+                                new String[]{"<page>", "" + ts.getPage()},
+                                new String[]{"<speed>", "" + ts.getSpeed()},
+                                new String[]{"<offsetX>", "" + ts.getOffsetX()},
+                                new String[]{"<offsetY>", "" + ts.getOffsetY()},
+                                new String[]{"<offsetZ>", "" + ts.getOffsetZ()},
+                                new String[]{"<amount>", "" + ts.getAmount()},
+                                new String[]{"<range>", "" + ts.getRange()},
+                                new String[]{"<particle>", ts.getParticle()},
+                                new String[]{"<permission>", ts.getPermission()},
+                                new String[]{"<name>", ts.getName()},
+                                new String[]{"<purchasable>", Utils.parseBoolean(ts.isBuy())});
+                    }
+                    if (type.equals("trailamount")) {
+                        int amount;
+                        try {
+                            amount = Integer.parseInt(e.getMessage());
+                        } catch (NumberFormatException ex) {
+                            p.sendMessage(plugin.getLang().get(p, "setup.noNumber"));
+                            return;
+                        }
+                        if (amount < 0) {
+                            p.sendMessage(plugin.getLang().get(p, "setup.trails.minAmount"));
+                            return;
+                        }
+                        ts.setAmount(amount);
+                        plugin.getSm().removeName(p);
+                        plugin.getUim().openInventory(p, plugin.getUim().getMenus("trails"),
+                                new String[]{"<name>", ts.getName()},
+                                new String[]{"<slot>", "" + ts.getSlot()},
+                                new String[]{"<price>", "" + ts.getPrice()},
+                                new String[]{"<page>", "" + ts.getPage()},
+                                new String[]{"<speed>", "" + ts.getSpeed()},
+                                new String[]{"<offsetX>", "" + ts.getOffsetX()},
+                                new String[]{"<offsetY>", "" + ts.getOffsetY()},
+                                new String[]{"<offsetZ>", "" + ts.getOffsetZ()},
+                                new String[]{"<amount>", "" + ts.getAmount()},
+                                new String[]{"<range>", "" + ts.getRange()},
+                                new String[]{"<particle>", ts.getParticle()},
+                                new String[]{"<permission>", ts.getPermission()},
+                                new String[]{"<name>", ts.getName()},
+                                new String[]{"<purchasable>", Utils.parseBoolean(ts.isBuy())});
+                    }
+                    if (type.equals("trailrange")) {
+                        double range;
+                        try {
+                            range = Double.parseDouble(e.getMessage());
+                        } catch (NumberFormatException ex) {
+                            p.sendMessage(plugin.getLang().get(p, "setup.noNumber"));
+                            return;
+                        }
+                        if (range < 0) {
+                            p.sendMessage(plugin.getLang().get(p, "setup.trails.minRange"));
+                            return;
+                        }
+                        ts.setRange(range);
+                        plugin.getSm().removeName(p);
+                        plugin.getUim().openInventory(p, plugin.getUim().getMenus("trails"),
+                                new String[]{"<name>", ts.getName()},
+                                new String[]{"<slot>", "" + ts.getSlot()},
+                                new String[]{"<price>", "" + ts.getPrice()},
+                                new String[]{"<page>", "" + ts.getPage()},
+                                new String[]{"<speed>", "" + ts.getSpeed()},
+                                new String[]{"<offsetX>", "" + ts.getOffsetX()},
+                                new String[]{"<offsetY>", "" + ts.getOffsetY()},
+                                new String[]{"<offsetZ>", "" + ts.getOffsetZ()},
+                                new String[]{"<amount>", "" + ts.getAmount()},
+                                new String[]{"<range>", "" + ts.getRange()},
+                                new String[]{"<particle>", ts.getParticle()},
+                                new String[]{"<permission>", ts.getPermission()},
+                                new String[]{"<name>", ts.getName()},
+                                new String[]{"<purchasable>", Utils.parseBoolean(ts.isBuy())});
+                    }
+                    if (type.equals("trailprice")) {
+                        int price;
+                        try {
+                            price = Integer.parseInt(e.getMessage());
+                        } catch (NumberFormatException ex) {
+                            p.sendMessage(plugin.getLang().get(p, "setup.noNumber"));
+                            return;
+                        }
+                        if (price < 0) {
+                            p.sendMessage(plugin.getLang().get(p, "setup.trails.minPrice"));
+                            return;
+                        }
+                        ts.setPrice(price);
+                        plugin.getSm().removeName(p);
+                        plugin.getUim().openInventory(p, plugin.getUim().getMenus("trails"),
+                                new String[]{"<name>", ts.getName()},
+                                new String[]{"<slot>", "" + ts.getSlot()},
+                                new String[]{"<price>", "" + ts.getPrice()},
+                                new String[]{"<page>", "" + ts.getPage()},
+                                new String[]{"<speed>", "" + ts.getSpeed()},
+                                new String[]{"<offsetX>", "" + ts.getOffsetX()},
+                                new String[]{"<offsetY>", "" + ts.getOffsetY()},
+                                new String[]{"<offsetZ>", "" + ts.getOffsetZ()},
+                                new String[]{"<amount>", "" + ts.getAmount()},
+                                new String[]{"<range>", "" + ts.getRange()},
+                                new String[]{"<particle>", ts.getParticle()},
+                                new String[]{"<permission>", ts.getPermission()},
+                                new String[]{"<name>", ts.getName()},
+                                new String[]{"<purchasable>", Utils.parseBoolean(ts.isBuy())});
+                    }
+                    if (type.equals("trailslot")) {
+                        int slot;
+                        try {
+                            slot = Integer.parseInt(e.getMessage());
+                        } catch (NumberFormatException ex) {
+                            p.sendMessage(plugin.getLang().get(p, "setup.noNumber"));
+                            return;
+                        }
+                        if (slot < 0) {
+                            p.sendMessage(plugin.getLang().get(p, "setup.trails.minSlot"));
+                            return;
+                        }
+                        if (slot > 53) {
+                            p.sendMessage(plugin.getLang().get(p, "setup.trails.maxSlot"));
+                            return;
+                        }
+                        ts.setSlot(slot);
+                        plugin.getSm().removeName(p);
+                        plugin.getUim().openInventory(p, plugin.getUim().getMenus("trails"),
+                                new String[]{"<name>", ts.getName()},
+                                new String[]{"<slot>", "" + ts.getSlot()},
+                                new String[]{"<price>", "" + ts.getPrice()},
+                                new String[]{"<page>", "" + ts.getPage()},
+                                new String[]{"<speed>", "" + ts.getSpeed()},
+                                new String[]{"<offsetX>", "" + ts.getOffsetX()},
+                                new String[]{"<offsetY>", "" + ts.getOffsetY()},
+                                new String[]{"<offsetZ>", "" + ts.getOffsetZ()},
+                                new String[]{"<amount>", "" + ts.getAmount()},
+                                new String[]{"<range>", "" + ts.getRange()},
+                                new String[]{"<particle>", ts.getParticle()},
+                                new String[]{"<permission>", ts.getPermission()},
+                                new String[]{"<name>", ts.getName()},
+                                new String[]{"<purchasable>", Utils.parseBoolean(ts.isBuy())});
+                    }
+                    if (type.equals("trailpage")) {
+                        int page;
+                        try {
+                            page = Integer.parseInt(e.getMessage());
+                        } catch (NumberFormatException ex) {
+                            p.sendMessage(plugin.getLang().get(p, "setup.noNumber"));
+                            return;
+                        }
+                        if (page < 0) {
+                            p.sendMessage(plugin.getLang().get(p, "setup.trails.minPage"));
+                            return;
+                        }
+                        ts.setPage(page);
+                        plugin.getSm().removeName(p);
+                        plugin.getUim().openInventory(p, plugin.getUim().getMenus("trails"),
+                                new String[]{"<name>", ts.getName()},
+                                new String[]{"<slot>", "" + ts.getSlot()},
+                                new String[]{"<price>", "" + ts.getPrice()},
+                                new String[]{"<page>", "" + ts.getPage()},
+                                new String[]{"<speed>", "" + ts.getSpeed()},
+                                new String[]{"<offsetX>", "" + ts.getOffsetX()},
+                                new String[]{"<offsetY>", "" + ts.getOffsetY()},
+                                new String[]{"<offsetZ>", "" + ts.getOffsetZ()},
+                                new String[]{"<amount>", "" + ts.getAmount()},
+                                new String[]{"<range>", "" + ts.getRange()},
+                                new String[]{"<particle>", ts.getParticle()},
+                                new String[]{"<permission>", ts.getPermission()},
+                                new String[]{"<name>", ts.getName()},
+                                new String[]{"<purchasable>", Utils.parseBoolean(ts.isBuy())});
+                    }
+                    if (type.equals("trailparticle")) {
+                        if (!plugin.getVc().getNMS().isParticle(e.getMessage().toUpperCase())) {
+                            p.sendMessage(plugin.getLang().get(p, "setup.trails.noParticle"));
+                            return;
+                        }
+                        ts.setParticle(e.getMessage().toUpperCase());
+                        plugin.getSm().removeName(p);
+                        plugin.getUim().openInventory(p, plugin.getUim().getMenus("trails"),
+                                new String[]{"<name>", ts.getName()},
+                                new String[]{"<slot>", "" + ts.getSlot()},
+                                new String[]{"<price>", "" + ts.getPrice()},
+                                new String[]{"<page>", "" + ts.getPage()},
+                                new String[]{"<speed>", "" + ts.getSpeed()},
+                                new String[]{"<offsetX>", "" + ts.getOffsetX()},
+                                new String[]{"<offsetY>", "" + ts.getOffsetY()},
+                                new String[]{"<offsetZ>", "" + ts.getOffsetZ()},
+                                new String[]{"<amount>", "" + ts.getAmount()},
+                                new String[]{"<range>", "" + ts.getRange()},
+                                new String[]{"<particle>", ts.getParticle()},
+                                new String[]{"<permission>", ts.getPermission()},
+                                new String[]{"<name>", ts.getName()},
+                                new String[]{"<purchasable>", Utils.parseBoolean(ts.isBuy())});
+                    }
+                    if (type.equals("trailpermission")) {
+                        ts.setPermission(e.getMessage());
+                        plugin.getSm().removeName(p);
+                        plugin.getUim().openInventory(p, plugin.getUim().getMenus("trails"),
+                                new String[]{"<name>", ts.getName()},
+                                new String[]{"<slot>", "" + ts.getSlot()},
+                                new String[]{"<price>", "" + ts.getPrice()},
+                                new String[]{"<page>", "" + ts.getPage()},
+                                new String[]{"<speed>", "" + ts.getSpeed()},
+                                new String[]{"<offsetX>", "" + ts.getOffsetX()},
+                                new String[]{"<offsetY>", "" + ts.getOffsetY()},
+                                new String[]{"<offsetZ>", "" + ts.getOffsetZ()},
+                                new String[]{"<amount>", "" + ts.getAmount()},
+                                new String[]{"<range>", "" + ts.getRange()},
+                                new String[]{"<particle>", ts.getParticle()},
+                                new String[]{"<permission>", ts.getPermission()},
+                                new String[]{"<name>", ts.getName()},
+                                new String[]{"<purchasable>", Utils.parseBoolean(ts.isBuy())});
+                    }
+                }
+            }
+            if (plugin.getSm().isSetupKillSound(p)) {
+                if (plugin.getSm().isSetupName(p)) {
+                    e.setCancelled(true);
+                    KillSoundSetup bs = plugin.getSm().getSetupKillSound(p);
+                    String type = plugin.getSm().getSetupName(p);
+                    if (type.equals("killsoundsprice")) {
+                        int price;
+                        try {
+                            price = Integer.parseInt(e.getMessage());
+                        } catch (NumberFormatException ex) {
+                            p.sendMessage(plugin.getLang().get(p, "setup.noNumber"));
+                            return;
+                        }
+                        if (price < 0) {
+                            p.sendMessage(plugin.getLang().get(p, "setup.killsounds.minPrice"));
+                            return;
+                        }
+                        bs.setPrice(price);
+                        plugin.getSm().removeName(p);
+                        plugin.getUim().openInventory(p, plugin.getUim().getMenus("killsounds"),
+                                new String[]{"<name>", bs.getName()},
+                                new String[]{"<slot>", "" + bs.getSlot()},
+                                new String[]{"<sound>", "" + bs.getSound().name()},
+                                new String[]{"<vol1>", "" + bs.getVol1()},
+                                new String[]{"<vol2>", "" + bs.getVol2()},
+                                new String[]{"<price>", "" + bs.getPrice()},
+                                new String[]{"<page>", "" + bs.getPage()},
+                                new String[]{"<permission>", bs.getPermission()},
+                                new String[]{"<name>", bs.getName()},
+                                new String[]{"<purchasable>", Utils.parseBoolean(bs.isBuy())});
+                    }
+                    if (type.equals("killsoundsslot")) {
+                        int slot;
+                        try {
+                            slot = Integer.parseInt(e.getMessage());
+                        } catch (NumberFormatException ex) {
+                            p.sendMessage(plugin.getLang().get(p, "setup.noNumber"));
+                            return;
+                        }
+                        if (slot < 0) {
+                            p.sendMessage(plugin.getLang().get(p, "setup.killsounds.minSlot"));
+                            return;
+                        }
+                        if (slot > 53) {
+                            p.sendMessage(plugin.getLang().get(p, "setup.killsounds.maxSlot"));
+                            return;
+                        }
+                        bs.setSlot(slot);
+                        plugin.getSm().removeName(p);
+                        plugin.getUim().openInventory(p, plugin.getUim().getMenus("killsounds"),
+                                new String[]{"<name>", bs.getName()},
+                                new String[]{"<slot>", "" + bs.getSlot()},
+                                new String[]{"<sound>", "" + bs.getSound().name()},
+                                new String[]{"<vol1>", "" + bs.getVol1()},
+                                new String[]{"<vol2>", "" + bs.getVol2()},
+                                new String[]{"<price>", "" + bs.getPrice()},
+                                new String[]{"<page>", "" + bs.getPage()},
+                                new String[]{"<permission>", bs.getPermission()},
+                                new String[]{"<name>", bs.getName()},
+                                new String[]{"<purchasable>", Utils.parseBoolean(bs.isBuy())});
+                    }
+                    if (type.equals("killsoundspage")) {
+                        int page;
+                        try {
+                            page = Integer.parseInt(e.getMessage());
+                        } catch (NumberFormatException ex) {
+                            p.sendMessage(plugin.getLang().get(p, "setup.noNumber"));
+                            return;
+                        }
+                        if (page < 0) {
+                            p.sendMessage(plugin.getLang().get(p, "setup.balloons.minPage"));
+                            return;
+                        }
+                        bs.setPage(page);
+                        plugin.getSm().removeName(p);
+                        plugin.getUim().openInventory(p, plugin.getUim().getMenus("killsounds"),
+                                new String[]{"<name>", bs.getName()},
+                                new String[]{"<slot>", "" + bs.getSlot()},
+                                new String[]{"<sound>", "" + bs.getSound().name()},
+                                new String[]{"<vol1>", "" + bs.getVol1()},
+                                new String[]{"<vol2>", "" + bs.getVol2()},
+                                new String[]{"<price>", "" + bs.getPrice()},
+                                new String[]{"<page>", "" + bs.getPage()},
+                                new String[]{"<permission>", bs.getPermission()},
+                                new String[]{"<name>", bs.getName()},
+                                new String[]{"<purchasable>", Utils.parseBoolean(bs.isBuy())});
+                    }
+                    if (type.equals("killsoundspermission")) {
+                        bs.setPermission(e.getMessage());
+                        plugin.getSm().removeName(p);
+                        plugin.getUim().openInventory(p, plugin.getUim().getMenus("killsounds"),
+                                new String[]{"<name>", bs.getName()},
+                                new String[]{"<slot>", "" + bs.getSlot()},
+                                new String[]{"<sound>", "" + bs.getSound().name()},
+                                new String[]{"<vol1>", "" + bs.getVol1()},
+                                new String[]{"<vol2>", "" + bs.getVol2()},
+                                new String[]{"<price>", "" + bs.getPrice()},
+                                new String[]{"<page>", "" + bs.getPage()},
+                                new String[]{"<permission>", bs.getPermission()},
+                                new String[]{"<name>", bs.getName()},
+                                new String[]{"<purchasable>", Utils.parseBoolean(bs.isBuy())});
+                    }
+                    if (type.equals("killsoundssound")) {
+                        List<String> sounds = new ArrayList<>();
+                        for (Sound v : Sound.values()) {
+                            sounds.add(v.name());
+                        }
+                        if (!sounds.contains(e.getMessage().toUpperCase())) {
+                            p.sendMessage(plugin.getLang().get(p, "setup.killsounds.noSound"));
+                            return;
+                        }
+                        bs.setSound(Sound.valueOf(e.getMessage().toUpperCase()));
+                        plugin.getSm().removeName(p);
+                        plugin.getUim().openInventory(p, plugin.getUim().getMenus("killsounds"),
+                                new String[]{"<name>", bs.getName()},
+                                new String[]{"<slot>", "" + bs.getSlot()},
+                                new String[]{"<sound>", "" + bs.getSound().name()},
+                                new String[]{"<vol1>", "" + bs.getVol1()},
+                                new String[]{"<vol2>", "" + bs.getVol2()},
+                                new String[]{"<price>", "" + bs.getPrice()},
+                                new String[]{"<page>", "" + bs.getPage()},
+                                new String[]{"<permission>", bs.getPermission()},
+                                new String[]{"<name>", bs.getName()},
+                                new String[]{"<purchasable>", Utils.parseBoolean(bs.isBuy())});
+                    }
+                    if (type.equals("killsoundsvol1")) {
+                        float vol1;
+                        try {
+                            vol1 = Float.parseFloat(e.getMessage());
+                        } catch (NumberFormatException ex) {
+                            p.sendMessage(plugin.getLang().get(p, "setup.noNumber"));
+                            return;
+                        }
+                        if (vol1 < 0) {
+                            p.sendMessage(plugin.getLang().get(p, "setup.killsounds.minVol1"));
+                            return;
+                        }
+                        bs.setVol1(vol1);
+                        plugin.getSm().removeName(p);
+                        plugin.getUim().openInventory(p, plugin.getUim().getMenus("killsounds"),
+                                new String[]{"<name>", bs.getName()},
+                                new String[]{"<slot>", "" + bs.getSlot()},
+                                new String[]{"<sound>", "" + bs.getSound().name()},
+                                new String[]{"<vol1>", "" + bs.getVol1()},
+                                new String[]{"<vol2>", "" + bs.getVol2()},
+                                new String[]{"<price>", "" + bs.getPrice()},
+                                new String[]{"<page>", "" + bs.getPage()},
+                                new String[]{"<permission>", bs.getPermission()},
+                                new String[]{"<name>", bs.getName()},
+                                new String[]{"<purchasable>", Utils.parseBoolean(bs.isBuy())});
+                    }
+                    if (type.equals("killsoundsvol2")) {
+                        float vol2;
+                        try {
+                            vol2 = Float.parseFloat(e.getMessage());
+                        } catch (NumberFormatException ex) {
+                            p.sendMessage(plugin.getLang().get(p, "setup.noNumber"));
+                            return;
+                        }
+                        if (vol2 < 0) {
+                            p.sendMessage(plugin.getLang().get(p, "setup.killsounds.minVol2"));
+                            return;
+                        }
+                        bs.setVol2(vol2);
+                        plugin.getSm().removeName(p);
+                        plugin.getUim().openInventory(p, plugin.getUim().getMenus("killsounds"),
+                                new String[]{"<name>", bs.getName()},
+                                new String[]{"<slot>", "" + bs.getSlot()},
+                                new String[]{"<sound>", "" + bs.getSound().name()},
+                                new String[]{"<vol1>", "" + bs.getVol1()},
+                                new String[]{"<vol2>", "" + bs.getVol2()},
+                                new String[]{"<price>", "" + bs.getPrice()},
+                                new String[]{"<page>", "" + bs.getPage()},
+                                new String[]{"<permission>", bs.getPermission()},
+                                new String[]{"<name>", bs.getName()},
+                                new String[]{"<purchasable>", Utils.parseBoolean(bs.isBuy())});
+                    }
+                }
+            }
+            if (plugin.getSm().isSetupParting(p)) {
+                if (plugin.getSm().isSetupName(p)) {
+                    e.setCancelled(true);
+                    PartingSetup bs = plugin.getSm().getSetupParting(p);
+                    String type = plugin.getSm().getSetupName(p);
+                    if (type.equals("partingprice")) {
+                        int price;
+                        try {
+                            price = Integer.parseInt(e.getMessage());
+                        } catch (NumberFormatException ex) {
+                            p.sendMessage(plugin.getLang().get(p, "setup.noNumber"));
+                            return;
+                        }
+                        if (price < 0) {
+                            p.sendMessage(plugin.getLang().get(p, "setup.parting.minPrice"));
+                            return;
+                        }
+                        bs.setPrice(price);
+                        plugin.getSm().removeName(p);
+                        plugin.getUim().openInventory(p, plugin.getUim().getMenus("parting"),
+                                new String[]{"<name>", bs.getName()},
+                                new String[]{"<slot>", "" + bs.getSlot()},
+                                new String[]{"<messages>", "" + bs.getMessage()},
+                                new String[]{"<price>", "" + bs.getPrice()},
+                                new String[]{"<page>", "" + bs.getPage()},
+                                new String[]{"<permission>", bs.getPermission()},
+                                new String[]{"<name>", bs.getName()},
+                                new String[]{"<purchasable>", Utils.parseBoolean(bs.isBuy())});
+                    }
+                    if (type.equals("partingslot")) {
+                        int slot;
+                        try {
+                            slot = Integer.parseInt(e.getMessage());
+                        } catch (NumberFormatException ex) {
+                            p.sendMessage(plugin.getLang().get(p, "setup.noNumber"));
+                            return;
+                        }
+                        if (slot < 0) {
+                            p.sendMessage(plugin.getLang().get(p, "setup.parting.minSlot"));
+                            return;
+                        }
+                        if (slot > 53) {
+                            p.sendMessage(plugin.getLang().get(p, "setup.parting.maxSlot"));
+                            return;
+                        }
+                        bs.setSlot(slot);
+                        plugin.getSm().removeName(p);
+                        plugin.getUim().openInventory(p, plugin.getUim().getMenus("parting"),
+                                new String[]{"<name>", bs.getName()},
+                                new String[]{"<slot>", "" + bs.getSlot()},
+                                new String[]{"<messages>", "" + bs.getMessage()},
+                                new String[]{"<price>", "" + bs.getPrice()},
+                                new String[]{"<page>", "" + bs.getPage()},
+                                new String[]{"<permission>", bs.getPermission()},
+                                new String[]{"<name>", bs.getName()},
+                                new String[]{"<purchasable>", Utils.parseBoolean(bs.isBuy())});
+                    }
+                    if (type.equals("partingpage")) {
+                        int page;
+                        try {
+                            page = Integer.parseInt(e.getMessage());
+                        } catch (NumberFormatException ex) {
+                            p.sendMessage(plugin.getLang().get(p, "setup.noNumber"));
+                            return;
+                        }
+                        if (page < 0) {
+                            p.sendMessage(plugin.getLang().get(p, "setup.balloons.minPage"));
+                            return;
+                        }
+                        bs.setPage(page);
+                        plugin.getSm().removeName(p);
+                        plugin.getUim().openInventory(p, plugin.getUim().getMenus("parting"),
+                                new String[]{"<name>", bs.getName()},
+                                new String[]{"<slot>", "" + bs.getSlot()},
+                                new String[]{"<messages>", "" + bs.getMessage()},
+                                new String[]{"<price>", "" + bs.getPrice()},
+                                new String[]{"<page>", "" + bs.getPage()},
+                                new String[]{"<permission>", bs.getPermission()},
+                                new String[]{"<name>", bs.getName()},
+                                new String[]{"<purchasable>", Utils.parseBoolean(bs.isBuy())});
+                    }
+                    if (type.equals("partingpermission")) {
+                        bs.setPermission(e.getMessage());
+                        plugin.getSm().removeName(p);
+                        plugin.getUim().openInventory(p, plugin.getUim().getMenus("parting"),
+                                new String[]{"<name>", bs.getName()},
+                                new String[]{"<slot>", "" + bs.getSlot()},
+                                new String[]{"<messages>", "" + bs.getMessage()},
+                                new String[]{"<price>", "" + bs.getPrice()},
+                                new String[]{"<page>", "" + bs.getPage()},
+                                new String[]{"<permission>", bs.getPermission()},
+                                new String[]{"<name>", bs.getName()},
+                                new String[]{"<purchasable>", Utils.parseBoolean(bs.isBuy())});
+                    }
+                    if (type.equals("partingmessage")) {
+                        bs.getLines().add(e.getMessage());
+                        plugin.getSm().removeName(p);
+                        plugin.getUim().openInventory(p, plugin.getUim().getMenus("parting"),
+                                new String[]{"<name>", bs.getName()},
+                                new String[]{"<slot>", "" + bs.getSlot()},
+                                new String[]{"<messages>", "" + bs.getMessage()},
+                                new String[]{"<price>", "" + bs.getPrice()},
+                                new String[]{"<page>", "" + bs.getPage()},
+                                new String[]{"<permission>", bs.getPermission()},
+                                new String[]{"<name>", bs.getName()},
+                                new String[]{"<purchasable>", Utils.parseBoolean(bs.isBuy())});
+                    }
+                }
+            }
             if (plugin.getSm().isSetup(p)) {
                 e.setCancelled(true);
                 ArenaSetup as = plugin.getSm().getSetup(p);
@@ -324,6 +1126,457 @@ public class SetupListener implements Listener {
         Player p = (Player) e.getWhoClicked();
         if (plugin.getSm().isSetupInventory(p)){
             return;
+        }
+        if (plugin.getSm().isSetupTaunt(p)) {
+            UltraInventory t = plugin.getUim().getMenus("taunts");
+            UltraInventory tt = plugin.getUim().getMenus("tauntstype");
+            if (e.getClickedInventory().getType().equals(InventoryType.PLAYER)) {
+                return;
+            }
+            if (e.getView().getTitle().equals(tt.getTitle())) {
+                e.setCancelled(true);
+                if (e.getCurrentItem() == null || e.getCurrentItem().getType().equals(Material.AIR)) {
+                    return;
+                }
+                if (!tt.getContents().containsKey(e.getSlot())) {
+                    return;
+                }
+                ItemStack item = tt.getContents().get(e.getSlot());
+                if (!item.hasItemMeta()) {
+                    return;
+                }
+                if (!item.getItemMeta().hasDisplayName()) {
+                    return;
+                }
+                TauntSetup ts = plugin.getSm().getSetupTaunt(p);
+                ItemMeta im = item.getItemMeta();
+                String display = im.getDisplayName();
+                if (display.equals(plugin.getLang().get(p, "menus.tauntstype.add.nameItem"))) {
+                    plugin.getSm().setSetupName(p, "tauntstypeadd");
+                    p.closeInventory();
+                    p.sendMessage(plugin.getLang().get(p, "setup.tauntstype.setMessage"));
+                }
+                if (display.equals(plugin.getLang().get(p, "menus.tauntstype.save.nameItem"))) {
+                    ts.saveTauntType(p);
+                    plugin.getUim().openInventory(p, plugin.getUim().getMenus("taunts"),
+                            new String[]{"<title>", ts.getTitle()},
+                            new String[]{"<subtitle>", ts.getSubtitle()},
+                            new String[]{"<name>", ts.getName()},
+                            new String[]{"<player>", ts.getPlayer()},
+                            new String[]{"<none>", ts.getNone()},
+                            new String[]{"<slot>", "" + ts.getSlot()},
+                            new String[]{"<price>", "" + ts.getPrice()},
+                            new String[]{"<page>", "" + ts.getPage()},
+                            new String[]{"<permission>", ts.getPermission()},
+                            new String[]{"<purchasable>", Utils.parseBoolean(ts.isBuy())});
+                }
+            }
+            if (e.getView().getTitle().equals(t.getTitle())) {
+                e.setCancelled(true);
+                if (e.getCurrentItem() == null || e.getCurrentItem().getType().equals(Material.AIR)) {
+                    return;
+                }
+                if (!t.getContents().containsKey(e.getSlot())) {
+                    return;
+                }
+                ItemStack item = t.getContents().get(e.getSlot());
+                if (!item.hasItemMeta()) {
+                    return;
+                }
+                if (!item.getItemMeta().hasDisplayName()) {
+                    return;
+                }
+                TauntSetup ts = plugin.getSm().getSetupTaunt(p);
+                ItemMeta im = item.getItemMeta();
+                String display = im.getDisplayName();
+                if (display.equals(plugin.getLang().get(p, "menus.taunts.slot.nameItem"))) {
+                    if (p.getItemOnCursor() == null) {
+                        p.sendMessage(plugin.getLang().get(p, "setup.taunts.noCursor"));
+                        return;
+                    }
+                    ItemStack it = p.getItemOnCursor();
+                    if (it.hasItemMeta()) {
+                        ItemMeta imt = it.getItemMeta();
+                        imt.setDisplayName(null);
+                        imt.setLore(null);
+                        it.setItemMeta(imt);
+                    }
+                    ts.setIcon(it);
+                    p.sendMessage(plugin.getLang().get(p, "setup.taunts.setIcon"));
+                }
+                if (display.equals(plugin.getLang().get(p, "menus.taunts.setplayer.nameItem"))) {
+                    plugin.getSm().setSetupName(p, "tauntplayer");
+                    p.closeInventory();
+                    p.sendMessage(plugin.getLang().get(p, "setup.taunts.setPlayer"));
+                }
+                if (display.equals(plugin.getLang().get(p, "menus.taunts.setnone.nameItem"))) {
+                    plugin.getSm().setSetupName(p, "tauntnone");
+                    p.closeInventory();
+                    p.sendMessage(plugin.getLang().get(p, "setup.taunts.setNone"));
+                }
+                if (display.equals(plugin.getLang().get(p, "menus.taunts.settitle.nameItem"))) {
+                    plugin.getSm().setSetupName(p, "taunttitle");
+                    p.closeInventory();
+                    p.sendMessage(plugin.getLang().get(p, "setup.taunts.setTitle"));
+                }
+                if (display.equals(plugin.getLang().get(p, "menus.taunts.setsubtitle.nameItem"))) {
+                    plugin.getSm().setSetupName(p, "tauntsubtitle");
+                    p.closeInventory();
+                    p.sendMessage(plugin.getLang().get(p, "setup.taunts.setSubTitle"));
+                }
+                if (display.equals(plugin.getLang().get(p, "menus.taunts.slot.nameItem"))) {
+                    plugin.getSm().setSetupName(p, "tauntslot");
+                    p.closeInventory();
+                    p.sendMessage(plugin.getLang().get(p, "setup.taunts.setSlot"));
+                }
+                if (display.equals(plugin.getLang().get(p, "menus.taunts.price.nameItem"))) {
+                    plugin.getSm().setSetupName(p, "tauntprice");
+                    p.closeInventory();
+                    p.sendMessage(plugin.getLang().get(p, "setup.taunts.setPrice"));
+                }
+                if (display.equals(plugin.getLang().get(p, "menus.taunts.page.nameItem"))) {
+                    plugin.getSm().setSetupName(p, "tauntpage");
+                    p.closeInventory();
+                    p.sendMessage(plugin.getLang().get(p, "setup.taunts.setPage"));
+                }
+                if (display.equals(plugin.getLang().get(p, "menus.taunts.permission.nameItem"))) {
+                    plugin.getSm().setSetupName(p, "tauntpermission");
+                    p.closeInventory();
+                    p.sendMessage(plugin.getLang().get(p, "setup.taunts.setPermission"));
+                }
+                if (display.equals(plugin.getLang().get(p, "menus.taunts.isBuy.nameItem"))) {
+                    ts.setBuy(!ts.isBuy());
+                    p.sendMessage(plugin.getLang().get(p, "setup.taunts.setBuy").replace("<state>", Utils.parseBoolean(ts.isBuy())));
+                    plugin.getUim().openInventory(p, plugin.getUim().getMenus("taunts"),
+                            new String[]{"<title>", ts.getTitle()},
+                            new String[]{"<subtitle>", ts.getSubtitle()},
+                            new String[]{"<name>", ts.getName()},
+                            new String[]{"<player>", ts.getPlayer()},
+                            new String[]{"<none>", ts.getNone()},
+                            new String[]{"<slot>", "" + ts.getSlot()},
+                            new String[]{"<price>", "" + ts.getPrice()},
+                            new String[]{"<page>", "" + ts.getPage()},
+                            new String[]{"<permission>", ts.getPermission()},
+                            new String[]{"<purchasable>", Utils.parseBoolean(ts.isBuy())});
+                }
+                List<String> s = Arrays.asList(plugin.getVc().getNMS().getDamageCauses());
+                String d = display.replace("§e", "");
+                if (s.contains(d)) {
+                    if (ts.getActual() != null) {
+                        plugin.getUim().openTauntInventory(p, plugin.getUim().getMenus("tauntstype"), ts.getActual());
+                    } else {
+                        TauntTypeSetup tts = ts.getTaunts().get(d);
+                        plugin.getUim().openTauntInventory(p, plugin.getUim().getMenus("tauntstype"), tts);
+                        ts.setActual(tts);
+                    }
+                }
+                if (display.equals(plugin.getLang().get(p, "menus.taunts.save.nameItem"))) {
+                    ts.saveTaunt(p);
+                    plugin.getSm().removeTaunt(p);
+                    p.closeInventory();
+                }
+            }
+        }
+        if (plugin.getSm().isSetupTrail(p)) {
+            UltraInventory t = plugin.getUim().getMenus("trails");
+            if (e.getView().getTitle().equals(t.getTitle())) {
+                if (e.getCurrentItem() == null || e.getCurrentItem().getType().equals(Material.AIR)) {
+                    return;
+                }
+                if (!t.getContents().containsKey(e.getSlot())) {
+                    return;
+                }
+                e.setCancelled(true);
+                ItemStack item = t.getContents().get(e.getSlot());
+                if (!item.hasItemMeta()) {
+                    return;
+                }
+                if (!item.getItemMeta().hasDisplayName()) {
+                    return;
+                }
+                TrailSetup ts = plugin.getSm().getSetupTrail(p);
+                ItemMeta im = item.getItemMeta();
+                String display = im.getDisplayName();
+                if (display.equals(plugin.getLang().get(p, "menus.trails.icon.nameItem"))) {
+                    if (e.getCursor() == null || e.getCursor().getType().equals(Material.AIR) || p.getItemOnCursor() == null || p.getItemOnCursor().getType().equals(Material.AIR)) {
+                        p.sendMessage(plugin.getLang().get(p, "setup.trails.noCursor"));
+                        return;
+                    }
+                    ItemStack it = p.getItemOnCursor();
+                    if (it.hasItemMeta()) {
+                        ItemMeta imt = it.getItemMeta();
+                        imt.setDisplayName(null);
+                        imt.setLore(null);
+                        it.setItemMeta(imt);
+                    }
+                    ts.setIcon(it);
+                    p.sendMessage(plugin.getLang().get(p, "setup.trails.setIcon"));
+                }
+                if (display.equals(plugin.getLang().get(p, "menus.trails.speed.nameItem"))) {
+                    plugin.getSm().setSetupName(p, "trailspeed");
+                    p.closeInventory();
+                    p.sendMessage(plugin.getLang().get(p, "setup.trails.setSpeed"));
+                }
+                if (display.equals(plugin.getLang().get(p, "menus.trails.offsetX.nameItem"))) {
+                    plugin.getSm().setSetupName(p, "trailoffsetx");
+                    p.closeInventory();
+                    p.sendMessage(plugin.getLang().get(p, "setup.trails.setoffsetX"));
+                }
+                if (display.equals(plugin.getLang().get(p, "menus.trails.offsetY.nameItem"))) {
+                    plugin.getSm().setSetupName(p, "trailoffsety");
+                    p.closeInventory();
+                    p.sendMessage(plugin.getLang().get(p, "setup.trails.setoffsetY"));
+                }
+                if (display.equals(plugin.getLang().get(p, "menus.trails.offsetZ.nameItem"))) {
+                    plugin.getSm().setSetupName(p, "trailoffsetz");
+                    p.closeInventory();
+                    p.sendMessage(plugin.getLang().get(p, "setup.trails.setoffsetZ"));
+                }
+                if (display.equals(plugin.getLang().get(p, "menus.trails.amount.nameItem"))) {
+                    plugin.getSm().setSetupName(p, "trailamount");
+                    p.closeInventory();
+                    p.sendMessage(plugin.getLang().get(p, "setup.trails.setAmount"));
+                }
+                if (display.equals(plugin.getLang().get(p, "menus.trails.range.nameItem"))) {
+                    plugin.getSm().setSetupName(p, "trailrange");
+                    p.closeInventory();
+                    p.sendMessage(plugin.getLang().get(p, "setup.trails.setRange"));
+                }
+                if (display.equals(plugin.getLang().get(p, "menus.trails.price.nameItem"))) {
+                    plugin.getSm().setSetupName(p, "trailprice");
+                    p.closeInventory();
+                    p.sendMessage(plugin.getLang().get(p, "setup.trails.setPrice"));
+                }
+                if (display.equals(plugin.getLang().get(p, "menus.trails.slot.nameItem"))) {
+                    plugin.getSm().setSetupName(p, "trailslot");
+                    p.closeInventory();
+                    p.sendMessage(plugin.getLang().get(p, "setup.trails.setSlot"));
+                }
+                if (display.equals(plugin.getLang().get(p, "menus.trails.page.nameItem"))) {
+                    plugin.getSm().setSetupName(p, "trailpage");
+                    p.closeInventory();
+                    p.sendMessage(plugin.getLang().get(p, "setup.trails.setPage"));
+                }
+                if (display.equals(plugin.getLang().get(p, "menus.trails.particle.nameItem"))) {
+                    plugin.getSm().setSetupName(p, "trailparticle");
+                    p.closeInventory();
+                    p.sendMessage(plugin.getLang().get(p, "setup.trails.setParticle"));
+                }
+                if (display.equals(plugin.getLang().get(p, "menus.trails.permission.nameItem"))) {
+                    plugin.getSm().setSetupName(p, "trailpermission");
+                    p.closeInventory();
+                    p.sendMessage(plugin.getLang().get(p, "setup.trails.setPermission"));
+                }
+                if (display.equals(plugin.getLang().get(p, "menus.trails.isBuy.nameItem"))) {
+                    ts.setBuy(!ts.isBuy());
+                    p.sendMessage(plugin.getLang().get(p, "setup.trails.setBuy").replace("<state>", Utils.parseBoolean(ts.isBuy())));
+                    plugin.getUim().openInventory(p, plugin.getUim().getMenus("trails"),
+                            new String[]{"<name>", ts.getName()},
+                            new String[]{"<slot>", "" + ts.getSlot()},
+                            new String[]{"<price>", "" + ts.getPrice()},
+                            new String[]{"<page>", "" + ts.getPage()},
+                            new String[]{"<speed>", "" + ts.getSpeed()},
+                            new String[]{"<offsetX>", "" + ts.getOffsetX()},
+                            new String[]{"<offsetY>", "" + ts.getOffsetY()},
+                            new String[]{"<offsetZ>", "" + ts.getOffsetZ()},
+                            new String[]{"<amount>", "" + ts.getAmount()},
+                            new String[]{"<range>", "" + ts.getRange()},
+                            new String[]{"<particle>", ts.getParticle()},
+                            new String[]{"<permission>", ts.getPermission()},
+                            new String[]{"<name>", ts.getName()},
+                            new String[]{"<purchasable>", Utils.parseBoolean(ts.isBuy())});
+                }
+                if (display.equals(plugin.getLang().get(p, "menus.trails.save.nameItem"))) {
+                    ts.saveTrail(p);
+                    p.closeInventory();
+                    plugin.getSm().removeTrail(p);
+                }
+            }
+        }
+        if (plugin.getSm().isSetupParting(p)) {
+            UltraInventory t = plugin.getUim().getMenus("parting");
+            if (e.getView().getTitle().equals(t.getTitle())) {
+                if (e.getCurrentItem() == null || e.getCurrentItem().getType().equals(Material.AIR)) {
+                    return;
+                }
+                if (!t.getContents().containsKey(e.getSlot())) {
+                    return;
+                }
+                e.setCancelled(true);
+                ItemStack item = t.getContents().get(e.getSlot());
+                if (!item.hasItemMeta()) {
+                    return;
+                }
+                if (!item.getItemMeta().hasDisplayName()) {
+                    return;
+                }
+                PartingSetup bs = plugin.getSm().getSetupParting(p);
+                ItemMeta im = item.getItemMeta();
+                String display = im.getDisplayName();
+                if (display.equals(plugin.getLang().get(p, "menus.parting.icon.nameItem"))) {
+                    if (e.getCursor() == null || e.getCursor().getType().equals(Material.AIR) || p.getItemOnCursor() == null || p.getItemOnCursor().getType().equals(Material.AIR)) {
+                        p.sendMessage(plugin.getLang().get(p, "setup.parting.noCursor"));
+                        return;
+                    }
+                    ItemStack it = p.getItemOnCursor();
+                    if (it.hasItemMeta()) {
+                        ItemMeta imt = it.getItemMeta();
+                        imt.setDisplayName(null);
+                        imt.setLore(null);
+                        it.setItemMeta(imt);
+                    }
+                    bs.setIcon(it);
+                    p.sendMessage(plugin.getLang().get(p, "setup.parting.setIcon"));
+                }
+                if (display.equals(plugin.getLang().get(p, "menus.parting.price.nameItem"))) {
+                    plugin.getSm().setSetupName(p, "partingprice");
+                    p.closeInventory();
+                    p.sendMessage(plugin.getLang().get(p, "setup.parting.setPrice"));
+                }
+                if (display.equals(plugin.getLang().get(p, "menus.parting.slot.nameItem"))) {
+                    plugin.getSm().setSetupName(p, "partingslot");
+                    p.closeInventory();
+                    p.sendMessage(plugin.getLang().get(p, "setup.parting.setSlot"));
+                }
+                if (display.equals(plugin.getLang().get(p, "menus.parting.page.nameItem"))) {
+                    plugin.getSm().setSetupName(p, "partingpage");
+                    p.closeInventory();
+                    p.sendMessage(plugin.getLang().get(p, "setup.parting.setPage"));
+                }
+                if (display.equals(plugin.getLang().get(p, "menus.parting.permission.nameItem"))) {
+                    plugin.getSm().setSetupName(p, "partingpermission");
+                    p.closeInventory();
+                    p.sendMessage(plugin.getLang().get(p, "setup.parting.setPermission"));
+                }
+                if (display.equals(plugin.getLang().get(p, "menus.parting.message.nameItem"))) {
+                    if (e.getClick().equals(ClickType.LEFT)) {
+                        plugin.getSm().setSetupName(p, "partingmessage");
+                        p.closeInventory();
+                        p.sendMessage(plugin.getLang().get(p, "setup.parting.addMessage"));
+                    } else {
+                        bs.getLines().remove(bs.getLines().size() - 1);
+                        plugin.getUim().openInventory(p, plugin.getUim().getMenus("parting"),
+                                new String[]{"<name>", bs.getName()},
+                                new String[]{"<slot>", "" + bs.getSlot()},
+                                new String[]{"<messages>", "" + bs.getMessage()},
+                                new String[]{"<price>", "" + bs.getPrice()},
+                                new String[]{"<page>", "" + bs.getPage()},
+                                new String[]{"<permission>", bs.getPermission()},
+                                new String[]{"<name>", bs.getName()},
+                                new String[]{"<purchasable>", Utils.parseBoolean(bs.isBuy())});
+                    }
+                }
+                if (display.equals(plugin.getLang().get(p, "menus.parting.isBuy.nameItem"))) {
+                    bs.setBuy(!bs.isBuy());
+                    p.sendMessage(plugin.getLang().get(p, "setup.parting.setBuy").replace("<state>", Utils.parseBoolean(bs.isBuy())));
+                    plugin.getUim().openInventory(p, plugin.getUim().getMenus("parting"),
+                            new String[]{"<name>", bs.getName()},
+                            new String[]{"<slot>", "" + bs.getSlot()},
+                            new String[]{"<messages>", "" + bs.getMessage()},
+                            new String[]{"<price>", "" + bs.getPrice()},
+                            new String[]{"<page>", "" + bs.getPage()},
+                            new String[]{"<permission>", bs.getPermission()},
+                            new String[]{"<name>", bs.getName()},
+                            new String[]{"<purchasable>", Utils.parseBoolean(bs.isBuy())});
+                }
+                if (display.equals(plugin.getLang().get(p, "menus.parting.save.nameItem"))) {
+                    bs.saveParting(p);
+                    p.closeInventory();
+                    plugin.getSm().removeParting(p);
+                }
+            }
+        }
+        if (plugin.getSm().isSetupKillSound(p)) {
+            UltraInventory t = plugin.getUim().getMenus("killsounds");
+            if (e.getView().getTitle().equals(t.getTitle())) {
+                if (e.getCurrentItem() == null || e.getCurrentItem().getType().equals(Material.AIR)) {
+                    return;
+                }
+                if (!t.getContents().containsKey(e.getSlot())) {
+                    return;
+                }
+                e.setCancelled(true);
+                ItemStack item = t.getContents().get(e.getSlot());
+                if (!item.hasItemMeta()) {
+                    return;
+                }
+                if (!item.getItemMeta().hasDisplayName()) {
+                    return;
+                }
+                KillSoundSetup bs = plugin.getSm().getSetupKillSound(p);
+                ItemMeta im = item.getItemMeta();
+                String display = im.getDisplayName();
+                if (display.equals(plugin.getLang().get(p, "menus.killsounds.icon.nameItem"))) {
+                    if (e.getCursor() == null || e.getCursor().getType().equals(Material.AIR) || p.getItemOnCursor() == null || p.getItemOnCursor().getType().equals(Material.AIR)) {
+                        p.sendMessage(plugin.getLang().get(p, "setup.killsounds.noCursor"));
+                        return;
+                    }
+                    ItemStack it = p.getItemOnCursor();
+                    if (it.hasItemMeta()) {
+                        ItemMeta imt = it.getItemMeta();
+                        imt.setDisplayName(null);
+                        imt.setLore(null);
+                        it.setItemMeta(imt);
+                    }
+                    bs.setIcon(it);
+                    p.sendMessage(plugin.getLang().get(p, "setup.killsounds.setIcon"));
+                }
+                if (display.equals(plugin.getLang().get(p, "menus.killsounds.price.nameItem"))) {
+                    plugin.getSm().setSetupName(p, "killsoundsprice");
+                    p.closeInventory();
+                    p.sendMessage(plugin.getLang().get(p, "setup.killsounds.setPrice"));
+                }
+                if (display.equals(plugin.getLang().get(p, "menus.killsounds.slot.nameItem"))) {
+                    plugin.getSm().setSetupName(p, "killsoundsslot");
+                    p.closeInventory();
+                    p.sendMessage(plugin.getLang().get(p, "setup.killsounds.setSlot"));
+                }
+                if (display.equals(plugin.getLang().get(p, "menus.killsounds.page.nameItem"))) {
+                    plugin.getSm().setSetupName(p, "killsoundspage");
+                    p.closeInventory();
+                    p.sendMessage(plugin.getLang().get(p, "setup.killsounds.setPage"));
+                }
+                if (display.equals(plugin.getLang().get(p, "menus.killsounds.permission.nameItem"))) {
+                    plugin.getSm().setSetupName(p, "killsoundspermission");
+                    p.closeInventory();
+                    p.sendMessage(plugin.getLang().get(p, "setup.killsounds.setPermission"));
+                }
+                if (display.equals(plugin.getLang().get(p, "menus.killsounds.sound.nameItem"))) {
+                    plugin.getSm().setSetupName(p, "killsoundssound");
+                    p.closeInventory();
+                    p.sendMessage(plugin.getLang().get(p, "setup.killsounds.setSound"));
+                }
+                if (display.equals(plugin.getLang().get(p, "menus.killsounds.vol1.nameItem"))) {
+                    plugin.getSm().setSetupName(p, "killsoundsvol1");
+                    p.closeInventory();
+                    p.sendMessage(plugin.getLang().get(p, "setup.killsounds.setVol1"));
+                }
+                if (display.equals(plugin.getLang().get(p, "menus.killsounds.vol2.nameItem"))) {
+                    plugin.getSm().setSetupName(p, "killsoundsvol2");
+                    p.closeInventory();
+                    p.sendMessage(plugin.getLang().get(p, "setup.killsounds.setVol2"));
+                }
+                if (display.equals(plugin.getLang().get(p, "menus.killsounds.isBuy.nameItem"))) {
+                    bs.setBuy(!bs.isBuy());
+                    p.sendMessage(plugin.getLang().get(p, "setup.killsounds.setBuy").replace("<state>", Utils.parseBoolean(bs.isBuy())));
+                    plugin.getUim().openInventory(p, plugin.getUim().getMenus("killsounds"),
+                            new String[]{"<name>", bs.getName()},
+                            new String[]{"<slot>", "" + bs.getSlot()},
+                            new String[]{"<sound>", "" + bs.getSound().name()},
+                            new String[]{"<vol1>", "" + bs.getVol1()},
+                            new String[]{"<vol2>", "" + bs.getVol2()},
+                            new String[]{"<price>", "" + bs.getPrice()},
+                            new String[]{"<page>", "" + bs.getPage()},
+                            new String[]{"<permission>", bs.getPermission()},
+                            new String[]{"<name>", bs.getName()},
+                            new String[]{"<purchasable>", Utils.parseBoolean(bs.isBuy())});
+                }
+                if (display.equals(plugin.getLang().get(p, "menus.killsounds.save.nameItem"))) {
+                    bs.saveKillSound(p);
+                    p.closeInventory();
+                    plugin.getSm().removeKillSound(p);
+                }
+            }
         }
         if (e.getView().getTitle().equals(plugin.getLang().get("menus.kititems.title"))) {
             KitSetup ks = plugin.getSm().getSetupKit(p);
