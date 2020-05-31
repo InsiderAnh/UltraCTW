@@ -7,7 +7,7 @@ import io.github.Leonardo0013YT.UltraCTW.cosmetics.taunts.Taunt;
 import io.github.Leonardo0013YT.UltraCTW.cosmetics.trails.Trail;
 import io.github.Leonardo0013YT.UltraCTW.cosmetics.windances.UltraWinDance;
 import io.github.Leonardo0013YT.UltraCTW.cosmetics.wineffects.UltraWinEffect;
-import io.github.Leonardo0013YT.UltraCTW.game.Game;
+import io.github.Leonardo0013YT.UltraCTW.interfaces.Game;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.CTWPlayer;
 import io.github.Leonardo0013YT.UltraCTW.team.Team;
 import io.github.Leonardo0013YT.UltraCTW.utils.NBTEditor;

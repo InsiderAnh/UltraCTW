@@ -1,7 +1,7 @@
 package io.github.Leonardo0013YT.UltraCTW.utils;
 
 import io.github.Leonardo0013YT.UltraCTW.Main;
-import io.github.Leonardo0013YT.UltraCTW.game.Game;
+import io.github.Leonardo0013YT.UltraCTW.interfaces.Game;
 import io.github.Leonardo0013YT.UltraCTW.team.Team;
 import io.github.Leonardo0013YT.UltraCTW.xseries.XMaterial;
 import org.bukkit.*;

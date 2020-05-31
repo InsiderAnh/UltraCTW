@@ -10,6 +10,7 @@ messages:
   placeTeam: "&eYour team has captured the <place>&e wool."
   incorrectPlace: "&cThis is not the right place for <wool>&c wool."
   alreadyIngame: "&cYou're already in a game."
+  leaveGame: "&cYou're out of the game."
   win:
     - "&a&m&l---------------------------------------------"
     - "&7"
@@ -38,6 +39,7 @@ setup:
     giveAvailableWools: "&aYou have been given the available wools to set up."
     removed: "&cThe last Spawner has been removed."
     noSpawners: "&cSpawners are no longer available."
+    noWools: "&cWools are no longer available."
   kits:
     created: "&aYou have created a new kit."
     setIcon: "&aThe icon has been set."

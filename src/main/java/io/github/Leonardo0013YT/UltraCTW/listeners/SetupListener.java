@@ -1901,6 +1901,10 @@ public class SetupListener implements Listener {
                     p.sendMessage(plugin.getLang().get("setup.arena.noSet.spawn"));
                     return;
                 }
+                if (ts.getWools().size() < as.getWoolSize()){
+                    p.sendMessage(plugin.getLang().get("setup.arena.noSet.noWools"));
+                    return;
+                }
                 if (ts.getColors().size() < as.getWoolSize()){
                     p.sendMessage(plugin.getLang().get("setup.arena.noSet.noColors"));
                     return;

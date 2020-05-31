@@ -1,7 +1,7 @@
 package io.github.Leonardo0013YT.UltraCTW.team;
 
 import io.github.Leonardo0013YT.UltraCTW.Main;
-import io.github.Leonardo0013YT.UltraCTW.game.Game;
+import io.github.Leonardo0013YT.UltraCTW.interfaces.Game;
 import io.github.Leonardo0013YT.UltraCTW.objects.Squared;
 import io.github.Leonardo0013YT.UltraCTW.utils.NBTEditor;
 import io.github.Leonardo0013YT.UltraCTW.utils.Utils;
@@ -13,7 +13,6 @@ import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.metadata.FixedMetadataValue;
 
-import java.lang.reflect.Array;
 import java.util.*;
 
 @Getter
@@ -90,7 +89,6 @@ public class Team {
         return captured.contains(c);
     }
 
-
     public void playSound(XSound sound, float v1, float v2){
         members.forEach(m -> m.playSound(m.getLocation(), sound.parseSound(), v1, v2));
     }
@@ -107,6 +105,7 @@ public class Team {
         members.clear();
         inProgress.clear();
         captured.clear();
+        dropped.clear();
         colors.forEach(c -> inProgress.put(c, new ArrayList<>()));
     }
 

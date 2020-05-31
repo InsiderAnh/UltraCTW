@@ -13,13 +13,13 @@ kits:
         page: 1
         armor:
           - ==: org.bukkit.inventory.ItemStack
-            type: LEATHER_HELMET
-          - ==: org.bukkit.inventory.ItemStack
-            type: LEATHER_CHESTPLATE
+            type: LEATHER_BOOTS
           - ==: org.bukkit.inventory.ItemStack
             type: LEATHER_LEGGINGS
           - ==: org.bukkit.inventory.ItemStack
-            type: LEATHER_BOOTS
+            type: LEATHER_CHESTPLATE
+          - ==: org.bukkit.inventory.ItemStack
+            type: LEATHER_HELMET
         inv:
           - ==: org.bukkit.inventory.ItemStack
             type: WOOD_SWORD

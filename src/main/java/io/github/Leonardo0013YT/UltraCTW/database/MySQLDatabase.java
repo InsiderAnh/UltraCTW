@@ -96,7 +96,7 @@ public class MySQLDatabase implements IDatabase {
                     } else {
                         insert.executeUpdate();
                     }
-                    players.put(p.getUniqueId(), ctw);
+                    loadPlayerData(p, ctw);
                     plugin.sendLogMessage("§aJugador §e" + p.getName() + " §anuevo cargado.");
                 }
                 close(connection, insert, result);
@@ -152,6 +152,9 @@ public class MySQLDatabase implements IDatabase {
     }
 
     private void loadPlayerData(Player p, CTWPlayer pd){
+        if (pd == null){
+            return;
+        }
         CTWPlayer now = new PlayerCTW();
         now.setKillEffect(pd.getKillEffect());
         now.setKillSound(pd.getKillSound());

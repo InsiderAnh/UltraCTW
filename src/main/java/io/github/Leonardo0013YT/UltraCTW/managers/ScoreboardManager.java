@@ -1,7 +1,7 @@
 package io.github.Leonardo0013YT.UltraCTW.managers;
 
 import io.github.Leonardo0013YT.UltraCTW.Main;
-import io.github.Leonardo0013YT.UltraCTW.game.Game;
+import io.github.Leonardo0013YT.UltraCTW.interfaces.Game;
 import io.github.Leonardo0013YT.UltraCTW.game.GamePlayer;
 import io.github.Leonardo0013YT.UltraCTW.team.Team;
 import io.github.Leonardo0013YT.UltraCTW.utils.ScoreboardUtil;

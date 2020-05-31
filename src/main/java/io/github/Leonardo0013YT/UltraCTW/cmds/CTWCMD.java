@@ -1,7 +1,7 @@
 package io.github.Leonardo0013YT.UltraCTW.cmds;
 
 import io.github.Leonardo0013YT.UltraCTW.Main;
-import io.github.Leonardo0013YT.UltraCTW.game.Game;
+import io.github.Leonardo0013YT.UltraCTW.interfaces.Game;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -24,6 +24,10 @@ public class CTWCMD implements CommandExecutor {
                 return true;
             }
             switch (args[0].toLowerCase()) {
+                case "leave":
+                    plugin.getGm().removePlayerGame(p, true);
+                    p.sendMessage(plugin.getLang().get("messages.leaveGame"));
+                    break;
                 case "join":
                     if (args.length < 2){
                         sendHelp(sender);

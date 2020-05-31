@@ -9,7 +9,7 @@ import io.github.Leonardo0013YT.UltraCTW.config.Settings;
 import io.github.Leonardo0013YT.UltraCTW.controllers.VersionController;
 import io.github.Leonardo0013YT.UltraCTW.controllers.WorldController;
 import io.github.Leonardo0013YT.UltraCTW.database.MySQLDatabase;
-import io.github.Leonardo0013YT.UltraCTW.game.Game;
+import io.github.Leonardo0013YT.UltraCTW.interfaces.Game;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.CTWPlayer;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.IDatabase;
 import io.github.Leonardo0013YT.UltraCTW.listeners.MenuListener;

@@ -2,8 +2,11 @@ package io.github.Leonardo0013YT.UltraCTW.managers;
 
 import io.github.Leonardo0013YT.UltraCTW.Main;
 import io.github.Leonardo0013YT.UltraCTW.enums.State;
-import io.github.Leonardo0013YT.UltraCTW.game.Game;
+import io.github.Leonardo0013YT.UltraCTW.game.GameNoState;
+import io.github.Leonardo0013YT.UltraCTW.interfaces.Game;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
 import java.util.UUID;
@@ -24,7 +27,7 @@ public class GameManager {
         if (!plugin.getArenas().isSet("arenas")) return;
         for (String s : plugin.getArenas().getConfig().getConfigurationSection("arenas").getKeys(false)){
             int id = games.size();
-            Game game = new Game(plugin, "arenas." + s, id);
+            Game game = new GameNoState(plugin, "arenas." + s, id);
             games.put(id, game);
             gameNames.put(game.getName(), id);
             plugin.sendLogMessage("§aGame §e" + s + "§a loaded correctly.");
@@ -59,6 +62,7 @@ public class GameManager {
     }
 
     public void removePlayerGame(Player p, boolean toLobby){
+        if (!playerGame.containsKey(p.getUniqueId())) return;
         int id = playerGame.get(p.getUniqueId());
         Game game = games.get(id);
         if (game == null) return;

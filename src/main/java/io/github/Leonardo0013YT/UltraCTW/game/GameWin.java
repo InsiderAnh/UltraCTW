@@ -1,5 +1,6 @@
 package io.github.Leonardo0013YT.UltraCTW.game;
 
+import io.github.Leonardo0013YT.UltraCTW.interfaces.Game;
 import io.github.Leonardo0013YT.UltraCTW.team.Team;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
