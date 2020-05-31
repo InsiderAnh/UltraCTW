@@ -1,5 +1,4 @@
 debugMode: false
-defKit: 0
 addons:
   placeholdersAPI: true
 mainLobby: null

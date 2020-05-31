@@ -1,12 +1,14 @@
 package io.github.Leonardo0013YT.UltraCTW.config;
 
 import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.utils.CenterMessage;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Settings {
@@ -136,7 +138,11 @@ public class Settings {
         if (config.getString(s) == null) {
             return "";
         }
-        return this.config.getString(s).replaceAll("<l>", "¡").replaceAll("&", "§").replaceAll("-,-", "ñ");
+        String string = this.config.getString(s).replaceAll("<l>", "¡").replaceAll("&", "§").replaceAll("-,-", "ñ");
+        if (string.contains("<center>")){
+            return CenterMessage.getCenteredMessage(string.replaceAll("<center>", ""));
+        }
+        return string;
     }
 
     public String get(Player p, String s) {
@@ -144,6 +150,9 @@ public class Settings {
             return "";
         }
         String string = this.config.getString(s).replaceAll("<l>", "¡").replaceAll("&", "§").replaceAll("-,-", "ñ");
+        if (string.contains("<center>")) {
+            string = CenterMessage.getCenteredMessage(string.replaceAll("<center>", ""));
+        }
         if (p != null) {
             return u.getAdm().parsePlaceholders(p, string);
         }
@@ -173,7 +182,15 @@ public class Settings {
     }
 
     public List<String> getList(String s) {
-        return this.config.getStringList(s);
+        List<String> now = new ArrayList<>();
+        for (String st : this.config.getStringList(s)){
+            if (st.contains("<center>")){
+                now.add(CenterMessage.getCenteredMessage(st.replaceAll("<center>", "").replaceAll("&", "§")));
+            } else {
+                now.add(st.replaceAll("&", "§"));
+            }
+        }
+        return now;
     }
 
     public List<String> getListOrDefault(String s, List<String> def) {

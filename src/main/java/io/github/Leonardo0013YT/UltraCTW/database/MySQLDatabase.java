@@ -152,9 +152,6 @@ public class MySQLDatabase implements IDatabase {
     }
 
     private void loadPlayerData(Player p, CTWPlayer pd){
-        if (pd == null){
-            return;
-        }
         CTWPlayer now = new PlayerCTW();
         now.setKillEffect(pd.getKillEffect());
         now.setKillSound(pd.getKillSound());

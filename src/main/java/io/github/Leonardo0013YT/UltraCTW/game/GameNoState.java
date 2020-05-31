@@ -32,7 +32,7 @@ public class GameNoState implements Game {
     private ArrayList<KillEffect> killEffects = new ArrayList<>();
     private HashMap<Location, ItemStack> wools = new HashMap<>();
     private Location lobby, spectator;
-    private int teamSize, woolSize, min, starting;
+    private int teamSize, woolSize, min, starting, defKit = 0;
     private State state;
 
     public GameNoState(Main plugin, String path, int id){
@@ -46,6 +46,7 @@ public class GameNoState implements Game {
         this.spectator = Utils.getStringLocation(plugin.getArenas().get(path + ".spectator"));
         this.teamSize = plugin.getArenas().getInt(path + ".teamSize");
         this.woolSize = plugin.getArenas().getInt(path + ".woolSize");
+        this.defKit = plugin.getArenas().getIntOrDefault(path + ".defKit", 0);
         this.min = plugin.getArenas().getInt(path + ".min");
         for (String c : plugin.getArenas().getConfig().getConfigurationSection(path + ".teams").getKeys(false)){
             int tid = teams.size();
@@ -142,7 +143,7 @@ public class GameNoState implements Game {
                 ArrayList<Player> back = new ArrayList<>(cached);
                 for (Player on : back) {
                     plugin.getGm().removePlayerGame(on, false);
-                    Game g = plugin.getGm().getRandomGame();
+                    Game g = plugin.getGm().getRandomGame(GameNoState.this);
                     plugin.getGm().addPlayerGame(on, g.getId());
                 }
                 reset();
@@ -172,7 +173,7 @@ public class GameNoState implements Game {
         p.getInventory().clear();
         team.addMember(p);
         p.teleport(team.getSpawn());
-        plugin.getKm().giveDefaultKit(p, team);
+        plugin.getKm().giveDefaultKit(p, this, team);
         Utils.updateSB(p);
         NametagEdit.getApi().setNametag(p, team.getColor() + "", "");
     }
@@ -395,6 +396,11 @@ public class GameNoState implements Game {
     @Override
     public State getState() {
         return state;
+    }
+
+    @Override
+    public int getDefKit() {
+        return defKit;
     }
 
     @Override

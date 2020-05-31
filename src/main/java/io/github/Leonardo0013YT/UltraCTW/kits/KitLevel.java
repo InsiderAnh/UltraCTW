@@ -42,8 +42,8 @@ public class KitLevel {
                 LeatherArmorMeta armr = (LeatherArmorMeta) i.getItemMeta();
                 armr.setColor(Utils.getColorByChatColor(team.getColor()));
                 i.setItemMeta(armr);
-                nowArmor[it] = i;
             }
+            nowArmor[it] = i;
         }
         p.getInventory().setArmorContents(nowArmor);
         p.getInventory().setContents(inv);

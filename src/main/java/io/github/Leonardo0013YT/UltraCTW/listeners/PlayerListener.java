@@ -43,7 +43,7 @@ public class PlayerListener implements Listener {
     }
 
     @EventHandler
-    public void onQuit(PlayerJoinEvent e){
+    public void onQuit(PlayerQuitEvent e){
         Player p = e.getPlayer();
         plugin.getDb().savePlayer(p.getUniqueId(), false);
         plugin.getGm().removePlayerGame(p, true);
@@ -51,7 +51,7 @@ public class PlayerListener implements Listener {
     }
 
     @EventHandler
-    public void onKick(PlayerJoinEvent e){
+    public void onKick(PlayerKickEvent e){
         Player p = e.getPlayer();
         plugin.getDb().savePlayer(p.getUniqueId(), false);
         plugin.getGm().removePlayerGame(p, true);
@@ -202,7 +202,7 @@ public class PlayerListener implements Listener {
             if (team == null) return;
             if (e.getFinalDamage() >= p.getHealth()){
                 e.setCancelled(true);
-                respawn(team, p);
+                respawn(team, g, p);
             }
         }
     }
@@ -224,7 +224,7 @@ public class PlayerListener implements Listener {
                 }
                 if (e.getFinalDamage() >= p.getHealth()){
                     e.setCancelled(true);
-                    respawn(tp, p);
+                    respawn(tp, g, p);
                 }
             }
             if (e.getDamager() instanceof Projectile && ((Projectile) e.getDamager()).getShooter() instanceof Player){
@@ -240,7 +240,7 @@ public class PlayerListener implements Listener {
                 }
                 if (e.getFinalDamage() >= p.getHealth()){
                     e.setCancelled(true);
-                    respawn(tp, p);
+                    respawn(tp, g, p);
                 }
 
             }
@@ -260,25 +260,13 @@ public class PlayerListener implements Listener {
         }
     }
 
-    @EventHandler
-    public void onQuit(PlayerQuitEvent e){
-        Player p = e.getPlayer();
-        plugin.getDb().savePlayer(p.getUniqueId(), false);
-    }
-
-    @EventHandler
-    public void onKick(PlayerKickEvent e){
-        Player p = e.getPlayer();
-        plugin.getDb().savePlayer(p.getUniqueId(), false);
-    }
-
-    private void respawn(Team team, Player p){
+    private void respawn(Team team, Game g, Player p){
         plugin.getVc().getNMS().sendTitle(p, plugin.getLang().get("titles.death.title"), plugin.getLang().get("titles.death.subtitle"), 0, 40, 0);
         p.getInventory().clear();
         p.setNoDamageTicks(40);
         p.teleport(team.getSpawn());
         p.setHealth(p.getMaxHealth());
-        plugin.getKm().giveDefaultKit(p, team);
+        plugin.getKm().giveDefaultKit(p, g, team);
     }
 
 }

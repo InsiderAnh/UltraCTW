@@ -107,5 +107,7 @@ public interface Game {
 
     State getState();
 
+    int getDefKit();
+
     HashMap<Location, ItemStack> getWools();
 }

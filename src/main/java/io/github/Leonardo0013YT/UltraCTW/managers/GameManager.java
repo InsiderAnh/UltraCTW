@@ -1,9 +1,11 @@
 package io.github.Leonardo0013YT.UltraCTW.managers;
 
+import com.nametagedit.plugin.NametagEdit;
 import io.github.Leonardo0013YT.UltraCTW.Main;
 import io.github.Leonardo0013YT.UltraCTW.enums.State;
 import io.github.Leonardo0013YT.UltraCTW.game.GameNoState;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.Game;
+import io.github.Leonardo0013YT.UltraCTW.utils.Utils;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -42,10 +44,10 @@ public class GameManager {
         return games.get(playerGame.get(p.getUniqueId()));
     }
 
-    public Game getRandomGame(){
+    public Game getRandomGame(Game ex){
         Game g = null;
         for (Game game : games.values()){
-            if (game.isState(State.FINISH) || game.isState(State.RESTARTING)) continue;
+            if (ex.getId() == game.getId() || game.isState(State.FINISH) || game.isState(State.RESTARTING)) continue;
             g = game;
         }
         return g;
@@ -67,9 +69,12 @@ public class GameManager {
         Game game = games.get(id);
         if (game == null) return;
         game.removePlayer(p);
+        NametagEdit.getApi().clearNametag(p);
         if (toLobby){
             p.teleport(plugin.getCm().getMainLobby());
         }
+        playerGame.remove(p.getUniqueId());
+        Utils.updateSB(p);
     }
 
     public boolean isPlayerInGame(Player p){
