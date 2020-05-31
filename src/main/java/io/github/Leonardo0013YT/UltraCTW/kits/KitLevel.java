@@ -1,9 +1,14 @@
 package io.github.Leonardo0013YT.UltraCTW.kits;
 
 import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.team.Team;
+import io.github.Leonardo0013YT.UltraCTW.utils.Utils;
+import io.github.Leonardo0013YT.UltraCTW.xseries.XMaterial;
 import lombok.Getter;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.LeatherArmorMeta;
 
 import java.util.List;
 
@@ -25,8 +30,22 @@ public class KitLevel {
         this.inv = ((List<String>) plugin.getKits().getConfig().get(path + ".inv")).toArray(new ItemStack[0]);
     }
 
-    public void giveKitLevel(Player p) {
-        p.getInventory().setArmorContents(armors);
+    public void giveKitLevel(Player p, Team team) {
+        ItemStack[] nowArmor = new ItemStack[armors.length];
+        for (int it = 0; it < armors.length; it++){
+            ItemStack i = armors.clone()[it];
+            if (i == null || i.getType().equals(Material.AIR)) {
+                nowArmor[it] = null;
+                continue;
+            }
+            if (i.getType().equals(Material.LEATHER_HELMET) || i.getType().equals(Material.LEATHER_CHESTPLATE) || i.getType().equals(Material.LEATHER_LEGGINGS) || i.getType().equals(Material.LEATHER_BOOTS)){
+                LeatherArmorMeta armr = (LeatherArmorMeta) i.getItemMeta();
+                armr.setColor(Utils.getColorByChatColor(team.getColor()));
+                i.setItemMeta(armr);
+                nowArmor[it] = i;
+            }
+        }
+        p.getInventory().setArmorContents(nowArmor);
         p.getInventory().setContents(inv);
     }
 

@@ -1,7 +1,9 @@
 package io.github.Leonardo0013YT.UltraCTW.game;
 
+import com.nametagedit.plugin.NametagEdit;
 import io.github.Leonardo0013YT.UltraCTW.Main;
 import io.github.Leonardo0013YT.UltraCTW.enums.State;
+import io.github.Leonardo0013YT.UltraCTW.interfaces.CTWPlayer;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.KillEffect;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.WinDance;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.WinEffect;
@@ -12,9 +14,11 @@ import lombok.Getter;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 @Getter
 public class Game {
@@ -71,11 +75,24 @@ public class Game {
     }
 
     public void removePlayer(Player p){
+        removePlayerAllTeam(p);
         cached.remove(p);
         players.remove(p);
         spectators.remove(p);
         Utils.setCleanPlayer(p);
         gamePlayer.remove(p);
+    }
+
+    public void reset(){
+        winDances.forEach(WinDance::stop);
+        winEffects.forEach(WinEffect::stop);
+        killEffects.forEach(KillEffect::stop);
+        gamePlayer.clear();
+        spectators.clear();
+        cached.clear();
+        players.clear();
+        teams.values().forEach(Team::reset);
+        plugin.getWc().resetMap(lobby, schematic);
     }
 
     public void setSpect(Player p){
@@ -90,9 +107,37 @@ public class Game {
     }
 
     public void win(Team team){
-        for (Player on : team.getMembers()){
-
+        GameWin gw = new GameWin(this);
+        gw.setTeamWin(team);
+        List<String> top = gw.getTop();
+        String[] s1 = top.get(0).split(":");
+        String[] s2 = top.get(1).split(":");
+        String[] s3 = top.get(2).split(":");
+        for (Player on : cached){
+            if (team.getMembers().contains(on)) continue;
+            plugin.getVc().getNMS().sendTitle(on, plugin.getLang().get("titles.lose.title"), plugin.getLang().get("titles.lose.subtitle"), 0, 40, 0);
+            for (String s : plugin.getLang().getList("messages.win")){
+                on.sendMessage(s.replaceAll("&", "§").replaceAll("<winner>", gw.getWinner()).replaceAll("<number1>", s1[1]).replaceAll("<top1>", s1[0]).replaceAll("<color1>", "" + ChatColor.valueOf(s1[2])).replaceAll("<number2>", s2[1]).replaceAll("<top2>", s2[0]).replaceAll("<color2>", "" + ChatColor.valueOf(s2[2])).replaceAll("<number3>", s3[1]).replaceAll("<top3>", s3[0]).replaceAll("<color3>", "" + ChatColor.valueOf(s3[2])));
+            }
         }
+        for (Player w : team.getMembers()){
+            CTWPlayer ctw = plugin.getDb().getCTWPlayer(w);
+            if (ctw == null) continue;
+            plugin.getVc().getNMS().sendTitle(w, plugin.getLang().get("titles.win.title"), plugin.getLang().get("titles.win.subtitle"), 0, 40, 0);
+            plugin.getWem().execute(this, w, ctw.getWinEffect());
+        }
+        new BukkitRunnable(){
+            @Override
+            public void run(){
+                ArrayList<Player> back = new ArrayList<>(cached);
+                for (Player on : back) {
+                    plugin.getGm().removePlayerGame(on, false);
+                    Game g = plugin.getGm().getRandomGame();
+                    plugin.getGm().addPlayerGame(on, g.getId());
+                }
+                reset();
+            }
+        }.runTaskLater(plugin, 20 * 15);
     }
 
     public void setState(State state){
@@ -113,8 +158,9 @@ public class Game {
         p.getInventory().clear();
         team.addMember(p);
         p.teleport(team.getSpawn());
-        plugin.getKm().giveDefaultKit(p);
+        plugin.getKm().giveDefaultKit(p, team);
         Utils.updateSB(p);
+        NametagEdit.getApi().setNametag(p, team.getColor() + "", "");
     }
 
     public void addWinEffects(WinEffect e){

@@ -11,6 +11,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -37,6 +38,18 @@ public class PlayerListener implements Listener {
     public void onJoin(PlayerJoinEvent e){
         Player p = e.getPlayer();
         plugin.getDb().loadPlayer(p);
+    }
+
+    @EventHandler
+    public void onQuit(PlayerJoinEvent e){
+        Player p = e.getPlayer();
+        plugin.getDb().savePlayer(p.getUniqueId(), false);
+    }
+
+    @EventHandler
+    public void onKick(PlayerJoinEvent e){
+        Player p = e.getPlayer();
+        plugin.getDb().savePlayer(p.getUniqueId(), false);
     }
 
     @EventHandler
@@ -173,13 +186,38 @@ public class PlayerListener implements Listener {
     public void onDamageByEntity(EntityDamageByEntityEvent e){
         if (e.getEntity() instanceof Player){
             Player p = (Player) e.getEntity();
-            Game g = plugin.getGm().getGameByPlayer(p);
-            if (g == null) return;
-            Team team = g.getTeamPlayer(p);
-            if (team == null) return;
-            if (e.getFinalDamage() >= p.getHealth()){
-                e.setCancelled(true);
-                respawn(team, p);
+            if (e.getDamager() instanceof Player){
+                Player d = (Player) e.getDamager();
+                Game g = plugin.getGm().getGameByPlayer(p);
+                if (g == null) return;
+                Team tp = g.getTeamPlayer(p);
+                Team td = g.getTeamPlayer(d);
+                if (tp == null || td == null) return;
+                if (tp.getId() == td.getId()){
+                    e.setCancelled(true);
+                    return;
+                }
+                if (e.getFinalDamage() >= p.getHealth()){
+                    e.setCancelled(true);
+                    respawn(tp, p);
+                }
+            }
+            if (e.getDamager() instanceof Projectile && ((Projectile) e.getDamager()).getShooter() instanceof Player){
+                Player d = (Player) ((Projectile) e.getDamager()).getShooter();
+                Game g = plugin.getGm().getGameByPlayer(p);
+                if (g == null) return;
+                Team tp = g.getTeamPlayer(p);
+                Team td = g.getTeamPlayer(d);
+                if (tp == null || td == null) return;
+                if (tp.getId() == td.getId()){
+                    e.setCancelled(true);
+                    return;
+                }
+                if (e.getFinalDamage() >= p.getHealth()){
+                    e.setCancelled(true);
+                    respawn(tp, p);
+                }
+
             }
         }
     }
@@ -210,11 +248,12 @@ public class PlayerListener implements Listener {
     }
 
     private void respawn(Team team, Player p){
+        plugin.getVc().getNMS().sendTitle(p, plugin.getLang().get("titles.death.title"), plugin.getLang().get("titles.death.subtitle"), 0, 40, 0);
         p.getInventory().clear();
         p.setNoDamageTicks(40);
         p.teleport(team.getSpawn());
         p.setHealth(p.getMaxHealth());
-        plugin.getKm().giveDefaultKit(p);
+        plugin.getKm().giveDefaultKit(p, team);
     }
 
 }

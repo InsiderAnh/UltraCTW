@@ -84,17 +84,20 @@ public class MySQLDatabase implements IDatabase {
                 ResultSet result = select.executeQuery();
                 if (result.next()) {
                     loadPlayerData(p, plugin.fromStringCTWPlayer(result.getString("Data")));
+                    plugin.sendLogMessage("§aJugador §e" + p.getName() + " §adetectado cargado.");
                 } else {
+                    CTWPlayer ctw = new PlayerCTW();
                     insert.setString(1, uuid);
                     insert.setString(2, p.getName());
-                    insert.setString(3, plugin.toStringCTWPlayer(new PlayerCTW()));
+                    insert.setString(3, plugin.toStringCTWPlayer(ctw));
                     if (enabled) {
                         insert.setString(4, p.getName());
                         insert.execute();
                     } else {
                         insert.executeUpdate();
                     }
-                    players.put(p.getUniqueId(), new PlayerCTW());
+                    players.put(p.getUniqueId(), ctw);
+                    plugin.sendLogMessage("§aJugador §e" + p.getName() + " §anuevo cargado.");
                 }
                 close(connection, insert, result);
                 close(null, select, null);
@@ -149,7 +152,27 @@ public class MySQLDatabase implements IDatabase {
     }
 
     private void loadPlayerData(Player p, CTWPlayer pd){
-        players.put(p.getUniqueId(), pd);
+        CTWPlayer now = new PlayerCTW();
+        now.setKillEffect(pd.getKillEffect());
+        now.setKillSound(pd.getKillSound());
+        now.setTaunt(pd.getTaunt());
+        now.setTrail(pd.getTrail());
+        now.setWinDance(pd.getWinDance());
+        now.setAssists(pd.getAssists());
+        now.setWinEffect(pd.getWinEffect());
+        now.setCoins(pd.getCoins());
+        now.setKill5(pd.getKill5());
+        now.setKill25(pd.getKill25());
+        now.setKill50(pd.getKill50());
+        now.setKilleffects(pd.getKilleffects());
+        now.setKills(pd.getKills());
+        now.setKillsounds(pd.getKillsounds());
+        now.setParting(pd.getParting());
+        now.setTaunts(pd.getTaunts());
+        now.setTrails(pd.getTrails());
+        now.setWindances(pd.getWindances());
+        now.setWineffects(pd.getWineffects());
+        players.put(p.getUniqueId(), now);
     }
 
     private void createTable(){

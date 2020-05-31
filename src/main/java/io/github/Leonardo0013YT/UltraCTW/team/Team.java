@@ -20,7 +20,7 @@ import java.util.*;
 public class Team {
 
     private Collection<Player> members = new ArrayList<>();
-    private Collection<ChatColor> colors = new ArrayList<>();
+    private ArrayList<ChatColor> colors = new ArrayList<>();
     private Map<Location, ChatColor> wools = new HashMap<>();
     private Map<Location, ChatColor> spawners = new HashMap<>();
     private Map<ChatColor, Item> dropped = new HashMap<>();
@@ -72,7 +72,14 @@ public class Team {
     }
 
     public boolean checkWools(){
-        return captured.equals(new ArrayList<>(wools.values()));
+        boolean all = true;
+        for (ChatColor c : colors){
+            all = captured.contains(c);
+            if (!all){
+                break;
+            }
+        }
+        return all;
     }
 
     public boolean isInProgress(ChatColor c){
@@ -98,6 +105,9 @@ public class Team {
 
     public void reset() {
         members.clear();
+        inProgress.clear();
+        captured.clear();
+        colors.forEach(c -> inProgress.put(c, new ArrayList<>()));
     }
 
     public void addMember(Player p) {

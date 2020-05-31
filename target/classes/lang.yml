@@ -9,18 +9,19 @@ messages:
   noPlace: "&cYou can't place here."
   placeTeam: "&eYour team has captured the <place>&e wool."
   incorrectPlace: "&cThis is not the right place for <wool>&c wool."
-  win: |-
-    &a&m&l---------------------------------------------
-    &7
-    &f&lCAPTURE THE WOOL
-    &7
-    &aWinner &7- <winner>
-    &7
-    &a&l1st Killer &7- <color1><top1> &7- <number1>
-    &6&l2nd Killer &7- <color2><top2> &7- <number2>
-    &c&l3rt Killer &7- <color3><top3> &7- <number3>
-    &7
-    &a&m&l---------------------------------------------
+  alreadyIngame: "&cYou're already in a game."
+  win:
+    - "&a&m&l---------------------------------------------"
+    - "&7"
+    - "&f&lCAPTURE THE WOOL"
+    - "&7"
+    - "&aWinner &7- <winner>"
+    - "&7"
+    - "&a&l1st Killer &7- <color1><top1> &7- <number1>"
+    - "&6&l2nd Killer &7- <color2><top2> &7- <number2>"
+    - "&c&l3rt Killer &7- <color3><top3> &7- <number3>"
+    - "&7"
+    - "&a&m&l---------------------------------------------"
 setup:
   setMainLobby: "&aThe main lobby has been established."
   alreadyCreating: "&cYou are already creating an arena."
@@ -101,6 +102,15 @@ titles:
   captured:
     title: "<color>&lCAPTURED"
     subtitle: "&fYour team captured <wool>"
+  win:
+    title: "<color>WIN!"
+    subtitle: "&7This team has captured all wools."
+  lose:
+    title: "&c&lLOSE!"
+    subtitle: "&7Game over :c."
+  death:
+    title: "&cDEATH!"
+    subtitle: "&7"
 items:
   setup:
     nameItem: "&eSetup Arena"

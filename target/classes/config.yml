@@ -7,3 +7,6 @@ redPanelInLocked: true
 redPanel:
   material: STAINED_GLASS_PANE
   data: 14
+materials:
+  lobby: DIAMOND
+  closeitem: BOOK

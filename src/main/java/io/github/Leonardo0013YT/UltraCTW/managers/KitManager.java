@@ -2,6 +2,7 @@ package io.github.Leonardo0013YT.UltraCTW.managers;
 
 import io.github.Leonardo0013YT.UltraCTW.Main;
 import io.github.Leonardo0013YT.UltraCTW.kits.Kit;
+import io.github.Leonardo0013YT.UltraCTW.team.Team;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
@@ -21,10 +22,10 @@ public class KitManager {
         this.defKit = plugin.getConfig().getInt("defKit");
     }
 
-    public void giveDefaultKit(Player p){
+    public void giveDefaultKit(Player p, Team team){
         Kit kit = kits.get(defKit);
         if (kit == null) return;
-        kit.giveKit(p, 1);
+        kit.giveKit(p, 1, team);
     }
 
     public void giveKit(Player p){

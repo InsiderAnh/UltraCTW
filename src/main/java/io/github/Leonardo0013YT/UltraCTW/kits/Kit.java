@@ -1,6 +1,7 @@
 package io.github.Leonardo0013YT.UltraCTW.kits;
 
 import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.team.Team;
 import lombok.Getter;
 import org.bukkit.entity.Player;
 
@@ -25,9 +26,9 @@ public class Kit {
         }
     }
 
-    public void giveKit(Player p, int level){
+    public void giveKit(Player p, int level, Team team){
         if (levels.containsKey(level)){
-            levels.get(level).giveKitLevel(p);
+            levels.get(level).giveKitLevel(p, team);
         }
     }
 

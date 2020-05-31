@@ -29,6 +29,10 @@ public class CTWCMD implements CommandExecutor {
                         sendHelp(sender);
                         return true;
                     }
+                    if (plugin.getGm().isPlayerInGame(p)){
+                        p.sendMessage(plugin.getLang().get("messages.alreadyIngame"));
+                        return true;
+                    }
                     String arena = args[1];
                     Game found = plugin.getGm().getGameByName(arena);
                     if (found == null){
@@ -36,6 +40,30 @@ public class CTWCMD implements CommandExecutor {
                         return true;
                     }
                     plugin.getGm().addPlayerGame(p, found.getId());
+                    break;
+                case "killsoundsmenu":
+                    plugin.getUim().getPages().put(p, 1);
+                    plugin.getUim().createKillSoundSelectorMenu(p);
+                    break;
+                case "killeffectsmenu":
+                    plugin.getUim().getPages().put(p, 1);
+                    plugin.getUim().createKillEffectSelectorMenu(p);
+                    break;
+                case "windancesmenu":
+                    plugin.getUim().getPages().put(p, 1);
+                    plugin.getUim().createWinDanceSelectorMenu(p);
+                    break;
+                case "wineffectsmenu":
+                    plugin.getUim().getPages().put(p, 1);
+                    plugin.getUim().createWinEffectSelectorMenu(p);
+                    break;
+                case "trailsmenu":
+                    plugin.getUim().getPages().put(p, 1);
+                    plugin.getUim().createTrailsSelectorMenu(p);
+                    break;
+                case "tauntsmenu":
+                    plugin.getUim().getPages().put(p, 1);
+                    plugin.getUim().createTauntsSelectorMenu(p);
                     break;
                 default:
                     sendHelp(sender);

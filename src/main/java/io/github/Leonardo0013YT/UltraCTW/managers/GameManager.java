@@ -1,6 +1,7 @@
 package io.github.Leonardo0013YT.UltraCTW.managers;
 
 import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.enums.State;
 import io.github.Leonardo0013YT.UltraCTW.game.Game;
 import org.bukkit.entity.Player;
 
@@ -38,6 +39,15 @@ public class GameManager {
         return games.get(playerGame.get(p.getUniqueId()));
     }
 
+    public Game getRandomGame(){
+        Game g = null;
+        for (Game game : games.values()){
+            if (game.isState(State.FINISH) || game.isState(State.RESTARTING)) continue;
+            g = game;
+        }
+        return g;
+    }
+
     public HashMap<Integer, Game> getGames() {
         return games;
     }
@@ -48,12 +58,14 @@ public class GameManager {
         playerGame.put(p.getUniqueId(), id);
     }
 
-    public void removePlayerGame(Player p){
+    public void removePlayerGame(Player p, boolean toLobby){
         int id = playerGame.get(p.getUniqueId());
         Game game = games.get(id);
         if (game == null) return;
         game.removePlayer(p);
-        p.teleport(plugin.getCm().getMainLobby());
+        if (toLobby){
+            p.teleport(plugin.getCm().getMainLobby());
+        }
     }
 
     public boolean isPlayerInGame(Player p){
