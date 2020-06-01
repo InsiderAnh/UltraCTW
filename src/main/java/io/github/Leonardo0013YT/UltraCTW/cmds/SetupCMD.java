@@ -110,6 +110,7 @@ public class SetupCMD implements CommandExecutor {
 
     private void sendHelp(CommandSender s){
         s.sendMessage("§7§m--------------------------------");
+        s.sendMessage("§e/ctws setmainlobby §7- §aSet main lobby.");
         s.sendMessage("§e/ctws create <name> <schematic> §7- §aCreate a new arena.");
         s.sendMessage("§e/ctws kits <name> §7- §aCreate a new kit.");
         s.sendMessage("§e/ctws inventory <type> §7- §aEdit a inventory.");

@@ -7,6 +7,7 @@ import io.github.Leonardo0013YT.UltraCTW.objects.Squared;
 import io.github.Leonardo0013YT.UltraCTW.team.Team;
 import io.github.Leonardo0013YT.UltraCTW.utils.NBTEditor;
 import io.github.Leonardo0013YT.UltraCTW.xseries.XSound;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -40,6 +41,9 @@ public class PlayerListener implements Listener {
     public void onJoin(PlayerJoinEvent e){
         Player p = e.getPlayer();
         plugin.getDb().loadPlayer(p);
+        if (plugin.getCm().getMainLobby() != null){
+            p.teleport(plugin.getCm().getMainLobby());
+        }
     }
 
     @EventHandler
@@ -47,7 +51,7 @@ public class PlayerListener implements Listener {
         Player p = e.getPlayer();
         plugin.getDb().savePlayer(p.getUniqueId(), false);
         plugin.getGm().removePlayerGame(p, true);
-        NametagEdit.getApi().reloadNametag(p);
+        NametagEdit.getApi().clearNametag(p);
     }
 
     @EventHandler
@@ -55,7 +59,40 @@ public class PlayerListener implements Listener {
         Player p = e.getPlayer();
         plugin.getDb().savePlayer(p.getUniqueId(), false);
         plugin.getGm().removePlayerGame(p, true);
-        NametagEdit.getApi().reloadNametag(p);
+        NametagEdit.getApi().clearNametag(p);
+    }
+
+    @EventHandler
+    public void onChat(AsyncPlayerChatEvent e){
+        Player p = e.getPlayer();
+        Game g = plugin.getGm().getGameByPlayer(p);
+        if (g == null) return;
+        if (g.getInLobby().contains(p)){
+            String msg = formatLobby(p, e.getMessage());
+            g.getInLobby().forEach(o -> o.sendMessage(msg));
+        } else {
+            Team t = g.getTeamPlayer(p);
+            if (e.getMessage().startsWith("!")){
+                String msg = formatGame(p, t, e.getMessage());
+                g.getCached().forEach(o -> o.sendMessage(msg));
+            } else {
+                String msg = formatTeam(p, t, e.getMessage());
+                t.getMembers().forEach(o -> o.sendMessage(msg));
+            }
+        }
+        e.setCancelled(true);
+    }
+
+    private String formatLobby(Player p, String msg){
+        return plugin.getLang().get("chat.lobby").replaceAll("<player>", p.getName()).replaceAll("<msg>", msg);
+    }
+
+    private String formatTeam(Player p, Team team, String msg){
+        return plugin.getLang().get("chat.team").replaceAll("<team>", team.getName()).replaceAll("<player>", p.getName()).replaceAll("<msg>", msg);
+    }
+
+    private String formatGame(Player p, Team team, String msg){
+        return plugin.getLang().get("chat.global").replaceAll("<team>", team.getName()).replaceAll("<player>", p.getName()).replaceAll("<msg>", msg.replaceFirst("!", ""));
     }
 
     @EventHandler
@@ -64,7 +101,10 @@ public class PlayerListener implements Listener {
         Game g = plugin.getGm().getGameByPlayer(p);
         if (g == null) return;
         Team team = g.getTeamPlayer(p);
-        if (team == null) return;
+        if (team == null) {
+            e.setCancelled(true);
+            return;
+        }
         Squared s1 = g.getPlayerSquared(e.getBlock().getLocation());
         Squared s2 = team.getPlayerSquared(e.getBlock().getLocation());
         Block b = e.getBlock();
@@ -73,6 +113,7 @@ public class PlayerListener implements Listener {
             e.setCancelled(true);
             b.setType(Material.AIR);
             l.getWorld().dropItemNaturally(l, g.getWools().get(l));
+            g.getWools().remove(l);
             return;
         }
         if (s1 != null){
@@ -91,7 +132,10 @@ public class PlayerListener implements Listener {
         Game g = plugin.getGm().getGameByPlayer(p);
         if (g == null) return;
         Team team = g.getTeamPlayer(p);
-        if (team == null) return;
+        if (team == null) {
+            e.setCancelled(true);
+            return;
+        }
         Location l = e.getBlockPlaced().getLocation();
         ItemStack item = p.getItemInHand();
         if (team.getWools().containsKey(l)){
@@ -141,7 +185,16 @@ public class PlayerListener implements Listener {
         Game g = plugin.getGm().getGameByPlayer(p);
         if (g == null) return;
         Team team = g.getTeamPlayer(p);
-        if (team == null) return;
+        if (team == null) {
+            if (g.getLobbyProtection() != null){
+                Squared s = g.getLobbyProtection();
+                if (!s.isInCuboid(p)){
+                    e.setCancelled(true);
+                    p.teleport(g.getLobby());
+                }
+            }
+            return;
+        }
         Squared s2 = team.getPlayerSquared(e.getTo());
         if (s2 != null){
             e.setCancelled(s2.isNoEntry());
@@ -199,7 +252,10 @@ public class PlayerListener implements Listener {
             Game g = plugin.getGm().getGameByPlayer(p);
             if (g == null) return;
             Team team = g.getTeamPlayer(p);
-            if (team == null) return;
+            if (team == null) {
+                e.setCancelled(true);
+                return;
+            }
             if (e.getFinalDamage() >= p.getHealth()){
                 e.setCancelled(true);
                 respawn(team, g, p);
@@ -217,7 +273,10 @@ public class PlayerListener implements Listener {
                 if (g == null) return;
                 Team tp = g.getTeamPlayer(p);
                 Team td = g.getTeamPlayer(d);
-                if (tp == null || td == null) return;
+                if (tp == null || td == null) {
+                    e.setCancelled(true);
+                    return;
+                }
                 if (tp.getId() == td.getId()){
                     e.setCancelled(true);
                     return;
@@ -267,6 +326,8 @@ public class PlayerListener implements Listener {
         p.teleport(team.getSpawn());
         p.setHealth(p.getMaxHealth());
         plugin.getKm().giveDefaultKit(p, g, team);
+        p.updateInventory();
+        //Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () -> plugin.getKm().giveDefaultKit(p, g, team), 2L);
     }
 
 }

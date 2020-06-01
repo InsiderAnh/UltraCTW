@@ -6,6 +6,7 @@ import io.github.Leonardo0013YT.UltraCTW.objects.Squared;
 import io.github.Leonardo0013YT.UltraCTW.team.Team;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -19,6 +20,8 @@ public interface Game {
 
     void removePlayer(Player p);
 
+    void checkStart();
+
     void reset();
 
     void setSpect(Player p);
@@ -26,6 +29,12 @@ public interface Game {
     void update();
 
     void win(Team team);
+
+    void sendGameMessage(String msg);
+
+    void sendGameTitle(String title, String subtitle, int fadeIn, int stay, int fadeOut);
+
+    void sendGameSound(Sound sound);
 
     void setState(State state);
 
@@ -110,4 +119,10 @@ public interface Game {
     int getDefKit();
 
     HashMap<Location, ItemStack> getWools();
+
+    ArrayList<Player> getInLobby();
+
+    ArrayList<Player> getInGame();
+
+    Squared getLobbyProtection();
 }

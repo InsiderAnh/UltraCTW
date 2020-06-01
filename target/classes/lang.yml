@@ -1,9 +1,15 @@
 activated: "&aActivated"
 deactivated: "&cDeactivated"
+chat:
+  lobby: "&e[CTW] &f<player> &7» &f<msg>"
+  team: "<team> <player> &7» &f<msg>"
+  global: "&6[GLOBAL] <team> <player> &7» &f<msg>"
 messages:
   gameNotExists: "&cThis game not exists."
   randomTeam: "&aYou've joined a random team, you've had the team <team>"
   joinTeam: "&aYou've joined the team: <team>"
+  starting: "&eThe game will start in &c<starting>&e second<s>."
+  needStart: "&cThe game is required to have started to choose team."
   noEntry: "&cYou can't join in here."
   noBreak: "&cYou can't break here."
   noPlace: "&cYou can't place here."
@@ -11,6 +17,17 @@ messages:
   incorrectPlace: "&cThis is not the right place for <wool>&c wool."
   alreadyIngame: "&cYou're already in a game."
   leaveGame: "&cYou're out of the game."
+  start:
+    - "<center>&a&m&l---------------------------------------------"
+    - "<center>&7"
+    - "<center>&f&lCAPTURE THE WOOL"
+    - "<center>&7"
+    - "<center>&e&lCapture the wools on the enemy team,"
+    - "<center>&e&lfight so they don't capture your wools,"
+    - "<center>&e&lget a streak of eliminations, bounty"
+    - "<center>&e&lfor killing someone with a streak, have fun."
+    - "<center>&7"
+    - "<center>&a&m&l---------------------------------------------"
   win:
     - "<center>&a&m&l---------------------------------------------"
     - "<center>&7"
@@ -95,6 +112,12 @@ setup:
   menus:
     finishEdit: "&aYou have edited the menu correctly."
 titles:
+  cancel:
+    title: "&cCANCELLED"
+    subtitle: "&7"
+  starting:
+    title: "&c<time>"
+    subtitle: "&7"
   otherpick:
     title: "&c&lPICKED"
     subtitle: "&fThey picked up your wool <wool>"
@@ -1045,6 +1068,12 @@ menus:
         &eClick to save!
   setup:
     title: "&aSetup Arena"
+    protection:
+      nameItem: "&eLobby Protection"
+      loreItem: |-
+        &7Lobby protection cuboid.
+        &7
+        &eClick to set protection!
     squared:
       nameItem: "&eSquareds"
       loreItem: |-

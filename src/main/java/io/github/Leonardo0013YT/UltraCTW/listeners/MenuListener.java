@@ -7,6 +7,7 @@ import io.github.Leonardo0013YT.UltraCTW.cosmetics.taunts.Taunt;
 import io.github.Leonardo0013YT.UltraCTW.cosmetics.trails.Trail;
 import io.github.Leonardo0013YT.UltraCTW.cosmetics.windances.UltraWinDance;
 import io.github.Leonardo0013YT.UltraCTW.cosmetics.wineffects.UltraWinEffect;
+import io.github.Leonardo0013YT.UltraCTW.enums.State;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.Game;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.CTWPlayer;
 import io.github.Leonardo0013YT.UltraCTW.team.Team;
@@ -44,6 +45,11 @@ public class MenuListener implements Listener {
             Game game = plugin.getGm().getGameByPlayer(p);
             String d = item.getItemMeta().getDisplayName();
             if (d.equals(plugin.getLang().get("menus.teams.random.nameItem"))){
+                if (game.isState(State.WAITING) || game.isState(State.STARTING)){
+                    e.setCancelled(true);
+                    p.sendMessage(plugin.getLang().get("messages.needStart"));
+                    return;
+                }
                 game.addPlayerRandomTeam(p);
                 return;
             }
@@ -51,6 +57,11 @@ public class MenuListener implements Listener {
             if (co == null) return;
             ChatColor c = ChatColor.valueOf(co);
             Team team = game.getTeams().get(c);
+            if (game.isState(State.WAITING) || game.isState(State.STARTING)){
+                e.setCancelled(true);
+                p.sendMessage(plugin.getLang().get("messages.needStart"));
+                return;
+            }
             game.addPlayerTeam(p, team);
             p.sendMessage(plugin.getLang().get("messages.joinTeam").replaceAll("<team>", team.getName()));
         }

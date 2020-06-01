@@ -7,8 +7,10 @@ import io.github.Leonardo0013YT.UltraCTW.interfaces.*;
 import io.github.Leonardo0013YT.UltraCTW.objects.Squared;
 import io.github.Leonardo0013YT.UltraCTW.team.Team;
 import io.github.Leonardo0013YT.UltraCTW.utils.Utils;
+import io.github.Leonardo0013YT.UltraCTW.xseries.XSound;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -22,7 +24,7 @@ public class GameNoState implements Game {
     private Main plugin;
     private int id;
     private String name, schematic;
-    private ArrayList<Player> cached = new ArrayList<>(), players = new ArrayList<>(), spectators = new ArrayList<>();
+    private ArrayList<Player> cached = new ArrayList<>(), players = new ArrayList<>(), spectators = new ArrayList<>(), inLobby = new ArrayList<>(), inGame = new ArrayList<>();
     private HashMap<ChatColor, Team> teams = new HashMap<>();
     private HashMap<Integer, ChatColor> teamsID = new HashMap<>();
     private HashMap<Player, GamePlayer> gamePlayer = new HashMap<>();
@@ -31,8 +33,9 @@ public class GameNoState implements Game {
     private ArrayList<WinDance> winDances = new ArrayList<>();
     private ArrayList<KillEffect> killEffects = new ArrayList<>();
     private HashMap<Location, ItemStack> wools = new HashMap<>();
+    private Squared lobbyProtection;
     private Location lobby, spectator;
-    private int teamSize, woolSize, min, starting, defKit = 0;
+    private int teamSize, woolSize, min, starting, defKit;
     private State state;
 
     public GameNoState(Main plugin, String path, int id){
@@ -42,11 +45,15 @@ public class GameNoState implements Game {
         plugin.getWc().createEmptyWorld(name);
         this.schematic = plugin.getArenas().get(path + ".schematic");
         this.lobby = Utils.getStringLocation(plugin.getArenas().get(path + ".lobby"));
+        if (plugin.getArenas().isSet(path + ".lobbyProtection.min")) {
+            this.lobbyProtection = new Squared(Utils.getStringLocation(plugin.getArenas().get(path + ".lobbyProtection.max")), Utils.getStringLocation(plugin.getArenas().get(path + ".lobbyProtection.min")), false, true);
+        }
         plugin.getWc().resetMap(lobby, schematic);
         this.spectator = Utils.getStringLocation(plugin.getArenas().get(path + ".spectator"));
         this.teamSize = plugin.getArenas().getInt(path + ".teamSize");
         this.woolSize = plugin.getArenas().getInt(path + ".woolSize");
         this.defKit = plugin.getArenas().getIntOrDefault(path + ".defKit", 0);
+        this.starting = plugin.getCm().getStarting();
         this.min = plugin.getArenas().getInt(path + ".min");
         for (String c : plugin.getArenas().getConfig().getConfigurationSection(path + ".teams").getKeys(false)){
             int tid = teams.size();
@@ -67,10 +74,12 @@ public class GameNoState implements Game {
         gamePlayer.put(p, new GamePlayer(p));
         p.teleport(lobby);
         Utils.setCleanPlayer(p);
+        inLobby.add(p);
         cached.add(p);
         players.add(p);
         givePlayerItems(p);
         Utils.updateSB(p);
+        checkStart();
     }
 
     @Override
@@ -80,6 +89,8 @@ public class GameNoState implements Game {
         cached.remove(p);
         players.remove(p);
         spectators.remove(p);
+        inLobby.remove(p);
+        inGame.remove(p);
         if (gamePlayer.containsKey(p)){
             GamePlayer gp = gamePlayer.get(p);
             gp.reset();
@@ -88,8 +99,19 @@ public class GameNoState implements Game {
     }
 
     @Override
+    public void checkStart(){
+        if (isState(State.WAITING)){
+            if (cached.size() >= min){
+                setState(State.STARTING);
+            }
+        }
+    }
+
+    @Override
     public void reset(){
         wools.clear();
+        inGame.clear();
+        inLobby.clear();
         winDances.forEach(WinDance::stop);
         winEffects.forEach(WinEffect::stop);
         killEffects.forEach(KillEffect::stop);
@@ -99,6 +121,8 @@ public class GameNoState implements Game {
         players.clear();
         teams.values().forEach(Team::reset);
         plugin.getWc().resetMap(lobby, schematic);
+        starting = plugin.getCm().getStarting();
+        setState(State.WAITING);
     }
 
     @Override
@@ -111,7 +135,31 @@ public class GameNoState implements Game {
     @Override
     public void update(){
         Utils.updateSB(this);
-        teams.values().forEach(Team::updateSpawner);
+        if (isState(State.STARTING)){
+            if (starting == 30 || starting == 15 || starting == 10 || starting == 5 || starting == 4 || starting == 3 || starting == 2 || starting == 1) {
+                sendGameTitle(plugin.getLang().get(null, "titles.starting.title").replaceAll("<time>", String.valueOf(starting)), plugin.getLang().get(null, "titles.starting.subtitle").replaceAll("<time>", String.valueOf(starting)), 0, 40, 0);
+                sendGameMessage(plugin.getLang().get(null, "messages.starting").replaceAll("<starting>", String.valueOf(starting)).replaceAll("<s>", (starting > 1) ? "s" : ""));
+                sendGameSound(XSound.BLOCK_NOTE_BLOCK_PLING.parseSound());
+            }
+            if (starting == 29 || starting == 14 || starting == 9 || starting == 0) {
+                sendGameTitle("", "", 0, 1, 0);
+            }
+            if (starting == 0){
+                setState(State.GAME);
+                for (String s : plugin.getLang().getList("messages.start")){
+                    sendGameMessage(s);
+                }
+                for (Player on : cached){
+                    if (getTeamPlayer(on) == null){
+                        addPlayerRandomTeam(on);
+                    }
+                }
+            }
+            starting--;
+        }
+        if (isState(State.GAME)){
+            teams.values().forEach(Team::updateSpawner);
+        }
     }
 
     @Override
@@ -134,7 +182,7 @@ public class GameNoState implements Game {
         for (Player w : team.getMembers()){
             CTWPlayer ctw = plugin.getDb().getCTWPlayer(w);
             if (ctw == null) continue;
-            plugin.getVc().getNMS().sendTitle(w, plugin.getLang().get("titles.win.title"), plugin.getLang().get("titles.win.subtitle"), 0, 40, 0);
+            plugin.getVc().getNMS().sendTitle(w, plugin.getLang().get("titles.win.title").replaceAll("<color>", team.getColor() + ""), plugin.getLang().get("titles.win.subtitle"), 0, 40, 0);
             plugin.getWem().execute(this, w, ctw.getWinEffect());
         }
         new BukkitRunnable(){
@@ -149,6 +197,27 @@ public class GameNoState implements Game {
                 reset();
             }
         }.runTaskLater(plugin, 20 * 15);
+    }
+
+    @Override
+    public void sendGameMessage(String msg) {
+        for (Player p : cached) {
+            p.sendMessage(msg);
+        }
+    }
+
+    @Override
+    public void sendGameTitle(String title, String subtitle, int fadeIn, int stay, int fadeOut) {
+        for (Player p : cached) {
+            plugin.getVc().getNMS().sendTitle(p, title, subtitle, fadeIn, stay, fadeOut);
+        }
+    }
+
+    @Override
+    public void sendGameSound(Sound sound) {
+        for (Player p : cached) {
+            p.playSound(p.getLocation(), sound, 1.0f, 1.0f);
+        }
     }
 
     @Override
@@ -175,6 +244,8 @@ public class GameNoState implements Game {
         p.teleport(team.getSpawn());
         plugin.getKm().giveDefaultKit(p, this, team);
         Utils.updateSB(p);
+        inGame.add(p);
+        inLobby.remove(p);
         NametagEdit.getApi().setNametag(p, team.getColor() + "", "");
     }
 
@@ -406,5 +477,20 @@ public class GameNoState implements Game {
     @Override
     public HashMap<Location, ItemStack> getWools() {
         return wools;
+    }
+
+    @Override
+    public ArrayList<Player> getInLobby() {
+        return inLobby;
+    }
+
+    @Override
+    public ArrayList<Player> getInGame() {
+        return inGame;
+    }
+
+    @Override
+    public Squared getLobbyProtection() {
+        return lobbyProtection;
     }
 }

@@ -32,6 +32,7 @@ public class SetupArenaMenu implements UltraInventory {
                 ItemStack litem = plugin.getMenus().getConfig().getItemStack("menus." + name + ".items." + c);
                 ItemStack item = ItemBuilder.parse(plugin.getMenus().getConfig().getItemStack("menus." + name + ".items." + c).clone(),
                         new String[]{"{NAME}", plugin.getLang().get("menus.setup.name.nameItem"), plugin.getLang().get("menus.setup.name.loreItem")},
+                        new String[]{"{PROTECTION}", plugin.getLang().get("menus.setup.schematic.nameItem"), plugin.getLang().get("menus.setup.schematic.loreItem")},
                         new String[]{"{SCHEMATIC}", plugin.getLang().get("menus.setup.schematic.nameItem"), plugin.getLang().get("menus.setup.schematic.loreItem")},
                         new String[]{"{MIN}", plugin.getLang().get("menus.setup.min.nameItem"), plugin.getLang().get("menus.setup.min.loreItem")},
                         new String[]{"{TEAMS}", plugin.getLang().get("menus.setup.teams.nameItem"), plugin.getLang().get("menus.setup.teams.loreItem")},

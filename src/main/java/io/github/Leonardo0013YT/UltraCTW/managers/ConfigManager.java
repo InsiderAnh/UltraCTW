@@ -16,6 +16,7 @@ public class ConfigManager {
     private short redPanelData;
     private Material back, redPanelMaterial;
     private Sound wineffectschicken, wineffectsvulcanfire, wineffectvulcanwool, wineffectnotes, killEffectTNT, killEffectSquid;
+    private int starting;
 
     public ConfigManager(Main plugin) {
         this.plugin = plugin;
@@ -23,6 +24,7 @@ public class ConfigManager {
     }
 
     public void reload() {
+        this.starting = plugin.getConfig().getInt("gameDefaults.starting");
         this.placeholdersAPI = plugin.getConfig().getBoolean("addons.placeholdersAPI");
         this.mainLobby = Utils.getStringLocation(plugin.getConfig().getString("mainLobby"));
         this.wineffectschicken = Sound.valueOf(plugin.getConfig().getString("sounds.wineffects.chicken"));

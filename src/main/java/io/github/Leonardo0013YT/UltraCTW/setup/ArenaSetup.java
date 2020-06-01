@@ -27,6 +27,7 @@ public class ArenaSetup {
     private ArrayList<Squared> squareds = new ArrayList<>();
     private TeamSetup actual;
     private Selection selection = new Selection();
+    private Squared protection;
 
     public ArenaSetup(Main plugin, Player p, String name, String schematic){
         this.plugin = plugin;
@@ -99,6 +100,10 @@ public class ArenaSetup {
         plugin.getArenas().set(path + ".woolSize", woolSize);
         plugin.getArenas().set(path + ".min", min);
         plugin.getArenas().set(path + ".amountTeams", amountTeams);
+        if (protection != null){
+            plugin.getArenas().set(path + ".lobbyProtection.min", Utils.getLocationString(protection.getMin()));
+            plugin.getArenas().set(path + ".lobbyProtection.max", Utils.getLocationString(protection.getMax()));
+        }
         String ssqpath = path + ".squareds";
         int ii = 0;
         for (Squared c : squareds){

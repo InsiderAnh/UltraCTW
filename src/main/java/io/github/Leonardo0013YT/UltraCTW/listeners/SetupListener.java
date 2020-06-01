@@ -2034,6 +2034,33 @@ public class SetupListener implements Listener {
                         new String[]{"<lobby>", Utils.getFormatedLocation(as.getLobby())},
                         new String[]{"<spect>", Utils.getFormatedLocation(as.getSpectator())});
             }
+            if (display.equals(plugin.getLang().get(p, "menus.setup.protection.nameItem"))) {
+                Selection s = as.getSelection();
+                if (s.getPos1() == null || s.getPos2() == null){
+                    p.sendMessage(plugin.getLang().get("setup.arena.needPositions"));
+                    return;
+                }
+                as.setProtection(new Squared(s.getPos2(), s.getPos1(), false, true));
+                p.sendMessage(plugin.getLang().get("setup.arena.setProteccion"));
+                s.setPos1(null);
+                s.setPos2(null);
+                ArrayList<String> sq = new ArrayList<>();
+                for (Squared ss : as.getSquareds()){
+                    sq.add("§bMax: §e" + Utils.getFormatedLocation(ss.getMax()));
+                    sq.add("§bMin: §e" + Utils.getFormatedLocation(ss.getMin()));
+                    sq.add("§7");
+                }
+                plugin.getUim().openInventory(p, plugin.getUim().getMenus("setup"),
+                        new String[]{"<name>", as.getName()},
+                        new String[]{"<schematic>", as.getSchematic()},
+                        new String[]{"<min>", "" + as.getMin()},
+                        new String[]{"<teamSize>", "" + as.getTeamSize()},
+                        new String[]{"<woolSize>", "" + as.getWoolSize()},
+                        new String[]{"<squareds>", "" + getString(sq)},
+                        new String[]{"<teamAmount>", "" + as.getAmountTeams()},
+                        new String[]{"<lobby>", Utils.getFormatedLocation(as.getLobby())},
+                        new String[]{"<spect>", Utils.getFormatedLocation(as.getSpectator())});
+            }
             if (display.equals(plugin.getLang().get(p, "menus.setup.min.nameItem"))) {
                 plugin.getSm().setSetupName(p, "min");
                 p.closeInventory();

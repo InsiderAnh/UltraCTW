@@ -15,12 +15,14 @@ import io.github.Leonardo0013YT.UltraCTW.interfaces.IDatabase;
 import io.github.Leonardo0013YT.UltraCTW.listeners.MenuListener;
 import io.github.Leonardo0013YT.UltraCTW.listeners.PlayerListener;
 import io.github.Leonardo0013YT.UltraCTW.listeners.SetupListener;
+import io.github.Leonardo0013YT.UltraCTW.listeners.WorldListener;
 import io.github.Leonardo0013YT.UltraCTW.managers.*;
 import io.github.Leonardo0013YT.UltraCTW.menus.GameMenu;
 import io.github.Leonardo0013YT.UltraCTW.menus.SetupMenu;
 import io.github.Leonardo0013YT.UltraCTW.menus.UltraInventoryMenu;
 import lombok.Getter;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -108,6 +110,7 @@ public class Main extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new SetupListener(this), this);
         getServer().getPluginManager().registerEvents(new MenuListener(this), this);
         getServer().getPluginManager().registerEvents(new PlayerListener(this), this);
+        getServer().getPluginManager().registerEvents(new WorldListener(this), this);
         new BukkitRunnable(){
             @Override
             public void run() {
@@ -118,7 +121,11 @@ public class Main extends JavaPlugin {
 
     @Override
     public void onDisable() {
-
+        for (Player on : Bukkit.getOnlinePlayers()){
+            if (gm.isPlayerInGame(on)){
+                gm.removePlayerGame(on, false);
+            }
+        }
     }
 
     public void reload(){
