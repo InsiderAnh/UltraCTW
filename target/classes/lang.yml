@@ -133,9 +133,6 @@ titles:
   lose:
     title: "&c&lLOSE!"
     subtitle: "&7Game over :c."
-  death:
-    title: "&cDEATH!"
-    subtitle: "&7"
 items:
   setup:
     nameItem: "&eSetup Arena"

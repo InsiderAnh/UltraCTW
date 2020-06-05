@@ -8,7 +8,7 @@ public class PlayerCTW implements CTWPlayer {
 
     private ArrayList<Integer> partings = new ArrayList<>(), killeffects = new ArrayList<>(), wineffects = new ArrayList<>(), windances = new ArrayList<>(), killsounds = new ArrayList<>(), taunts = new ArrayList<>(), trails = new ArrayList<>();
     private double coins = 0.0;
-    private int kills = 0, winDance = 999999, winEffect = 0, killEffect = 999999, taunt = 999999, trail = 999999, parting = 999999, killSound = 999999, assists = 0, kill5 = 0, kill25 = 0, kill50 = 0;
+    private int kills = 0, winDance = 999999, winEffect = 0, killEffect = 999999, taunt = 0, trail = 999999, parting = 999999, killSound = 999999, assists = 0, kill5 = 0, kill25 = 0, kill50 = 0;
 
     @Override
     public ArrayList<Integer> getPartings() {

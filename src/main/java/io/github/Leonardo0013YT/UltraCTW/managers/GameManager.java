@@ -71,7 +71,9 @@ public class GameManager {
         game.removePlayer(p);
         NametagEdit.getApi().clearNametag(p);
         if (toLobby){
-            p.teleport(plugin.getCm().getMainLobby());
+            if (plugin.getCm().getMainLobby() != null){
+                p.teleport(plugin.getCm().getMainLobby());
+            }
         }
         playerGame.remove(p.getUniqueId());
         Utils.updateSB(p);

@@ -3,13 +3,16 @@ package io.github.Leonardo0013YT.UltraCTW.managers;
 import io.github.Leonardo0013YT.UltraCTW.Main;
 import io.github.Leonardo0013YT.UltraCTW.cosmetics.killeffects.UltraKillEffect;
 import io.github.Leonardo0013YT.UltraCTW.cosmetics.killsounds.KillSound;
+import io.github.Leonardo0013YT.UltraCTW.cosmetics.kits.KitLevel;
 import io.github.Leonardo0013YT.UltraCTW.cosmetics.parting.Parting;
 import io.github.Leonardo0013YT.UltraCTW.cosmetics.taunts.Taunt;
 import io.github.Leonardo0013YT.UltraCTW.cosmetics.trails.Trail;
 import io.github.Leonardo0013YT.UltraCTW.cosmetics.windances.UltraWinDance;
 import io.github.Leonardo0013YT.UltraCTW.cosmetics.wineffects.UltraWinEffect;
+import io.github.Leonardo0013YT.UltraCTW.interfaces.Game;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.Purchasable;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.CTWPlayer;
+import io.github.Leonardo0013YT.UltraCTW.team.Team;
 import io.github.Leonardo0013YT.UltraCTW.utils.Utils;
 import org.bukkit.entity.Player;
 
@@ -32,7 +35,12 @@ public class ShopManager {
         }
         CTWPlayer sw = plugin.getDb().getCTWPlayer(p);
         plugin.getAdm().removeCoins(p, purchasable.getPrice());
-         if (purchasable instanceof UltraKillEffect) {
+        if (purchasable instanceof KitLevel) {
+            KitLevel k = (KitLevel) purchasable;
+            Game g = plugin.getGm().getGameByPlayer(p);
+            Team team = g.getTeamPlayer(p);
+            plugin.getKm().giveKit(p, k.getKitID(), k.getLevel(), team);
+        } else if (purchasable instanceof UltraKillEffect) {
             UltraKillEffect k = (UltraKillEffect) purchasable;
             sw.addKillEffects(k.getId());
         } else if (purchasable instanceof KillSound) {

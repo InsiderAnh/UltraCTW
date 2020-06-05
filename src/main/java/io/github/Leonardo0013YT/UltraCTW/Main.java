@@ -87,6 +87,7 @@ public class Main extends JavaPlugin {
         gm = new GameManager(this);
         uim = new UltraInventoryMenu(this);
         km = new KitManager(this);
+        km.loadKits();
         sb = new ScoreboardManager(this);
         gem = new GameMenu(this);
         wdm = new WinDancesManager(this);

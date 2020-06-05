@@ -9,8 +9,11 @@ import io.github.Leonardo0013YT.UltraCTW.team.Team;
 import io.github.Leonardo0013YT.UltraCTW.utils.Utils;
 import io.github.Leonardo0013YT.UltraCTW.xseries.XSound;
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Sound;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -35,7 +38,7 @@ public class GameNoState implements Game {
     private HashMap<Location, ItemStack> wools = new HashMap<>();
     private Squared lobbyProtection;
     private Location lobby, spectator;
-    private int teamSize, woolSize, min, starting, defKit;
+    private int teamSize, woolSize, min, starting, defKit, time = 0;
     private State state;
 
     public GameNoState(Main plugin, String path, int id){
@@ -62,6 +65,7 @@ public class GameNoState implements Game {
             teamsID.put(tid, color);
         }
         setState(State.WAITING);
+        lobby.getWorld().getEntities().stream().filter(e -> !e.getType().equals(EntityType.PLAYER)).forEach(Entity::remove);
         if (!plugin.getArenas().isSet(path + ".squareds")) return;
         for (String c : plugin.getArenas().getConfig().getConfigurationSection(path + ".squareds").getKeys(false)) {
             String nowPath = path + ".squareds." + c;
@@ -121,13 +125,21 @@ public class GameNoState implements Game {
         players.clear();
         teams.values().forEach(Team::reset);
         plugin.getWc().resetMap(lobby, schematic);
+        lobby.getWorld().getEntities().stream().filter(e -> !e.getType().equals(EntityType.PLAYER)).forEach(Entity::remove);
         starting = plugin.getCm().getStarting();
+        time = 0;
         setState(State.WAITING);
     }
 
     @Override
     public void setSpect(Player p){
-        p.teleport(spectator);
+        p.setGameMode(GameMode.ADVENTURE);
+        p.getInventory().setArmorContents(null);
+        p.getInventory().clear();
+        p.setAllowFlight(true);
+        p.setFlying(true);
+        p.setHealth(p.getMaxHealth());
+        p.setNoDamageTicks(Integer.MAX_VALUE);
         players.remove(p);
         spectators.add(p);
     }
@@ -158,6 +170,7 @@ public class GameNoState implements Game {
             starting--;
         }
         if (isState(State.GAME)){
+            time++;
             teams.values().forEach(Team::updateSpawner);
         }
     }
@@ -171,6 +184,7 @@ public class GameNoState implements Game {
         String[] s2 = top.get(1).split(":");
         String[] s3 = top.get(2).split(":");
         for (Player on : cached){
+            setSpect(on);
             if (!team.getMembers().contains(on)) {
                 plugin.getVc().getNMS().sendTitle(on, plugin.getLang().get("titles.lose.title"), plugin.getLang().get("titles.lose.subtitle"), 0, 40, 0);
                 continue;
@@ -218,6 +232,11 @@ public class GameNoState implements Game {
         for (Player p : cached) {
             p.playSound(p.getLocation(), sound, 1.0f, 1.0f);
         }
+    }
+
+    @Override
+    public int getTime() {
+        return time;
     }
 
     @Override

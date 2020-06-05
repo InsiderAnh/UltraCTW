@@ -1,9 +1,10 @@
-package io.github.Leonardo0013YT.UltraCTW.kits;
+package io.github.Leonardo0013YT.UltraCTW.cosmetics.kits;
 
 import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.interfaces.CTWPlayer;
+import io.github.Leonardo0013YT.UltraCTW.interfaces.Purchasable;
 import io.github.Leonardo0013YT.UltraCTW.team.Team;
 import io.github.Leonardo0013YT.UltraCTW.utils.Utils;
-import io.github.Leonardo0013YT.UltraCTW.xseries.XMaterial;
 import lombok.Getter;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -13,14 +14,16 @@ import org.bukkit.inventory.meta.LeatherArmorMeta;
 import java.util.List;
 
 @Getter
-public class KitLevel {
+public class KitLevel implements Purchasable {
 
     private ItemStack[] inv, armors;
     private ItemStack icon;
     private String permission;
     private int price, slot, level;
+    private int kitID;
 
-    public KitLevel(Main plugin, String path) {
+    public KitLevel(Main plugin, String path, int kitID) {
+        this.kitID = kitID;
         this.level = plugin.getKits().getInt(path + ".level");
         this.permission = plugin.getKits().get(null, path + ".permission");
         this.icon = plugin.getKits().getConfig().getItemStack(path + ".icon");
@@ -50,4 +53,27 @@ public class KitLevel {
     }
 
 
+    public ItemStack getIcon(Player p) {
+        if (!icon.hasItemMeta()) {
+            return icon;
+        }
+        CTWPlayer sw = Main.get().getDb().getCTWPlayer(p);
+        ItemStack icon = this.icon.clone();
+        return icon;
+    }
+
+    @Override
+    public String getAutoGivePermission() {
+        return "none.none.none";
+    }
+
+    @Override
+    public boolean isBuy() {
+        return true;
+    }
+
+    @Override
+    public boolean needPermToBuy() {
+        return false;
+    }
 }

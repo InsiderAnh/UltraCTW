@@ -11,6 +11,9 @@ kits:
         price: 500.0
         slot: 10
         page: 1
+        icon:
+          ==: org.bukkit.inventory.ItemStack
+          type: WOOD_SWORD
         armor:
           - ==: org.bukkit.inventory.ItemStack
             type: LEATHER_BOOTS

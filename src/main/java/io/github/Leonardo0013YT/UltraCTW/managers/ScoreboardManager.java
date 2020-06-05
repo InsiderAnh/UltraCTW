@@ -50,7 +50,7 @@ public class ScoreboardManager {
         Team t2 = game.getTeamByID(1);
         ScoreboardUtil scoreboardUtil = new ScoreboardUtil("simple", "simple");
         scoreboardUtil.setName(plugin.getLang().get(p, "scoreboards.simple-game.title"));
-        String titulo = simple(plugin.getLang().get(p, "scoreboards.simple-game.lines"), team, gp, t1, t2);
+        String titulo = simple(plugin.getLang().get(p, "scoreboards.simple-game.lines"), game, team, gp, t1, t2);
         String[] title = titulo.split("\\n");
         for (int n = 1, n2 = title.length - 1; n < title.length + 1; ++n, --n2) {
             scoreboardUtil.lines(n, title[n2]);
@@ -107,7 +107,7 @@ public class ScoreboardManager {
                     GamePlayer gp = game.getGamePlayer(p);
                     Team t1 = game.getTeamByID(0);
                     Team t2 = game.getTeamByID(1);
-                    String titulo = simple(plugin.getLang().get(p, "scoreboards.simple-game.lines"), team, gp, t1, t2);
+                    String titulo = simple(plugin.getLang().get(p, "scoreboards.simple-game.lines"), game, team, gp, t1, t2);
                     String[] title = titulo.split("\\n");
                     for (int n = 1, n2 = title.length - 1; n < title.length + 1; ++n, --n2) {
                         scoreboardUtil.lines(n, title[n2]);
@@ -121,8 +121,10 @@ public class ScoreboardManager {
         }
     }
 
-    public String simple(String s, Team team, GamePlayer gp, Team t1, Team t2){
-        return s.replaceAll("<T1Wools>", Utils.getWoolsString(t1))
+    public String simple(String s, Game game, Team team, GamePlayer gp, Team t1, Team t2){
+        return s.replaceAll("<time>", Utils.convertTime(game.getTime()))
+                .replaceAll("<map>", game.getName())
+                .replaceAll("<T1Wools>", Utils.getWoolsString(t1))
                 .replaceAll("<T2Wools>", Utils.getWoolsString(t2))
                 .replaceAll("<T1>", plugin.getLang().get("scoreboards.team").replaceAll("<TColor>", t1.getColor() + "").replaceAll("<TName>", t1.getName()))
                 .replaceAll("<T2>", plugin.getLang().get("scoreboards.team").replaceAll("<TColor>", t2.getColor() + "").replaceAll("<TName>", t2.getName()))

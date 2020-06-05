@@ -36,6 +36,8 @@ public interface Game {
 
     void sendGameSound(Sound sound);
 
+    int getTime();
+
     void setState(State state);
 
     boolean isState(State state);

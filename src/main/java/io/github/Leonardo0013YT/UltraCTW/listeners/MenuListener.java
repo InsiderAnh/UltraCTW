@@ -3,6 +3,8 @@ package io.github.Leonardo0013YT.UltraCTW.listeners;
 import io.github.Leonardo0013YT.UltraCTW.Main;
 import io.github.Leonardo0013YT.UltraCTW.cosmetics.killeffects.UltraKillEffect;
 import io.github.Leonardo0013YT.UltraCTW.cosmetics.killsounds.KillSound;
+import io.github.Leonardo0013YT.UltraCTW.cosmetics.kits.Kit;
+import io.github.Leonardo0013YT.UltraCTW.cosmetics.kits.KitLevel;
 import io.github.Leonardo0013YT.UltraCTW.cosmetics.taunts.Taunt;
 import io.github.Leonardo0013YT.UltraCTW.cosmetics.trails.Trail;
 import io.github.Leonardo0013YT.UltraCTW.cosmetics.windances.UltraWinDance;
@@ -37,6 +39,89 @@ public class MenuListener implements Listener {
             return;
         }
         Player p = (Player) e.getWhoClicked();
+        if (e.getView().getTitle().equals(plugin.getLang().get(p, "menus.kitlevels.title"))) {
+            e.setCancelled(true);
+            if (e.getCurrentItem() == null || e.getCurrentItem().getType().equals(Material.AIR)) {
+                return;
+            }
+            ItemStack item = e.getCurrentItem();
+            if (!item.hasItemMeta()) {
+                return;
+            }
+            if (!item.getItemMeta().hasDisplayName()) {
+                return;
+            }
+            ItemMeta im = item.getItemMeta();
+            String display = im.getDisplayName();
+            if (display.equals(plugin.getLang().get(p, "menus.kitlevels.close.nameItem"))) {
+                if (e.getClick().equals(ClickType.RIGHT)) {
+                    p.sendMessage(plugin.getLang().get(p, "messages.closeWithClick"));
+                    return;
+                }
+                p.closeInventory();
+                return;
+            }
+            CTWPlayer sw = plugin.getDb().getCTWPlayer(p);
+            Kit k = plugin.getKm().getKitByItem(p, item);
+            if (k == null) {
+                return;
+            }
+            KitLevel kl = plugin.getKm().getKitLevelByItem(k, p, item);
+            if (kl == null) {
+                return;
+            }
+            plugin.getShm().buy(p, kl, k.getName());
+            plugin.getUim().createKitSelectorMenu(p);
+        }
+        if (e.getView().getTitle().equals(plugin.getLang().get(p, "menus.kitselector.title"))) {
+            e.setCancelled(true);
+            if (e.getCurrentItem() == null || e.getCurrentItem().getType().equals(Material.AIR)) {
+                return;
+            }
+            ItemStack item = e.getCurrentItem();
+            if (!item.hasItemMeta()) {
+                return;
+            }
+            if (!item.getItemMeta().hasDisplayName()) {
+                return;
+            }
+            ItemMeta im = item.getItemMeta();
+            String display = im.getDisplayName();
+            CTWPlayer sw = plugin.getDb().getCTWPlayer(p);
+            if (e.getClick().equals(ClickType.LEFT)) {
+                if (display.equals(plugin.getLang().get(p, "menus.kitselector.close.nameItem"))) {
+                    if (e.getClick().equals(ClickType.RIGHT)) {
+                        p.sendMessage(plugin.getLang().get(p, "messages.closeWithClick"));
+                        return;
+                    }
+                    p.closeInventory();
+                    return;
+                }
+            }
+            if (display.equals(plugin.getLang().get(p, "menus.next.nameItem"))) {
+                plugin.getUim().addPage(p);
+                plugin.getUim().createKitSelectorMenu(p);
+                return;
+            }
+            if (display.equals(plugin.getLang().get(p, "menus.last.nameItem"))) {
+                plugin.getUim().removePage(p);
+                plugin.getUim().createKitSelectorMenu(p);
+                return;
+            }
+            if (display.equals(plugin.getLang().get(p, "menus.kitselector.kit.nameItem"))) {
+                return;
+            }
+            if (display.equals(plugin.getLang().get(p, "menus.kitselector.deselect.nameItem"))) {
+                p.sendMessage(plugin.getLang().get(p, "messages.deselect"));
+                plugin.getUim().createKitSelectorMenu(p);
+                return;
+            }
+            Kit k = plugin.getKm().getKitByItem(p, item);
+            if (k == null) {
+                return;
+            }
+            plugin.getUim().createKitLevelSelectorMenu(p, k);
+        }
         if (e.getView().getTitle().equals(plugin.getLang().get("menus.teams.title"))){
             ItemStack item = e.getCurrentItem();
             if (!item.hasItemMeta() || !item.getItemMeta().hasDisplayName()){

@@ -16,6 +16,26 @@ public class Utils {
     private static DecimalFormat df = new DecimalFormat("##.#");
     private static Main plugin = Main.get();
 
+    public static String convertTime(int timeInSeconds) {
+        int hours = timeInSeconds / 3600;
+        int secondsLeft = timeInSeconds - hours * 3600;
+        int minutes = secondsLeft / 60;
+        int seconds = secondsLeft - minutes * 60;
+        String formattedTime = "";
+        if (hours > 0) {
+            if (hours < 10)
+                formattedTime += "0";
+            formattedTime += hours + ":";
+        }
+        if (minutes < 10)
+            formattedTime += "0";
+        formattedTime += minutes + ":";
+        if (seconds < 10)
+            formattedTime += "0";
+        formattedTime += seconds;
+        return formattedTime;
+    }
+
     public static String getWoolsString(Team team){
         StringBuilder wools = new StringBuilder();
         for (ChatColor c : team.getColors()){
@@ -40,6 +60,8 @@ public class Utils {
         }
         p.setFlying(false);
         p.setAllowFlight(false);
+        p.setNoDamageTicks(0);
+        p.setFireTicks(0);
         p.setWalkSpeed(0.2f);
         p.setFlySpeed(0.1f);
         p.setFoodLevel(20);
