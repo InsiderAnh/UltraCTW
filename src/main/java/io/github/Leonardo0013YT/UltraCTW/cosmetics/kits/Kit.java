@@ -21,15 +21,15 @@ public class Kit {
         this.page = plugin.getKits().getInt(path + ".page");
         this.name = plugin.getKits().get(null, path + ".name");
         this.permission = plugin.getKits().get(null, path + ".permission");
-        for (String s : plugin.getKits().getConfig().getConfigurationSection(path + ".levels").getKeys(false)){
+        for (String s : plugin.getKits().getConfig().getConfigurationSection(path + ".levels").getKeys(false)) {
             String lpa = path + ".levels." + s;
             levels.put(plugin.getKits().getInt(lpa + ".level"), new KitLevel(plugin, lpa, id));
         }
         plugin.getKm().setLastPage(page);
     }
 
-    public void giveKit(Player p, int level, Team team){
-        if (levels.containsKey(level)){
+    public void giveKit(Player p, int level, Team team) {
+        if (levels.containsKey(level)) {
             levels.get(level).giveKitLevel(p, team);
         }
     }

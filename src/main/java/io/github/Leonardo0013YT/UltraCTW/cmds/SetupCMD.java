@@ -22,15 +22,33 @@ public class SetupCMD implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        if (sender instanceof Player){
-            Player p = (Player)sender;
-            if (args.length < 1){
+        if (sender instanceof Player) {
+            Player p = (Player) sender;
+            if (args.length < 1) {
                 sendHelp(sender);
                 return true;
             }
             switch (args[0].toLowerCase()) {
+                case "addshop":
+                    if (!plugin.getSm().isSetup(p)) {
+                        p.sendMessage(plugin.getLang().get(p, "setup.alreadyCreating"));
+                        return true;
+                    }
+                    ArenaSetup as = plugin.getSm().getSetup(p);
+                    as.getNpcShop().add(Utils.getLocationString(p.getLocation()));
+                    p.sendMessage(plugin.getLang().get("setup.arena.setNPCShop"));
+                    break;
+                case "addkits":
+                    if (!plugin.getSm().isSetup(p)) {
+                        p.sendMessage(plugin.getLang().get(p, "setup.alreadyCreating"));
+                        return true;
+                    }
+                    ArenaSetup as1 = plugin.getSm().getSetup(p);
+                    as1.getNpcKits().add(Utils.getLocationString(p.getLocation()));
+                    p.sendMessage(plugin.getLang().get("setup.arena.setNPCKits"));
+                    break;
                 case "create":
-                    if (args.length < 3){
+                    if (args.length < 3) {
                         sendHelp(sender);
                         return true;
                     }
@@ -61,7 +79,7 @@ public class SetupCMD implements CommandExecutor {
                     p.getInventory().addItem(plugin.getIm().getSetup());
                     break;
                 case "kits":
-                    if (args.length < 2){
+                    if (args.length < 2) {
                         sendHelp(sender);
                         return true;
                     }
@@ -108,10 +126,12 @@ public class SetupCMD implements CommandExecutor {
         return false;
     }
 
-    private void sendHelp(CommandSender s){
+    private void sendHelp(CommandSender s) {
         s.sendMessage("§7§m--------------------------------");
         s.sendMessage("§e/ctws setmainlobby §7- §aSet main lobby.");
         s.sendMessage("§e/ctws create <name> <schematic> §7- §aCreate a new arena.");
+        s.sendMessage("§e/ctws addshop §7- §aSet NPC Shop. §c(You need stay creating arena)");
+        s.sendMessage("§e/ctws addkits §7- §aSet NPC Kits. §c(You need stay creating arena)");
         s.sendMessage("§e/ctws kits <name> §7- §aCreate a new kit.");
         s.sendMessage("§e/ctws inventory <type> §7- §aEdit a inventory.");
         s.sendMessage("§7§m--------------------------------");

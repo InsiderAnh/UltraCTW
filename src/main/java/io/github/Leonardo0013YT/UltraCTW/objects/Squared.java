@@ -11,7 +11,7 @@ public class Squared {
     private Location min, max;
     private int xMin, xMax, yMin, yMax, zMin, zMax;
 
-    public Squared(Location max, Location min, boolean noBreak, boolean noEntry){
+    public Squared(Location max, Location min, boolean noBreak, boolean noEntry) {
         this.min = min;
         this.max = max;
         this.noBreak = noBreak;

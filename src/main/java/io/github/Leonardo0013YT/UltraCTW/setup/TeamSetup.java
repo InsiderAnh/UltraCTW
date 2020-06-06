@@ -10,7 +10,8 @@ import org.bukkit.Location;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-@Getter@Setter
+@Getter
+@Setter
 public class TeamSetup {
 
     private ChatColor color;
@@ -20,11 +21,11 @@ public class TeamSetup {
     private ArrayList<ChatColor> colors = new ArrayList<>();
     private ArrayList<Squared> squareds = new ArrayList<>();
 
-    public TeamSetup(ChatColor color){
+    public TeamSetup(ChatColor color) {
         this.color = color;
     }
 
-    public void addSquared(Selection s){
+    public void addSquared(Selection s) {
         squareds.add(new Squared(s.getPos2(), s.getPos1(), false, true));
     }
 

@@ -59,8 +59,8 @@ public class Team {
         }
     }
 
-    public void updateSpawner(){
-        for (Location l : spawners.keySet()){
+    public void updateSpawner() {
+        for (Location l : spawners.keySet()) {
             ChatColor c = spawners.get(l);
             if (!dropped.containsKey(c)){
                 Item i = l.getWorld().dropItemNaturally(l, NBTEditor.set(Utils.getXMaterialByColor(c).parseItem(), c.name(), "TEAM", "WOOL", "CAPTURE"));
@@ -70,30 +70,30 @@ public class Team {
         }
     }
 
-    public boolean checkWools(){
+    public boolean checkWools() {
         boolean all = true;
-        for (ChatColor c : colors){
+        for (ChatColor c : colors) {
             all = captured.contains(c);
-            if (!all){
+            if (!all) {
                 break;
             }
         }
         return all;
     }
 
-    public boolean isInProgress(ChatColor c){
+    public boolean isInProgress(ChatColor c) {
         return !inProgress.get(c).isEmpty();
     }
 
-    public boolean isCaptured(ChatColor c){
+    public boolean isCaptured(ChatColor c) {
         return captured.contains(c);
     }
 
-    public void playSound(XSound sound, float v1, float v2){
+    public void playSound(XSound sound, float v1, float v2) {
         members.forEach(m -> m.playSound(m.getLocation(), sound.parseSound(), v1, v2));
     }
 
-    public void sendTitle(String title, String subtitle, int in, int stay, int out){
+    public void sendTitle(String title, String subtitle, int in, int stay, int out) {
         members.forEach(m -> plugin.getVc().getNMS().sendTitle(m, title, subtitle, in, stay, out));
     }
 
@@ -123,8 +123,8 @@ public class Team {
         return members.size();
     }
 
-    public Squared getPlayerSquared(Player p){
-        for (Squared s : squareds){
+    public Squared getPlayerSquared(Player p) {
+        for (Squared s : squareds) {
             if (s.isInCuboid(p)) {
                 return s;
             }
@@ -132,8 +132,8 @@ public class Team {
         return null;
     }
 
-    public Squared getPlayerSquared(Location loc){
-        for (Squared s : squareds){
+    public Squared getPlayerSquared(Location loc) {
+        for (Squared s : squareds) {
             if (s.isInCuboid(loc)) {
                 return s;
             }

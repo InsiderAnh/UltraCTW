@@ -139,7 +139,7 @@ public class Settings {
             return "";
         }
         String string = this.config.getString(s).replaceAll("<l>", "¡").replaceAll("&", "§").replaceAll("-,-", "ñ");
-        if (string.contains("<center>")){
+        if (string.contains("<center>")) {
             return CenterMessage.getCenteredMessage(string.replaceAll("<center>", ""));
         }
         return string;
@@ -183,8 +183,8 @@ public class Settings {
 
     public List<String> getList(String s) {
         List<String> now = new ArrayList<>();
-        for (String st : this.config.getStringList(s)){
-            if (st.contains("<center>")){
+        for (String st : this.config.getStringList(s)) {
+            if (st.contains("<center>")) {
                 now.add(CenterMessage.getCenteredMessage(st.replaceAll("<center>", "").replaceAll("&", "§")));
             } else {
                 now.add(st.replaceAll("&", "§"));

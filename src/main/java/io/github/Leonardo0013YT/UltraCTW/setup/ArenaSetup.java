@@ -13,7 +13,8 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-@Setter@Getter
+@Setter
+@Getter
 public class ArenaSetup {
 
     private Main plugin;
@@ -25,11 +26,12 @@ public class ArenaSetup {
     private HashMap<Integer, TeamSetup> teams = new HashMap<>();
     private ArrayList<ChatColor> colors = new ArrayList<>();
     private ArrayList<Squared> squareds = new ArrayList<>();
+    private ArrayList<String> npcShop = new ArrayList<>(), npcKits = new ArrayList<>();
     private TeamSetup actual;
     private Selection selection = new Selection();
     private Squared protection;
 
-    public ArenaSetup(Main plugin, Player p, String name, String schematic){
+    public ArenaSetup(Main plugin, Player p, String name, String schematic) {
         this.plugin = plugin;
         this.p = p;
         this.name = name;
@@ -40,26 +42,27 @@ public class ArenaSetup {
         this.amountTeams = 2;
     }
 
-    public ArrayList<ChatColor> getAvailableColors(){
+    public ArrayList<ChatColor> getAvailableColors() {
         ArrayList<ChatColor> empty = new ArrayList<>();
-        for (ChatColor color : ChatColor.values()){
-            if (color.isFormat() || color.equals(ChatColor.RESET) || color.equals(ChatColor.DARK_RED) || color.equals(ChatColor.DARK_BLUE)) continue;
+        for (ChatColor color : ChatColor.values()) {
+            if (color.isFormat() || color.equals(ChatColor.RESET) || color.equals(ChatColor.DARK_RED) || color.equals(ChatColor.DARK_BLUE))
+                continue;
             boolean contains = false;
-            for (TeamSetup ts : teams.values()){
+            for (TeamSetup ts : teams.values()) {
                 if (ts.getColors().contains(color)) {
                     contains = true;
                     break;
                 }
             }
-            if (!contains){
+            if (!contains) {
                 empty.add(color);
             }
         }
         return empty;
     }
 
-    public ArrayList<ChatColor> getWools(){
-        if (!colors.isEmpty()){
+    public ArrayList<ChatColor> getWools() {
+        if (!colors.isEmpty()) {
             return colors;
         }
         int max = woolSize * amountTeams;
@@ -70,14 +73,14 @@ public class ArenaSetup {
                 continue;
             amount++;
             colors.add(color);
-            if (amount >= max){
+            if (amount >= max) {
                 break;
             }
         }
         return materials;
     }
 
-    public void addSquared(Selection s){
+    public void addSquared(Selection s) {
         squareds.add(new Squared(s.getPos2(), s.getPos1(), true, true));
     }
 
@@ -85,49 +88,51 @@ public class ArenaSetup {
         return teams;
     }
 
-    public void saveTeam(){
+    public void saveTeam() {
         teams.put(teams.size(), actual);
         setActual(null);
     }
 
-    public void save(Player p){
+    public void save(Player p) {
         String path = "arenas." + name;
         plugin.getArenas().set(path + ".name", name);
         plugin.getArenas().set(path + ".schematic", schematic);
         plugin.getArenas().set(path + ".lobby", Utils.getLocationString(lobby));
         plugin.getArenas().set(path + ".spectator", Utils.getLocationString(spectator));
+        plugin.getArenas().set(path + ".npcShop", npcShop);
+        plugin.getArenas().set(path + ".npcKits", npcKits);
         plugin.getArenas().set(path + ".teamSize", teamSize);
         plugin.getArenas().set(path + ".woolSize", woolSize);
         plugin.getArenas().set(path + ".min", min);
         plugin.getArenas().set(path + ".amountTeams", amountTeams);
-        if (protection != null){
+        if (protection != null) {
             plugin.getArenas().set(path + ".lobbyProtection.min", Utils.getLocationString(protection.getMin()));
             plugin.getArenas().set(path + ".lobbyProtection.max", Utils.getLocationString(protection.getMax()));
         }
         String ssqpath = path + ".squareds";
         int ii = 0;
-        for (Squared c : squareds){
+        for (Squared c : squareds) {
             plugin.getArenas().set(ssqpath + "." + ii + ".min", Utils.getLocationString(c.getMin()));
             plugin.getArenas().set(ssqpath + "." + ii + ".max", Utils.getLocationString(c.getMax()));
             ii++;
         }
-        for (TeamSetup ts : teams.values()){
+        for (TeamSetup ts : teams.values()) {
             String tpath = "arenas." + name + ".teams." + ts.getColor().name();
             plugin.getArenas().set(tpath + ".spawn", Utils.getLocationString(ts.getSpawn()));
             plugin.getArenas().set(tpath + ".color", ts.getColor().name());
             String spath = tpath + ".spawners";
-            for (ChatColor c : ts.getSpawners().keySet()){
+            for (ChatColor c : ts.getSpawners().keySet()) {
                 plugin.getArenas().set(spath + "." + c.name() + ".color", c.name());
                 plugin.getArenas().set(spath + "." + c.name() + ".loc", Utils.getLocationString(ts.getSpawners().get(c)));
             }
             String lpath = tpath + ".wools";
-            for (ChatColor c : ts.getWools().keySet()){
+            for (ChatColor c : ts.getWools().keySet()) {
                 plugin.getArenas().set(lpath + "." + c.name() + ".color", c.name());
                 plugin.getArenas().set(lpath + "." + c.name() + ".loc", Utils.getLocationString(ts.getWools().get(c)));
             }
             String sqpath = tpath + ".squareds";
             int i = 0;
-            for (Squared c : ts.getSquareds()){
+            for (Squared c : ts.getSquareds()) {
                 plugin.getArenas().set(sqpath + "." + i + ".min", Utils.getLocationString(c.getMin()));
                 plugin.getArenas().set(sqpath + "." + i + ".max", Utils.getLocationString(c.getMax()));
                 i++;

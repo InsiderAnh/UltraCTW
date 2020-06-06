@@ -36,14 +36,14 @@ public class Utils {
         return formattedTime;
     }
 
-    public static String getWoolsString(Team team){
+    public static String getWoolsString(Team team) {
         StringBuilder wools = new StringBuilder();
-        for (ChatColor c : team.getColors()){
+        for (ChatColor c : team.getColors()) {
             boolean inInProgress = team.isInProgress(c);
             boolean isCaptured = team.isCaptured(c);
-            if (isCaptured){
+            if (isCaptured) {
                 wools.append(c).append(plugin.getLang().get("scoreboards.wools.captured")).append(" ");
-            } else if (inInProgress){
+            } else if (inInProgress) {
                 wools.append(c).append(plugin.getLang().get("scoreboards.wools.inProcess")).append(" ");
             } else {
                 wools.append(c).append(plugin.getLang().get("scoreboards.wools.noCaptured")).append(" ");
@@ -70,16 +70,16 @@ public class Utils {
         p.setGameMode(GameMode.SURVIVAL);
     }
 
-    public static void updateSB(){
+    public static void updateSB() {
         if (plugin.getCm().getMainLobby() == null) return;
         plugin.getCm().getMainLobby().getWorld().getPlayers().forEach(p -> plugin.getSb().update(p));
     }
 
-    public static void updateSB(Game game){
+    public static void updateSB(Game game) {
         game.getCached().forEach(p -> plugin.getSb().update(p));
     }
 
-    public static void updateSB(Player p){
+    public static void updateSB(Player p) {
         plugin.getSb().update(p);
     }
 
@@ -100,7 +100,7 @@ public class Utils {
     }
 
     public static Location getStringLocation(String location) {
-        if (location == null) return null;
+        if (location == null || location.equals("")) return null;
         String[] l = location.split(";");
         if (l.length < 5) return null;
         World world = Bukkit.getWorld(l[0]);
@@ -112,11 +112,11 @@ public class Utils {
         return new Location(world, x, y, z, yaw, pitch);
     }
 
-    public static Team getMinorPlayersTeam(Game game){
+    public static Team getMinorPlayersTeam(Game game) {
         Team t = null;
         int menor = 100000;
-        for (Team tt : game.getTeams().values()){
-            if (tt.getTeamSize() <= menor){
+        for (Team tt : game.getTeams().values()) {
+            if (tt.getTeamSize() <= menor) {
                 t = tt;
                 menor = tt.getTeamSize();
             }
@@ -147,7 +147,7 @@ public class Utils {
         if (color.contains("§c")) {
             return ChatColor.RED;
         }
-        if ( color.contains("§4")) {
+        if (color.contains("§4")) {
             return ChatColor.DARK_RED;
         }
         if (color.contains("§7")) {
@@ -202,7 +202,7 @@ public class Utils {
         if (color.equals(ChatColor.GOLD)) {
             return 1;
         }
-        if ( color.equals(ChatColor.DARK_RED)) {
+        if (color.equals(ChatColor.DARK_RED)) {
             return 14;
         }
         if (color.equals(ChatColor.DARK_GRAY)) {
@@ -331,7 +331,7 @@ public class Utils {
         if (color.equals(ChatColor.DARK_AQUA)) {
             return XMaterial.CYAN_WOOL;
         }
-        if (color.equals(ChatColor.RED)){
+        if (color.equals(ChatColor.RED)) {
             return XMaterial.RED_WOOL;
         }
         if (color.equals(ChatColor.GOLD)) {
@@ -377,7 +377,7 @@ public class Utils {
         if (material.equals(XMaterial.CYAN_WOOL)) {
             return ChatColor.DARK_AQUA;
         }
-        if (material.equals(XMaterial.RED_WOOL)){
+        if (material.equals(XMaterial.RED_WOOL)) {
             return ChatColor.RED;
         }
         if (material.equals(XMaterial.ORANGE_WOOL)) {

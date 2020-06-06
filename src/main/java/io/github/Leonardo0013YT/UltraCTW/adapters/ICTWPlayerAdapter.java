@@ -1,7 +1,6 @@
 package io.github.Leonardo0013YT.UltraCTW.adapters;
 
 import com.google.gson.*;
-import io.github.Leonardo0013YT.UltraCTW.interfaces.CTWPlayer;
 
 import java.lang.reflect.Type;
 

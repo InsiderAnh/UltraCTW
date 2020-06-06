@@ -10,8 +10,8 @@ import io.github.Leonardo0013YT.UltraCTW.cosmetics.trails.Trail;
 import io.github.Leonardo0013YT.UltraCTW.cosmetics.windances.UltraWinDance;
 import io.github.Leonardo0013YT.UltraCTW.cosmetics.wineffects.UltraWinEffect;
 import io.github.Leonardo0013YT.UltraCTW.enums.State;
-import io.github.Leonardo0013YT.UltraCTW.interfaces.Game;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.CTWPlayer;
+import io.github.Leonardo0013YT.UltraCTW.interfaces.Game;
 import io.github.Leonardo0013YT.UltraCTW.team.Team;
 import io.github.Leonardo0013YT.UltraCTW.utils.NBTEditor;
 import org.bukkit.ChatColor;
@@ -34,8 +34,8 @@ public class MenuListener implements Listener {
     }
 
     @EventHandler
-    public void onMenu(InventoryClickEvent e){
-        if (e.getSlotType().equals(InventoryType.SlotType.OUTSIDE) || e.getCurrentItem() == null || e.getCurrentItem().getType().equals(Material.AIR)){
+    public void onMenu(InventoryClickEvent e) {
+        if (e.getSlotType().equals(InventoryType.SlotType.OUTSIDE) || e.getCurrentItem() == null || e.getCurrentItem().getType().equals(Material.AIR)) {
             return;
         }
         Player p = (Player) e.getWhoClicked();
@@ -122,15 +122,15 @@ public class MenuListener implements Listener {
             }
             plugin.getUim().createKitLevelSelectorMenu(p, k);
         }
-        if (e.getView().getTitle().equals(plugin.getLang().get("menus.teams.title"))){
+        if (e.getView().getTitle().equals(plugin.getLang().get("menus.teams.title"))) {
             ItemStack item = e.getCurrentItem();
-            if (!item.hasItemMeta() || !item.getItemMeta().hasDisplayName()){
+            if (!item.hasItemMeta() || !item.getItemMeta().hasDisplayName()) {
                 return;
             }
             Game game = plugin.getGm().getGameByPlayer(p);
             String d = item.getItemMeta().getDisplayName();
-            if (d.equals(plugin.getLang().get("menus.teams.random.nameItem"))){
-                if (game.isState(State.WAITING) || game.isState(State.STARTING)){
+            if (d.equals(plugin.getLang().get("menus.teams.random.nameItem"))) {
+                if (game.isState(State.WAITING) || game.isState(State.STARTING)) {
                     e.setCancelled(true);
                     p.sendMessage(plugin.getLang().get("messages.needStart"));
                     return;
@@ -142,7 +142,7 @@ public class MenuListener implements Listener {
             if (co == null) return;
             ChatColor c = ChatColor.valueOf(co);
             Team team = game.getTeams().get(c);
-            if (game.isState(State.WAITING) || game.isState(State.STARTING)){
+            if (game.isState(State.WAITING) || game.isState(State.STARTING)) {
                 e.setCancelled(true);
                 p.sendMessage(plugin.getLang().get("messages.needStart"));
                 return;
@@ -168,7 +168,7 @@ public class MenuListener implements Listener {
             ItemMeta im = item.getItemMeta();
             String display = im.getDisplayName();
             if (display.equals(plugin.getLang().get(p, "menus.lobby.perks.nameItem"))) {
-                
+
             }
             if (display.equals(plugin.getLang().get(p, "menus.lobby.trails.nameItem"))) {
                 plugin.getUim().getPages().put(p, 1);

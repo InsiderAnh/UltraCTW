@@ -866,7 +866,7 @@ public class SetupListener implements Listener {
                     as.setMin(min);
                     plugin.getSm().removeName(p);
                     ArrayList<String> sq = new ArrayList<>();
-                    for (Squared s : as.getSquareds()){
+                    for (Squared s : as.getSquareds()) {
                         sq.add("§bMax: §e" + Utils.getFormatedLocation(s.getMax()));
                         sq.add("§bMin: §e" + Utils.getFormatedLocation(s.getMin()));
                         sq.add("§7");
@@ -897,7 +897,7 @@ public class SetupListener implements Listener {
                     as.setTeamSize(teamsize);
                     plugin.getSm().removeName(p);
                     ArrayList<String> sq = new ArrayList<>();
-                    for (Squared s : as.getSquareds()){
+                    for (Squared s : as.getSquareds()) {
                         sq.add("§bMax: §e" + Utils.getFormatedLocation(s.getMax()));
                         sq.add("§bMin: §e" + Utils.getFormatedLocation(s.getMin()));
                         sq.add("§7");
@@ -928,7 +928,7 @@ public class SetupListener implements Listener {
                     as.setWoolSize(woolsize);
                     plugin.getSm().removeName(p);
                     ArrayList<String> sq = new ArrayList<>();
-                    for (Squared s : as.getSquareds()){
+                    for (Squared s : as.getSquareds()) {
                         sq.add("§bMax: §e" + Utils.getFormatedLocation(s.getMax()));
                         sq.add("§bMin: §e" + Utils.getFormatedLocation(s.getMin()));
                         sq.add("§7");
@@ -959,7 +959,7 @@ public class SetupListener implements Listener {
                     as.setAmountTeams(amountteams);
                     plugin.getSm().removeName(p);
                     ArrayList<String> sq = new ArrayList<>();
-                    for (Squared s : as.getSquareds()){
+                    for (Squared s : as.getSquareds()) {
                         sq.add("§bMax: §e" + Utils.getFormatedLocation(s.getMax()));
                         sq.add("§bMin: §e" + Utils.getFormatedLocation(s.getMin()));
                         sq.add("§7");
@@ -1050,19 +1050,19 @@ public class SetupListener implements Listener {
     }
 
     @EventHandler
-    public void onInteract(PlayerInteractEvent e){
+    public void onInteract(PlayerInteractEvent e) {
         Player p = e.getPlayer();
-        if (p.getItemInHand() == null || p.getItemInHand().getType().equals(Material.AIR)){
+        if (p.getItemInHand() == null || p.getItemInHand().getType().equals(Material.AIR)) {
             return;
         }
         ItemStack item = p.getItemInHand();
-        if (item.equals(plugin.getIm().getSetup())){
-            if (!plugin.getSm().isSetup(p)){
+        if (item.equals(plugin.getIm().getSetup())) {
+            if (!plugin.getSm().isSetup(p)) {
                 return;
             }
             ArenaSetup as = plugin.getSm().getSetup(p);
             ArrayList<String> sq = new ArrayList<>();
-            for (Squared s : as.getSquareds()){
+            for (Squared s : as.getSquareds()) {
                 sq.add("§bMax: §e" + Utils.getFormatedLocation(s.getMax()));
                 sq.add("§bMin: §e" + Utils.getFormatedLocation(s.getMin()));
                 sq.add("§7");
@@ -1078,7 +1078,7 @@ public class SetupListener implements Listener {
                     new String[]{"<lobby>", Utils.getFormatedLocation(as.getLobby())},
                     new String[]{"<spect>", Utils.getFormatedLocation(as.getSpectator())});
         }
-        if (e.getAction().equals(Action.RIGHT_CLICK_BLOCK)){
+        if (e.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
             if (plugin.getSm().isSetup(p)) {
                 ArenaSetup as = plugin.getSm().getSetup(p);
                 if (item.equals(plugin.getIm().getPoints())) {
@@ -1100,14 +1100,14 @@ public class SetupListener implements Listener {
     }
 
     @EventHandler
-    public void onPlace(BlockPlaceEvent e){
+    public void onPlace(BlockPlaceEvent e) {
         Player p = e.getPlayer();
-        if (plugin.getSm().isSetup(p)){
+        if (plugin.getSm().isSetup(p)) {
             ArenaSetup as = plugin.getSm().getSetup(p);
             ItemStack item = p.getItemInHand();
             if (item == null || item.getType().equals(Material.AIR)) return;
             if (as.getActual() == null) return;
-            if (item.getType().name().contains("WOOL")){
+            if (item.getType().name().contains("WOOL")) {
                 XMaterial ma = XMaterial.matchXMaterial(item);
                 TeamSetup ts = as.getActual();
                 Block b = e.getBlockPlaced();
@@ -1119,12 +1119,12 @@ public class SetupListener implements Listener {
     }
 
     @EventHandler
-    public void onMenu(InventoryClickEvent e){
-        if (e.getSlotType().equals(InventoryType.SlotType.OUTSIDE) || e.getClickedInventory().getType().equals(InventoryType.PLAYER) || e.getCurrentItem() == null || e.getCurrentItem().getType().equals(Material.AIR)){
+    public void onMenu(InventoryClickEvent e) {
+        if (e.getSlotType().equals(InventoryType.SlotType.OUTSIDE) || e.getClickedInventory().getType().equals(InventoryType.PLAYER) || e.getCurrentItem() == null || e.getCurrentItem().getType().equals(Material.AIR)) {
             return;
         }
         Player p = (Player) e.getWhoClicked();
-        if (plugin.getSm().isSetupInventory(p)){
+        if (plugin.getSm().isSetupInventory(p)) {
             return;
         }
         if (plugin.getSm().isSetupTaunt(p)) {
@@ -1605,7 +1605,7 @@ public class SetupListener implements Listener {
                     }.runTaskLater(plugin, 1);
                 }
             }
-            if (e.getSlot() == 1){
+            if (e.getSlot() == 1) {
                 e.setCancelled(true);
                 if (e.getCursor() == null || e.getCursor().getType().equals(Material.AIR) || p.getItemOnCursor() == null || p.getItemOnCursor().getType().equals(Material.AIR)) {
                     new BukkitRunnable() {
@@ -1627,7 +1627,7 @@ public class SetupListener implements Listener {
                     }.runTaskLater(plugin, 1);
                 }
             }
-            if (e.getSlot() == 2){
+            if (e.getSlot() == 2) {
                 e.setCancelled(true);
                 if (e.getCursor() == null || e.getCursor().getType().equals(Material.AIR) || p.getItemOnCursor() == null || p.getItemOnCursor().getType().equals(Material.AIR)) {
                     new BukkitRunnable() {
@@ -1649,7 +1649,7 @@ public class SetupListener implements Listener {
                     }.runTaskLater(plugin, 1);
                 }
             }
-            if (e.getSlot() == 3){
+            if (e.getSlot() == 3) {
                 if (e.getCursor() == null || e.getCursor().getType().equals(Material.AIR) || p.getItemOnCursor() == null || p.getItemOnCursor().getType().equals(Material.AIR)) {
                     new BukkitRunnable() {
                         @Override
@@ -1670,10 +1670,10 @@ public class SetupListener implements Listener {
                     }.runTaskLater(plugin, 1);
                 }
             }
-            if (plugin.getSem().getWhites().contains(e.getSlot())){
+            if (plugin.getSem().getWhites().contains(e.getSlot())) {
                 e.setCancelled(true);
             }
-            if (e.getSlot() == 7){
+            if (e.getSlot() == 7) {
                 e.setCancelled(true);
             }
             if (e.getSlot() == 8) {
@@ -1694,7 +1694,7 @@ public class SetupListener implements Listener {
             KitLevelSetup kls = ks.getKls();
             ItemStack item = e.getCurrentItem();
             String display = item.getItemMeta().getDisplayName();
-            if (display.equals(plugin.getLang().get("menus.kitlevelssetup.icon.nameItem"))){
+            if (display.equals(plugin.getLang().get("menus.kitlevelssetup.icon.nameItem"))) {
                 if (e.getCursor() == null || e.getCursor().getType().equals(Material.AIR) || p.getItemOnCursor() == null || p.getItemOnCursor().getType().equals(Material.AIR)) {
                     p.sendMessage(plugin.getLang().get(p, "setup.noCursor"));
                     return;
@@ -1709,22 +1709,22 @@ public class SetupListener implements Listener {
                 kls.setIcon(it);
                 p.sendMessage(plugin.getLang().get(p, "setup.kits.setIcon"));
             }
-            if (display.equals(plugin.getLang().get("menus.kitlevelssetup.slot.nameItem"))){
+            if (display.equals(plugin.getLang().get("menus.kitlevelssetup.slot.nameItem"))) {
                 plugin.getSm().setSetupName(p, "kitlevelslot");
                 p.closeInventory();
                 p.sendMessage(plugin.getLang().get(p, "setup.setSlot"));
             }
-            if (display.equals(plugin.getLang().get("menus.kitlevelssetup.page.nameItem"))){
+            if (display.equals(plugin.getLang().get("menus.kitlevelssetup.page.nameItem"))) {
                 plugin.getSm().setSetupName(p, "kitlevelpage");
                 p.closeInventory();
                 p.sendMessage(plugin.getLang().get(p, "setup.setPage"));
             }
-            if (display.equals(plugin.getLang().get("menus.kitlevelssetup.buy.nameItem"))){
+            if (display.equals(plugin.getLang().get("menus.kitlevelssetup.buy.nameItem"))) {
                 kls.setBuy(!kls.isBuy());
                 p.sendMessage(plugin.getLang().get(p, "setup.setBuy").replaceAll("<state>", Utils.parseBoolean(kls.isBuy())));
                 plugin.getSem().createSetupKitLevelsMenu(p, kls);
             }
-            if (display.equals(plugin.getLang().get("menus.kitlevelssetup.price.nameItem"))){
+            if (display.equals(plugin.getLang().get("menus.kitlevelssetup.price.nameItem"))) {
                 plugin.getSm().setSetupName(p, "kitlevelprice");
                 p.closeInventory();
                 p.sendMessage(plugin.getLang().get(p, "setup.setPrice"));
@@ -1743,29 +1743,29 @@ public class SetupListener implements Listener {
             KitSetup ks = plugin.getSm().getSetupKit(p);
             ItemStack item = e.getCurrentItem();
             String display = item.getItemMeta().getDisplayName();
-            if (display.equals(plugin.getLang().get("menus.kitsetup.permission.nameItem"))){
+            if (display.equals(plugin.getLang().get("menus.kitsetup.permission.nameItem"))) {
                 plugin.getSm().setSetupName(p, "kitpermission");
                 p.closeInventory();
                 p.sendMessage(plugin.getLang().get(p, "setup.setPermission"));
             }
-            if (display.equals(plugin.getLang().get("menus.kitsetup.slot.nameItem"))){
+            if (display.equals(plugin.getLang().get("menus.kitsetup.slot.nameItem"))) {
                 plugin.getSm().setSetupName(p, "kitslot");
                 p.closeInventory();
                 p.sendMessage(plugin.getLang().get(p, "setup.setSlot"));
             }
-            if (display.equals(plugin.getLang().get("menus.kitsetup.page.nameItem"))){
+            if (display.equals(plugin.getLang().get("menus.kitsetup.page.nameItem"))) {
                 plugin.getSm().setSetupName(p, "kitpage");
                 p.closeInventory();
                 p.sendMessage(plugin.getLang().get(p, "setup.setPage"));
             }
-            if (display.equals(plugin.getLang().get("menus.kitsetup.levels.nameItem"))){
+            if (display.equals(plugin.getLang().get("menus.kitsetup.levels.nameItem"))) {
                 if (ks.getKls() == null) {
                     ks.setKls(new KitLevelSetup(ks.getLevels().size() + 1));
                     p.sendMessage(plugin.getLang().get(p, "setup.kits.newLevel"));
                 }
                 plugin.getSem().createSetupKitLevelsMenu(p, ks.getKls());
             }
-            if (display.equals(plugin.getLang().get("menus.kitsetup.save.nameItem"))){
+            if (display.equals(plugin.getLang().get("menus.kitsetup.save.nameItem"))) {
                 plugin.getSm().removeSetupKit(p);
                 ks.save();
                 p.closeInventory();
@@ -1778,12 +1778,12 @@ public class SetupListener implements Listener {
             TeamSetup ts = plugin.getSm().getSetupTeam(p);
             ItemStack item = e.getCurrentItem();
             String c = NBTEditor.getString(item, "SELECT", "TEAM", "COLORS");
-            if (c == null){
+            if (c == null) {
                 return;
             }
             ChatColor color = ChatColor.valueOf(c);
             ts.getColors().add(color);
-            if (ts.getColors().size() >= as.getWoolSize()){
+            if (ts.getColors().size() >= as.getWoolSize()) {
                 p.closeInventory();
                 p.sendMessage(plugin.getLang().get("setup.arena.setColors"));
                 ArrayList<ChatColor> wools = ts.getColors();
@@ -1800,17 +1800,17 @@ public class SetupListener implements Listener {
             TeamSetup ts = plugin.getSm().getSetupTeam(p);
             ItemStack item = e.getCurrentItem();
             String c = NBTEditor.getString(item, "SELECT", "TEAM", "SPAWNER");
-            if (c == null){
+            if (c == null) {
                 return;
             }
             ChatColor color = ChatColor.valueOf(c);
             ts.getSpawners().put(color, p.getLocation());
             p.sendMessage(plugin.getLang().get("setup.arena.addSpawner").replaceAll("<location>", Utils.getFormatedLocation(p.getLocation())));
-            if (ts.getSpawners().size() >= ts.getColors().size()){
+            if (ts.getSpawners().size() >= ts.getColors().size()) {
                 ArrayList<String> sp = new ArrayList<>();
                 ts.getSpawners().values().forEach(l -> sp.add(Utils.getFormatedLocation(l)));
                 ArrayList<String> sq = new ArrayList<>();
-                for (Squared s : ts.getSquareds()){
+                for (Squared s : ts.getSquareds()) {
                     sq.add("§bMax: §e" + Utils.getFormatedLocation(s.getMax()));
                     sq.add("§bMin: §e" + Utils.getFormatedLocation(s.getMin()));
                     sq.add("§7");
@@ -1836,7 +1836,7 @@ public class SetupListener implements Listener {
                 ArrayList<String> sp = new ArrayList<>();
                 ts.getSpawners().values().forEach(l -> sp.add(Utils.getFormatedLocation(l)));
                 ArrayList<String> sq = new ArrayList<>();
-                for (Squared s : ts.getSquareds()){
+                for (Squared s : ts.getSquareds()) {
                     sq.add("§bMax: §e" + Utils.getFormatedLocation(s.getMax()));
                     sq.add("§bMin: §e" + Utils.getFormatedLocation(s.getMin()));
                     sq.add("§7");
@@ -1850,7 +1850,7 @@ public class SetupListener implements Listener {
             }
             if (display.equals(plugin.getLang().get(p, "menus.teamsetup.squared.nameItem"))) {
                 Selection s = as.getSelection();
-                if (s.getPos1() == null || s.getPos2() == null){
+                if (s.getPos1() == null || s.getPos2() == null) {
                     p.sendMessage(plugin.getLang().get("setup.arena.needPositions"));
                     return;
                 }
@@ -1861,7 +1861,7 @@ public class SetupListener implements Listener {
                 ArrayList<String> sp = new ArrayList<>();
                 ts.getSpawners().values().forEach(l -> sp.add(Utils.getFormatedLocation(l)));
                 ArrayList<String> sq = new ArrayList<>();
-                for (Squared ss : ts.getSquareds()){
+                for (Squared ss : ts.getSquareds()) {
                     sq.add("§bMax: §e" + Utils.getFormatedLocation(ss.getMax()));
                     sq.add("§bMin: §e" + Utils.getFormatedLocation(ss.getMin()));
                     sq.add("§7");
@@ -1873,12 +1873,12 @@ public class SetupListener implements Listener {
                         new String[]{"<spawn>", "" + Utils.getFormatedLocation(ts.getSpawn())});
             }
             if (display.equals(plugin.getLang().get(p, "menus.teamsetup.spawner.nameItem"))) {
-                if (ts.getColors().size() < as.getWoolSize()){
+                if (ts.getColors().size() < as.getWoolSize()) {
                     p.sendMessage(plugin.getLang().get("setup.arena.firstWool"));
                     return;
                 }
-                if (e.getClick().equals(ClickType.RIGHT)){
-                    if (ts.getSpawners().isEmpty()){
+                if (e.getClick().equals(ClickType.RIGHT)) {
+                    if (ts.getSpawners().isEmpty()) {
                         p.sendMessage(plugin.getLang().get("setup.team.noSpawners"));
                         return;
                     }
@@ -1890,26 +1890,26 @@ public class SetupListener implements Listener {
                 }
             }
             if (display.equals(plugin.getLang().get(p, "menus.teamsetup.wool.nameItem"))) {
-                if (ts.getColors().size() >= as.getWoolSize()){
+                if (ts.getColors().size() >= as.getWoolSize()) {
                     p.sendMessage(plugin.getLang().get("setup.arena.alreadySetWool"));
                     return;
                 }
                 plugin.getSem().createSetupColorTeam(p, as);
             }
             if (display.equals(plugin.getLang().get(p, "menus.teamsetup.save.nameItem"))) {
-                if (ts.getSpawn() == null){
+                if (ts.getSpawn() == null) {
                     p.sendMessage(plugin.getLang().get("setup.arena.noSet.spawn"));
                     return;
                 }
-                if (ts.getWools().size() < as.getWoolSize()){
+                if (ts.getWools().size() < as.getWoolSize()) {
                     p.sendMessage(plugin.getLang().get("setup.arena.noSet.noWools"));
                     return;
                 }
-                if (ts.getColors().size() < as.getWoolSize()){
+                if (ts.getColors().size() < as.getWoolSize()) {
                     p.sendMessage(plugin.getLang().get("setup.arena.noSet.noColors"));
                     return;
                 }
-                if (ts.getSpawners().size() < as.getWoolSize()){
+                if (ts.getSpawners().size() < as.getWoolSize()) {
                     p.sendMessage(plugin.getLang().get("setup.arena.noSet.noSpawner"));
                     return;
                 }
@@ -1917,7 +1917,7 @@ public class SetupListener implements Listener {
                 as.saveTeam();
                 p.sendMessage(plugin.getLang().get("setup.arena.teamSaved"));
                 ArrayList<String> sq = new ArrayList<>();
-                for (Squared s : as.getSquareds()){
+                for (Squared s : as.getSquareds()) {
                     sq.add("§bMax: §e" + Utils.getFormatedLocation(s.getMax()));
                     sq.add("§bMin: §e" + Utils.getFormatedLocation(s.getMin()));
                     sq.add("§7");
@@ -1940,9 +1940,9 @@ public class SetupListener implements Listener {
             ItemStack item = e.getCurrentItem();
             ItemMeta im = item.getItemMeta();
             String display = im.getDisplayName();
-            if (display.equals(plugin.getLang().get("menus.back.nameItem"))){
+            if (display.equals(plugin.getLang().get("menus.back.nameItem"))) {
                 ArrayList<String> sq = new ArrayList<>();
-                for (Squared s : as.getSquareds()){
+                for (Squared s : as.getSquareds()) {
                     sq.add("§bMax: §e" + Utils.getFormatedLocation(s.getMax()));
                     sq.add("§bMin: §e" + Utils.getFormatedLocation(s.getMin()));
                     sq.add("§7");
@@ -1960,7 +1960,7 @@ public class SetupListener implements Listener {
                 return;
             }
             String c = NBTEditor.getString(item, "SETUP", "TEAM", "COLOR");
-            if (c == null){
+            if (c == null) {
                 return;
             }
             ChatColor color = ChatColor.valueOf(c);
@@ -1969,7 +1969,7 @@ public class SetupListener implements Listener {
             ArrayList<String> sp = new ArrayList<>();
             ts.getSpawners().values().forEach(l -> sp.add(Utils.getFormatedLocation(l)));
             ArrayList<String> sq = new ArrayList<>();
-            for (Squared s : ts.getSquareds()){
+            for (Squared s : ts.getSquareds()) {
                 sq.add("§bMax: §e" + Utils.getFormatedLocation(s.getMax()));
                 sq.add("§bMin: §e" + Utils.getFormatedLocation(s.getMin()));
                 sq.add("§7");
@@ -1981,13 +1981,13 @@ public class SetupListener implements Listener {
                     new String[]{"<spawn>", "" + Utils.getFormatedLocation(ts.getSpawn())});
             p.sendMessage(plugin.getLang().get("setup.arena.createDontWools"));
         }
-        if (e.getView().getTitle().equals(plugin.getLang().get("menus.setup.title"))){
+        if (e.getView().getTitle().equals(plugin.getLang().get("menus.setup.title"))) {
             e.setCancelled(true);
             ArenaSetup as = plugin.getSm().getSetup(p);
             ItemMeta im = e.getCurrentItem().getItemMeta();
             String display = im.getDisplayName();
             if (display.equals(plugin.getLang().get(p, "menus.setup.teams.nameItem"))) {
-                if (!plugin.getSm().isSetupTeam(p)){
+                if (!plugin.getSm().isSetupTeam(p)) {
                     plugin.getSem().createSetupSelectMenu(p, as);
                 } else {
                     TeamSetup ts = plugin.getSm().getSetupTeam(p);
@@ -1995,7 +1995,7 @@ public class SetupListener implements Listener {
                     ArrayList<String> sp = new ArrayList<>();
                     ts.getSpawners().values().forEach(l -> sp.add(Utils.getFormatedLocation(l)));
                     ArrayList<String> sq = new ArrayList<>();
-                    for (Squared s : ts.getSquareds()){
+                    for (Squared s : ts.getSquareds()) {
                         sq.add("§bMax: §e" + Utils.getFormatedLocation(s.getMax()));
                         sq.add("§bMin: §e" + Utils.getFormatedLocation(s.getMin()));
                         sq.add("§7");
@@ -2009,7 +2009,7 @@ public class SetupListener implements Listener {
             }
             if (display.equals(plugin.getLang().get(p, "menus.setup.squared.nameItem"))) {
                 Selection s = as.getSelection();
-                if (s.getPos1() == null || s.getPos2() == null){
+                if (s.getPos1() == null || s.getPos2() == null) {
                     p.sendMessage(plugin.getLang().get("setup.arena.needPositions"));
                     return;
                 }
@@ -2018,7 +2018,7 @@ public class SetupListener implements Listener {
                 s.setPos1(null);
                 s.setPos2(null);
                 ArrayList<String> sq = new ArrayList<>();
-                for (Squared ss : as.getSquareds()){
+                for (Squared ss : as.getSquareds()) {
                     sq.add("§bMax: §e" + Utils.getFormatedLocation(ss.getMax()));
                     sq.add("§bMin: §e" + Utils.getFormatedLocation(ss.getMin()));
                     sq.add("§7");
@@ -2036,7 +2036,7 @@ public class SetupListener implements Listener {
             }
             if (display.equals(plugin.getLang().get(p, "menus.setup.protection.nameItem"))) {
                 Selection s = as.getSelection();
-                if (s.getPos1() == null || s.getPos2() == null){
+                if (s.getPos1() == null || s.getPos2() == null) {
                     p.sendMessage(plugin.getLang().get("setup.arena.needPositions"));
                     return;
                 }
@@ -2045,7 +2045,7 @@ public class SetupListener implements Listener {
                 s.setPos1(null);
                 s.setPos2(null);
                 ArrayList<String> sq = new ArrayList<>();
-                for (Squared ss : as.getSquareds()){
+                for (Squared ss : as.getSquareds()) {
                     sq.add("§bMax: §e" + Utils.getFormatedLocation(ss.getMax()));
                     sq.add("§bMin: §e" + Utils.getFormatedLocation(ss.getMin()));
                     sq.add("§7");
@@ -2077,7 +2077,7 @@ public class SetupListener implements Listener {
                 p.sendMessage(plugin.getLang().get(p, "setup.arena.setAmountTeams"));
             }
             if (display.equals(plugin.getLang().get(p, "menus.setup.woolSize.nameItem"))) {
-                if (as.getTeams().size() > 0){
+                if (as.getTeams().size() > 0) {
                     p.sendMessage(plugin.getLang().get("setup.arena.alreadyTeam"));
                     return;
                 }
@@ -2088,7 +2088,7 @@ public class SetupListener implements Listener {
             if (display.equals(plugin.getLang().get(p, "menus.setup.lobby.nameItem"))) {
                 as.setLobby(p.getLocation());
                 ArrayList<String> sq = new ArrayList<>();
-                for (Squared s : as.getSquareds()){
+                for (Squared s : as.getSquareds()) {
                     sq.add("§bMax: §e" + Utils.getFormatedLocation(s.getMax()));
                     sq.add("§bMin: §e" + Utils.getFormatedLocation(s.getMin()));
                     sq.add("§7");
@@ -2108,7 +2108,7 @@ public class SetupListener implements Listener {
             if (display.equals(plugin.getLang().get(p, "menus.setup.spect.nameItem"))) {
                 as.setSpectator(p.getLocation());
                 ArrayList<String> sq = new ArrayList<>();
-                for (Squared s : as.getSquareds()){
+                for (Squared s : as.getSquareds()) {
                     sq.add("§bMax: §e" + Utils.getFormatedLocation(s.getMax()));
                     sq.add("§bMin: §e" + Utils.getFormatedLocation(s.getMin()));
                     sq.add("§7");
@@ -2126,15 +2126,15 @@ public class SetupListener implements Listener {
                 p.sendMessage(plugin.getLang().get(p, "setup.arena.setSpect"));
             }
             if (display.equals(plugin.getLang().get(p, "menus.setup.save.nameItem"))) {
-                if (as.getLobby() == null){
+                if (as.getLobby() == null) {
                     p.sendMessage(plugin.getLang().get("setup.arena.noSet.lobby"));
                     return;
                 }
-                if (as.getSpectator() == null){
+                if (as.getSpectator() == null) {
                     p.sendMessage(plugin.getLang().get("setup.arena.noSet.spectator"));
                     return;
                 }
-                if (as.getTeams().size() < 2){
+                if (as.getTeams().size() < 2) {
                     p.sendMessage(plugin.getLang().get("setup.arena.noSet.needTwoTeams"));
                     return;
                 }
@@ -2155,12 +2155,12 @@ public class SetupListener implements Listener {
         }
     }
 
-    public String getString(ArrayList<String> list){
-        if (list.isEmpty()){
+    public String getString(ArrayList<String> list) {
+        if (list.isEmpty()) {
             return "§cEmpty";
         }
         StringBuilder r = new StringBuilder();
-        for (String s : list){
+        for (String s : list) {
             r.append("<newLine>").append("§e").append(s);
         }
         return r.toString().replaceFirst("<newLine>", "");

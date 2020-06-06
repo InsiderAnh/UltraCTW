@@ -734,7 +734,7 @@ public class NBTEditor {
      * @return Whether or not the particular tag exists, may not be a primitive
      */
     public static boolean contains(Object object, Object... keys) {
-        if (object == null){
+        if (object == null) {
             return false;
         }
         Object result;

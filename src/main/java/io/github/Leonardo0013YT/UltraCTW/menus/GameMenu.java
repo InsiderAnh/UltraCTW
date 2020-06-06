@@ -27,19 +27,19 @@ public class GameMenu {
         this.plugin = plugin;
     }
 
-    public void createTeamsMenu(Player p, Game game){
+    public void createTeamsMenu(Player p, Game game) {
         Inventory inv = Bukkit.createInventory(null, 45, plugin.getLang().get("menus.teams.title"));
         ItemStack random = new ItemUtils(XMaterial.EXPERIENCE_BOTTLE).setDisplayName(plugin.getLang().get("menus.teams.random.nameItem")).setLore(plugin.getLang().get("menus.teams.random.loreItem")).build();
         int i = 0;
         inv.setItem(4, random);
-        for (Team t : game.getTeams().values()){
+        for (Team t : game.getTeams().values()) {
             inv.setItem(slots.get(i), getTeamItem(t));
             i++;
         }
         p.openInventory(inv);
     }
 
-    private ItemStack getTeamItem(Team team){
+    private ItemStack getTeamItem(Team team) {
         ItemStack banner = NBTEditor.set(new ItemStack(Material.BANNER, 1), team.getColor().name(), "SELECTOR", "TEAM", "COLOR");
         BannerMeta bm = (BannerMeta) banner.getItemMeta();
         bm.setBaseColor(Utils.getDyeColorByChatColor(team.getColor()));

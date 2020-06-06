@@ -1,0 +1,41 @@
+shopkeepers:
+  skin:
+    id: 0
+    icon:
+      ==: org.bukkit.inventory.ItemStack
+      type: BARRIER
+      meta:
+        ==: ItemMeta
+        meta-type: UNSPECIFIC
+        display-name: §aInsiderAnh
+        lore:
+          - §7You do have ShopKeeper InsiderAnh.
+    type: skin
+    uuid: "36548b8b-a1d7-4c5e-98be-0f5cc6c7245f"
+    entity: "ZOMBIE"
+    name: InsiderAnh
+    price: 0
+    isBuy: false
+    slot: 10
+    page: 1
+    permission: ultraskywars.shopkeepers.skin
+  entity:
+    id: 1
+    icon:
+      ==: org.bukkit.inventory.ItemStack
+      type: PAPER
+      meta:
+        ==: ItemMeta
+        meta-type: UNSPECIFIC
+        display-name: §aZombie
+        lore:
+          - §7You do have ShopKeeper Zombie.
+    type: entity
+    uuid: "36548b8b-a1d7-4c5e-98be-0f5cc6c7245f"
+    entity: "ZOMBIE"
+    name: Zombie
+    price: 0
+    isBuy: false
+    slot: 11
+    page: 1
+    permission: ultraskywars.shopkeepers.entity

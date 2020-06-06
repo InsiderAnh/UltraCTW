@@ -38,8 +38,6 @@ public interface Game {
 
     int getTime();
 
-    void setState(State state);
-
     boolean isState(State state);
 
     void addPlayerRandomTeam(Player p);
@@ -118,6 +116,8 @@ public interface Game {
 
     State getState();
 
+    void setState(State state);
+
     int getDefKit();
 
     HashMap<Location, ItemStack> getWools();
@@ -127,4 +127,6 @@ public interface Game {
     ArrayList<Player> getInGame();
 
     Squared getLobbyProtection();
+
+    HashMap<Integer, NPC> getNpcs();
 }

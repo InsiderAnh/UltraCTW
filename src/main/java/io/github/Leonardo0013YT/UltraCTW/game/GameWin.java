@@ -42,14 +42,14 @@ public class GameWin {
     public void setTeamWin(Team teamWin) {
         this.teamWin = teamWin;
     }
-    
+
     public List<String> getTop() {
         List<String> tops = new ArrayList<>(Arrays.asList("none:0:RESET", "none:0:RESET", "none:0:RESET"));
         int top = 0;
         for (String key : sorted_map.keySet()) {
             String color = "RESET";
             Player on = Bukkit.getPlayer(key);
-            if (on != null && game.getPlayers().contains(on)){
+            if (on != null && game.getPlayers().contains(on)) {
                 color = game.getTeamPlayer(on).getColor().name();
             }
             tops.set(top, key + ":" + sorted_map.ceilingEntry(key).getValue() + ":" + color);

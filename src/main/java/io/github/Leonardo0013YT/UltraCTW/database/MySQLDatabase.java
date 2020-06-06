@@ -68,7 +68,7 @@ public class MySQLDatabase implements IDatabase {
     }
 
     @Override
-    public void loadPlayer(Player p){
+    public void loadPlayer(Player p) {
         String uuid = p.getUniqueId().toString();
         Bukkit.getScheduler().runTaskLaterAsynchronously(plugin, () -> {
             try {
@@ -107,9 +107,9 @@ public class MySQLDatabase implements IDatabase {
     }
 
     @Override
-    public void savePlayer(UUID uuid, boolean sync){
+    public void savePlayer(UUID uuid, boolean sync) {
         CTWPlayer ipd = players.get(uuid);
-        if (sync){
+        if (sync) {
             try {
                 Connection connection = getConnection();
                 PreparedStatement save = connection.prepareStatement(SAVE_PD);
@@ -135,8 +135,8 @@ public class MySQLDatabase implements IDatabase {
     }
 
     @Override
-    public void close(){
-        if (enabled){
+    public void close() {
+        if (enabled) {
             hikari.close();
         } else {
             try {
@@ -151,8 +151,9 @@ public class MySQLDatabase implements IDatabase {
         return players;
     }
 
-    private void loadPlayerData(Player p, CTWPlayer pd){
+    private void loadPlayerData(Player p, CTWPlayer pd) {
         CTWPlayer now = new PlayerCTW();
+        now.setShopKeeper(pd.getShopKeeper());
         now.setKillEffect(pd.getKillEffect());
         now.setKillSound(pd.getKillSound());
         now.setTaunt(pd.getTaunt());
@@ -175,7 +176,7 @@ public class MySQLDatabase implements IDatabase {
         players.put(p.getUniqueId(), now);
     }
 
-    private void createTable(){
+    private void createTable() {
         try {
             Connection connection = getConnection();
             Statement st = connection.createStatement();
@@ -188,26 +189,26 @@ public class MySQLDatabase implements IDatabase {
     }
 
     private void close(Connection connection, Statement statement, ResultSet resultSet) throws SQLException {
-        if (connection != null && enabled){
+        if (connection != null && enabled) {
             connection.close();
         }
         if (statement != null) {
             statement.close();
         }
-        if (resultSet != null){
+        if (resultSet != null) {
             resultSet.close();
         }
     }
 
     private Connection getConnection() throws SQLException {
-        if (enabled){
+        if (enabled) {
             return hikari.getConnection();
         }
         return connection;
     }
 
     @Override
-    public CTWPlayer getCTWPlayer(Player p){
+    public CTWPlayer getCTWPlayer(Player p) {
         return players.get(p.getUniqueId());
     }
 

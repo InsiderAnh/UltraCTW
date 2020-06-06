@@ -24,19 +24,19 @@ public class SetupManager {
         this.plugin = plugin;
     }
 
-    public void setSetupKit(Player p, KitSetup ks){
+    public void setSetupKit(Player p, KitSetup ks) {
         setupKit.put(p, ks);
     }
 
-    public boolean isSetupKit(Player p){
+    public boolean isSetupKit(Player p) {
         return setupKit.containsKey(p);
     }
 
-    public KitSetup getSetupKit(Player p){
+    public KitSetup getSetupKit(Player p) {
         return setupKit.get(p);
     }
 
-    public void removeSetupKit(Player p){
+    public void removeSetupKit(Player p) {
         setupKit.remove(p);
     }
 

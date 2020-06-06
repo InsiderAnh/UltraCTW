@@ -4,9 +4,9 @@ import java.util.ArrayList;
 
 public interface CTWPlayer {
 
-    void setKills(int kills);
-
     int getKills();
+
+    void setKills(int kills);
 
     int getWinDance();
 
@@ -64,9 +64,13 @@ public interface CTWPlayer {
 
     void setAssists(int assists);
 
-    void setPartings(ArrayList<Integer> partings);
+    int getShopKeeper();
+
+    void setShopKeeper(int shopKeeper);
 
     ArrayList<Integer> getPartings();
+
+    void setPartings(ArrayList<Integer> partings);
 
     void addAssists(int assists);
 

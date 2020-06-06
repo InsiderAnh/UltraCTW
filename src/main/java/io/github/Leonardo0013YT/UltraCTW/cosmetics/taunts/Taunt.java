@@ -1,9 +1,9 @@
 package io.github.Leonardo0013YT.UltraCTW.cosmetics.taunts;
 
 import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.interfaces.CTWPlayer;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.Game;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.Purchasable;
-import io.github.Leonardo0013YT.UltraCTW.interfaces.CTWPlayer;
 import io.github.Leonardo0013YT.UltraCTW.utils.ItemBuilder;
 import io.github.Leonardo0013YT.UltraCTW.xseries.XMaterial;
 import org.bukkit.configuration.ConfigurationSection;

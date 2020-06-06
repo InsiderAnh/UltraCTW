@@ -35,13 +35,13 @@ public class KitLevel implements Purchasable {
 
     public void giveKitLevel(Player p, Team team) {
         ItemStack[] nowArmor = new ItemStack[armors.length];
-        for (int it = 0; it < armors.length; it++){
+        for (int it = 0; it < armors.length; it++) {
             ItemStack i = armors.clone()[it];
             if (i == null || i.getType().equals(Material.AIR)) {
                 nowArmor[it] = null;
                 continue;
             }
-            if (i.getType().equals(Material.LEATHER_HELMET) || i.getType().equals(Material.LEATHER_CHESTPLATE) || i.getType().equals(Material.LEATHER_LEGGINGS) || i.getType().equals(Material.LEATHER_BOOTS)){
+            if (i.getType().equals(Material.LEATHER_HELMET) || i.getType().equals(Material.LEATHER_CHESTPLATE) || i.getType().equals(Material.LEATHER_LEGGINGS) || i.getType().equals(Material.LEATHER_BOOTS)) {
                 LeatherArmorMeta armr = (LeatherArmorMeta) i.getItemMeta();
                 armr.setColor(Utils.getColorByChatColor(team.getColor()));
                 i.setItemMeta(armr);

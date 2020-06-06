@@ -4,10 +4,14 @@ import io.github.Leonardo0013YT.UltraCTW.Main;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
-@Getter@Setter
+@Getter
+@Setter
 public class KitSetup {
 
     private Main plugin;
@@ -22,25 +26,30 @@ public class KitSetup {
         this.permission = "UltraCTW.kits." + name;
     }
 
-    public void saveKitLevel(){
+    public void saveKitLevel() {
         levels.put(kls.getLevel(), kls);
         kls = null;
     }
 
-    public void save(){
+    public void save() {
         String n = "kits." + name;
         plugin.getKits().set(n + ".id", plugin.getKm().getNextID());
         plugin.getKits().set(n + ".name", name);
         plugin.getKits().set(n + ".permission", permission);
         plugin.getKits().set(n + ".slot", slot);
         plugin.getKits().set(n + ".page", page);
-        for (KitLevelSetup kls : levels.values()){
+        for (KitLevelSetup kls : levels.values()) {
             String nl = "kits." + name + ".levels." + kls.getLevel();
             plugin.getKits().set(nl + ".level", kls.getLevel());
             plugin.getKits().set(nl + ".price", kls.getPrice());
             plugin.getKits().set(nl + ".slot", kls.getSlot());
             plugin.getKits().set(nl + ".page", kls.getPage());
-            plugin.getKits().set(nl + ".icon", kls.getIcon());
+            ItemStack defIcon = kls.getIcon();
+            ItemMeta dM = defIcon.getItemMeta();
+            dM.setDisplayName("§aDefault");
+            dM.setLore(new ArrayList<>(Arrays.asList("§7This is a default icon:", "§7Change this in kits.yml")));
+            defIcon.setItemMeta(dM);
+            plugin.getKits().set(nl + ".icon", defIcon);
             plugin.getKits().set(nl + ".armor", kls.getArmor());
             plugin.getKits().set(nl + ".inv", kls.getInv());
             plugin.getKits().set(nl + ".permission", permission + "." + kls.getLevel());

@@ -1,6 +1,7 @@
 package io.github.Leonardo0013YT.UltraCTW.cmds;
 
 import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.interfaces.CTWPlayer;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.Game;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -17,29 +18,34 @@ public class CTWCMD implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        if (sender instanceof Player){
+        if (sender instanceof Player) {
             Player p = (Player) sender;
-            if (args.length < 1){
+            if (args.length < 1) {
                 sendHelp(sender);
                 return true;
             }
             switch (args[0].toLowerCase()) {
+                case "test":
+                    CTWPlayer ctw = plugin.getDb().getCTWPlayer(p);
+                    plugin.getSkm().spawnShopKeeper(p, p.getLocation(), ctw.getShopKeeper());
+                    plugin.getSkm().spawnShopKeeper(p, p.getLocation().add(0, 0, 1), ctw.getShopKeeper());
+                    break;
                 case "leave":
                     plugin.getGm().removePlayerGame(p, true);
                     p.sendMessage(plugin.getLang().get("messages.leaveGame"));
                     break;
                 case "join":
-                    if (args.length < 2){
+                    if (args.length < 2) {
                         sendHelp(sender);
                         return true;
                     }
-                    if (plugin.getGm().isPlayerInGame(p)){
+                    if (plugin.getGm().isPlayerInGame(p)) {
                         p.sendMessage(plugin.getLang().get("messages.alreadyIngame"));
                         return true;
                     }
                     String arena = args[1];
                     Game found = plugin.getGm().getGameByName(arena);
-                    if (found == null){
+                    if (found == null) {
                         p.sendMessage(plugin.getLang().get("messages.gameNotExists"));
                         return true;
                     }
@@ -81,7 +87,7 @@ public class CTWCMD implements CommandExecutor {
         return false;
     }
 
-    private void sendHelp(CommandSender s){
+    private void sendHelp(CommandSender s) {
         s.sendMessage("§7§m-----------------------------");
         s.sendMessage("§e/ctw join <name> §a- §bJoin to arena with name.");
         s.sendMessage("§7§m-----------------------------");

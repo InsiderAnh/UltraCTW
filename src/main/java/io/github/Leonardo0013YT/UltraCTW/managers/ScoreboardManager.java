@@ -1,8 +1,8 @@
 package io.github.Leonardo0013YT.UltraCTW.managers;
 
 import io.github.Leonardo0013YT.UltraCTW.Main;
-import io.github.Leonardo0013YT.UltraCTW.interfaces.Game;
 import io.github.Leonardo0013YT.UltraCTW.game.GamePlayer;
+import io.github.Leonardo0013YT.UltraCTW.interfaces.Game;
 import io.github.Leonardo0013YT.UltraCTW.team.Team;
 import io.github.Leonardo0013YT.UltraCTW.utils.ScoreboardUtil;
 import io.github.Leonardo0013YT.UltraCTW.utils.Utils;
@@ -98,7 +98,7 @@ public class ScoreboardManager {
         } else {
             Game game = plugin.getGm().getGameByPlayer(p);
             Team team = game.getTeamPlayer(p);
-            if (team == null){
+            if (team == null) {
                 return;
             }
             if (score.containsKey(p)) {
@@ -121,7 +121,7 @@ public class ScoreboardManager {
         }
     }
 
-    public String simple(String s, Game game, Team team, GamePlayer gp, Team t1, Team t2){
+    public String simple(String s, Game game, Team team, GamePlayer gp, Team t1, Team t2) {
         return s.replaceAll("<time>", Utils.convertTime(game.getTime()))
                 .replaceAll("<map>", game.getName())
                 .replaceAll("<T1Wools>", Utils.getWoolsString(t1))

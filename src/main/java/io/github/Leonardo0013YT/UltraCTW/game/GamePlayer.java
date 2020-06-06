@@ -5,7 +5,8 @@ import lombok.Setter;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-@Getter@Setter
+@Getter
+@Setter
 public class GamePlayer {
 
     private Player p;
@@ -20,8 +21,8 @@ public class GamePlayer {
         this.reset = false;
     }
 
-    public void reset(){
-        if (reset){
+    public void reset() {
+        if (reset) {
             return;
         }
         p.getInventory().setContents(inv);

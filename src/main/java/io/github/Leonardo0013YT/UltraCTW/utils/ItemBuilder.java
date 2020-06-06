@@ -64,7 +64,7 @@ public class ItemBuilder {
         }
         ItemMeta im = i.getItemMeta();
         im.setDisplayName(d);
-        if (!anyVariable){
+        if (!anyVariable) {
             im.setLore(null);
             im.setLore(newLore);
         }
@@ -177,9 +177,9 @@ public class ItemBuilder {
         itemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_DESTROYS, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_PLACED_ON, ItemFlag.HIDE_POTION_EFFECTS, ItemFlag.HIDE_UNBREAKABLE);
     }
 
-    public static boolean preCheck(List<String> lore, String variable){
+    public static boolean preCheck(List<String> lore, String variable) {
         boolean check = false;
-        for (String l : lore){
+        for (String l : lore) {
             if (l.contains(variable)) {
                 check = true;
                 break;

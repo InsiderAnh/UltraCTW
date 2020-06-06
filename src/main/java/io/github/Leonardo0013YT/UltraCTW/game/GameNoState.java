@@ -36,12 +36,14 @@ public class GameNoState implements Game {
     private ArrayList<WinDance> winDances = new ArrayList<>();
     private ArrayList<KillEffect> killEffects = new ArrayList<>();
     private HashMap<Location, ItemStack> wools = new HashMap<>();
+    private ArrayList<Location> npcShop = new ArrayList<>(), npcKits = new ArrayList<>();
+    private HashMap<Integer, NPC> npcs = new HashMap<>();
     private Squared lobbyProtection;
     private Location lobby, spectator;
     private int teamSize, woolSize, min, starting, defKit, time = 0;
     private State state;
 
-    public GameNoState(Main plugin, String path, int id){
+    public GameNoState(Main plugin, String path, int id) {
         this.plugin = plugin;
         this.id = id;
         this.name = plugin.getArenas().get(path + ".name");
@@ -53,12 +55,18 @@ public class GameNoState implements Game {
         }
         plugin.getWc().resetMap(lobby, schematic);
         this.spectator = Utils.getStringLocation(plugin.getArenas().get(path + ".spectator"));
+        for (String s : plugin.getArenas().getListOrDefault(path + ".npcShop", new ArrayList<>())) {
+            npcShop.add(Utils.getStringLocation(s));
+        }
+        for (String s : plugin.getArenas().getListOrDefault(path + ".npcKits", new ArrayList<>())) {
+            npcKits.add(Utils.getStringLocation(s));
+        }
         this.teamSize = plugin.getArenas().getInt(path + ".teamSize");
         this.woolSize = plugin.getArenas().getInt(path + ".woolSize");
         this.defKit = plugin.getArenas().getIntOrDefault(path + ".defKit", 0);
         this.starting = plugin.getCm().getStarting();
         this.min = plugin.getArenas().getInt(path + ".min");
-        for (String c : plugin.getArenas().getConfig().getConfigurationSection(path + ".teams").getKeys(false)){
+        for (String c : plugin.getArenas().getConfig().getConfigurationSection(path + ".teams").getKeys(false)) {
             int tid = teams.size();
             ChatColor color = ChatColor.valueOf(c);
             teams.put(color, new Team(plugin, this, path + ".teams." + c, tid));
@@ -74,7 +82,7 @@ public class GameNoState implements Game {
     }
 
     @Override
-    public void addPlayer(Player p){
+    public void addPlayer(Player p) {
         gamePlayer.put(p, new GamePlayer(p));
         p.teleport(lobby);
         Utils.setCleanPlayer(p);
@@ -87,7 +95,7 @@ public class GameNoState implements Game {
     }
 
     @Override
-    public void removePlayer(Player p){
+    public void removePlayer(Player p) {
         Utils.setCleanPlayer(p);
         removePlayerAllTeam(p);
         cached.remove(p);
@@ -95,7 +103,7 @@ public class GameNoState implements Game {
         spectators.remove(p);
         inLobby.remove(p);
         inGame.remove(p);
-        if (gamePlayer.containsKey(p)){
+        if (gamePlayer.containsKey(p)) {
             GamePlayer gp = gamePlayer.get(p);
             gp.reset();
             gamePlayer.remove(p);
@@ -103,16 +111,16 @@ public class GameNoState implements Game {
     }
 
     @Override
-    public void checkStart(){
-        if (isState(State.WAITING)){
-            if (cached.size() >= min){
+    public void checkStart() {
+        if (isState(State.WAITING)) {
+            if (cached.size() >= min) {
                 setState(State.STARTING);
             }
         }
     }
 
     @Override
-    public void reset(){
+    public void reset() {
         wools.clear();
         inGame.clear();
         inLobby.clear();
@@ -132,7 +140,7 @@ public class GameNoState implements Game {
     }
 
     @Override
-    public void setSpect(Player p){
+    public void setSpect(Player p) {
         p.setGameMode(GameMode.ADVENTURE);
         p.getInventory().setArmorContents(null);
         p.getInventory().clear();
@@ -145,9 +153,9 @@ public class GameNoState implements Game {
     }
 
     @Override
-    public void update(){
+    public void update() {
         Utils.updateSB(this);
-        if (isState(State.STARTING)){
+        if (isState(State.STARTING)) {
             if (starting == 30 || starting == 15 || starting == 10 || starting == 5 || starting == 4 || starting == 3 || starting == 2 || starting == 1) {
                 sendGameTitle(plugin.getLang().get(null, "titles.starting.title").replaceAll("<time>", String.valueOf(starting)), plugin.getLang().get(null, "titles.starting.subtitle").replaceAll("<time>", String.valueOf(starting)), 0, 40, 0);
                 sendGameMessage(plugin.getLang().get(null, "messages.starting").replaceAll("<starting>", String.valueOf(starting)).replaceAll("<s>", (starting > 1) ? "s" : ""));
@@ -156,52 +164,66 @@ public class GameNoState implements Game {
             if (starting == 29 || starting == 14 || starting == 9 || starting == 0) {
                 sendGameTitle("", "", 0, 1, 0);
             }
-            if (starting == 0){
+            if (starting == 0) {
                 setState(State.GAME);
-                for (String s : plugin.getLang().getList("messages.start")){
+                for (String s : plugin.getLang().getList("messages.start")) {
                     sendGameMessage(s);
                 }
-                for (Player on : cached){
-                    if (getTeamPlayer(on) == null){
+                for (Player on : cached) {
+                    if (getTeamPlayer(on) == null) {
                         addPlayerRandomTeam(on);
                     }
                 }
             }
             starting--;
         }
-        if (isState(State.GAME)){
+        if (isState(State.GAME)) {
+            if (time == 1) {
+                for (Player on : cached) {
+                    CTWPlayer ctw = plugin.getDb().getCTWPlayer(on);
+                    for (Location k : npcKits) {
+                        NPC n = plugin.getSkm().spawnShopKeeper(on, k, ctw.getShopKeeper());
+                        npcs.put(n.getBukkitEntity().getEntityId(), n);
+                    }
+                    for (Location s : npcShop) {
+                        NPC n = plugin.getSkm().spawnShopKeeper(on, s, ctw.getShopKeeper());
+                        npcs.put(n.getBukkitEntity().getEntityId(), n);
+                    }
+                }
+            }
             time++;
             teams.values().forEach(Team::updateSpawner);
         }
     }
 
     @Override
-    public void win(Team team){
+    public void win(Team team) {
         GameWin gw = new GameWin(this);
         gw.setTeamWin(team);
         List<String> top = gw.getTop();
         String[] s1 = top.get(0).split(":");
         String[] s2 = top.get(1).split(":");
         String[] s3 = top.get(2).split(":");
-        for (Player on : cached){
+        for (Player on : cached) {
             setSpect(on);
             if (!team.getMembers().contains(on)) {
                 plugin.getVc().getNMS().sendTitle(on, plugin.getLang().get("titles.lose.title"), plugin.getLang().get("titles.lose.subtitle"), 0, 40, 0);
                 continue;
             }
-            for (String s : plugin.getLang().getList("messages.win")){
+            for (String s : plugin.getLang().getList("messages.win")) {
                 on.sendMessage(s.replaceAll("&", "§").replaceAll("<winner>", gw.getWinner()).replaceAll("<number1>", s1[1]).replaceAll("<top1>", s1[0]).replaceAll("<color1>", "" + ChatColor.valueOf(s1[2])).replaceAll("<number2>", s2[1]).replaceAll("<top2>", s2[0]).replaceAll("<color2>", "" + ChatColor.valueOf(s2[2])).replaceAll("<number3>", s3[1]).replaceAll("<top3>", s3[0]).replaceAll("<color3>", "" + ChatColor.valueOf(s3[2])));
             }
         }
-        for (Player w : team.getMembers()){
+        for (Player w : team.getMembers()) {
             CTWPlayer ctw = plugin.getDb().getCTWPlayer(w);
             if (ctw == null) continue;
             plugin.getVc().getNMS().sendTitle(w, plugin.getLang().get("titles.win.title").replaceAll("<color>", team.getColor() + ""), plugin.getLang().get("titles.win.subtitle"), 0, 40, 0);
             plugin.getWem().execute(this, w, ctw.getWinEffect());
+            plugin.getWdm().execute(this, w, ctw.getWinDance());
         }
-        new BukkitRunnable(){
+        new BukkitRunnable() {
             @Override
-            public void run(){
+            public void run() {
                 ArrayList<Player> back = new ArrayList<>(cached);
                 for (Player on : back) {
                     plugin.getGm().removePlayerGame(on, false);
@@ -240,17 +262,12 @@ public class GameNoState implements Game {
     }
 
     @Override
-    public void setState(State state){
-        this.state = state;
-    }
-
-    @Override
-    public boolean isState(State state){
+    public boolean isState(State state) {
         return this.state.equals(state);
     }
 
     @Override
-    public void addPlayerRandomTeam(Player p){
+    public void addPlayerRandomTeam(Player p) {
         Team t = Utils.getMinorPlayersTeam(this);
         addPlayerTeam(p, t);
         p.sendMessage(plugin.getLang().get("messages.randomTeam").replaceAll("<team>", t.getName()));
@@ -269,17 +286,17 @@ public class GameNoState implements Game {
     }
 
     @Override
-    public void addWinEffects(WinEffect e){
+    public void addWinEffects(WinEffect e) {
         winEffects.add(e);
     }
 
     @Override
-    public void addWinDance(WinDance e){
+    public void addWinDance(WinDance e) {
         winDances.add(e);
     }
 
     @Override
-    public void addKillEffects(KillEffect e){
+    public void addKillEffects(KillEffect e) {
         killEffects.add(e);
     }
 
@@ -289,12 +306,12 @@ public class GameNoState implements Game {
     }
 
     @Override
-    public GamePlayer getGamePlayer(Player p){
+    public GamePlayer getGamePlayer(Player p) {
         return gamePlayer.getOrDefault(p, new GamePlayer(p));
     }
 
     @Override
-    public Team getTeamByID(int id){
+    public Team getTeamByID(int id) {
         return teams.get(teamsID.get(id));
     }
 
@@ -305,8 +322,8 @@ public class GameNoState implements Game {
 
     @Override
     public Team getTeamByWool(ChatColor color) {
-        for (Team tt : teams.values()){
-            if (tt.getColors().contains(color)){
+        for (Team tt : teams.values()) {
+            if (tt.getColors().contains(color)) {
                 return tt;
             }
         }
@@ -364,13 +381,13 @@ public class GameNoState implements Game {
     }
 
     @Override
-    public void givePlayerItems(Player p){
+    public void givePlayerItems(Player p) {
         p.getInventory().setItem(4, plugin.getIm().getTeams());
     }
 
     @Override
-    public Squared getPlayerSquared(Player p){
-        for (Squared s : protection){
+    public Squared getPlayerSquared(Player p) {
+        for (Squared s : protection) {
             if (s.isInCuboid(p)) {
                 return s;
             }
@@ -379,8 +396,8 @@ public class GameNoState implements Game {
     }
 
     @Override
-    public Squared getPlayerSquared(Location loc){
-        for (Squared s : protection){
+    public Squared getPlayerSquared(Location loc) {
+        for (Squared s : protection) {
             if (s.isInCuboid(loc)) {
                 return s;
             }
@@ -489,6 +506,11 @@ public class GameNoState implements Game {
     }
 
     @Override
+    public void setState(State state) {
+        this.state = state;
+    }
+
+    @Override
     public int getDefKit() {
         return defKit;
     }
@@ -511,5 +533,10 @@ public class GameNoState implements Game {
     @Override
     public Squared getLobbyProtection() {
         return lobbyProtection;
+    }
+
+    @Override
+    public HashMap<Integer, NPC> getNpcs() {
+        return npcs;
     }
 }

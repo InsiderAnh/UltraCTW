@@ -9,8 +9,8 @@ import io.github.Leonardo0013YT.UltraCTW.config.Settings;
 import io.github.Leonardo0013YT.UltraCTW.controllers.VersionController;
 import io.github.Leonardo0013YT.UltraCTW.controllers.WorldController;
 import io.github.Leonardo0013YT.UltraCTW.database.MySQLDatabase;
-import io.github.Leonardo0013YT.UltraCTW.interfaces.Game;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.CTWPlayer;
+import io.github.Leonardo0013YT.UltraCTW.interfaces.Game;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.IDatabase;
 import io.github.Leonardo0013YT.UltraCTW.listeners.MenuListener;
 import io.github.Leonardo0013YT.UltraCTW.listeners.PlayerListener;
@@ -31,7 +31,7 @@ public class Main extends JavaPlugin {
 
     private static Main instance;
     private Gson ctw;
-    private Settings arenas, lang, menus, kits, sources, windance, wineffect, killsound, taunt, trail, parting, killeffect;
+    private Settings arenas, lang, menus, kits, sources, windance, wineffect, killsound, taunt, trail, parting, killeffect, shopkeepers;
     private boolean debugMode;
     private GameManager gm;
     private ConfigManager cm;
@@ -53,8 +53,13 @@ public class Main extends JavaPlugin {
     private PartingManager pm;
     private KillSoundManager ksm;
     private KillEffectsManager kem;
+    private ShopKeepersManager skm;
     private TaggedManager tgm;
     private ShopManager shm;
+
+    public static Main get() {
+        return instance;
+    }
 
     @Override
     public void onEnable() {
@@ -76,6 +81,7 @@ public class Main extends JavaPlugin {
         trail = new Settings(this, "trails", false, false);
         parting = new Settings(this, "partings", false, false);
         killeffect = new Settings(this, "killeffect", false, false);
+        shopkeepers = new Settings(this, "shopkeepers", false, false);
         debugMode = getConfig().getBoolean("debugMode");
         wc = new WorldController(this);
         db = new MySQLDatabase(this);
@@ -106,13 +112,15 @@ public class Main extends JavaPlugin {
         kem.loadKillEffects();
         tgm = new TaggedManager(this);
         shm = new ShopManager(this);
+        skm = new ShopKeepersManager(this);
+        skm.loadShopKeepers();
         getCommand("ctws").setExecutor(new SetupCMD(this));
         getCommand("ctw").setExecutor(new CTWCMD(this));
         getServer().getPluginManager().registerEvents(new SetupListener(this), this);
         getServer().getPluginManager().registerEvents(new MenuListener(this), this);
         getServer().getPluginManager().registerEvents(new PlayerListener(this), this);
         getServer().getPluginManager().registerEvents(new WorldListener(this), this);
-        new BukkitRunnable(){
+        new BukkitRunnable() {
             @Override
             public void run() {
                 getGm().getGames().values().forEach(Game::update);
@@ -122,14 +130,14 @@ public class Main extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        for (Player on : Bukkit.getOnlinePlayers()){
-            if (gm.isPlayerInGame(on)){
+        for (Player on : Bukkit.getOnlinePlayers()) {
+            if (gm.isPlayerInGame(on)) {
                 gm.removePlayerGame(on, false);
             }
         }
     }
 
-    public void reload(){
+    public void reload() {
         reloadConfig();
         cm.reload();
         adm.reload();
@@ -156,10 +164,6 @@ public class Main extends JavaPlugin {
             getConfig().addDefault("sounds.killeffects.tnt", "EXPLODE");
             getConfig().addDefault("sounds.killeffects.squid", "ITEM_PICKUP");
         }
-    }
-
-    public static Main get() {
-        return instance;
     }
 
     public void sendDebugMessage(String... s) {

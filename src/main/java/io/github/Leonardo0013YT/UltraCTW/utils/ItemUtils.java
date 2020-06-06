@@ -13,43 +13,43 @@ public class ItemUtils {
 
     private ItemStack item;
 
-    public ItemUtils(XMaterial material){
+    public ItemUtils(XMaterial material) {
         this.item = new ItemStack(material.parseMaterial(), 1, material.getData());
     }
 
-    public ItemUtils(XMaterial material, int amount){
+    public ItemUtils(XMaterial material, int amount) {
         this.item = new ItemStack(material.parseMaterial(), amount, material.getData());
     }
 
-    public ItemUtils setDisplayName(String displayName){
+    public ItemUtils setDisplayName(String displayName) {
         ItemMeta im = item.getItemMeta();
         im.setDisplayName(displayName);
         item.setItemMeta(im);
         return this;
     }
 
-    public ItemUtils setLore(String lore){
+    public ItemUtils setLore(String lore) {
         ItemMeta im = item.getItemMeta();
         im.setLore(lore.isEmpty() ? new ArrayList<>() : Arrays.asList(lore.split("\\n")));
         item.setItemMeta(im);
         return this;
     }
 
-    public ItemUtils setLore(List<String> lore){
+    public ItemUtils setLore(List<String> lore) {
         ItemMeta im = item.getItemMeta();
         im.setLore(lore);
         item.setItemMeta(im);
         return this;
     }
 
-    public ItemUtils setUnbreakable(boolean unbreakable){
+    public ItemUtils setUnbreakable(boolean unbreakable) {
         ItemMeta im = item.getItemMeta();
         im.spigot().setUnbreakable(unbreakable);
         item.setItemMeta(im);
         return this;
     }
 
-    public ItemUtils addEnchant(Enchantment enchantment, int level){
+    public ItemUtils addEnchant(Enchantment enchantment, int level) {
         ItemMeta im = item.getItemMeta();
         im.addEnchant(enchantment, level, true);
         item.setItemMeta(im);

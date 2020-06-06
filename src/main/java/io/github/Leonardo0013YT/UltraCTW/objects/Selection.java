@@ -4,7 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Location;
 
-@Getter@Setter
+@Getter
+@Setter
 public class Selection {
 
     private Location pos1, pos2;
