@@ -170,8 +170,17 @@ public class GameNoState implements Game {
                     sendGameMessage(s);
                 }
                 for (Player on : cached) {
-                    if (getTeamPlayer(on) == null) {
+                    Team t = getTeamPlayer(on);
+                    if (t == null) {
                         addPlayerRandomTeam(on);
+                        on.teleport(getTeamPlayer(on).getSpawn());
+                    } else {
+                        on.teleport(t.getSpawn());
+                        plugin.getKm().giveDefaultKit(on, this, t);
+                        Utils.updateSB(on);
+                        inGame.add(on);
+                        inLobby.remove(on);
+                        NametagEdit.getApi().setNametag(on, t.getColor() + "", "");
                     }
                 }
             }
@@ -277,12 +286,14 @@ public class GameNoState implements Game {
     public void addPlayerTeam(Player p, Team team) {
         p.getInventory().clear();
         team.addMember(p);
-        p.teleport(team.getSpawn());
-        plugin.getKm().giveDefaultKit(p, this, team);
-        Utils.updateSB(p);
-        inGame.add(p);
-        inLobby.remove(p);
-        NametagEdit.getApi().setNametag(p, team.getColor() + "", "");
+        if (isState(State.GAME)){
+            p.teleport(team.getSpawn());
+            plugin.getKm().giveDefaultKit(p, this, team);
+            Utils.updateSB(p);
+            inGame.add(p);
+            inLobby.remove(p);
+            NametagEdit.getApi().setNametag(p, team.getColor() + "", "");
+        }
     }
 
     @Override
@@ -303,6 +314,10 @@ public class GameNoState implements Game {
     @Override
     public void removePlayerTeam(Player p, Team team) {
         team.removeMember(p);
+        for (ChatColor c : team.getColors()) {
+            if (team.getInProgress().get(c).isEmpty()) continue;
+            team.getInProgress().get(c).remove(p.getUniqueId());
+        }
     }
 
     @Override

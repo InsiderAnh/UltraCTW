@@ -170,6 +170,10 @@ scoreboards:
       &fKills: &a<kills>
       &f
       &emc.spigot.net
+  waiting:
+    title: "&e&lCAPTURE THE WOOL"
+    lines: |-
+
   simple-game:
     title: "&e&lCAPTURE THE WOOL"
     lines: |-

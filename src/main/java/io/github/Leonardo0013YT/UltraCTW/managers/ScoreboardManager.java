@@ -84,7 +84,7 @@ public class ScoreboardManager {
             if (score.containsKey(p)) {
                 ScoreboardUtil scoreboardUtil = score.get(p);
                 if (sb.get(p).equals("main")) {
-                    String titulo = plugin.getLang().get(p, "scoreboards.main");
+                    String titulo = plugin.getLang().get(p, "scoreboards.main.lines");
                     String[] title = titulo.split("\\n");
                     for (int n = 1, n2 = title.length - 1; n < title.length + 1; ++n, --n2) {
                         scoreboardUtil.lines(n, title[n2]);

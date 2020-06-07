@@ -10,6 +10,7 @@ import io.github.Leonardo0013YT.UltraCTW.utils.NBTEditor;
 import io.github.Leonardo0013YT.UltraCTW.utils.Utils;
 import io.github.Leonardo0013YT.UltraCTW.xseries.XMaterial;
 import io.github.Leonardo0013YT.UltraCTW.xseries.XSound;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -27,6 +28,7 @@ import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.entity.ItemDespawnEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.metadata.FixedMetadataValue;
 
 import java.util.ArrayList;
 import java.util.stream.Collectors;
@@ -183,6 +185,14 @@ public class PlayerListener implements Listener {
                     ItemStack i = item.clone();
                     i.setAmount(1);
                     g.getWools().put(e.getBlockPlaced().getLocation(), i);
+                    Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () -> {
+                        if (!p.getInventory().containsAtLeast(item, 1)){
+                            ChatColor c = Utils.getColorByXMaterial(XMaterial.matchXMaterial(i));
+                            if (team.getInProgress().containsKey(c)){
+                                team.getInProgress().get(c).remove(p.getUniqueId());
+                            }
+                        }
+                    }, 1L);
                 }
             }
         }
@@ -245,6 +255,27 @@ public class PlayerListener implements Listener {
     }
 
     @EventHandler
+    public void onDrop(PlayerDropItemEvent e){
+        Player p = e.getPlayer();
+        ItemStack item = e.getItemDrop().getItemStack();
+        String co = NBTEditor.getString(item, "TEAM", "WOOL", "CAPTURE");
+        if (co == null) return;
+        Game g = plugin.getGm().getGameByPlayer(p);
+        if (g == null) return;
+        Team team = g.getTeamPlayer(p);
+        if (team == null) return;
+        e.getItemDrop().setMetadata("DROPPED", new FixedMetadataValue(Main.get(), co));
+        Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () -> {
+            if (!p.getInventory().containsAtLeast(item, 1)){
+                ChatColor c = Utils.getColorByXMaterial(XMaterial.matchXMaterial(item));
+                if (team.getInProgress().containsKey(c)){
+                    team.getInProgress().get(c).remove(p.getUniqueId());
+                }
+            }
+        }, 1L);
+    }
+
+    @EventHandler
     public void onPickUp(PlayerPickupItemEvent e) {
         Player p = e.getPlayer();
         Item i = e.getItem();
@@ -256,6 +287,7 @@ public class PlayerListener implements Listener {
             ChatColor c = ChatColor.valueOf(i.getMetadata("DROPPED").get(0).asString());
             ArrayList<Team> others = g.getTeams().values().stream().filter(t -> t.getId() != team.getId()).collect(Collectors.toCollection(ArrayList::new));
             team.getDropped().remove(c);
+            team.getInProgress().putIfAbsent(c, new ArrayList<>());
             if (!team.getInProgress().get(c).contains(p.getUniqueId())) {
                 team.getInProgress().get(c).add(p.getUniqueId());
                 team.sendTitle(plugin.getLang().get("titles.teampick.title").replaceAll("<color>", c + ""), plugin.getLang().get("titles.teampick.subtitle").replaceAll("<wool>", c + plugin.getLang().get("scoreboards.wools.captured")), 0, 30, 10);
@@ -388,6 +420,16 @@ public class PlayerListener implements Listener {
         }
     }
 
+    private void removeItemInHand(Player p) {
+        if (p.getItemInHand() != null) {
+            ItemStack item = p.getItemInHand();
+            if (item.getAmount() > 1) {
+                item.setAmount(item.getAmount() - 1);
+            } else {
+                p.setItemInHand(null);
+            }
+        }
+    }
 
     private void respawn(Team team, Game g, Player p) {
         for (ChatColor c : team.getColors()) {

@@ -123,6 +123,7 @@ public class MenuListener implements Listener {
             plugin.getUim().createKitLevelSelectorMenu(p, k);
         }
         if (e.getView().getTitle().equals(plugin.getLang().get("menus.teams.title"))) {
+            e.setCancelled(true);
             ItemStack item = e.getCurrentItem();
             if (!item.hasItemMeta() || !item.getItemMeta().hasDisplayName()) {
                 return;
@@ -130,25 +131,17 @@ public class MenuListener implements Listener {
             Game game = plugin.getGm().getGameByPlayer(p);
             String d = item.getItemMeta().getDisplayName();
             if (d.equals(plugin.getLang().get("menus.teams.random.nameItem"))) {
-                if (game.isState(State.WAITING) || game.isState(State.STARTING)) {
-                    e.setCancelled(true);
-                    p.sendMessage(plugin.getLang().get("messages.needStart"));
-                    return;
-                }
                 game.addPlayerRandomTeam(p);
+                p.closeInventory();
                 return;
             }
             String co = NBTEditor.getString(item, "SELECTOR", "TEAM", "COLOR");
             if (co == null) return;
             ChatColor c = ChatColor.valueOf(co);
             Team team = game.getTeams().get(c);
-            if (game.isState(State.WAITING) || game.isState(State.STARTING)) {
-                e.setCancelled(true);
-                p.sendMessage(plugin.getLang().get("messages.needStart"));
-                return;
-            }
             game.addPlayerTeam(p, team);
             p.sendMessage(plugin.getLang().get("messages.joinTeam").replaceAll("<team>", team.getName()));
+            p.closeInventory();
         }
         if (e.getView().getTitle().equals(plugin.getLang().get(p, "menus.lobby.title"))) {
             if (plugin.getSm().isSetupInventory(p)) {
