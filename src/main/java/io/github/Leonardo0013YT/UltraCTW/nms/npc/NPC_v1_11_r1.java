@@ -4,18 +4,18 @@ import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import io.github.Leonardo0013YT.UltraCTW.cosmetics.shopkeepers.KeeperData;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.NPC;
-import net.minecraft.server.v1_8_R3.*;
+import net.minecraft.server.v1_11_R1.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_8_R3.CraftServer;
-import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_11_R1.CraftServer;
+import org.bukkit.craftbukkit.v1_11_R1.CraftWorld;
+import org.bukkit.craftbukkit.v1_11_R1.entity.CraftPlayer;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
 import java.util.UUID;
 
-public class NPC_v1_8_r3 implements NPC {
+public class NPC_v1_11_r1 implements NPC {
 
     private Entity entity;
     private Player p;

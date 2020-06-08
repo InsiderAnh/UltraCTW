@@ -9,6 +9,8 @@ public interface NPC {
 
     void spawn(Player p, Location loc, EntityType type, KeeperData kd);
 
+    void destroy();
+
     org.bukkit.entity.Entity getBukkitEntity();
 
 }

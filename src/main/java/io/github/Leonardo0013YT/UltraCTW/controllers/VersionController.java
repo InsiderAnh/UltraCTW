@@ -4,7 +4,7 @@ import io.github.Leonardo0013YT.UltraCTW.Main;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.NMS;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.NPC;
 import io.github.Leonardo0013YT.UltraCTW.nms.*;
-import io.github.Leonardo0013YT.UltraCTW.nms.npc.NPC_v1_8_r3;
+import io.github.Leonardo0013YT.UltraCTW.nms.npc.*;
 import org.bukkit.Bukkit;
 
 public class VersionController {
@@ -87,23 +87,23 @@ public class VersionController {
                 disable();
                 break;
             case "v1_9_R2":
-                return new NPC_v1_8_r3();
+                return new NPC_v1_9_r2();
             case "v1_10_R1":
-                return new NPC_v1_8_r3();
+                return new NPC_v1_10_r1();
             case "v1_11_R1":
-                return new NPC_v1_8_r3();
+                return new NPC_v1_11_r1();
             case "v1_12_R1":
-                return new NPC_v1_8_r3();
+                return new NPC_v1_12_r1();
             case "v1_13_R1":
                 plugin.sendLogMessage("§cYou have an outdated version §e1.13.1§c, please use version §a1.13.2§c.");
                 disable();
                 break;
             case "v1_13_R2":
-                return new NPC_v1_8_r3();
+                return new NPC_v1_13_r2();
             case "v1_14_R1":
-                return new NPC_v1_8_r3();
+                return new NPC_v1_14_r1();
             case "v1_15_R1":
-                return new NPC_v1_8_r3();
+                return new NPC_v1_15_r1();
             default:
                 plugin.sendLogMessage("§cYou have an outdated version §e1.8§c, please use version §a1.8.8§c.");
                 disable();
