@@ -71,7 +71,7 @@ public class MenuListener implements Listener {
                 return;
             }
             plugin.getShm().buy(p, kl, k.getName());
-            plugin.getUim().createKitSelectorMenu(p);
+            p.closeInventory();
         }
         if (e.getView().getTitle().equals(plugin.getLang().get(p, "menus.kitselector.title"))) {
             e.setCancelled(true);

@@ -32,7 +32,7 @@ public class Main extends JavaPlugin {
     private static Main instance;
     private Gson ctw;
     private Settings arenas, lang, menus, kits, sources, windance, wineffect, killsound, taunt, trail, parting, killeffect, shopkeepers;
-    private boolean debugMode;
+    private boolean debugMode, stop = false;
     private GameManager gm;
     private ConfigManager cm;
     private AddonManager adm;
@@ -130,6 +130,7 @@ public class Main extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        stop = true;
         for (Player on : Bukkit.getOnlinePlayers()) {
             if (gm.isPlayerInGame(on)) {
                 gm.removePlayerGame(on, false);
@@ -147,16 +148,19 @@ public class Main extends JavaPlugin {
         if (vc.is1_9to15()) {
             getConfig().addDefault("sounds.wineffects.vulcanwool", "ENTITY_CHICKEN_EGG");
             getConfig().addDefault("sounds.wineffects.vulcanfire", "ENTITY_CREEPER_HURT");
-            if (vc.getVersion().equals("v1_15_R1")) {
+            if (vc.is1_13to15()) {
+                getConfig().addDefault("sounds.cancelStart", "BLOCK_NOTE_BLOCK_BASS");
                 getConfig().addDefault("sounds.wineffects.notes", "ENTITY_FIREWORK_ROCKET_LAUNCH");
                 getConfig().addDefault("sounds.wineffects.chicken", "ENTITY_FIREWORK_ROCKET_LAUNCH");
             } else {
+                getConfig().addDefault("sounds.cancelStart", "BLOCK_NOTE_BASS");
                 getConfig().addDefault("sounds.wineffects.notes", "ENTITY_FIREWORK_LAUNCH");
                 getConfig().addDefault("sounds.wineffects.chicken", "ENTITY_FIREWORK_LAUNCH");
             }
             getConfig().addDefault("sounds.killeffects.tnt", "ENTITY_GENERIC_EXPLODE");
             getConfig().addDefault("sounds.killeffects.squid", "ENTITY_ITEM_PICKUP");
         } else {
+            getConfig().addDefault("sounds.cancelStart", "NOTE_BASS");
             getConfig().addDefault("sounds.wineffects.vulcanwool", "CHICKEN_EGG_POP");
             getConfig().addDefault("sounds.wineffects.vulcanfire", "FUSE");
             getConfig().addDefault("sounds.wineffects.notes", "FIREWORK_LAUNCH");

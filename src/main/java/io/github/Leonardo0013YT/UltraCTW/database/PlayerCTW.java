@@ -101,6 +101,16 @@ public class PlayerCTW implements CTWPlayer {
     }
 
     @Override
+    public void addCoins(double coins) {
+        this.coins += coins;
+    }
+
+    @Override
+    public void removeCoins(double coins) {
+        this.coins -= coins;
+    }
+
+    @Override
     public int getKills() {
         return kills;
     }

@@ -1,10 +1,31 @@
 activated: "&aActivated"
 deactivated: "&cDeactivated"
 chat:
+  mainLobby: "&f<player> &7» &f<msg>"
   lobby: "&e[CTW] &f<player> &7» &f<msg>"
   team: "<team> <player> &7» &f<msg>"
   global: "&6[GLOBAL] <team> <player> &7» &f<msg>"
+coins:
+  add:
+    you: "&aYou've added &e<coins> &acoins to player &e<player>&a."
+    receiver: |-
+      &8&l+ &e<coins> &6Coins
+      &aDelivered by &b<sender>&a.
+  remove:
+    you: "&aYou've removed &e<coins> &acoins to player &e<player>&a."
+    receiver: |-
+      &8&l- &e<coins> &6Coins
+      &aRemoved by &b<sender>&a.
+  set:
+    you: "&aYou've set &e<coins> &acoins to player &e<player>&a."
+    receiver: |-
+      &8&l= &e<coins> &6Coins
+      &aEstablished by &b<sender>&a.
 messages:
+  noBuy: "&cThis cannot be purchased by users."
+  noCoins: "&cYou don't have enough coins."
+  bought: "&aYou bought &6<name>&a correctly."
+  cancelStart: "&cThe game start has been canceled."
   gameNotExists: "&cThis game not exists."
   randomTeam: "&aYou've joined a random team, you've had the team <team>"
   joinTeam: "&aYou've joined the team: <team>"
@@ -17,6 +38,12 @@ messages:
   incorrectPlace: "&cThis is not the right place for <wool>&c wool."
   alreadyIngame: "&cYou're already in a game."
   leaveGame: "&cYou're out of the game."
+  selectTrail: "&aYou've selected the trail: &e<trail>"
+  selectTaunt: "&aYou've selected the taunt: &e<taunt>"
+  selectKillSound: "&aYou've selected the killsound: &e<killsound>"
+  selectKillEffect: "&aYou've selected the killeffect: &e<killeffect>"
+  selectWinEffect: "&aYou've selected the wineffect: &e<wineffect>"
+  selectWinDance: "&aYou've selected the windance: &e<windance>"
   start:
     - "<center>&a&m&l---------------------------------------------"
     - "<center>&7"
@@ -40,10 +67,20 @@ messages:
     - "<center>&c&l3rt Killer &7- <color3><top3> &7- <number3>"
     - "<center>&7"
     - "<center>&a&m&l---------------------------------------------"
+holograms:
+  kits:
+    - "&e&lCAPTURE THE WOOL"
+    - "&7Kits Shop"
+    - "&b(Right-Click to open)"
+  shop:
+    - "&e&lCAPTURE THE WOOL"
+    - "&7Item Shop"
+    - "&b(Right-Click to open)"
 setup:
   setMainLobby: "&aThe main lobby has been established."
   needCreating: "&cYou need to be creating an arena."
   alreadyCreating: "&cYou are already creating an arena."
+  noOnline: "&cThat player is not online."
   noSchema: "&cThere is no schematic by that name."
   noCursor: "&cYou must have the icon on the cursor."
   noNumber: "&cPlease write a number."
@@ -173,7 +210,11 @@ scoreboards:
   waiting:
     title: "&e&lCAPTURE THE WOOL"
     lines: |-
-
+      &7
+      &fMap: &a<map>
+      &fExp: &a<now>&7/&c<max>
+      &f
+      &emc.spigot.net
   simple-game:
     title: "&e&lCAPTURE THE WOOL"
     lines: |-
@@ -205,6 +246,14 @@ scoreboards:
       &7
       &emc.spigot.net
 menus:
+  kitlevels:
+    title: "&eKit Levels"
+    close:
+      nameItem: "&cClose"
+      loreItem: |-
+        &7Close this inventory.
+        &7
+        &eClick to close!
   kitselector:
     title: "&eKit Selector"
     noPermission: "&cYou can't buy this kit!"

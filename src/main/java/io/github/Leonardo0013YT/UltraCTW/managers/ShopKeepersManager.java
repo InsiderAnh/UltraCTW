@@ -3,12 +3,14 @@ package io.github.Leonardo0013YT.UltraCTW.managers;
 import io.github.Leonardo0013YT.UltraCTW.Main;
 import io.github.Leonardo0013YT.UltraCTW.cosmetics.shopkeepers.KeeperData;
 import io.github.Leonardo0013YT.UltraCTW.cosmetics.shopkeepers.ShopKeeper;
+import io.github.Leonardo0013YT.UltraCTW.enums.NPCType;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.NPC;
 import io.github.Leonardo0013YT.UltraCTW.mojang.MojangAPI;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
 import java.io.File;
@@ -73,18 +75,19 @@ public class ShopKeepersManager {
         return datas.get(id);
     }
 
-    public NPC spawnShopKeeper(Player p, Location loc, int id) {
+    public NPC spawnShopKeeper(Player p, Location loc, int id, NPCType npcType) {
         ShopKeeper sk = getShopKeeper(id);
         NPC npc;
         if (sk.getType().equals("skin")) {
             KeeperData kd = getKeeperData(id);
-            npc = plugin.getVc().createNewNPC();
+            npc = plugin.getVc().createNewNPC(npcType);
             npc.spawn(p, loc, EntityType.PLAYER, kd);
         } else {
             EntityType type = EntityType.valueOf(sk.getEntityType());
-            npc = plugin.getVc().createNewNPC();
-            npc.spawn(p, loc, EntityType.PLAYER, null);
+            npc = plugin.getVc().createNewNPC(npcType);
+            npc.spawn(p, loc, type, null);
         }
+        npc.spawnHologram();
         return npc;
     }
 

@@ -2,19 +2,19 @@ package io.github.Leonardo0013YT.UltraCTW.listeners;
 
 import com.nametagedit.plugin.NametagEdit;
 import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.enums.NPCType;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.CTWPlayer;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.Game;
+import io.github.Leonardo0013YT.UltraCTW.interfaces.NPC;
 import io.github.Leonardo0013YT.UltraCTW.objects.Squared;
 import io.github.Leonardo0013YT.UltraCTW.team.Team;
 import io.github.Leonardo0013YT.UltraCTW.utils.NBTEditor;
 import io.github.Leonardo0013YT.UltraCTW.utils.Utils;
 import io.github.Leonardo0013YT.UltraCTW.xseries.XMaterial;
 import io.github.Leonardo0013YT.UltraCTW.xseries.XSound;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
@@ -45,6 +45,13 @@ public class PlayerListener implements Listener {
     public void onJoin(PlayerJoinEvent e) {
         Player p = e.getPlayer();
         plugin.getDb().loadPlayer(p);
+        Utils.updateSB(p);
+        Bukkit.getOnlinePlayers().stream()
+                .filter(pl -> check(p, pl))
+                .forEach(pl -> pl.hidePlayer(p));
+        Bukkit.getOnlinePlayers().stream()
+                .filter(pl -> check(p, pl))
+                .forEach(p::hidePlayer);
     }
 
     @EventHandler
@@ -66,28 +73,51 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onInteractEntity(PlayerInteractAtEntityEvent e) {
         Player p = e.getPlayer();
-        p.sendMessage("ENTIDAD!! " + e.getRightClicked().getEntityId());
+        Game g = plugin.getGm().getGameByPlayer(p);
+        if (g == null) return;
+        NPC npc = g.getNpcs().get(e.getRightClicked().getEntityId());
+        if (npc == null) return;
+        e.setCancelled(true);
+        if (npc.getNpcType().equals(NPCType.KITS)){
+            plugin.getUim().getPages().put(p, 1);
+            plugin.getUim().createKitSelectorMenu(p);
+        }
     }
 
     @EventHandler
     public void onChat(AsyncPlayerChatEvent e) {
         Player p = e.getPlayer();
         Game g = plugin.getGm().getGameByPlayer(p);
+        if (plugin.getCm().getMainLobby() != null){
+            World w = plugin.getCm().getMainLobby().getWorld();
+            if (p.getWorld().getName().equals(w.getName())){
+                e.getRecipients().clear();
+                e.getRecipients().addAll(w.getPlayers());
+                String msg = formatMainLobby(p, e.getMessage());
+                e.setFormat(msg);
+            }
+        }
         if (g == null) return;
+        e.getRecipients().clear();
+        String msg;
         if (g.getInLobby().contains(p)) {
-            String msg = formatLobby(p, e.getMessage());
-            g.getInLobby().forEach(o -> o.sendMessage(msg));
+            msg = formatLobby(p, e.getMessage());
+            e.getRecipients().addAll(g.getInLobby());
         } else {
             Team t = g.getTeamPlayer(p);
             if (e.getMessage().startsWith("!")) {
-                String msg = formatGame(p, t, e.getMessage());
-                g.getCached().forEach(o -> o.sendMessage(msg));
+                msg = formatGame(p, t, e.getMessage());
+                e.getRecipients().addAll(g.getCached());
             } else {
-                String msg = formatTeam(p, t, e.getMessage());
-                t.getMembers().forEach(o -> o.sendMessage(msg));
+                msg = formatTeam(p, t, e.getMessage());
+                e.getRecipients().addAll(t.getMembers());
             }
         }
-        e.setCancelled(true);
+        e.setFormat(msg);
+    }
+
+    private String formatMainLobby(Player p, String msg) {
+        return plugin.getLang().get("chat.mainLobby").replaceAll("<player>", p.getName()).replaceAll("<msg>", msg);
     }
 
     private String formatLobby(Player p, String msg) {
@@ -322,12 +352,23 @@ public class PlayerListener implements Listener {
                 }
                 e.setCancelled(true);
                 respawn(team, g, p);
+                plugin.getTm().execute(p, e.getCause(), g, 0);
+                g.addDeath(p);
             }
         }
     }
 
     @EventHandler
     public void onDamageByEntity(EntityDamageByEntityEvent e) {
+        if (e.getDamager() instanceof Player) {
+            int id = e.getEntity().getEntityId();
+            Player d = (Player) e.getDamager();
+            Game g = plugin.getGm().getGameByPlayer(d);
+            if (g == null) return;
+            if (g.getNpcs().containsKey(id)) {
+                e.setCancelled(true);
+            }
+        }
         if (e.getEntity() instanceof Player) {
             Player p = (Player) e.getEntity();
             if (e.getDamager() instanceof Player) {
@@ -346,23 +387,27 @@ public class PlayerListener implements Listener {
                 }
                 if (e.getFinalDamage() >= p.getHealth()) {
                     CTWPlayer sk = plugin.getDb().getCTWPlayer(d);
+                    g.addKill(d);
                     if (p.getLastDamageCause() == null || p.getLastDamageCause().getCause() == null) {
                         EntityDamageEvent.DamageCause cause = EntityDamageEvent.DamageCause.CONTACT;
                         if (sk != null) {
                             plugin.getTm().execute(p, cause, g, sk.getTaunt());
-                        } else {
-                            plugin.getTm().execute(p, cause, g, 0);
                         }
                     } else {
                         EntityDamageEvent.DamageCause cause = p.getLastDamageCause().getCause();
                         if (sk != null) {
                             plugin.getTm().execute(p, cause, g, sk.getTaunt());
-                        } else {
-                            plugin.getTm().execute(p, cause, g, 0);
                         }
+                    }
+                    if (sk != null){
+                        plugin.getKem().execute(g, d, p, p.getLocation(), sk.getKillEffect());
+                        plugin.getKsm().execute(d, p, sk.getKillSound());
+                    } else {
+                        plugin.getTm().execute(p, e.getCause(), g, 0);
                     }
                     e.setCancelled(true);
                     respawn(tp, g, p);
+                    g.addDeath(p);
                 }
                 double damage = e.getFinalDamage();
                 plugin.getTgm().setTag(d, p, damage, g);
@@ -382,24 +427,28 @@ public class PlayerListener implements Listener {
                     return;
                 }
                 if (e.getFinalDamage() >= p.getHealth()) {
+                    g.addKill(d);
                     CTWPlayer sk = plugin.getDb().getCTWPlayer(d);
                     if (p.getLastDamageCause() == null || p.getLastDamageCause().getCause() == null) {
                         EntityDamageEvent.DamageCause cause = EntityDamageEvent.DamageCause.CONTACT;
                         if (sk != null) {
                             plugin.getTm().execute(p, cause, g, sk.getTaunt());
-                        } else {
-                            plugin.getTm().execute(p, cause, g, 0);
                         }
                     } else {
                         EntityDamageEvent.DamageCause cause = p.getLastDamageCause().getCause();
                         if (sk != null) {
                             plugin.getTm().execute(p, cause, g, sk.getTaunt());
-                        } else {
-                            plugin.getTm().execute(p, cause, g, 0);
                         }
+                    }
+                    if (sk != null){
+                        plugin.getKem().execute(g, d, p, p.getLocation(), sk.getKillEffect());
+                        plugin.getKsm().execute(d, p, sk.getKillSound());
+                    } else {
+                        plugin.getTm().execute(p, e.getCause(), g, 0);
                     }
                     e.setCancelled(true);
                     respawn(tp, g, p);
+                    g.addDeath(p);
                 }
                 double damage = e.getFinalDamage();
                 plugin.getTgm().setTag(d, p, damage, g);
@@ -420,15 +469,22 @@ public class PlayerListener implements Listener {
         }
     }
 
-    private void removeItemInHand(Player p) {
-        if (p.getItemInHand() != null) {
-            ItemStack item = p.getItemInHand();
-            if (item.getAmount() > 1) {
-                item.setAmount(item.getAmount() - 1);
-            } else {
-                p.setItemInHand(null);
-            }
+    @EventHandler
+    public void onTeleport(PlayerTeleportEvent e){
+        Location from = e.getFrom();
+        Location to = e.getTo();
+        if (to.getWorld().getName().equals(from.getWorld().getName())){
+            return;
         }
+        Player p = e.getPlayer();
+        from.getWorld().getPlayers().forEach(pl -> pl.hidePlayer(p));
+        from.getWorld().getPlayers().forEach(p::hidePlayer);
+        to.getWorld().getPlayers().forEach(pl -> pl.showPlayer(p));
+        to.getWorld().getPlayers().forEach(p::showPlayer);
+    }
+
+    private boolean check(Player p1, Player p2){
+        return !p1.getWorld().getName().equals(p2.getWorld().getName());
     }
 
     private void respawn(Team team, Game g, Player p) {

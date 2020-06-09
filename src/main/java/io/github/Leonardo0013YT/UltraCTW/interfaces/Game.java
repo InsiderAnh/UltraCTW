@@ -28,7 +28,17 @@ public interface Game {
 
     void update();
 
+    void checkWin();
+
+    void checkCancel();
+
+    void cancel();
+
     void win(Team team);
+
+    void addKill(Player p);
+
+    void addDeath(Player p);
 
     void sendGameMessage(String msg);
 

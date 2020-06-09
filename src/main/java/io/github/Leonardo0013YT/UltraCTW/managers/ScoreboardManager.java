@@ -1,6 +1,7 @@
 package io.github.Leonardo0013YT.UltraCTW.managers;
 
 import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.enums.State;
 import io.github.Leonardo0013YT.UltraCTW.game.GamePlayer;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.Game;
 import io.github.Leonardo0013YT.UltraCTW.team.Team;
@@ -30,6 +31,23 @@ public class ScoreboardManager {
         ScoreboardUtil scoreboardUtil = new ScoreboardUtil("main", "main");
         scoreboardUtil.setName(plugin.getLang().get(p, "scoreboards.main.title"));
         String titulo = plugin.getLang().get(p, "scoreboards.main.lines");
+        String[] title = titulo.split("\\n");
+        for (int n = 1, n2 = title.length - 1; n < title.length + 1; ++n, --n2) {
+            scoreboardUtil.lines(n, title[n2]);
+        }
+        scoreboardUtil.build(p);
+        score.put(p, scoreboardUtil);
+    }
+
+    private void createWaitingBoard(Player p, Game game) {
+        if (p == null || !p.isOnline()) {
+            return;
+        }
+        sb.put(p, "waiting");
+        p.getScoreboard().clearSlot(DisplaySlot.SIDEBAR);
+        ScoreboardUtil scoreboardUtil = new ScoreboardUtil("waiting", "waiting");
+        scoreboardUtil.setName(plugin.getLang().get(p, "scoreboards.waiting.title"));
+        String titulo = waiting(plugin.getLang().get(p, "scoreboards.waiting.lines"), game);
         String[] title = titulo.split("\\n");
         for (int n = 1, n2 = title.length - 1; n < title.length + 1; ++n, --n2) {
             scoreboardUtil.lines(n, title[n2]);
@@ -98,27 +116,43 @@ public class ScoreboardManager {
         } else {
             Game game = plugin.getGm().getGameByPlayer(p);
             Team team = game.getTeamPlayer(p);
-            if (team == null) {
-                return;
-            }
             if (score.containsKey(p)) {
                 ScoreboardUtil scoreboardUtil = score.get(p);
-                if (sb.get(p).equals("simple")) {
-                    GamePlayer gp = game.getGamePlayer(p);
-                    Team t1 = game.getTeamByID(0);
-                    Team t2 = game.getTeamByID(1);
-                    String titulo = simple(plugin.getLang().get(p, "scoreboards.simple-game.lines"), game, team, gp, t1, t2);
-                    String[] title = titulo.split("\\n");
-                    for (int n = 1, n2 = title.length - 1; n < title.length + 1; ++n, --n2) {
-                        scoreboardUtil.lines(n, title[n2]);
+                if (game.isState(State.WAITING) || game.isState(State.STARTING)){
+                    if (sb.get(p).equals("waiting")) {
+                        String titulo = waiting(plugin.getLang().get(p, "scoreboards.waiting.lines"), game);
+                        String[] title = titulo.split("\\n");
+                        for (int n = 1, n2 = title.length - 1; n < title.length + 1; ++n, --n2) {
+                            scoreboardUtil.lines(n, title[n2]);
+                        }
+                    } else {
+                        createWaitingBoard(p, game);
                     }
                 } else {
-                    createSimpleGameBoard(p, game);
+                    if (team == null) {
+                        return;
+                    }
+                    if (sb.get(p).equals("simple")) {
+                        GamePlayer gp = game.getGamePlayer(p);
+                        Team t1 = game.getTeamByID(0);
+                        Team t2 = game.getTeamByID(1);
+                        String titulo = simple(plugin.getLang().get(p, "scoreboards.simple-game.lines"), game, team, gp, t1, t2);
+                        String[] title = titulo.split("\\n");
+                        for (int n = 1, n2 = title.length - 1; n < title.length + 1; ++n, --n2) {
+                            scoreboardUtil.lines(n, title[n2]);
+                        }
+                    } else {
+                        createSimpleGameBoard(p, game);
+                    }
                 }
             } else {
                 createSimpleGameBoard(p, game);
             }
         }
+    }
+
+    public String waiting(String s, Game game){
+        return s.replaceAll("<map>", game.getName());
     }
 
     public String simple(String s, Game game, Team team, GamePlayer gp, Team t1, Team t2) {

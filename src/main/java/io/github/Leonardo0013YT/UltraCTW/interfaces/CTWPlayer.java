@@ -4,6 +4,10 @@ import java.util.ArrayList;
 
 public interface CTWPlayer {
 
+    void addCoins(double coins);
+
+    void removeCoins(double coins);
+
     int getKills();
 
     void setKills(int kills);

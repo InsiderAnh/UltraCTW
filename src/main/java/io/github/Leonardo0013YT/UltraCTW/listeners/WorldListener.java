@@ -5,7 +5,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Item;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntitySpawnEvent;
+import org.bukkit.event.entity.CreatureSpawnEvent;
 
 public class WorldListener implements Listener {
 
@@ -16,8 +16,8 @@ public class WorldListener implements Listener {
     }
 
     @EventHandler
-    public void onSpawn(EntitySpawnEvent e) {
-        if (e.getEntity().getType().equals(EntityType.PLAYER) || e.getEntity() instanceof Item) return;
+    public void onSpawn(CreatureSpawnEvent e) {
+        if (e.getSpawnReason().equals(CreatureSpawnEvent.SpawnReason.CUSTOM) || e.getEntity().getType().equals(EntityType.PLAYER) || e.getEntity() instanceof Item) return;
         e.setCancelled(true);
     }
 

@@ -2,6 +2,7 @@ package io.github.Leonardo0013YT.UltraCTW.game;
 
 import com.nametagedit.plugin.NametagEdit;
 import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.enums.NPCType;
 import io.github.Leonardo0013YT.UltraCTW.enums.State;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.*;
 import io.github.Leonardo0013YT.UltraCTW.objects.Squared;
@@ -108,6 +109,8 @@ public class GameNoState implements Game {
             gp.reset();
             gamePlayer.remove(p);
         }
+        checkCancel();
+        checkWin();
     }
 
     @Override
@@ -132,6 +135,7 @@ public class GameNoState implements Game {
         cached.clear();
         players.clear();
         teams.values().forEach(Team::reset);
+        npcs.values().forEach(NPC::destroy);
         plugin.getWc().resetMap(lobby, schematic);
         lobby.getWorld().getEntities().stream().filter(e -> !e.getType().equals(EntityType.PLAYER)).forEach(Entity::remove);
         starting = plugin.getCm().getStarting();
@@ -191,11 +195,11 @@ public class GameNoState implements Game {
                 for (Player on : cached) {
                     CTWPlayer ctw = plugin.getDb().getCTWPlayer(on);
                     for (Location k : npcKits) {
-                        NPC n = plugin.getSkm().spawnShopKeeper(on, k, ctw.getShopKeeper());
+                        NPC n = plugin.getSkm().spawnShopKeeper(on, k, ctw.getShopKeeper(), NPCType.KITS);
                         npcs.put(n.getBukkitEntity().getEntityId(), n);
                     }
                     for (Location s : npcShop) {
-                        NPC n = plugin.getSkm().spawnShopKeeper(on, s, ctw.getShopKeeper());
+                        NPC n = plugin.getSkm().spawnShopKeeper(on, s, ctw.getShopKeeper(), NPCType.SHOP);
                         npcs.put(n.getBukkitEntity().getEntityId(), n);
                     }
                 }
@@ -206,7 +210,39 @@ public class GameNoState implements Game {
     }
 
     @Override
+    public void checkWin(){
+        if (isState(State.GAME)) {
+            int al = getTeamAlive();
+            if (al == 1){
+                Team t = getLastTeam();
+                win(t);
+            } else if (al == 0){
+                reset();
+            }
+        }
+    }
+
+    @Override
+    public void checkCancel(){
+        if (isState(State.STARTING)) {
+            if (min > players.size()) {
+                cancel();
+            }
+        }
+    }
+
+    @Override
+    public void cancel() {
+        this.starting = plugin.getCm().getStarting();
+        setState(State.WAITING);
+        sendGameMessage(plugin.getLang().get(null, "messages.cancelStart"));
+        sendGameTitle(plugin.getLang().get(null, "titles.cancel.title"), plugin.getLang().get(null, "titles.cancel.subtitle"), 0, 40, 0);
+        sendGameSound(plugin.getCm().getCancelStartSound());
+    }
+
+    @Override
     public void win(Team team) {
+        if (plugin.isStop()) return;
         GameWin gw = new GameWin(this);
         gw.setTeamWin(team);
         List<String> top = gw.getTop();
@@ -242,6 +278,22 @@ public class GameNoState implements Game {
                 reset();
             }
         }.runTaskLater(plugin, 20 * 15);
+    }
+
+    @Override
+    public void addKill(Player p){
+        if (gamePlayer.containsKey(p)){
+            GamePlayer gp = gamePlayer.get(p);
+            gp.setKills(gp.getKills() + 1);
+        }
+    }
+
+    @Override
+    public void addDeath(Player p){
+        if (gamePlayer.containsKey(p)){
+            GamePlayer gp = gamePlayer.get(p);
+            gp.setDeaths(gp.getDeaths() + 1);
+        }
     }
 
     @Override

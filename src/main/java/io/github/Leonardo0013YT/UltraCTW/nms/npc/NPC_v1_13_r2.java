@@ -2,7 +2,9 @@ package io.github.Leonardo0013YT.UltraCTW.nms.npc;
 
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
+import io.github.Leonardo0013YT.UltraCTW.Main;
 import io.github.Leonardo0013YT.UltraCTW.cosmetics.shopkeepers.KeeperData;
+import io.github.Leonardo0013YT.UltraCTW.enums.NPCType;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.NPC;
 import net.minecraft.server.v1_13_R2.*;
 import org.bukkit.Bukkit;
@@ -10,21 +12,60 @@ import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_13_R2.CraftServer;
 import org.bukkit.craftbukkit.v1_13_R2.CraftWorld;
 import org.bukkit.craftbukkit.v1_13_R2.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_13_R2.util.CraftChatMessage;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.UUID;
 
 public class NPC_v1_13_r2 implements NPC {
 
-    private Entity entity;
+    private ArrayList<EntityLiving> armors = new ArrayList<>();
+    private EntityLiving entity;
     private Player p;
+    private Location loc;
+    private EntityType type;
+    private Main plugin;
+    private NPCType npcType;
+    private MinecraftServer nmsServer = ((CraftServer) Bukkit.getServer()).getServer();
+    private double up = 2.0;
 
+    public NPC_v1_13_r2(Main plugin, NPCType npcType) {
+        this.plugin = plugin;
+        this.npcType = npcType;
+    }
+	
+	@Override
+    public void spawnHologram(){
+        Location start = loc.clone().add(0, up, 0);
+        WorldServer nmsWorld = ((CraftWorld) start.getWorld()).getHandle();
+        ArrayList<String> reverse = new ArrayList<>(plugin.getLang().getList("holograms." + npcType.name().toLowerCase()));
+        Collections.reverse(reverse);
+        for (String s : reverse){
+            EntityArmorStand eas = new EntityArmorStand(nmsWorld);
+            eas.setLocation(start.getX(), start.getY(), start.getZ(), 0, 0);
+            eas.setNoGravity(true);
+            eas.setInvisible(true);
+            eas.setBasePlate(false);
+            eas.setSmall(true);
+            eas.setArms(false);
+            eas.setCustomNameVisible(true);
+            eas.setCustomName(CraftChatMessage.fromStringOrNull(s));
+			PlayerConnection connection = ((CraftPlayer) p).getHandle().playerConnection;
+            connection.sendPacket(new PacketPlayOutSpawnEntityLiving(eas));
+            armors.add(eas);
+            start.add(0, 0.35, 0);
+        }
+    }
+	
     @Override
     public void spawn(Player p, Location loc, EntityType type, KeeperData kd) {
         this.p = p;
+        this.loc = loc;
+        this.type = type;
         WorldServer nmsWorld = ((CraftWorld) loc.getWorld()).getHandle();
-        MinecraftServer nmsServer = ((CraftServer) Bukkit.getServer()).getServer();
         if (type.equals(EntityType.PLAYER)) {
             GameProfile gameProfile = new GameProfile(UUID.randomUUID(), "");
             changeSkin(gameProfile, kd.getValue(), kd.getSignature());
@@ -47,6 +88,36 @@ public class NPC_v1_13_r2 implements NPC {
             nmsWorld.addEntity(ev);
             entity = ev;
         }
+    }
+
+    @Override
+    public NPCType getNpcType() {
+        return npcType;
+    }
+
+    @Override
+    public void respawn(){
+        WorldServer nmsWorld = ((CraftWorld) loc.getWorld()).getHandle();
+        PlayerConnection connection = ((CraftPlayer) p).getHandle().playerConnection;
+        if (type.equals(EntityType.PLAYER)) {
+            EntityPlayer npc = (EntityPlayer) entity;
+            connection.sendPacket(new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.ADD_PLAYER, npc));
+            connection.sendPacket(new PacketPlayOutNamedEntitySpawn(npc));
+            connection.sendPacket(new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.REMOVE_PLAYER, npc));
+            new PlayerConnection(nmsServer, new NetworkManager(EnumProtocolDirection.SERVERBOUND), npc);
+            ((CraftWorld) loc.getWorld()).getHandle().addEntity(npc);
+        } else {
+            connection.sendPacket(new PacketPlayOutSpawnEntityLiving(entity));
+            nmsWorld.addEntity(entity);
+        }
+        for (EntityLiving e : armors){
+            connection.sendPacket(new PacketPlayOutSpawnEntityLiving(e));
+        }
+    }
+
+    @Override
+    public Location getLoc() {
+        return loc;
     }
 
     @Override
