@@ -31,7 +31,7 @@ public class Main extends JavaPlugin {
 
     private static Main instance;
     private Gson ctw;
-    private Settings arenas, lang, menus, kits, sources, windance, wineffect, killsound, taunt, trail, parting, killeffect, shopkeepers;
+    private Settings arenas, lang, menus, kits, sources, windance, wineffect, killsound, taunt, trail, killeffect, shopkeepers;
     private boolean debugMode, stop = false;
     private GameManager gm;
     private ConfigManager cm;
@@ -50,7 +50,6 @@ public class Main extends JavaPlugin {
     private WinEffectsManager wem;
     private TrailsManager tlm;
     private TauntsManager tm;
-    private PartingManager pm;
     private KillSoundManager ksm;
     private KillEffectsManager kem;
     private ShopKeepersManager skm;
@@ -79,7 +78,6 @@ public class Main extends JavaPlugin {
         killsound = new Settings(this, "killsounds", false, false);
         taunt = new Settings(this, "taunts", false, false);
         trail = new Settings(this, "trails", false, false);
-        parting = new Settings(this, "partings", false, false);
         killeffect = new Settings(this, "killeffect", false, false);
         shopkeepers = new Settings(this, "shopkeepers", false, false);
         debugMode = getConfig().getBoolean("debugMode");
@@ -104,8 +102,6 @@ public class Main extends JavaPlugin {
         tlm.loadTrails();
         tm = new TauntsManager(this);
         tm.loadTaunts();
-        pm = new PartingManager(this);
-        pm.loadPartings();
         ksm = new KillSoundManager(this);
         ksm.loadKillSounds();
         kem = new KillEffectsManager(this);

@@ -32,13 +32,12 @@ public class LobbyShopMenu implements UltraInventory {
                     int slot = Integer.parseInt(c);
                     ItemStack litem = plugin.getMenus().getConfig().getItemStack("menus." + name + ".items." + c);
                     ItemStack item = ItemBuilder.parse(plugin.getMenus().getConfig().getItemStack("menus." + name + ".items." + c).clone(),
-                            new String[]{"{LOBBYPERKS}", plugin.getLang().get(null, "menus.lobby.perks.nameItem"), plugin.getLang().get(null, "menus.lobby.perks.loreItem")},
+                            new String[]{"{LOBBYKEEPERS}", plugin.getLang().get(null, "menus.lobby.shopkeepers.nameItem"), plugin.getLang().get(null, "menus.lobby.shopkeepers.loreItem")},
                             new String[]{"{LOBBYTRAILS}", plugin.getLang().get(null, "menus.lobby.trails.nameItem"), plugin.getLang().get(null, "menus.lobby.trails.loreItem")},
                             new String[]{"{LOBBYTAUNTS}", plugin.getLang().get(null, "menus.lobby.taunts.nameItem"), plugin.getLang().get(null, "menus.lobby.taunts.loreItem")},
                             new String[]{"{LOBBYKILLSOUND}", plugin.getLang().get(null, "menus.lobby.killsound.nameItem"), plugin.getLang().get(null, "menus.lobby.killsound.loreItem")},
                             new String[]{"{LOBBYKILLEFFECTS}", plugin.getLang().get(null, "menus.lobby.killeffects.nameItem"), plugin.getLang().get(null, "menus.lobby.killeffects.loreItem")},
                             new String[]{"{LOBBYWINDANCES}", plugin.getLang().get(null, "menus.lobby.windances.nameItem"), plugin.getLang().get(null, "menus.lobby.windances.loreItem")},
-                            new String[]{"{LOBBYPARTING}", plugin.getLang().get(null, "menus.lobby.parting.nameItem"), plugin.getLang().get(null, "menus.lobby.parting.loreItem")},
                             new String[]{"{LOBBYWINEFFECTS}", plugin.getLang().get(null, "menus.lobby.wineffects.nameItem"), plugin.getLang().get(null, "menus.lobby.wineffects.loreItem")});
                     contents.put(slot, item);
                     config.put(slot, litem);
@@ -122,13 +121,12 @@ public class LobbyShopMenu implements UltraInventory {
                     int slot = Integer.parseInt(c);
                     ItemStack litem = plugin.getMenus().getConfig().getItemStack("menus." + name + ".items." + c);
                     ItemStack item = ItemBuilder.parse(plugin.getMenus().getConfig().getItemStack("menus." + name + ".items." + c).clone(),
-                            new String[]{"{LOBBYPERKS}", plugin.getLang().get(null, "menus.lobby.perks.nameItem"), plugin.getLang().get(null, "menus.lobby.perks.loreItem")},
+                            new String[]{"{LOBBYKEEPERS}", plugin.getLang().get(null, "menus.lobby.shopkeepers.nameItem"), plugin.getLang().get(null, "menus.lobby.shopkeepers.loreItem")},
                             new String[]{"{LOBBYTRAILS}", plugin.getLang().get(null, "menus.lobby.trails.nameItem"), plugin.getLang().get(null, "menus.lobby.trails.loreItem")},
                             new String[]{"{LOBBYTAUNTS}", plugin.getLang().get(null, "menus.lobby.taunts.nameItem"), plugin.getLang().get(null, "menus.lobby.taunts.loreItem")},
                             new String[]{"{LOBBYKILLSOUND}", plugin.getLang().get(null, "menus.lobby.killsound.nameItem"), plugin.getLang().get(null, "menus.lobby.killsound.loreItem")},
                             new String[]{"{LOBBYKILLEFFECTS}", plugin.getLang().get(null, "menus.lobby.killeffects.nameItem"), plugin.getLang().get(null, "menus.lobby.killeffects.loreItem")},
                             new String[]{"{LOBBYWINDANCES}", plugin.getLang().get(null, "menus.lobby.windances.nameItem"), plugin.getLang().get(null, "menus.lobby.windances.loreItem")},
-                            new String[]{"{LOBBYPARTING}", plugin.getLang().get(null, "menus.lobby.parting.nameItem"), plugin.getLang().get(null, "menus.lobby.parting.loreItem")},
                             new String[]{"{LOBBYWINEFFECTS}", plugin.getLang().get(null, "menus.lobby.wineffects.nameItem"), plugin.getLang().get(null, "menus.lobby.wineffects.loreItem")});
                     contents.put(slot, item);
                     config.put(slot, litem);

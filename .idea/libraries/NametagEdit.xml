@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="NametagEdit">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../../APIS/NametagEdit.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

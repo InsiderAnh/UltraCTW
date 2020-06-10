@@ -106,6 +106,7 @@ public class SetupCMD implements CommandExecutor {
                     }
                     switch (args[1].toLowerCase()) {
                         case "setup":
+                        case "lobby":
                         case "teamsetup":
                             UltraInventory inv = plugin.getUim().getMenus(args[1].toLowerCase());
                             plugin.getUim().openInventory(p, inv);
@@ -115,6 +116,7 @@ public class SetupCMD implements CommandExecutor {
                             p.sendMessage("§cThe available menus are:");
                             p.sendMessage("§7 - §eSetup");
                             p.sendMessage("§7 - §eTeamSetup");
+                            p.sendMessage("§7 - §eLobby");
                             break;
                     }
                     break;

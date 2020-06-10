@@ -16,6 +16,7 @@ public class GameManager {
     private HashMap<Integer, Game> games = new HashMap<>();
     private HashMap<String, Integer> gameNames = new HashMap<>();
     private HashMap<UUID, Integer> playerGame = new HashMap<>();
+    private Game selectedGame;
     private Main plugin;
 
     public GameManager(Main plugin) {
@@ -32,6 +33,14 @@ public class GameManager {
             gameNames.put(game.getName(), id);
             plugin.sendLogMessage("§aGame §e" + s + "§a loaded correctly.");
         }
+    }
+
+    public void setSelectedGame(Game selectedGame) {
+        this.selectedGame = selectedGame;
+    }
+
+    public Game getSelectedGame() {
+        return selectedGame;
     }
 
     public Game getGameByName(String name) {

@@ -152,7 +152,10 @@ public class ScoreboardManager {
     }
 
     public String waiting(String s, Game game){
-        return s.replaceAll("<map>", game.getName());
+        return s.replaceAll("<time>", Utils.convertTime(game.getStarting()))
+                .replaceAll("<max>", String.valueOf(game.getMax()))
+                .replaceAll("<players>", String.valueOf(game.getPlayers().size()))
+                .replaceAll("<map>", game.getName());
     }
 
     public String simple(String s, Game game, Team team, GamePlayer gp, Team t1, Team t2) {

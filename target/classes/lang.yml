@@ -34,6 +34,7 @@ messages:
   noEntry: "&cYou can't join in here."
   noBreak: "&cYou can't break here."
   noPlace: "&cYou can't place here."
+  lost: "&cThe <wool>&c wool catch was lost."
   placeTeam: "&eYour team has captured the <place>&e wool."
   incorrectPlace: "&cThis is not the right place for <wool>&c wool."
   alreadyIngame: "&cYou're already in a game."
@@ -44,6 +45,7 @@ messages:
   selectKillEffect: "&aYou've selected the killeffect: &e<killeffect>"
   selectWinEffect: "&aYou've selected the wineffect: &e<wineffect>"
   selectWinDance: "&aYou've selected the windance: &e<windance>"
+  noOther: "&cYou can't enter another game if one is already selected."
   start:
     - "<center>&a&m&l---------------------------------------------"
     - "<center>&7"
@@ -152,6 +154,9 @@ setup:
   menus:
     finishEdit: "&aYou have edited the menu correctly."
 titles:
+  dropped:
+    title: "&a&lDROPPED"
+    subtitle: "&fDrop the wool <wool>"
   cancel:
     title: "&cCANCELLED"
     subtitle: "&7"
@@ -177,12 +182,19 @@ titles:
     title: "<color>Team <name>"
     subtitle: "&7Captured wool <wool>&7."
 items:
+  lobby:
+    nameItem: "&eCapture The Wool"
+    loreItem: |-
+      &7When you click, you'll open
+      &7the Capture The Wool lobby menu
+      &7
+      &eRight click to open.
   setup:
     nameItem: "&eSetup Arena"
     loreItem: |-
       &7Item to setup arena.
       &7
-      &7Right click to open.
+      &eRight click to open.
   points:
     nameItem: "&eSelect Points"
     loreItem: |-
@@ -204,7 +216,11 @@ scoreboards:
     title: "&e&lCAPTURE THE WOOL"
     lines: |-
       &7
+      &fExp: &a<now>&7/&c<max>
+      &7
       &fKills: &a<kills>
+      &fDeaths: &a<deaths>
+      &fWins: &a<wins>
       &f
       &emc.spigot.net
   waiting:
@@ -213,7 +229,9 @@ scoreboards:
       &7
       &fMap: &a<map>
       &fExp: &a<now>&7/&c<max>
-      &f
+      &7
+      &fPlayers: &a<players>/<max>
+      &7
       &emc.spigot.net
   simple-game:
     title: "&e&lCAPTURE THE WOOL"
@@ -864,11 +882,11 @@ menus:
         &eClick to save!
   lobby:
     title: "&eLobby Menu"
-    perks:
-      nameItem: "&aPerks Menu"
+    shopkeepers:
+      nameItem: "&aShopKeepers Menu"
       loreItem: |-
         &7Open a menu to see
-        &7yours perks.
+        &7yours ShopKeepers.
         &7
         &eClick to open!
     trails:
@@ -911,13 +929,6 @@ menus:
       loreItem: |-
         &7Open a menu to select
         &7or purchase kill sounds.
-        &7
-        &eClick to open!
-    parting:
-      nameItem: "&aParting Menu"
-      loreItem: |-
-        &7Open a menu to select
-        &7or purchase partings.
         &7
         &eClick to open!
   teams:

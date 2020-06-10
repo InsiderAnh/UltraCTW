@@ -118,6 +118,12 @@ public class CTWCMD implements CommandExecutor {
                         p.sendMessage(plugin.getLang().get("messages.alreadyIngame"));
                         return true;
                     }
+                    if (plugin.getGm().getSelectedGame() != null){
+                        Game selected = plugin.getGm().getSelectedGame();
+                        plugin.getGm().addPlayerGame(p, selected.getId());
+                        p.sendMessage(plugin.getLang().get("messages.noOther"));
+                        return true;
+                    }
                     String arena = args[1];
                     Game found = plugin.getGm().getGameByName(arena);
                     if (found == null) {

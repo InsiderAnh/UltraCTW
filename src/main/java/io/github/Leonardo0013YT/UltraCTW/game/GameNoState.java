@@ -41,7 +41,7 @@ public class GameNoState implements Game {
     private HashMap<Integer, NPC> npcs = new HashMap<>();
     private Squared lobbyProtection;
     private Location lobby, spectator;
-    private int teamSize, woolSize, min, starting, defKit, time = 0;
+    private int teamSize, woolSize, min, starting, defKit, time = 0, max;
     private State state;
 
     public GameNoState(Main plugin, String path, int id) {
@@ -73,6 +73,7 @@ public class GameNoState implements Game {
             teams.put(color, new Team(plugin, this, path + ".teams." + c, tid));
             teamsID.put(tid, color);
         }
+        this.max = teamSize * teams.size();
         setState(State.WAITING);
         lobby.getWorld().getEntities().stream().filter(e -> !e.getType().equals(EntityType.PLAYER)).forEach(Entity::remove);
         if (!plugin.getArenas().isSet(path + ".squareds")) return;
@@ -470,6 +471,11 @@ public class GameNoState implements Game {
             }
         }
         return null;
+    }
+
+    @Override
+    public int getMax() {
+        return max;
     }
 
     @Override

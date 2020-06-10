@@ -52,6 +52,7 @@ public class PlayerListener implements Listener {
         Bukkit.getOnlinePlayers().stream()
                 .filter(pl -> check(p, pl))
                 .forEach(p::hidePlayer);
+        givePlayerItems(p);
     }
 
     @EventHandler
@@ -90,10 +91,12 @@ public class PlayerListener implements Listener {
         Game g = plugin.getGm().getGameByPlayer(p);
         if (plugin.getCm().getMainLobby() != null){
             World w = plugin.getCm().getMainLobby().getWorld();
+            if (w == null) return;
             if (p.getWorld().getName().equals(w.getName())){
                 e.getRecipients().clear();
                 e.getRecipients().addAll(w.getPlayers());
                 String msg = formatMainLobby(p, e.getMessage());
+                msg = msg.replaceAll("%", "%%");
                 e.setFormat(msg);
             }
         }
@@ -113,23 +116,24 @@ public class PlayerListener implements Listener {
                 e.getRecipients().addAll(t.getMembers());
             }
         }
+        msg = msg.replaceAll("%", "%%");
         e.setFormat(msg);
     }
 
     private String formatMainLobby(Player p, String msg) {
-        return plugin.getLang().get("chat.mainLobby").replaceAll("<player>", p.getName()).replaceAll("<msg>", msg);
+        return plugin.getLang().get(p, "chat.mainLobby").replaceAll("<player>", p.getName()).replaceAll("<msg>", msg);
     }
 
     private String formatLobby(Player p, String msg) {
-        return plugin.getLang().get("chat.lobby").replaceAll("<player>", p.getName()).replaceAll("<msg>", msg);
+        return plugin.getLang().get(p, "chat.lobby").replaceAll("<player>", p.getName()).replaceAll("<msg>", msg);
     }
 
     private String formatTeam(Player p, Team team, String msg) {
-        return plugin.getLang().get("chat.team").replaceAll("<team>", team.getName()).replaceAll("<player>", p.getName()).replaceAll("<msg>", msg);
+        return plugin.getLang().get(p, "chat.team").replaceAll("<team>", team.getName()).replaceAll("<player>", p.getName()).replaceAll("<msg>", msg);
     }
 
     private String formatGame(Player p, Team team, String msg) {
-        return plugin.getLang().get("chat.global").replaceAll("<team>", team.getName()).replaceAll("<player>", p.getName()).replaceAll("<msg>", msg.replaceFirst("!", ""));
+        return plugin.getLang().get(p, "chat.global").replaceAll("<team>", team.getName()).replaceAll("<player>", p.getName()).replaceAll("<msg>", msg.replaceFirst("!", ""));
     }
 
     @EventHandler
@@ -152,15 +156,6 @@ public class PlayerListener implements Listener {
             ItemStack i = g.getWools().get(l);
             l.getWorld().dropItemNaturally(l, i);
             g.getWools().remove(l);
-            ChatColor c = Utils.getColorByXMaterial(XMaterial.matchXMaterial(i));
-            ArrayList<Team> others = g.getTeams().values().stream().filter(t -> t.getId() != team.getId()).collect(Collectors.toCollection(ArrayList::new));
-            if (!team.getInProgress().get(c).contains(p.getUniqueId())) {
-                team.getInProgress().get(c).add(p.getUniqueId());
-                team.sendTitle(plugin.getLang().get("titles.teampick.title").replaceAll("<color>", c + ""), plugin.getLang().get("titles.teampick.subtitle").replaceAll("<wool>", c + plugin.getLang().get("scoreboards.wools.captured")), 0, 30, 10);
-                others.forEach(t -> t.sendTitle(plugin.getLang().get("titles.otherpick.title").replaceAll("<color>", c + ""), plugin.getLang().get("titles.otherpick.subtitle").replaceAll("<wool>", c + plugin.getLang().get("scoreboards.wools.captured")), 0, 30, 10));
-                team.playSound(XSound.ENTITY_FIREWORK_ROCKET_BLAST, 1.0f, 1.0f);
-                others.forEach(t -> t.playSound(XSound.ENTITY_WITHER_HURT, 1.0f, 1.0f));
-            }
             return;
         }
         if (s1 != null) {
@@ -309,22 +304,27 @@ public class PlayerListener implements Listener {
     public void onPickUp(PlayerPickupItemEvent e) {
         Player p = e.getPlayer();
         Item i = e.getItem();
+        ChatColor c = null;
         if (i.hasMetadata("DROPPED")) {
-            Game g = plugin.getGm().getGameByPlayer(p);
-            if (g == null) return;
-            Team team = g.getTeamPlayer(p);
-            if (team == null) return;
-            ChatColor c = ChatColor.valueOf(i.getMetadata("DROPPED").get(0).asString());
-            ArrayList<Team> others = g.getTeams().values().stream().filter(t -> t.getId() != team.getId()).collect(Collectors.toCollection(ArrayList::new));
-            team.getDropped().remove(c);
-            team.getInProgress().putIfAbsent(c, new ArrayList<>());
-            if (!team.getInProgress().get(c).contains(p.getUniqueId())) {
-                team.getInProgress().get(c).add(p.getUniqueId());
-                team.sendTitle(plugin.getLang().get("titles.teampick.title").replaceAll("<color>", c + ""), plugin.getLang().get("titles.teampick.subtitle").replaceAll("<wool>", c + plugin.getLang().get("scoreboards.wools.captured")), 0, 30, 10);
-                others.forEach(t -> t.sendTitle(plugin.getLang().get("titles.otherpick.title").replaceAll("<color>", c + ""), plugin.getLang().get("titles.otherpick.subtitle").replaceAll("<wool>", c + plugin.getLang().get("scoreboards.wools.captured")), 0, 30, 10));
-                team.playSound(XSound.ENTITY_FIREWORK_ROCKET_BLAST, 1.0f, 1.0f);
-                others.forEach(t -> t.playSound(XSound.ENTITY_WITHER_HURT, 1.0f, 1.0f));
-            }
+            c = ChatColor.valueOf(i.getMetadata("DROPPED").get(0).asString());
+        } else if (NBTEditor.contains(i.getItemStack(), "TEAM", "WOOL", "CAPTURE")){
+            c = ChatColor.valueOf(NBTEditor.getString(i.getItemStack(), "TEAM", "WOOL", "CAPTURE"));
+        }
+        if (c == null) return;
+        Game g = plugin.getGm().getGameByPlayer(p);
+        if (g == null) return;
+        Team team = g.getTeamPlayer(p);
+        if (team == null) return;
+        ArrayList<Team> others = g.getTeams().values().stream().filter(t -> t.getId() != team.getId()).collect(Collectors.toCollection(ArrayList::new));
+        team.getDropped().remove(c);
+        team.getInProgress().putIfAbsent(c, new ArrayList<>());
+        if (!team.getInProgress().get(c).contains(p.getUniqueId())) {
+            team.getInProgress().get(c).add(p.getUniqueId());
+            team.sendTitle(plugin.getLang().get("titles.teampick.title").replaceAll("<color>", c + ""), plugin.getLang().get("titles.teampick.subtitle").replaceAll("<wool>", c + plugin.getLang().get("scoreboards.wools.captured")), 0, 30, 10);
+            ChatColor finalC = c;
+            others.forEach(t -> t.sendTitle(plugin.getLang().get("titles.otherpick.title").replaceAll("<color>", finalC + ""), plugin.getLang().get("titles.otherpick.subtitle").replaceAll("<wool>", finalC + plugin.getLang().get("scoreboards.wools.captured")), 0, 30, 10));
+            team.playSound(XSound.ENTITY_FIREWORK_ROCKET_BLAST, 1.0f, 1.0f);
+            others.forEach(t -> t.playSound(XSound.ENTITY_WITHER_HURT, 1.0f, 1.0f));
         }
     }
 
@@ -465,7 +465,11 @@ public class PlayerListener implements Listener {
         ItemStack item = p.getItemInHand();
         if (item.equals(plugin.getIm().getTeams())) {
             Game game = plugin.getGm().getGameByPlayer(p);
+            if (game == null) return;
             plugin.getGem().createTeamsMenu(p, game);
+        }
+        if (item.equals(plugin.getIm().getLobby())) {
+            plugin.getUim().openContentInventory(p, plugin.getUim().getMenus("lobby"));
         }
     }
 
@@ -488,16 +492,24 @@ public class PlayerListener implements Listener {
     }
 
     private void respawn(Team team, Game g, Player p) {
+        p.setNoDamageTicks(40);
+        p.setHealth(p.getMaxHealth());
+        p.teleport(team.getSpawn());
         for (ChatColor c : team.getColors()) {
             if (team.getInProgress().get(c).isEmpty()) continue;
             team.getInProgress().get(c).remove(p.getUniqueId());
+            if (team.getInProgress().get(c).isEmpty()){
+                g.sendGameMessage(plugin.getLang().get("messages.lost").replaceAll("<wool>", c + plugin.getLang().get("scoreboards.wools.captured")));
+                team.sendTitle(plugin.getLang().get("titles.dropped.title"), plugin.getLang().get("titles.dropped.subtitle").replaceAll("<wool>", c + plugin.getLang().get("scoreboards.wools.captured")), 0, 20, 0);
+            }
         }
         p.getInventory().clear();
-        p.setNoDamageTicks(40);
-        p.teleport(team.getSpawn());
-        p.setHealth(p.getMaxHealth());
         plugin.getKm().giveDefaultKit(p, g, team);
         p.updateInventory();
+    }
+
+    private void givePlayerItems(Player p){
+        p.getInventory().setItem(4, plugin.getIm().getLobby());
     }
 
 }

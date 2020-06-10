@@ -86,6 +86,8 @@ public interface Game {
 
     Squared getPlayerSquared(Location loc);
 
+    int getMax();
+
     int getId();
 
     String getName();

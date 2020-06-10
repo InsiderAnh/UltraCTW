@@ -160,7 +160,7 @@ public class MenuListener implements Listener {
             }
             ItemMeta im = item.getItemMeta();
             String display = im.getDisplayName();
-            if (display.equals(plugin.getLang().get(p, "menus.lobby.perks.nameItem"))) {
+            if (display.equals(plugin.getLang().get(p, "menus.lobby.shopkeepers.nameItem"))) {
 
             }
             if (display.equals(plugin.getLang().get(p, "menus.lobby.trails.nameItem"))) {

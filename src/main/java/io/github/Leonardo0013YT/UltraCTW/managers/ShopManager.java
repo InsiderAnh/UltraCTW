@@ -4,7 +4,6 @@ import io.github.Leonardo0013YT.UltraCTW.Main;
 import io.github.Leonardo0013YT.UltraCTW.cosmetics.killeffects.UltraKillEffect;
 import io.github.Leonardo0013YT.UltraCTW.cosmetics.killsounds.KillSound;
 import io.github.Leonardo0013YT.UltraCTW.cosmetics.kits.KitLevel;
-import io.github.Leonardo0013YT.UltraCTW.cosmetics.parting.Parting;
 import io.github.Leonardo0013YT.UltraCTW.cosmetics.taunts.Taunt;
 import io.github.Leonardo0013YT.UltraCTW.cosmetics.trails.Trail;
 import io.github.Leonardo0013YT.UltraCTW.cosmetics.windances.UltraWinDance;
@@ -46,9 +45,6 @@ public class ShopManager {
         } else if (purchasable instanceof KillSound) {
             KillSound k = (KillSound) purchasable;
             sw.addKillSounds(k.getId());
-        } else if (purchasable instanceof Parting) {
-            Parting k = (Parting) purchasable;
-            sw.addPartings(k.getId());
         } else if (purchasable instanceof Taunt) {
             Taunt k = (Taunt) purchasable;
             sw.addTaunts(k.getId());

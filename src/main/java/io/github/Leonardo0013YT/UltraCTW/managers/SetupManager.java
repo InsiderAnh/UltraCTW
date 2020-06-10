@@ -16,7 +16,6 @@ public class SetupManager {
     private HashMap<Player, TeamSetup> setupTeam = new HashMap<>();
     private HashMap<Player, KitSetup> setupKit = new HashMap<>();
     private HashMap<Player, KillSoundSetup> setupKillSound = new HashMap<>();
-    private HashMap<Player, PartingSetup> setupParting = new HashMap<>();
     private HashMap<Player, TauntSetup> setupTaunt = new HashMap<>();
     private HashMap<Player, TrailSetup> setupTrail = new HashMap<>();
 
@@ -102,22 +101,6 @@ public class SetupManager {
 
     public void removeTeam(Player p) {
         setupTeam.remove(p);
-    }
-
-    public void setSetupParting(Player p, PartingSetup a) {
-        setupParting.put(p, a);
-    }
-
-    public PartingSetup getSetupParting(Player p) {
-        return setupParting.get(p);
-    }
-
-    public boolean isSetupParting(Player p) {
-        return setupParting.containsKey(p);
-    }
-
-    public void removeParting(Player p) {
-        setupParting.remove(p);
     }
 
     public void setSetupKillSound(Player p, KillSoundSetup a) {
