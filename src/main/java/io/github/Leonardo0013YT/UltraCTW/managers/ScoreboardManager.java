@@ -58,6 +58,23 @@ public class ScoreboardManager {
         score.put(p, scoreboardUtil);
     }
 
+    private void createStartingBoard(Player p, Game game) {
+        if (p == null || !p.isOnline()) {
+            return;
+        }
+        sb.put(p, "starting");
+        p.getScoreboard().clearSlot(DisplaySlot.SIDEBAR);
+        ScoreboardUtil scoreboardUtil = new ScoreboardUtil("starting", "starting");
+        scoreboardUtil.setName(plugin.getLang().get(p, "scoreboards.starting.title"));
+        String titulo = starting(p, plugin.getLang().get(p, "scoreboards.starting.lines"), game);
+        String[] title = titulo.split("\\n");
+        for (int n = 1, n2 = title.length - 1; n < title.length + 1; ++n, --n2) {
+            scoreboardUtil.lines(n, title[n2]);
+        }
+        scoreboardUtil.build(p);
+        score.put(p, scoreboardUtil);
+    }
+
     private void createSimpleGameBoard(Player p, Game game) {
         if (p == null || !p.isOnline()) {
             return;
@@ -120,7 +137,7 @@ public class ScoreboardManager {
             Team team = game.getTeamPlayer(p);
             if (score.containsKey(p)) {
                 ScoreboardUtil scoreboardUtil = score.get(p);
-                if (game.isState(State.WAITING) || game.isState(State.STARTING)){
+                if (game.isState(State.WAITING)) {
                     if (sb.get(p).equals("waiting")) {
                         String titulo = waiting(p, plugin.getLang().get(p, "scoreboards.waiting.lines"), game);
                         String[] title = titulo.split("\\n");
@@ -129,6 +146,16 @@ public class ScoreboardManager {
                         }
                     } else {
                         createWaitingBoard(p, game);
+                    }
+                } else if (game.isState(State.STARTING)) {
+                    if (sb.get(p).equals("starting")) {
+                        String titulo = starting(p, plugin.getLang().get(p, "scoreboards.starting.lines"), game);
+                        String[] title = titulo.split("\\n");
+                        for (int n = 1, n2 = title.length - 1; n < title.length + 1; ++n, --n2) {
+                            scoreboardUtil.lines(n, title[n2]);
+                        }
+                    } else {
+                        createStartingBoard(p, game);
                     }
                 } else {
                     if (team == null) {
@@ -153,7 +180,7 @@ public class ScoreboardManager {
         }
     }
 
-    public String main(Player p, String s){
+    public String main(Player p, String s) {
         CTWPlayer ctw = plugin.getDb().getCTWPlayer(p);
         Level level = plugin.getLvl().getLevel(p);
         return s.replaceAll("<leveUp>", String.valueOf(level.getLevelUp()))
@@ -164,7 +191,17 @@ public class ScoreboardManager {
                 .replaceAll("<kills>", String.valueOf(ctw.getKills()));
     }
 
-    public String waiting(Player p, String s, Game game){
+    public String waiting(Player p, String s, Game game) {
+        CTWPlayer ctw = plugin.getDb().getCTWPlayer(p);
+        Level level = plugin.getLvl().getLevel(p);
+        return s.replaceAll("<leveUp>", String.valueOf(level.getLevelUp()))
+                .replaceAll("<now>", String.valueOf(ctw.getXp()))
+                .replaceAll("<max>", String.valueOf(game.getMax()))
+                .replaceAll("<players>", String.valueOf(game.getPlayers().size()))
+                .replaceAll("<map>", game.getName());
+    }
+
+    public String starting(Player p, String s, Game game) {
         CTWPlayer ctw = plugin.getDb().getCTWPlayer(p);
         Level level = plugin.getLvl().getLevel(p);
         return s.replaceAll("<leveUp>", String.valueOf(level.getLevelUp()))

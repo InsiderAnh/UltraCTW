@@ -1,7 +1,6 @@
 package io.github.Leonardo0013YT.UltraCTW.controllers;
 
 import io.github.Leonardo0013YT.UltraCTW.Main;
-import io.github.Leonardo0013YT.UltraCTW.enums.NPCType;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.NMS;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.NPC;
 import io.github.Leonardo0013YT.UltraCTW.nms.*;
@@ -79,32 +78,32 @@ public class VersionController {
         }
     }
 
-    public NPC createNewNPC(NPCType npcType) {
+    public NPC createNewNPC() {
         switch (version) {
             case "v1_8_R3":
-                return new NPC_v1_8_r3(plugin, npcType);
+                return new NPC_v1_8_r3(plugin);
             case "v1_9_R1":
                 plugin.sendLogMessage("§cYou have an outdated version §e1.9§c, please use version §a1.9.4§c.");
                 disable();
                 break;
             case "v1_9_R2":
-                return new NPC_v1_9_r2(plugin, npcType);
+                return new NPC_v1_9_r2(plugin);
             case "v1_10_R1":
-                return new NPC_v1_10_r1(plugin, npcType);
+                return new NPC_v1_10_r1(plugin);
             case "v1_11_R1":
-                return new NPC_v1_11_r1(plugin, npcType);
+                return new NPC_v1_11_r1(plugin);
             case "v1_12_R1":
-                return new NPC_v1_12_r1(plugin, npcType);
+                return new NPC_v1_12_r1(plugin);
             case "v1_13_R1":
                 plugin.sendLogMessage("§cYou have an outdated version §e1.13.1§c, please use version §a1.13.2§c.");
                 disable();
                 break;
             case "v1_13_R2":
-                return new NPC_v1_13_r2(plugin, npcType);
+                return new NPC_v1_13_r2(plugin);
             case "v1_14_R1":
-                return new NPC_v1_14_r1(plugin, npcType);
+                return new NPC_v1_14_r1(plugin);
             case "v1_15_R1":
-                return new NPC_v1_15_r1(plugin, npcType);
+                return new NPC_v1_15_r1(plugin);
             default:
                 plugin.sendLogMessage("§cYou have an outdated version §e1.8§c, please use version §a1.8.8§c.");
                 disable();

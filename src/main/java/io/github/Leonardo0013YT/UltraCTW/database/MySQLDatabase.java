@@ -2,6 +2,7 @@ package io.github.Leonardo0013YT.UltraCTW.database;
 
 import com.zaxxer.hikari.HikariDataSource;
 import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.api.events.PlayerLoadEvent;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.CTWPlayer;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.IDatabase;
 import org.bukkit.Bukkit;
@@ -185,6 +186,7 @@ public class MySQLDatabase implements IDatabase {
         now.setWindances(pd.getWindances());
         now.setWineffects(pd.getWineffects());
         players.put(p.getUniqueId(), now);
+        Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () -> Bukkit.getServer().getPluginManager().callEvent(new PlayerLoadEvent(p)));
     }
 
     private void createTable() {

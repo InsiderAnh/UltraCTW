@@ -140,5 +140,4 @@ public interface Game {
 
     Squared getLobbyProtection();
 
-    HashMap<Integer, NPC> getNpcs();
 }

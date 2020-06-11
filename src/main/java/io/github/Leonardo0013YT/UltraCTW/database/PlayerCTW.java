@@ -17,18 +17,13 @@ public class PlayerCTW implements CTWPlayer {
     }
 
     @Override
-    public void setWoolCaptured(int woolCaptured) {
-        this.woolCaptured = woolCaptured;
-    }
-
-    @Override
     public int getWoolCaptured() {
         return woolCaptured;
     }
 
     @Override
-    public void setLevel(int level) {
-        this.level = level;
+    public void setWoolCaptured(int woolCaptured) {
+        this.woolCaptured = woolCaptured;
     }
 
     @Override
@@ -37,8 +32,8 @@ public class PlayerCTW implements CTWPlayer {
     }
 
     @Override
-    public void setXp(int xp) {
-        this.xp = xp;
+    public void setLevel(int level) {
+        this.level = level;
     }
 
     @Override
@@ -47,13 +42,18 @@ public class PlayerCTW implements CTWPlayer {
     }
 
     @Override
-    public void setPlaced(int placed) {
-        this.placed = placed;
+    public void setXp(int xp) {
+        this.xp = xp;
     }
 
     @Override
     public int getPlaced() {
         return placed;
+    }
+
+    @Override
+    public void setPlaced(int placed) {
+        this.placed = placed;
     }
 
     @Override

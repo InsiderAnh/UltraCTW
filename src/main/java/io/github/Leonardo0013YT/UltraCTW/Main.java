@@ -56,6 +56,7 @@ public class Main extends JavaPlugin {
     private TaggedManager tgm;
     private LevelManager lvl;
     private ShopManager shm;
+    private NPCManager npc;
 
     public static Main get() {
         return instance;
@@ -113,6 +114,7 @@ public class Main extends JavaPlugin {
         skm = new ShopKeepersManager(this);
         skm.loadShopKeepers();
         lvl = new LevelManager(this);
+        npc = new NPCManager(this);
         getCommand("ctws").setExecutor(new SetupCMD(this));
         getCommand("ctw").setExecutor(new CTWCMD(this));
         getServer().getPluginManager().registerEvents(new SetupListener(this), this);

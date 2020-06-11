@@ -70,21 +70,21 @@ public interface CTWPlayer {
 
     void addWoolCaptured();
 
-    void setWoolCaptured(int woolCaptured);
-
     int getWoolCaptured();
 
-    void setLevel(int level);
+    void setWoolCaptured(int woolCaptured);
 
     int getLevel();
 
-    void setXp(int xp);
+    void setLevel(int level);
 
     int getXp();
 
-    void setPlaced(int placed);
+    void setXp(int xp);
 
     int getPlaced();
+
+    void setPlaced(int placed);
 
     int getDeaths();
 

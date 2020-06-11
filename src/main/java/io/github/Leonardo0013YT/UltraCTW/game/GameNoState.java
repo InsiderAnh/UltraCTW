@@ -38,7 +38,6 @@ public class GameNoState implements Game {
     private ArrayList<KillEffect> killEffects = new ArrayList<>();
     private HashMap<Location, ItemStack> wools = new HashMap<>();
     private ArrayList<Location> npcShop = new ArrayList<>(), npcKits = new ArrayList<>();
-    private HashMap<Integer, NPC> npcs = new HashMap<>();
     private Squared lobbyProtection;
     private Location lobby, spectator;
     private int teamSize, woolSize, min, starting, defKit, time = 0, max;
@@ -112,6 +111,7 @@ public class GameNoState implements Game {
         }
         checkCancel();
         checkWin();
+        plugin.getNpc().removePlayer(p);
     }
 
     @Override
@@ -136,7 +136,6 @@ public class GameNoState implements Game {
         cached.clear();
         players.clear();
         teams.values().forEach(Team::reset);
-        npcs.values().forEach(NPC::destroy);
         plugin.getWc().resetMap(lobby, schematic);
         lobby.getWorld().getEntities().stream().filter(e -> !e.getType().equals(EntityType.PLAYER)).forEach(Entity::remove);
         starting = plugin.getCm().getStarting();
@@ -197,12 +196,10 @@ public class GameNoState implements Game {
                 for (Player on : cached) {
                     CTWPlayer ctw = plugin.getDb().getCTWPlayer(on);
                     for (Location k : npcKits) {
-                        NPC n = plugin.getSkm().spawnShopKeeper(on, k, ctw.getShopKeeper(), NPCType.KITS);
-                        npcs.put(n.getBukkitEntity().getEntityId(), n);
+                        plugin.getSkm().spawnShopKeeper(on, k, ctw.getShopKeeper(), NPCType.KITS);
                     }
                     for (Location s : npcShop) {
-                        NPC n = plugin.getSkm().spawnShopKeeper(on, s, ctw.getShopKeeper(), NPCType.SHOP);
-                        npcs.put(n.getBukkitEntity().getEntityId(), n);
+                        plugin.getSkm().spawnShopKeeper(on, s, ctw.getShopKeeper(), NPCType.SHOP);
                     }
                 }
             }
@@ -212,20 +209,20 @@ public class GameNoState implements Game {
     }
 
     @Override
-    public void checkWin(){
+    public void checkWin() {
         if (isState(State.GAME)) {
             int al = getTeamAlive();
-            if (al == 1){
+            if (al == 1) {
                 Team t = getLastTeam();
                 win(t);
-            } else if (al == 0){
+            } else if (al == 0) {
                 reset();
             }
         }
     }
 
     @Override
-    public void checkCancel(){
+    public void checkCancel() {
         if (isState(State.STARTING)) {
             if (min > players.size()) {
                 cancel();
@@ -268,6 +265,7 @@ public class GameNoState implements Game {
             if (ctw == null) continue;
             ctw.addCoins(plugin.getCm().getCoinsWin());
             ctw.setXp(ctw.getXp() + plugin.getCm().getXpWin());
+            plugin.getLvl().checkUpgrade(w);
             plugin.getVc().getNMS().sendTitle(w, plugin.getLang().get("titles.win.title").replaceAll("<color>", team.getColor() + ""), plugin.getLang().get("titles.win.subtitle"), 0, 40, 0);
             plugin.getWem().execute(this, w, ctw.getWinEffect());
             plugin.getWdm().execute(this, w, ctw.getWinDance());
@@ -287,8 +285,8 @@ public class GameNoState implements Game {
     }
 
     @Override
-    public void addKill(Player p){
-        if (gamePlayer.containsKey(p)){
+    public void addKill(Player p) {
+        if (gamePlayer.containsKey(p)) {
             GamePlayer gp = gamePlayer.get(p);
             gp.setKills(gp.getKills() + 1);
             CTWPlayer ctw = plugin.getDb().getCTWPlayer(p);
@@ -300,8 +298,8 @@ public class GameNoState implements Game {
     }
 
     @Override
-    public void addDeath(Player p){
-        if (gamePlayer.containsKey(p)){
+    public void addDeath(Player p) {
+        if (gamePlayer.containsKey(p)) {
             GamePlayer gp = gamePlayer.get(p);
             gp.setDeaths(gp.getDeaths() + 1);
             CTWPlayer ctw = plugin.getDb().getCTWPlayer(p);
@@ -351,7 +349,7 @@ public class GameNoState implements Game {
     public void addPlayerTeam(Player p, Team team) {
         p.getInventory().clear();
         team.addMember(p);
-        if (isState(State.GAME)){
+        if (isState(State.GAME)) {
             p.teleport(team.getSpawn());
             plugin.getKm().giveDefaultKit(p, this, team);
             Utils.updateSB(p);
@@ -620,8 +618,4 @@ public class GameNoState implements Game {
         return lobbyProtection;
     }
 
-    @Override
-    public HashMap<Integer, NPC> getNpcs() {
-        return npcs;
-    }
 }

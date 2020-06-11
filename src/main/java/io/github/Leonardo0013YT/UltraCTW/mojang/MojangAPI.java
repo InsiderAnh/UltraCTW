@@ -31,7 +31,7 @@ public class MojangAPI {
             for (Object o : properties) {
                 try {
                     JSONObject property = (JSONObject) o;
-                    String value = property.containsKey("value") ? (String) property.get("value") : "none";
+                    String value = (String) property.get("value");
                     String signature = property.containsKey("signature") ? (String) property.get("signature") : "none";
                     return new KeeperData(signature, value);
                 } catch (Exception ignored) {

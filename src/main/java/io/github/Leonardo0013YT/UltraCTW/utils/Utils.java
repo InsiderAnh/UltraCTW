@@ -16,7 +16,7 @@ public class Utils {
     private static DecimalFormat df = new DecimalFormat("##.#");
     private static Main plugin = Main.get();
 
-    public static String format(double value){
+    public static String format(double value) {
         return df.format(value);
     }
 

@@ -2,6 +2,7 @@ package io.github.Leonardo0013YT.UltraCTW.listeners;
 
 import com.nametagedit.plugin.NametagEdit;
 import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.api.events.PlayerLoadEvent;
 import io.github.Leonardo0013YT.UltraCTW.cosmetics.trails.Trail;
 import io.github.Leonardo0013YT.UltraCTW.enums.NPCType;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.CTWPlayer;
@@ -44,7 +45,6 @@ public class PlayerListener implements Listener {
     public void onJoin(PlayerJoinEvent e) {
         Player p = e.getPlayer();
         plugin.getDb().loadPlayer(p);
-        Utils.updateSB(p);
         Bukkit.getOnlinePlayers().stream()
                 .filter(pl -> check(p, pl))
                 .forEach(pl -> pl.hidePlayer(p));
@@ -52,6 +52,13 @@ public class PlayerListener implements Listener {
                 .filter(pl -> check(p, pl))
                 .forEach(p::hidePlayer);
         givePlayerItems(p);
+    }
+
+    @EventHandler
+    public void onLoad(PlayerLoadEvent e) {
+        Player p = e.getPlayer();
+        plugin.getLvl().checkUpgrade(p);
+        Utils.updateSB(p);
     }
 
     @EventHandler
@@ -75,10 +82,13 @@ public class PlayerListener implements Listener {
         Player p = e.getPlayer();
         Game g = plugin.getGm().getGameByPlayer(p);
         if (g == null) return;
-        NPC npc = g.getNpcs().get(e.getRightClicked().getEntityId());
-        if (npc == null) return;
+        Entity entity = e.getRightClicked();
+        NPC npc = plugin.getNpc().getNPC(p, entity.getUniqueId());
+        if (npc == null) {
+            return;
+        }
         e.setCancelled(true);
-        if (npc.getNpcType().equals(NPCType.KITS)){
+        if (npc.getNpcType().equals(NPCType.KITS)) {
             plugin.getUim().getPages().put(p, 1);
             plugin.getUim().createKitSelectorMenu(p);
         }
@@ -88,10 +98,10 @@ public class PlayerListener implements Listener {
     public void onChat(AsyncPlayerChatEvent e) {
         Player p = e.getPlayer();
         Game g = plugin.getGm().getGameByPlayer(p);
-        if (plugin.getCm().getMainLobby() != null){
+        if (plugin.getCm().getMainLobby() != null) {
             World w = plugin.getCm().getMainLobby().getWorld();
             if (w == null) return;
-            if (p.getWorld().getName().equals(w.getName())){
+            if (p.getWorld().getName().equals(w.getName())) {
                 e.getRecipients().clear();
                 e.getRecipients().addAll(w.getPlayers());
                 String msg = formatMainLobby(p, e.getMessage());
@@ -212,9 +222,9 @@ public class PlayerListener implements Listener {
                     i.setAmount(1);
                     g.getWools().put(e.getBlockPlaced().getLocation(), i);
                     Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () -> {
-                        if (!p.getInventory().containsAtLeast(item, 1)){
+                        if (!p.getInventory().containsAtLeast(item, 1)) {
                             ChatColor c = Utils.getColorByXMaterial(XMaterial.matchXMaterial(i));
-                            if (team.getInProgress().containsKey(c)){
+                            if (team.getInProgress().containsKey(c)) {
                                 team.getInProgress().get(c).remove(p.getUniqueId());
                             }
                         }
@@ -278,7 +288,7 @@ public class PlayerListener implements Listener {
     }
 
     @EventHandler
-    public void onDrop(PlayerDropItemEvent e){
+    public void onDrop(PlayerDropItemEvent e) {
         Player p = e.getPlayer();
         ItemStack item = e.getItemDrop().getItemStack();
         String co = NBTEditor.getString(item, "TEAM", "WOOL", "CAPTURE");
@@ -289,9 +299,9 @@ public class PlayerListener implements Listener {
         if (team == null) return;
         e.getItemDrop().setMetadata("DROPPED", new FixedMetadataValue(Main.get(), co));
         Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () -> {
-            if (!p.getInventory().containsAtLeast(item, 1)){
+            if (!p.getInventory().containsAtLeast(item, 1)) {
                 ChatColor c = Utils.getColorByXMaterial(XMaterial.matchXMaterial(item));
-                if (team.getInProgress().containsKey(c)){
+                if (team.getInProgress().containsKey(c)) {
                     team.getInProgress().get(c).remove(p.getUniqueId());
                 }
             }
@@ -305,7 +315,7 @@ public class PlayerListener implements Listener {
         ChatColor c = null;
         if (i.hasMetadata("DROPPED")) {
             c = ChatColor.valueOf(i.getMetadata("DROPPED").get(0).asString());
-        } else if (NBTEditor.contains(i.getItemStack(), "TEAM", "WOOL", "CAPTURE")){
+        } else if (NBTEditor.contains(i.getItemStack(), "TEAM", "WOOL", "CAPTURE")) {
             c = ChatColor.valueOf(NBTEditor.getString(i.getItemStack(), "TEAM", "WOOL", "CAPTURE"));
         }
         if (c == null) return;
@@ -360,11 +370,12 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onDamageByEntity(EntityDamageByEntityEvent e) {
         if (e.getDamager() instanceof Player) {
-            int id = e.getEntity().getEntityId();
             Player d = (Player) e.getDamager();
             Game g = plugin.getGm().getGameByPlayer(d);
             if (g == null) return;
-            if (g.getNpcs().containsKey(id)) {
+            Entity entity = e.getEntity();
+            NPC npc = plugin.getNpc().getNPC(d, entity.getUniqueId());
+            if (npc != null) {
                 e.setCancelled(true);
             }
         }
@@ -398,7 +409,7 @@ public class PlayerListener implements Listener {
                             plugin.getTm().execute(p, cause, g, sk.getTaunt());
                         }
                     }
-                    if (sk != null){
+                    if (sk != null) {
                         plugin.getKem().execute(g, d, p, p.getLocation(), sk.getKillEffect());
                         plugin.getKsm().execute(d, p, sk.getKillSound());
                     } else {
@@ -439,7 +450,7 @@ public class PlayerListener implements Listener {
                             plugin.getTm().execute(p, cause, g, sk.getTaunt());
                         }
                     }
-                    if (sk != null){
+                    if (sk != null) {
                         plugin.getKem().execute(g, d, p, p.getLocation(), sk.getKillEffect());
                         plugin.getKsm().execute(d, p, sk.getKillSound());
                     } else {
@@ -476,8 +487,8 @@ public class PlayerListener implements Listener {
     }
 
     @EventHandler
-    public void onHealth(EntityRegainHealthEvent e){
-        if (e.getEntity() instanceof Player){
+    public void onHealth(EntityRegainHealthEvent e) {
+        if (e.getEntity() instanceof Player) {
             Player p = (Player) e.getEntity();
             if (!plugin.getTgm().hasTag(p)) return;
             Tagged tag = plugin.getTgm().getTagged(p);
@@ -503,10 +514,10 @@ public class PlayerListener implements Listener {
     }
 
     @EventHandler
-    public void onTeleport(PlayerTeleportEvent e){
+    public void onTeleport(PlayerTeleportEvent e) {
         Location from = e.getFrom();
         Location to = e.getTo();
-        if (to.getWorld().getName().equals(from.getWorld().getName())){
+        if (to.getWorld().getName().equals(from.getWorld().getName())) {
             return;
         }
         Player p = e.getPlayer();
@@ -516,7 +527,7 @@ public class PlayerListener implements Listener {
         to.getWorld().getPlayers().forEach(p::showPlayer);
     }
 
-    private boolean check(Player p1, Player p2){
+    private boolean check(Player p1, Player p2) {
         return !p1.getWorld().getName().equals(p2.getWorld().getName());
     }
 
@@ -527,7 +538,7 @@ public class PlayerListener implements Listener {
         for (ChatColor c : team.getColors()) {
             if (team.getInProgress().get(c).isEmpty()) continue;
             team.getInProgress().get(c).remove(p.getUniqueId());
-            if (team.getInProgress().get(c).isEmpty()){
+            if (team.getInProgress().get(c).isEmpty()) {
                 g.sendGameMessage(plugin.getLang().get("messages.lost").replaceAll("<wool>", c + plugin.getLang().get("scoreboards.wools.captured")));
                 team.sendTitle(plugin.getLang().get("titles.dropped.title"), plugin.getLang().get("titles.dropped.subtitle").replaceAll("<wool>", c + plugin.getLang().get("scoreboards.wools.captured")), 0, 20, 0);
             }
@@ -537,7 +548,7 @@ public class PlayerListener implements Listener {
         p.updateInventory();
     }
 
-    private void givePlayerItems(Player p){
+    private void givePlayerItems(Player p) {
         p.getInventory().setItem(4, plugin.getIm().getLobby());
     }
 

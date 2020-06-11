@@ -222,7 +222,7 @@ scoreboards:
     title: "&e&lCAPTURE THE WOOL"
     lines: |-
       &7
-      &fExp: &a<now>&7/&c<max>
+      &fExp: &a<now>&7/&c<leveUp>
       &7
       &fCaptured: &a<captured>
       &7
@@ -241,12 +241,24 @@ scoreboards:
       &fPlayers: &a<players>/<max>
       &7
       &emc.spigot.net
+  starting:
+    title: "&e&lCAPTURE THE WOOL"
+    lines: |-
+      &7
+      &fMap: &a<map>
+      &fExp: &a<now>&7/&c<leveUp>
+      &7
+      &fPlayers: &a<players>/<max>
+      &7
+      &fIniciando: &a<time>
+      &7
+      &emc.spigot.net
   simple-game:
     title: "&e&lCAPTURE THE WOOL"
     lines: |-
       &7
       &fTeam: <team>
-      &fExp: &a<now>&7/&c<max>
+      &fExp: &a<now>&7/&c<leveUp>
       &7
       <T1>
       <T1Wools>
@@ -263,7 +275,7 @@ scoreboards:
     lines: |-
       &7
       &fTeam: <team>
-      &fExp: &a<now>&7/&c<max>
+      &fExp: &a<now>&7/&c<leveUp>
       &7
       <teams>
       &7

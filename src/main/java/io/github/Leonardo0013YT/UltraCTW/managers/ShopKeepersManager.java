@@ -10,7 +10,6 @@ import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
 import java.io.File;
@@ -75,20 +74,22 @@ public class ShopKeepersManager {
         return datas.get(id);
     }
 
-    public NPC spawnShopKeeper(Player p, Location loc, int id, NPCType npcType) {
+    public void spawnShopKeeper(Player p, Location loc, int id, NPCType npcType) {
         ShopKeeper sk = getShopKeeper(id);
         NPC npc;
         if (sk.getType().equals("skin")) {
             KeeperData kd = getKeeperData(id);
-            npc = plugin.getVc().createNewNPC(npcType);
-            npc.spawn(p, loc, EntityType.PLAYER, kd);
+            npc = plugin.getVc().createNewNPC();
+            npc.create(p, loc, EntityType.PLAYER, kd, npcType);
         } else {
             EntityType type = EntityType.valueOf(sk.getEntityType());
-            npc = plugin.getVc().createNewNPC(npcType);
-            npc.spawn(p, loc, type, null);
+            npc = plugin.getVc().createNewNPC();
+            npc.create(p, loc, type, null, npcType);
         }
-        npc.spawnHologram();
-        return npc;
+        if (!npc.toHide(p.getLocation())) {
+            npc.spawn();
+        }
+        plugin.getNpc().addNPC(p, npc);
     }
 
 }

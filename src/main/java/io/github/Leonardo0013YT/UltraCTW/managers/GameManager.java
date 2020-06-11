@@ -35,12 +35,12 @@ public class GameManager {
         }
     }
 
-    public void setSelectedGame(Game selectedGame) {
-        this.selectedGame = selectedGame;
-    }
-
     public Game getSelectedGame() {
         return selectedGame;
+    }
+
+    public void setSelectedGame(Game selectedGame) {
+        this.selectedGame = selectedGame;
     }
 
     public Game getGameByName(String name) {

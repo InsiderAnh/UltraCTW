@@ -63,7 +63,7 @@ public class Team {
     public void updateSpawner() {
         for (Location l : spawners.keySet()) {
             ChatColor c = spawners.get(l);
-            if (!dropped.containsKey(c)){
+            if (!dropped.containsKey(c)) {
                 Item i = l.getWorld().dropItem(l.clone().add(0, 1, 0), NBTEditor.set(Utils.getXMaterialByColor(c).parseItem(), c.name(), "TEAM", "WOOL", "CAPTURE"));
                 i.setVelocity(new Vector(0, 0, 0));
                 i.setMetadata("DROPPED", new FixedMetadataValue(Main.get(), c.name()));

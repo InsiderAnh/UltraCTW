@@ -8,11 +8,15 @@ import org.bukkit.entity.Player;
 
 public interface NPC {
 
+    void create(Player p, Location loc, EntityType type, KeeperData kd, NPCType npcType);
+
     void spawnHologram();
 
-    void spawn(Player p, Location loc, EntityType type, KeeperData kd);
+    boolean isShowing();
 
-    void respawn();
+    boolean toHide(Location loc);
+
+    void spawn();
 
     Location getLoc();
 

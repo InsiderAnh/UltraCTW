@@ -9,14 +9,16 @@ import io.github.Leonardo0013YT.UltraCTW.interfaces.NPC;
 import net.minecraft.server.v1_15_R1.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_15_R1.util.CraftChatMessage;
 import org.bukkit.craftbukkit.v1_15_R1.CraftServer;
 import org.bukkit.craftbukkit.v1_15_R1.CraftWorld;
 import org.bukkit.craftbukkit.v1_15_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_15_R1.util.CraftChatMessage;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.UUID;
 
@@ -27,47 +29,55 @@ public class NPC_v1_15_r1 implements NPC {
     private Player p;
     private Location loc;
     private EntityType type;
+    private KeeperData kd;
     private Main plugin;
     private NPCType npcType;
-    private MinecraftServer nmsServer = ((CraftServer) Bukkit.getServer()).getServer();
-    private double up = 2.0;
+    private MinecraftServer nmsServer;
+    private double up = 0.8;
+    private PacketPlayOutScoreboardTeam packet;
+    private GameProfile gameProfile;
+    private WorldServer nmsWorld;
+    private boolean showing;
 
-    public NPC_v1_15_r1(Main plugin, NPCType npcType) {
+    public NPC_v1_15_r1(Main plugin) {
         this.plugin = plugin;
-        this.npcType = npcType;
     }
-	
-	@Override
-    public void spawnHologram(){
-        Location start = loc.clone().add(0, up, 0);
-        WorldServer nmsWorld = ((CraftWorld) start.getWorld()).getHandle();
-        ArrayList<String> reverse = new ArrayList<>(plugin.getLang().getList("holograms." + npcType.name().toLowerCase()));
-        Collections.reverse(reverse);
-        for (String s : reverse){
-            EntityArmorStand eas = new EntityArmorStand(EntityTypes.ARMOR_STAND, nmsWorld);
-            eas.setLocation(start.getX(), start.getY(), start.getZ(), 0, 0);
-            eas.setNoGravity(true);
-            eas.setInvisible(true);
-            eas.setBasePlate(false);
-            eas.setSmall(true);
-            eas.setArms(false);
-            eas.setCustomNameVisible(true);
-            eas.setCustomName(CraftChatMessage.fromStringOrNull(s));
-			PlayerConnection connection = ((CraftPlayer) p).getHandle().playerConnection;
-            connection.sendPacket(new PacketPlayOutSpawnEntityLiving(eas));
-            armors.add(eas);
-            start.add(0, 0.35, 0);
-        }
-    }
-	
+
     @Override
-    public void spawn(Player p, Location loc, EntityType type, KeeperData kd) {
+    public void create(Player p, Location loc, EntityType type, KeeperData kd, NPCType npcType) {
         this.p = p;
         this.loc = loc;
         this.type = type;
-        WorldServer nmsWorld = ((CraftWorld) loc.getWorld()).getHandle();
+        this.kd = kd;
+        this.nmsWorld = ((CraftWorld) loc.getWorld()).getHandle();
+        this.gameProfile = new GameProfile(UUID.randomUUID(), "");
+        this.nmsServer = ((CraftServer) Bukkit.getServer()).getServer();
+        this.packet = new PacketPlayOutScoreboardTeam();
+        String name = UUID.randomUUID().toString().substring(0, 12);
+        this.setField("i", 0);
+        this.setField("b", new ChatComponentText(name));
+        this.setField("a", name);
+        this.setField("c", new ChatComponentText(name));
+        this.setField("e", "never");
+        this.setField("j", 1);
+        this.showing = false;
+        this.npcType = npcType;
+    }
+
+    @Override
+    public boolean isShowing() {
+        return showing;
+    }
+
+    @Override
+    public boolean toHide(Location loc) {
+        return this.loc.distance(loc) > 30;
+    }
+
+    @Override
+    public void spawn() {
+        this.showing = true;
         if (type.equals(EntityType.PLAYER)) {
-            GameProfile gameProfile = new GameProfile(UUID.randomUUID(), "");
             changeSkin(gameProfile, kd.getValue(), kd.getSignature());
             EntityPlayer npc = new EntityPlayer(nmsServer, nmsWorld, gameProfile, new PlayerInteractManager(nmsWorld));
             npc.setLocation(loc.getX(), loc.getY(), loc.getZ(), newDirection(loc.getYaw()), newDirection(loc.getPitch()));
@@ -78,6 +88,14 @@ public class NPC_v1_15_r1 implements NPC {
             connection.sendPacket(new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.REMOVE_PLAYER, npc));
             new PlayerConnection(nmsServer, new NetworkManager(EnumProtocolDirection.SERVERBOUND), npc);
             ((CraftWorld) loc.getWorld()).getHandle().addEntity(npc);
+            try {
+                Field f = packet.getClass().getDeclaredField("h");
+                f.setAccessible(true);
+                ((Collection) f.get(packet)).add(gameProfile.getName());
+                connection.sendPacket(packet);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
             entity = npc;
         } else {
             EntityLiving ev = getEntityByType(type, nmsWorld);
@@ -88,30 +106,30 @@ public class NPC_v1_15_r1 implements NPC {
             nmsWorld.addEntity(ev);
             entity = ev;
         }
+        spawnHologram();
     }
 
     @Override
-    public NPCType getNpcType() {
-        return npcType;
-    }
-
-    @Override
-    public void respawn(){
-        WorldServer nmsWorld = ((CraftWorld) loc.getWorld()).getHandle();
-        PlayerConnection connection = ((CraftPlayer) p).getHandle().playerConnection;
-        if (type.equals(EntityType.PLAYER)) {
-            EntityPlayer npc = (EntityPlayer) entity;
-            connection.sendPacket(new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.ADD_PLAYER, npc));
-            connection.sendPacket(new PacketPlayOutNamedEntitySpawn(npc));
-            connection.sendPacket(new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.REMOVE_PLAYER, npc));
-            new PlayerConnection(nmsServer, new NetworkManager(EnumProtocolDirection.SERVERBOUND), npc);
-            ((CraftWorld) loc.getWorld()).getHandle().addEntity(npc);
-        } else {
-            connection.sendPacket(new PacketPlayOutSpawnEntityLiving(entity));
-            nmsWorld.addEntity(entity);
-        }
-        for (EntityLiving e : armors){
-            connection.sendPacket(new PacketPlayOutSpawnEntityLiving(e));
+    public void spawnHologram() {
+        armors.clear();
+        Location start = loc.clone().add(0, up, 0);
+        WorldServer nmsWorld = ((CraftWorld) start.getWorld()).getHandle();
+        ArrayList<String> reverse = new ArrayList<>(plugin.getLang().getList("holograms." + npcType.name().toLowerCase()));
+        Collections.reverse(reverse);
+        for (String s : reverse) {
+            EntityArmorStand eas = new EntityArmorStand(EntityTypes.ARMOR_STAND, nmsWorld);
+            eas.setLocation(start.getX(), start.getY(), start.getZ(), 0, 0);
+            eas.setNoGravity(true);
+            eas.setInvisible(true);
+            eas.setBasePlate(false);
+            eas.setSmall(true);
+            eas.setArms(false);
+            eas.setCustomNameVisible(true);
+            eas.setCustomName(CraftChatMessage.fromStringOrNull(s));
+            PlayerConnection connection = ((CraftPlayer) p).getHandle().playerConnection;
+            connection.sendPacket(new PacketPlayOutSpawnEntityLiving(eas));
+            armors.add(eas);
+            start.add(0, 0.35, 0);
         }
     }
 
@@ -121,9 +139,18 @@ public class NPC_v1_15_r1 implements NPC {
     }
 
     @Override
-    public void destroy(){
+    public NPCType getNpcType() {
+        return npcType;
+    }
+
+    @Override
+    public void destroy() {
+        this.showing = false;
         PlayerConnection connection = ((CraftPlayer) p).getHandle().playerConnection;
         connection.sendPacket(new PacketPlayOutEntityDestroy(entity.getId()));
+        for (Entity e : armors) {
+            connection.sendPacket(new PacketPlayOutEntityDestroy(e.getId()));
+        }
     }
 
     @Override
@@ -131,28 +158,39 @@ public class NPC_v1_15_r1 implements NPC {
         return entity.getBukkitEntity();
     }
 
-    private EntityLiving getEntityByType(EntityType type, WorldServer nmsWorld){
-        if (type.equals(EntityType.ZOMBIE)){
+    private void setField(String field, Object value) {
+        try {
+            Field f = packet.getClass().getDeclaredField(field);
+            f.setAccessible(true);
+            f.set(packet, value);
+            f.setAccessible(false);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    private EntityLiving getEntityByType(EntityType type, WorldServer nmsWorld) {
+        if (type.equals(EntityType.ZOMBIE)) {
             return new EntityZombie(nmsWorld);
-        } else if (type.equals(EntityType.VILLAGER)){
+        } else if (type.equals(EntityType.VILLAGER)) {
             return new EntityVillager(EntityTypes.VILLAGER, nmsWorld);
-        } else if (type.equals(EntityType.CHICKEN)){
+        } else if (type.equals(EntityType.CHICKEN)) {
             return new EntityChicken(EntityTypes.CHICKEN, nmsWorld);
-        } else if (type.equals(EntityType.RABBIT)){
+        } else if (type.equals(EntityType.RABBIT)) {
             return new EntityRabbit(EntityTypes.RABBIT, nmsWorld);
-        } else if (type.equals(EntityType.BLAZE)){
+        } else if (type.equals(EntityType.BLAZE)) {
             return new EntityBlaze(EntityTypes.BLAZE, nmsWorld);
-        } else if (type.equals(EntityType.CREEPER)){
+        } else if (type.equals(EntityType.CREEPER)) {
             return new EntityCreeper(EntityTypes.CREEPER, nmsWorld);
-        } else if (type.equals(EntityType.CAVE_SPIDER)){
+        } else if (type.equals(EntityType.CAVE_SPIDER)) {
             return new EntityCaveSpider(EntityTypes.CAVE_SPIDER, nmsWorld);
-        } else if (type.equals(EntityType.COW)){
+        } else if (type.equals(EntityType.COW)) {
             return new EntityCow(EntityTypes.COW, nmsWorld);
         }
         return new EntityZombie(nmsWorld);
     }
 
-    private float newDirection(float loc){
+    private float newDirection(float loc) {
         return loc * 256.0F / 360.0F;
     }
 

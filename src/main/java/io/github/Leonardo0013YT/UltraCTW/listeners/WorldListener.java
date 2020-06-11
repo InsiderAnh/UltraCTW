@@ -17,7 +17,8 @@ public class WorldListener implements Listener {
 
     @EventHandler
     public void onSpawn(CreatureSpawnEvent e) {
-        if (e.getSpawnReason().equals(CreatureSpawnEvent.SpawnReason.CUSTOM) || e.getEntity().getType().equals(EntityType.PLAYER) || e.getEntity() instanceof Item) return;
+        if (e.getSpawnReason().equals(CreatureSpawnEvent.SpawnReason.CUSTOM) || e.getEntity().getType().equals(EntityType.PLAYER) || e.getEntity() instanceof Item)
+            return;
         e.setCancelled(true);
     }
 
