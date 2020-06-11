@@ -1,7 +1,7 @@
 <component name="libraryTable">
-  <library name="BloodEffects">
+  <library name="MVdWPlaceholderAPI">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../../APIS/BloodEffects.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../APIS/MVdWPlaceholderAPI.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

@@ -1,5 +1,11 @@
 activated: "&aActivated"
 deactivated: "&cDeactivated"
+progressBar:
+  symbol: "|"
+  in: "&3"
+  out: "&7"
+  finish: "&8[<progress>&8] &e<percent>%"
+  max: "&cMax"
 chat:
   mainLobby: "&f<player> &7» &f<msg>"
   lobby: "&e[CTW] &f<player> &7» &f<msg>"
@@ -218,6 +224,8 @@ scoreboards:
       &7
       &fExp: &a<now>&7/&c<max>
       &7
+      &fCaptured: &a<captured>
+      &7
       &fKills: &a<kills>
       &fDeaths: &a<deaths>
       &fWins: &a<wins>
@@ -228,7 +236,7 @@ scoreboards:
     lines: |-
       &7
       &fMap: &a<map>
-      &fExp: &a<now>&7/&c<max>
+      &fExp: &a<now>&7/&c<leveUp>
       &7
       &fPlayers: &a<players>/<max>
       &7

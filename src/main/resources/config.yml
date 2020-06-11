@@ -3,11 +3,20 @@ addons:
   placeholdersAPI: true
 mainLobby: null
 redPanelInLocked: true
+progressBarAmount: 10
 redPanel:
   material: STAINED_GLASS_PANE
   data: 14
 gameDefaults:
   starting: 30
+  coins:
+    kill: 5
+    win: 20
+    assists: 2
+  xp:
+    kill: 5
+    win: 10
+    assists: 2
 materials:
   lobby: DIAMOND
   closeitem: BOOK

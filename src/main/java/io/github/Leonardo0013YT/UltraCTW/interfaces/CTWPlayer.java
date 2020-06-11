@@ -68,6 +68,52 @@ public interface CTWPlayer {
 
     void setAssists(int assists);
 
+    void addWoolCaptured();
+
+    void setWoolCaptured(int woolCaptured);
+
+    int getWoolCaptured();
+
+    void setLevel(int level);
+
+    int getLevel();
+
+    void setXp(int xp);
+
+    int getXp();
+
+    void setPlaced(int placed);
+
+    int getPlaced();
+
+    int getDeaths();
+
+    void setDeaths(int deaths);
+
+    int getWins();
+
+    void setWins(int wins);
+
+    int getShots();
+
+    void setShots(int shots);
+
+    int getsShots();
+
+    void setsShots(int sShots);
+
+    int getWalked();
+
+    void setWalked(int walked);
+
+    int getPlayed();
+
+    void setPlayed(int played);
+
+    int getBroken();
+
+    void setBroken(int broken);
+
     int getShopKeeper();
 
     void setShopKeeper(int shopKeeper);

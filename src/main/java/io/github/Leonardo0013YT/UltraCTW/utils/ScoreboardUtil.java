@@ -11,12 +11,15 @@ import org.bukkit.scoreboard.Team;
 public class ScoreboardUtil {
 
     private Scoreboard scoreboard;
-    private Objective objective;
+    private Objective objective, health;
 
     public ScoreboardUtil(String s, String s2) {
         this.scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
         (this.objective = this.scoreboard.registerNewObjective(s2, "dummy")).setDisplayName(s);
         this.objective.setDisplaySlot(DisplaySlot.SIDEBAR);
+        this.health = this.scoreboard.registerNewObjective("health", "health");
+        this.health.setDisplayName("§4❤");
+        this.health.setDisplaySlot(DisplaySlot.BELOW_NAME);
     }
 
     public void setName(String substring) {

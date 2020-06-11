@@ -1700,7 +1700,7 @@ public class SetupListener implements Listener {
                     return;
                 }
                 if (ts.getWools().size() < as.getWoolSize()) {
-                    p.sendMessage(plugin.getLang().get("setup.arena.noSet.noWools"));
+                    p.sendMessage(plugin.getLang().get("setup.arena.team.noWools"));
                     return;
                 }
                 if (ts.getColors().size() < as.getWoolSize()) {

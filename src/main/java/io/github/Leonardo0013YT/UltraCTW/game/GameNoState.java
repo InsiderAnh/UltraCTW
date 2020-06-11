@@ -170,6 +170,7 @@ public class GameNoState implements Game {
                 sendGameTitle("", "", 0, 1, 0);
             }
             if (starting == 0) {
+                plugin.getGm().setSelectedGame(this);
                 setState(State.GAME);
                 for (String s : plugin.getLang().getList("messages.start")) {
                     sendGameMessage(s);
@@ -244,6 +245,8 @@ public class GameNoState implements Game {
     @Override
     public void win(Team team) {
         if (plugin.isStop()) return;
+        plugin.getGm().setSelectedGame(null);
+        setState(State.FINISH);
         GameWin gw = new GameWin(this);
         gw.setTeamWin(team);
         List<String> top = gw.getTop();
@@ -263,6 +266,8 @@ public class GameNoState implements Game {
         for (Player w : team.getMembers()) {
             CTWPlayer ctw = plugin.getDb().getCTWPlayer(w);
             if (ctw == null) continue;
+            ctw.addCoins(plugin.getCm().getCoinsWin());
+            ctw.setXp(ctw.getXp() + plugin.getCm().getXpWin());
             plugin.getVc().getNMS().sendTitle(w, plugin.getLang().get("titles.win.title").replaceAll("<color>", team.getColor() + ""), plugin.getLang().get("titles.win.subtitle"), 0, 40, 0);
             plugin.getWem().execute(this, w, ctw.getWinEffect());
             plugin.getWdm().execute(this, w, ctw.getWinDance());
@@ -286,6 +291,11 @@ public class GameNoState implements Game {
         if (gamePlayer.containsKey(p)){
             GamePlayer gp = gamePlayer.get(p);
             gp.setKills(gp.getKills() + 1);
+            CTWPlayer ctw = plugin.getDb().getCTWPlayer(p);
+            ctw.addCoins(plugin.getCm().getCoinsKill());
+            ctw.setXp(ctw.getXp() + plugin.getCm().getXpKill());
+            ctw.setKills(ctw.getKills() + 1);
+            plugin.getLvl().checkUpgrade(p);
         }
     }
 
@@ -294,6 +304,8 @@ public class GameNoState implements Game {
         if (gamePlayer.containsKey(p)){
             GamePlayer gp = gamePlayer.get(p);
             gp.setDeaths(gp.getDeaths() + 1);
+            CTWPlayer ctw = plugin.getDb().getCTWPlayer(p);
+            ctw.setDeaths(ctw.getDeaths() + 1);
         }
     }
 

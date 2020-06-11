@@ -15,8 +15,8 @@ public class ConfigManager {
     private Location mainLobby;
     private short redPanelData;
     private Material back, redPanelMaterial;
-    private Sound cancelStartSound, wineffectschicken, wineffectsvulcanfire, wineffectvulcanwool, wineffectnotes, killEffectTNT, killEffectSquid;
-    private int starting;
+    private Sound upgradeSound, cancelStartSound, wineffectschicken, wineffectsvulcanfire, wineffectvulcanwool, wineffectnotes, killEffectTNT, killEffectSquid;
+    private int coinsKill, coinsWin, coinsAssists, xpKill, xpWin, xpAssists, starting, progressBarAmount;
 
     public ConfigManager(Main plugin) {
         this.plugin = plugin;
@@ -24,7 +24,15 @@ public class ConfigManager {
     }
 
     public void reload() {
+        this.coinsKill = plugin.getConfig().getInt("gameDefaults.coins.kill");
+        this.coinsWin = plugin.getConfig().getInt("gameDefaults.coins.win");
+        this.coinsAssists = plugin.getConfig().getInt("gameDefaults.coins.assists");
+        this.xpKill = plugin.getConfig().getInt("gameDefaults.xp.kill");
+        this.xpWin = plugin.getConfig().getInt("gameDefaults.xp.win");
+        this.xpAssists = plugin.getConfig().getInt("gameDefaults.xp.assists");
+        this.upgradeSound = Sound.valueOf(plugin.getConfig().getString("sounds.upgrade"));
         this.starting = plugin.getConfig().getInt("gameDefaults.starting");
+        this.progressBarAmount = plugin.getConfig().getInt("progressBarAmount");
         this.placeholdersAPI = plugin.getConfig().getBoolean("addons.placeholdersAPI");
         this.mainLobby = Utils.getStringLocation(plugin.getConfig().getString("mainLobby"));
         this.cancelStartSound = Sound.valueOf(plugin.getConfig().getString("sounds.cancelStart"));

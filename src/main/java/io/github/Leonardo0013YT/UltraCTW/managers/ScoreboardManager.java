@@ -3,7 +3,9 @@ package io.github.Leonardo0013YT.UltraCTW.managers;
 import io.github.Leonardo0013YT.UltraCTW.Main;
 import io.github.Leonardo0013YT.UltraCTW.enums.State;
 import io.github.Leonardo0013YT.UltraCTW.game.GamePlayer;
+import io.github.Leonardo0013YT.UltraCTW.interfaces.CTWPlayer;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.Game;
+import io.github.Leonardo0013YT.UltraCTW.objects.Level;
 import io.github.Leonardo0013YT.UltraCTW.team.Team;
 import io.github.Leonardo0013YT.UltraCTW.utils.ScoreboardUtil;
 import io.github.Leonardo0013YT.UltraCTW.utils.Utils;
@@ -30,7 +32,7 @@ public class ScoreboardManager {
         p.getScoreboard().clearSlot(DisplaySlot.SIDEBAR);
         ScoreboardUtil scoreboardUtil = new ScoreboardUtil("main", "main");
         scoreboardUtil.setName(plugin.getLang().get(p, "scoreboards.main.title"));
-        String titulo = plugin.getLang().get(p, "scoreboards.main.lines");
+        String titulo = main(p, plugin.getLang().get(p, "scoreboards.main.lines"));
         String[] title = titulo.split("\\n");
         for (int n = 1, n2 = title.length - 1; n < title.length + 1; ++n, --n2) {
             scoreboardUtil.lines(n, title[n2]);
@@ -47,7 +49,7 @@ public class ScoreboardManager {
         p.getScoreboard().clearSlot(DisplaySlot.SIDEBAR);
         ScoreboardUtil scoreboardUtil = new ScoreboardUtil("waiting", "waiting");
         scoreboardUtil.setName(plugin.getLang().get(p, "scoreboards.waiting.title"));
-        String titulo = waiting(plugin.getLang().get(p, "scoreboards.waiting.lines"), game);
+        String titulo = waiting(p, plugin.getLang().get(p, "scoreboards.waiting.lines"), game);
         String[] title = titulo.split("\\n");
         for (int n = 1, n2 = title.length - 1; n < title.length + 1; ++n, --n2) {
             scoreboardUtil.lines(n, title[n2]);
@@ -68,7 +70,7 @@ public class ScoreboardManager {
         Team t2 = game.getTeamByID(1);
         ScoreboardUtil scoreboardUtil = new ScoreboardUtil("simple", "simple");
         scoreboardUtil.setName(plugin.getLang().get(p, "scoreboards.simple-game.title"));
-        String titulo = simple(plugin.getLang().get(p, "scoreboards.simple-game.lines"), game, team, gp, t1, t2);
+        String titulo = simple(p, plugin.getLang().get(p, "scoreboards.simple-game.lines"), game, team, gp, t1, t2);
         String[] title = titulo.split("\\n");
         for (int n = 1, n2 = title.length - 1; n < title.length + 1; ++n, --n2) {
             scoreboardUtil.lines(n, title[n2]);
@@ -102,7 +104,7 @@ public class ScoreboardManager {
             if (score.containsKey(p)) {
                 ScoreboardUtil scoreboardUtil = score.get(p);
                 if (sb.get(p).equals("main")) {
-                    String titulo = plugin.getLang().get(p, "scoreboards.main.lines");
+                    String titulo = main(p, plugin.getLang().get(p, "scoreboards.main.lines"));
                     String[] title = titulo.split("\\n");
                     for (int n = 1, n2 = title.length - 1; n < title.length + 1; ++n, --n2) {
                         scoreboardUtil.lines(n, title[n2]);
@@ -120,7 +122,7 @@ public class ScoreboardManager {
                 ScoreboardUtil scoreboardUtil = score.get(p);
                 if (game.isState(State.WAITING) || game.isState(State.STARTING)){
                     if (sb.get(p).equals("waiting")) {
-                        String titulo = waiting(plugin.getLang().get(p, "scoreboards.waiting.lines"), game);
+                        String titulo = waiting(p, plugin.getLang().get(p, "scoreboards.waiting.lines"), game);
                         String[] title = titulo.split("\\n");
                         for (int n = 1, n2 = title.length - 1; n < title.length + 1; ++n, --n2) {
                             scoreboardUtil.lines(n, title[n2]);
@@ -136,7 +138,7 @@ public class ScoreboardManager {
                         GamePlayer gp = game.getGamePlayer(p);
                         Team t1 = game.getTeamByID(0);
                         Team t2 = game.getTeamByID(1);
-                        String titulo = simple(plugin.getLang().get(p, "scoreboards.simple-game.lines"), game, team, gp, t1, t2);
+                        String titulo = simple(p, plugin.getLang().get(p, "scoreboards.simple-game.lines"), game, team, gp, t1, t2);
                         String[] title = titulo.split("\\n");
                         for (int n = 1, n2 = title.length - 1; n < title.length + 1; ++n, --n2) {
                             scoreboardUtil.lines(n, title[n2]);
@@ -151,21 +153,43 @@ public class ScoreboardManager {
         }
     }
 
-    public String waiting(String s, Game game){
-        return s.replaceAll("<time>", Utils.convertTime(game.getStarting()))
+    public String main(Player p, String s){
+        CTWPlayer ctw = plugin.getDb().getCTWPlayer(p);
+        Level level = plugin.getLvl().getLevel(p);
+        return s.replaceAll("<leveUp>", String.valueOf(level.getLevelUp()))
+                .replaceAll("<now>", String.valueOf(ctw.getXp()))
+                .replaceAll("<wins>", String.valueOf(ctw.getWins()))
+                .replaceAll("<deaths>", String.valueOf(ctw.getDeaths()))
+                .replaceAll("<captured>", String.valueOf(ctw.getWoolCaptured()))
+                .replaceAll("<kills>", String.valueOf(ctw.getKills()));
+    }
+
+    public String waiting(Player p, String s, Game game){
+        CTWPlayer ctw = plugin.getDb().getCTWPlayer(p);
+        Level level = plugin.getLvl().getLevel(p);
+        return s.replaceAll("<leveUp>", String.valueOf(level.getLevelUp()))
+                .replaceAll("<now>", String.valueOf(ctw.getXp()))
+                .replaceAll("<time>", Utils.convertTime(game.getStarting()))
                 .replaceAll("<max>", String.valueOf(game.getMax()))
                 .replaceAll("<players>", String.valueOf(game.getPlayers().size()))
                 .replaceAll("<map>", game.getName());
     }
 
-    public String simple(String s, Game game, Team team, GamePlayer gp, Team t1, Team t2) {
-        return s.replaceAll("<time>", Utils.convertTime(game.getTime()))
+    public String simple(Player p, String s, Game game, Team team, GamePlayer gp, Team t1, Team t2) {
+        CTWPlayer ctw = plugin.getDb().getCTWPlayer(p);
+        Level level = plugin.getLvl().getLevel(p);
+        return s.replaceAll("<leveUp>", String.valueOf(level.getLevelUp()))
+                .replaceAll("<now>", String.valueOf(ctw.getXp()))
+                .replaceAll("<coins>", Utils.format(ctw.getCoins()))
+                .replaceAll("<time>", Utils.convertTime(game.getTime()))
                 .replaceAll("<map>", game.getName())
                 .replaceAll("<T1Wools>", Utils.getWoolsString(t1))
                 .replaceAll("<T2Wools>", Utils.getWoolsString(t2))
                 .replaceAll("<T1>", plugin.getLang().get("scoreboards.team").replaceAll("<TColor>", t1.getColor() + "").replaceAll("<TName>", t1.getName()))
                 .replaceAll("<T2>", plugin.getLang().get("scoreboards.team").replaceAll("<TColor>", t2.getColor() + "").replaceAll("<TName>", t2.getName()))
-                .replaceAll("<team>", team.getName()).replaceAll("<kills>", String.valueOf(gp.getKills())).replaceAll("<deaths>", String.valueOf(gp.getDeaths()));
+                .replaceAll("<team>", team.getName())
+                .replaceAll("<kills>", String.valueOf(gp.getKills()))
+                .replaceAll("<deaths>", String.valueOf(gp.getDeaths()));
     }
 
     public void remove(Player p) {

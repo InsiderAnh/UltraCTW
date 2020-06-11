@@ -8,7 +8,123 @@ public class PlayerCTW implements CTWPlayer {
 
     private ArrayList<Integer> partings = new ArrayList<>(), killeffects = new ArrayList<>(), wineffects = new ArrayList<>(), windances = new ArrayList<>(), killsounds = new ArrayList<>(), taunts = new ArrayList<>(), trails = new ArrayList<>();
     private double coins = 0.0;
-    private int kills = 0, shopKeeper = 0, winDance = 999999, winEffect = 0, killEffect = 999999, taunt = 0, trail = 999999, parting = 999999, killSound = 999999, assists = 0, kill5 = 0, kill25 = 0, kill50 = 0;
+    private int woolCaptured = 0, kills = 0, deaths = 0, wins = 0, shots = 0, sShots = 0, walked = 0, played = 0, broken = 0, placed = 0;
+    private int level = 1, xp = 0, shopKeeper = 0, winDance = 999999, winEffect = 0, killEffect = 999999, taunt = 0, trail = 999999, parting = 999999, killSound = 999999, assists = 0, kill5 = 0, kill25 = 0, kill50 = 0;
+
+    @Override
+    public void addWoolCaptured() {
+        this.woolCaptured += 1;
+    }
+
+    @Override
+    public void setWoolCaptured(int woolCaptured) {
+        this.woolCaptured = woolCaptured;
+    }
+
+    @Override
+    public int getWoolCaptured() {
+        return woolCaptured;
+    }
+
+    @Override
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
+    @Override
+    public int getLevel() {
+        return level;
+    }
+
+    @Override
+    public void setXp(int xp) {
+        this.xp = xp;
+    }
+
+    @Override
+    public int getXp() {
+        return xp;
+    }
+
+    @Override
+    public void setPlaced(int placed) {
+        this.placed = placed;
+    }
+
+    @Override
+    public int getPlaced() {
+        return placed;
+    }
+
+    @Override
+    public int getDeaths() {
+        return deaths;
+    }
+
+    @Override
+    public void setDeaths(int deaths) {
+        this.deaths = deaths;
+    }
+
+    @Override
+    public int getWins() {
+        return wins;
+    }
+
+    @Override
+    public void setWins(int wins) {
+        this.wins = wins;
+    }
+
+    @Override
+    public int getShots() {
+        return shots;
+    }
+
+    @Override
+    public void setShots(int shots) {
+        this.shots = shots;
+    }
+
+    @Override
+    public int getsShots() {
+        return sShots;
+    }
+
+    @Override
+    public void setsShots(int sShots) {
+        this.sShots = sShots;
+    }
+
+    @Override
+    public int getWalked() {
+        return walked;
+    }
+
+    @Override
+    public void setWalked(int walked) {
+        this.walked = walked;
+    }
+
+    @Override
+    public int getPlayed() {
+        return played;
+    }
+
+    @Override
+    public void setPlayed(int played) {
+        this.played = played;
+    }
+
+    @Override
+    public int getBroken() {
+        return broken;
+    }
+
+    @Override
+    public void setBroken(int broken) {
+        this.broken = broken;
+    }
 
     @Override
     public int getShopKeeper() {

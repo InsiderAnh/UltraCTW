@@ -2,6 +2,7 @@ package io.github.Leonardo0013YT.UltraCTW.listeners;
 
 import com.nametagedit.plugin.NametagEdit;
 import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.cosmetics.trails.Trail;
 import io.github.Leonardo0013YT.UltraCTW.enums.NPCType;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.CTWPlayer;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.Game;
@@ -9,6 +10,7 @@ import io.github.Leonardo0013YT.UltraCTW.interfaces.NPC;
 import io.github.Leonardo0013YT.UltraCTW.objects.Squared;
 import io.github.Leonardo0013YT.UltraCTW.team.Team;
 import io.github.Leonardo0013YT.UltraCTW.utils.NBTEditor;
+import io.github.Leonardo0013YT.UltraCTW.utils.Tagged;
 import io.github.Leonardo0013YT.UltraCTW.utils.Utils;
 import io.github.Leonardo0013YT.UltraCTW.xseries.XMaterial;
 import io.github.Leonardo0013YT.UltraCTW.xseries.XSound;
@@ -22,10 +24,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.FoodLevelChangeEvent;
-import org.bukkit.event.entity.ItemDespawnEvent;
+import org.bukkit.event.entity.*;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
@@ -194,6 +193,8 @@ public class PlayerListener implements Listener {
                 p.sendMessage(plugin.getLang().get("messages.incorrectPlace").replaceAll("<wool>", c + plugin.getLang().get("scoreboards.wools.captured")));
                 return;
             }
+            CTWPlayer ctw = plugin.getDb().getCTWPlayer(p);
+            ctw.addWoolCaptured();
             p.sendMessage(plugin.getLang().get("messages.placeTeam").replaceAll("<place>", c + plugin.getLang().get("scoreboards.wools.captured")));
             team.getCaptured().add(c);
             team.sendTitle(plugin.getLang().get("titles.captured.title").replaceAll("<color>", c + ""), plugin.getLang().get("titles.captured.subtitle").replaceAll("<wool>", c + plugin.getLang().get("scoreboards.wools.captured")), 0, 30, 10);
@@ -243,9 +244,6 @@ public class PlayerListener implements Listener {
             if (g.getLobbyProtection() != null) {
                 Squared s = g.getLobbyProtection();
                 if (!s.isInCuboid(p)) {
-                    e.setCancelled(true);
-                    p.teleport(e.getFrom());
-                    p.setVelocity(p.getVelocity().multiply(-1));
                     p.teleport(g.getLobby());
                 }
             }
@@ -349,6 +347,7 @@ public class PlayerListener implements Listener {
                     } else {
                         plugin.getTm().execute(p, cause, g, 0);
                     }
+                    g.addDeath(d);
                 }
                 e.setCancelled(true);
                 respawn(team, g, p);
@@ -453,6 +452,36 @@ public class PlayerListener implements Listener {
                 double damage = e.getFinalDamage();
                 plugin.getTgm().setTag(d, p, damage, g);
             }
+        }
+    }
+
+    @EventHandler
+    public void onLaunch(ProjectileLaunchEvent e) {
+        if (e.getEntity().getShooter() instanceof Player) {
+            Player p = (Player) e.getEntity().getShooter();
+            Game g = plugin.getGm().getGameByPlayer(p);
+            if (g == null) {
+                return;
+            }
+            CTWPlayer sw = plugin.getDb().getCTWPlayer(p);
+            if (sw == null) return;
+            sw.setShots(sw.getShots() + 1);
+            Projectile proj = e.getEntity();
+            Trail trail = plugin.getTlm().getTrails().get(sw.getTrail());
+            if (trail == null) {
+                return;
+            }
+            plugin.getTlm().spawnTrail(proj, trail);
+        }
+    }
+
+    @EventHandler
+    public void onHealth(EntityRegainHealthEvent e){
+        if (e.getEntity() instanceof Player){
+            Player p = (Player) e.getEntity();
+            if (!plugin.getTgm().hasTag(p)) return;
+            Tagged tag = plugin.getTgm().getTagged(p);
+            tag.removeDamage(e.getAmount());
         }
     }
 

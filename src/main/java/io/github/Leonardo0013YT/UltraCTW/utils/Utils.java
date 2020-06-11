@@ -16,6 +16,33 @@ public class Utils {
     private static DecimalFormat df = new DecimalFormat("##.#");
     private static Main plugin = Main.get();
 
+    public static String format(double value){
+        return df.format(value);
+    }
+
+    public static String getProgressBar(int current, int max, int totalBars) {
+        Main plugin = Main.get();
+        float percent = (float) current / max;
+        int progressBars = (int) (totalBars * percent);
+        int leftOver = (totalBars - progressBars);
+        StringBuilder sb = new StringBuilder();
+        StringBuilder in = new StringBuilder();
+        StringBuilder out = new StringBuilder();
+        for (int i = 0; i < progressBars; i++) {
+            in.append(plugin.getLang().get(null, "progressBar.symbol"));
+        }
+        for (int i = 0; i < leftOver; i++) {
+            out.append(plugin.getLang().get(null, "progressBar.symbol"));
+        }
+        sb.append(plugin.getLang().get(null, "progressBar.in"));
+        sb.append(in.toString());
+        sb.append(plugin.getLang().get(null, "progressBar.out"));
+        sb.append(out.toString());
+        double por = percent * 100;
+        String p = new DecimalFormat("####.#").format(por);
+        return plugin.getLang().get(null, "progressBar.finish").replaceAll("<progress>", sb.toString()).replaceAll("<percent>", p);
+    }
+
     public static String convertTime(int timeInSeconds) {
         int hours = timeInSeconds / 3600;
         int secondsLeft = timeInSeconds - hours * 3600;

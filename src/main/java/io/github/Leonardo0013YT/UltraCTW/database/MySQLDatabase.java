@@ -153,6 +153,17 @@ public class MySQLDatabase implements IDatabase {
 
     private void loadPlayerData(Player p, CTWPlayer pd) {
         CTWPlayer now = new PlayerCTW();
+        now.setWoolCaptured(pd.getWoolCaptured());
+        now.setXp(pd.getXp());
+        now.setLevel(pd.getLevel());
+        now.setPlaced(pd.getPlaced());
+        now.setBroken(pd.getBroken());
+        now.setPlayed(pd.getPlayed());
+        now.setWalked(pd.getWalked());
+        now.setsShots(pd.getsShots());
+        now.setShots(pd.getShots());
+        now.setWins(pd.getWins());
+        now.setDeaths(pd.getDeaths());
         now.setShopKeeper(pd.getShopKeeper());
         now.setKillEffect(pd.getKillEffect());
         now.setKillSound(pd.getKillSound());

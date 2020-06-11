@@ -31,7 +31,7 @@ public class Main extends JavaPlugin {
 
     private static Main instance;
     private Gson ctw;
-    private Settings arenas, lang, menus, kits, sources, windance, wineffect, killsound, taunt, trail, killeffect, shopkeepers;
+    private Settings arenas, lang, menus, kits, sources, windance, wineffect, killsound, taunt, trail, killeffect, shopkeepers, levels;
     private boolean debugMode, stop = false;
     private GameManager gm;
     private ConfigManager cm;
@@ -54,6 +54,7 @@ public class Main extends JavaPlugin {
     private KillEffectsManager kem;
     private ShopKeepersManager skm;
     private TaggedManager tgm;
+    private LevelManager lvl;
     private ShopManager shm;
 
     public static Main get() {
@@ -80,6 +81,7 @@ public class Main extends JavaPlugin {
         trail = new Settings(this, "trails", false, false);
         killeffect = new Settings(this, "killeffect", false, false);
         shopkeepers = new Settings(this, "shopkeepers", false, false);
+        levels = new Settings(this, "levels", false, false);
         debugMode = getConfig().getBoolean("debugMode");
         wc = new WorldController(this);
         db = new MySQLDatabase(this);
@@ -110,6 +112,7 @@ public class Main extends JavaPlugin {
         shm = new ShopManager(this);
         skm = new ShopKeepersManager(this);
         skm.loadShopKeepers();
+        lvl = new LevelManager(this);
         getCommand("ctws").setExecutor(new SetupCMD(this));
         getCommand("ctw").setExecutor(new CTWCMD(this));
         getServer().getPluginManager().registerEvents(new SetupListener(this), this);
@@ -153,10 +156,12 @@ public class Main extends JavaPlugin {
                 getConfig().addDefault("sounds.wineffects.notes", "ENTITY_FIREWORK_LAUNCH");
                 getConfig().addDefault("sounds.wineffects.chicken", "ENTITY_FIREWORK_LAUNCH");
             }
+            getConfig().addDefault("sounds.upgrade", "ENTITY_PLAYER_LEVELUP");
             getConfig().addDefault("sounds.killeffects.tnt", "ENTITY_GENERIC_EXPLODE");
             getConfig().addDefault("sounds.killeffects.squid", "ENTITY_ITEM_PICKUP");
         } else {
             getConfig().addDefault("sounds.cancelStart", "NOTE_BASS");
+            getConfig().addDefault("sounds.upgrade", "LEVEL_UP");
             getConfig().addDefault("sounds.wineffects.vulcanwool", "CHICKEN_EGG_POP");
             getConfig().addDefault("sounds.wineffects.vulcanfire", "FUSE");
             getConfig().addDefault("sounds.wineffects.notes", "FIREWORK_LAUNCH");

@@ -70,9 +70,8 @@ public class Tagged {
             double percent = (damage * 100) / maxHealth;
             on.sendMessage(Main.get().getLang().get(on, "assists").replaceAll("<percent>", f.format(percent)).replaceAll("<name>", damaged.getName()));
             CTWPlayer up = Main.get().getDb().getCTWPlayer(on);
-            /*up.addCoins(Main.get().getCm().getCoinsAssists());
-            up.addSouls(Main.get().getCm().getSoulsAssists());
-            up.addXp(Main.get().getCm().getXpAssists());*/
+            up.addCoins(Main.get().getCm().getCoinsAssists());
+            up.setXp(up.getXp() + Main.get().getCm().getXpAssists());
             up.addAssists(1);
         }
         for (Player on : to) {

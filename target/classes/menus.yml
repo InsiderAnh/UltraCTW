@@ -157,3 +157,64 @@ menus:
           meta-type: UNSPECIFIC
           display-name: '{TEAMSPAWNER}'
           repair-cost: 1
+  lobby:
+    rows: 6
+    items:
+      '32':
+        ==: org.bukkit.inventory.ItemStack
+        type: FIREBALL
+        meta:
+          ==: ItemMeta
+          meta-type: UNSPECIFIC
+          display-name: '{LOBBYWINEFFECTS}'
+          repair-cost: 1
+      '20':
+        ==: org.bukkit.inventory.ItemStack
+        type: BOW
+        meta:
+          ==: ItemMeta
+          meta-type: UNSPECIFIC
+          display-name: '{LOBBYTRAILS}'
+          repair-cost: 1
+      '22':
+        ==: org.bukkit.inventory.ItemStack
+        type: SIGN
+        meta:
+          ==: ItemMeta
+          meta-type: TILE_ENTITY
+          display-name: '{LOBBYTAUNTS}'
+          repair-cost: 1
+          blockMaterial: SIGN
+      '24':
+        ==: org.bukkit.inventory.ItemStack
+        type: GOLD_NUGGET
+        meta:
+          ==: ItemMeta
+          meta-type: UNSPECIFIC
+          display-name: '{LOBBYKILLSOUND}'
+          repair-cost: 1
+      '12':
+        ==: org.bukkit.inventory.ItemStack
+        type: MONSTER_EGG
+        damage: 120
+        meta:
+          ==: ItemMeta
+          meta-type: UNSPECIFIC
+          display-name: '{LOBBYKEEPERS}'
+          repair-cost: 1
+      '14':
+        ==: org.bukkit.inventory.ItemStack
+        type: IRON_SWORD
+        meta:
+          ==: ItemMeta
+          meta-type: UNSPECIFIC
+          display-name: '{LOBBYKILLEFFECTS}'
+          repair-cost: 1
+      '30':
+        ==: org.bukkit.inventory.ItemStack
+        type: DIAMOND_CHESTPLATE
+        meta:
+          ==: ItemMeta
+          meta-type: UNSPECIFIC
+          display-name: '{LOBBYWINDANCES}'
+          repair-cost: 1
