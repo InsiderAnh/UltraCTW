@@ -33,6 +33,42 @@ public class SetupCMD implements CommandExecutor {
                 return true;
             }
             switch (args[0].toLowerCase()) {
+                case "settop":
+                    switch (args[1].toLowerCase()) {
+                        case "kills":
+                            plugin.getConfig().set("topKills", Utils.getLocationString(p.getLocation()));
+                            plugin.saveConfig();
+                            plugin.reloadConfig();
+                            plugin.getCm().reload();
+                            plugin.getTop().createTops();
+                            p.sendMessage(plugin.getLang().get(p, "setup.setTopKills"));
+                            break;
+                        case "wins":
+                            plugin.getConfig().set("topWins", Utils.getLocationString(p.getLocation()));
+                            plugin.saveConfig();
+                            plugin.reloadConfig();
+                            plugin.getCm().reload();
+                            plugin.getTop().createTops();
+                            p.sendMessage(plugin.getLang().get(p, "setup.setTopWins"));
+                            break;
+                        case "deaths":
+                            plugin.getConfig().set("topCaptured", Utils.getLocationString(p.getLocation()));
+                            plugin.saveConfig();
+                            plugin.reloadConfig();
+                            plugin.getCm().reload();
+                            plugin.getTop().createTops();
+                            p.sendMessage(plugin.getLang().get(p, "setup.setTopCaptured"));
+                            break;
+                        case "coins":
+                            plugin.getConfig().set("topBounty", Utils.getLocationString(p.getLocation()));
+                            plugin.saveConfig();
+                            plugin.reloadConfig();
+                            plugin.getCm().reload();
+                            plugin.getTop().createTops();
+                            p.sendMessage(plugin.getLang().get(p, "setup.setTopBounty"));
+                            break;
+                    }
+                    break;
                 case "addshop":
                     if (!plugin.getSm().isSetup(p)) {
                         p.sendMessage(plugin.getLang().get(p, "setup.alreadyCreating"));

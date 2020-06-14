@@ -3,6 +3,7 @@ package io.github.Leonardo0013YT.UltraCTW.database;
 import com.zaxxer.hikari.HikariDataSource;
 import io.github.Leonardo0013YT.UltraCTW.Main;
 import io.github.Leonardo0013YT.UltraCTW.api.events.PlayerLoadEvent;
+import io.github.Leonardo0013YT.UltraCTW.enums.TopType;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.CTWPlayer;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.IDatabase;
 import org.bukkit.Bukkit;
@@ -11,7 +12,9 @@ import org.bukkit.entity.Player;
 import java.io.File;
 import java.io.IOException;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
 public class MySQLDatabase implements IDatabase {
@@ -20,11 +23,12 @@ public class MySQLDatabase implements IDatabase {
     private boolean enabled;
     private HikariDataSource hikari;
     private Connection connection;
-    private String CREATE_PD_DB = "CREATE TABLE IF NOT EXISTS UltraCTW_PD(UUID varchar(36) primary key, Name varchar(36), Data TEXT);";
-    private String INSERT_PD = "INSERT INTO UltraCTW_PD VALUES(?,?,?) ON DUPLICATE KEY UPDATE Name=?;";
-    private String INSERT_PD2 = "INSERT INTO UltraCTW_PD (UUID, Name, Data) VALUES (?, ?, ?);";
-    private String SELECT_PD = "SELECT * FROM UltraCTW_PD WHERE UUID=?";
-    private String SAVE_PD = "UPDATE UltraCTW_PD SET Data=? WHERE UUID=?";
+    private String CREATE_PD_DB = "CREATE TABLE IF NOT EXISTS UltraCTW_PD(UUID varchar(36) primary key, Name varchar(36), Data TEXT, Kills INT, Wins INT, Captured INT, Bounty DOUBLE);";
+    private String INSERT_PD = "INSERT INTO UltraCTW_PD VALUES(?,?,?,?,?,?,?) ON DUPLICATE KEY UPDATE Name=?;";
+    private String INSERT_PD2 = "INSERT INTO UltraCTW_PD (UUID, Name, Data, Kills, Wins, Captured, Bounty) VALUES (?, ?, ?, ?, ?, ?, ?);";
+    private String SELECT_PD = "SELECT * FROM UltraCTW_PD WHERE UUID=?;";
+    private String SAVE_PD = "UPDATE UltraCTW_PD SET Data=?, Kills=?, Wins=?, Captured=?, Bounty=? WHERE UUID=?;";
+    private String RESET = "UPDATE UltraCTW_PD SET Bounty=0;";
     private HashMap<UUID, CTWPlayer> players = new HashMap<>();
 
     public MySQLDatabase(Main plugin) {
@@ -66,6 +70,182 @@ public class MySQLDatabase implements IDatabase {
             }
         }
         createTable();
+        loadTopBounty();
+        loadTopCaptured();
+        loadTopKills();
+        loadTopWins();
+    }
+
+    @Override
+    public void loadTopCaptured() {
+        if (enabled) {
+            Connection connection = null;
+            PreparedStatement select = null;
+            ResultSet result = null;
+            try {
+                connection = hikari.getConnection();
+                String TOP = "SELECT UUID, Name, Captured FROM UltraCTW_PD ORDER BY Captured DESC LIMIT 10;";
+                select = connection.prepareStatement(TOP);
+                result = select.executeQuery();
+                int pos = 1;
+                List<String> tops = new ArrayList<>();
+                while (result.next()) {
+                    tops.add(result.getString("UUID") + ":" + result.getString("Name") + ":" + pos + ":" + result.getInt("Captured"));
+                    pos++;
+                }
+                plugin.getTop().addTop(TopType.CAPTURED, tops);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                close(connection, select, result);
+            }
+        } else {
+            try {
+                Connection connection = getConnection();
+                String TOP = "SELECT UUID, Name, Captured FROM UltraCTW_PD ORDER BY Captured DESC LIMIT 10;";
+                PreparedStatement select = connection.prepareStatement(TOP);
+                ResultSet result = select.executeQuery();
+                int pos = 1;
+                List<String> tops = new ArrayList<>();
+                while (result.next()) {
+                    tops.add(result.getString("UUID") + ":" + result.getString("Name") + ":" + pos + ":" + result.getInt("Captured"));
+                    pos++;
+                }
+                plugin.getTop().addTop(TopType.CAPTURED, tops);
+                close(connection, select, result);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Override
+    public void loadTopKills() {
+        if (enabled) {
+            Connection connection = null;
+            PreparedStatement select = null;
+            ResultSet result = null;
+            try {
+                connection = hikari.getConnection();
+                String TOP = "SELECT UUID, Name, Kills FROM UltraCTW_PD ORDER BY Kills DESC LIMIT 10;";
+                select = connection.prepareStatement(TOP);
+                result = select.executeQuery();
+                int pos = 1;
+                List<String> tops = new ArrayList<>();
+                while (result.next()) {
+                    tops.add(result.getString("UUID") + ":" + result.getString("Name") + ":" + pos + ":" + result.getInt("Kills"));
+                    pos++;
+                }
+                plugin.getTop().addTop(TopType.KILLS, tops);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                close(connection, select, result);
+            }
+        } else {
+            try {
+                Connection connection = getConnection();
+                String TOP = "SELECT UUID, Name, Kills FROM UltraCTW_PD ORDER BY Kills DESC LIMIT 10;";
+                PreparedStatement select = connection.prepareStatement(TOP);
+                ResultSet result = select.executeQuery();
+                int pos = 1;
+                List<String> tops = new ArrayList<>();
+                while (result.next()) {
+                    tops.add(result.getString("UUID") + ":" + result.getString("Name") + ":" + pos + ":" + result.getInt("Kills"));
+                    pos++;
+                }
+                plugin.getTop().addTop(TopType.KILLS, tops);
+                close(connection, select, result);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Override
+    public void loadTopWins() {
+        if (enabled) {
+            Connection connection = null;
+            PreparedStatement select = null;
+            ResultSet result = null;
+            try {
+                connection = hikari.getConnection();
+                String TOP = "SELECT UUID, Name, Wins FROM UltraCTW_PD ORDER BY Wins DESC LIMIT 10;";
+                select = connection.prepareStatement(TOP);
+                result = select.executeQuery();
+                int pos = 1;
+                List<String> tops = new ArrayList<>();
+                while (result.next()) {
+                    tops.add(result.getString("UUID") + ":" + result.getString("Name") + ":" + pos + ":" + result.getInt("Wins"));
+                    pos++;
+                }
+                plugin.getTop().addTop(TopType.WINS, tops);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                close(connection, select, result);
+            }
+        } else {
+            try {
+                Connection connection = getConnection();
+                String TOP = "SELECT UUID, Name, Wins FROM UltraCTW_PD ORDER BY Wins DESC LIMIT 10;";
+                PreparedStatement select = connection.prepareStatement(TOP);
+                ResultSet result = select.executeQuery();
+                int pos = 1;
+                List<String> tops = new ArrayList<>();
+                while (result.next()) {
+                    tops.add(result.getString("UUID") + ":" + result.getString("Name") + ":" + pos + ":" + result.getInt("Wins"));
+                    pos++;
+                }
+                plugin.getTop().addTop(TopType.WINS, tops);
+                close(connection, select, result);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Override
+    public void loadTopBounty() {
+        if (enabled) {
+            Connection connection = null;
+            PreparedStatement select = null;
+            ResultSet result = null;
+            try {
+                connection = hikari.getConnection();
+                String TOP = "SELECT UUID, Name, Bounty FROM UltraCTW_PD ORDER BY Bounty DESC LIMIT 10;";
+                select = connection.prepareStatement(TOP);
+                result = select.executeQuery();
+                int pos = 1;
+                List<String> tops = new ArrayList<>();
+                while (result.next()) {
+                    tops.add(result.getString("UUID") + ":" + result.getString("Name") + ":" + pos + ":" + result.getDouble("Bounty"));
+                    pos++;
+                }
+                plugin.getTop().addTop(TopType.BOUNTY, tops);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            } finally {
+                close(connection, select, result);
+            }
+        } else {
+            try {
+                Connection connection = getConnection();
+                String TOP = "SELECT UUID, Name, Bounty FROM UltraCTW_PD ORDER BY Bounty DESC LIMIT 10;";
+                PreparedStatement select = connection.prepareStatement(TOP);
+                ResultSet result = select.executeQuery();
+                int pos = 1;
+                List<String> tops = new ArrayList<>();
+                while (result.next()) {
+                    tops.add(result.getString("UUID") + ":" + result.getString("Name") + ":" + pos + ":" + result.getDouble("Bounty"));
+                    pos++;
+                }
+                plugin.getTop().addTop(TopType.BOUNTY, tops);
+                close(connection, select, result);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
@@ -201,15 +381,19 @@ public class MySQLDatabase implements IDatabase {
         }
     }
 
-    private void close(Connection connection, Statement statement, ResultSet resultSet) throws SQLException {
-        if (connection != null && enabled) {
-            connection.close();
-        }
-        if (statement != null) {
-            statement.close();
-        }
-        if (resultSet != null) {
-            resultSet.close();
+    private void close(Connection connection, Statement statement, ResultSet resultSet) {
+        try {
+            if (connection != null && enabled) {
+                connection.close();
+            }
+            if (statement != null) {
+                statement.close();
+            }
+            if (resultSet != null) {
+                resultSet.close();
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
     }
 

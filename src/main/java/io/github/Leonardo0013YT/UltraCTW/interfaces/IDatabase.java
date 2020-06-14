@@ -6,6 +6,14 @@ import java.util.HashMap;
 import java.util.UUID;
 
 public interface IDatabase {
+    void loadTopCaptured();
+
+    void loadTopKills();
+
+    void loadTopWins();
+
+    void loadTopBounty();
+
     void loadPlayer(Player p);
 
     void savePlayer(UUID uuid, boolean sync);

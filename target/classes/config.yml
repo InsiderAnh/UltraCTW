@@ -1,6 +1,8 @@
 debugMode: false
 addons:
   placeholdersAPI: true
+  holograms: false
+  holographicdisplays: true
 mainLobby: null
 redPanelInLocked: true
 progressBarAmount: 10
@@ -9,6 +11,7 @@ redPanel:
   data: 14
 gameDefaults:
   starting: 30
+  timeToKill: 30
   coins:
     kill: 5
     win: 20
@@ -17,6 +20,10 @@ gameDefaults:
     kill: 5
     win: 10
     assists: 2
+bounty:
+  min: 90
+  max: 110
+  perKill: 0.10
 materials:
   lobby: DIAMOND
   closeitem: BOOK

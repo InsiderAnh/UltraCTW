@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="Holograms">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../../APIS/Holograms-2.12.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../APIS/HolographicDisplays.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

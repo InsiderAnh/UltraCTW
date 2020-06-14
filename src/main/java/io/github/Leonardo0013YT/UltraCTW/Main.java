@@ -22,7 +22,6 @@ import io.github.Leonardo0013YT.UltraCTW.menus.SetupMenu;
 import io.github.Leonardo0013YT.UltraCTW.menus.UltraInventoryMenu;
 import io.github.Leonardo0013YT.UltraCTW.placeholders.MVdWPlaceholders;
 import io.github.Leonardo0013YT.UltraCTW.placeholders.Placeholders;
-import io.github.Leonardo0013YT.UltraCTW.xseries.XSound;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -62,6 +61,7 @@ public class Main extends JavaPlugin {
     private NPCManager npc;
     private InjectionManager ijm;
     private StreakManager stm;
+    private TopManager top;
 
     public static Main get() {
         return instance;
@@ -122,6 +122,8 @@ public class Main extends JavaPlugin {
         npc = new NPCManager(this);
         ijm = new InjectionManager(this);
         ijm.loadInjections();
+        stm = new StreakManager(this);
+        top = new TopManager(this);
         getCommand("ctws").setExecutor(new SetupCMD(this));
         getCommand("ctw").setExecutor(new CTWCMD(this));
         getServer().getPluginManager().registerEvents(new SetupListener(this), this);

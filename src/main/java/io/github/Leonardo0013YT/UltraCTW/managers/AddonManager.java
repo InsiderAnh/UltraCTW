@@ -1,14 +1,23 @@
 package io.github.Leonardo0013YT.UltraCTW.managers;
 
 import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.addons.HologramsAddon;
+import io.github.Leonardo0013YT.UltraCTW.addons.HolographicDisplaysAddon;
 import io.github.Leonardo0013YT.UltraCTW.addons.PlaceholderAPIAddon;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
+
+import java.util.List;
 
 public class AddonManager {
 
     private Main plugin;
     private PlaceholderAPIAddon placeholder;
+    private HologramsAddon h;
+    private HolographicDisplaysAddon hd;
 
     public AddonManager(Main plugin) {
         this.plugin = plugin;
@@ -26,6 +35,29 @@ public class AddonManager {
                 plugin.getCm().reload();
             }
         }
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                if (plugin.getCm().isHolograms()) {
+                    if (Bukkit.getPluginManager().isPluginEnabled("Holograms")) {
+                        h = new HologramsAddon();
+                        plugin.sendLogMessage("Hooked into §aHolograms§e!");
+                    } else {
+                        plugin.getConfig().set("addons.holograms", false);
+                        plugin.saveConfig();
+                    }
+                }
+                if (plugin.getCm().isHolographicdisplays()) {
+                    if (Bukkit.getPluginManager().isPluginEnabled("HolographicDisplays")) {
+                        hd = new HolographicDisplaysAddon();
+                        plugin.sendLogMessage("Hooked into §aHolographicDisplays§e!");
+                    } else {
+                        plugin.getConfig().set("addons.holographicdisplays", false);
+                        plugin.saveConfig();
+                    }
+                }
+            }
+        }.runTaskLater(plugin, 80);
     }
 
     public String parsePlaceholders(Player p, String value) {
@@ -41,6 +73,42 @@ public class AddonManager {
 
     public void removeCoins(Player p, double price) {
 
+    }
+
+    public void createHologram(Location spawn, List<String> lines) {
+        if (plugin.getCm().isHolographicdisplays()) {
+            hd.createHologram(spawn, lines);
+        } else if (plugin.getCm().isHolograms()) {
+            h.createHologram(spawn, lines);
+        }
+    }
+
+    public void remove() {
+        if (plugin.getCm().isHolographicdisplays()) {
+            hd.remove();
+        } else if (plugin.getCm().isHolograms()) {
+            h.remove();
+        }
+    }
+
+    public boolean hasHologram(Location spawn) {
+        if (plugin.getCm().isHolographicdisplays()) {
+            return hd.hasHologram(spawn);
+        } else {
+            return h.hasHologram(spawn);
+        }
+    }
+
+    public void deleteHologram(Location spawn) {
+        if (plugin.getCm().isHolographicdisplays()) {
+            hd.deleteHologram(spawn);
+        } else if (plugin.getCm().isHolograms()) {
+            h.deleteHologram(spawn);
+        }
+    }
+
+    public boolean hasHologramPlugin() {
+        return !(h == null && hd == null);
     }
 
 }

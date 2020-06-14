@@ -12,8 +12,8 @@ import org.bukkit.Sound;
 public class ConfigManager {
 
     private Main plugin;
-    private boolean placeholdersAPI, redPanelInLocked;
-    private Location mainLobby;
+    private boolean placeholdersAPI, redPanelInLocked, holograms, holographicdisplays;
+    private Location mainLobby, topKills, topWins, topCaptured, topBounty;
     private short redPanelData;
     private Material back, redPanelMaterial;
     private Sound streak2, streak3, streak4, streak5, upgradeSound, cancelStartSound, wineffectschicken, wineffectsvulcanfire, wineffectvulcanwool, wineffectnotes, killEffectTNT, killEffectSquid;
@@ -26,6 +26,12 @@ public class ConfigManager {
     }
 
     public void reload() {
+        this.topKills = Utils.getStringLocation(plugin.getConfig().getString("topKills"));
+        this.topWins = Utils.getStringLocation(plugin.getConfig().getString("topWins"));
+        this.topCaptured = Utils.getStringLocation(plugin.getConfig().getString("topCaptured"));
+        this.topBounty = Utils.getStringLocation(plugin.getConfig().getString("topBounty"));
+        this.holograms = plugin.getConfig().getBoolean("addons.holograms");
+        this.holographicdisplays = plugin.getConfig().getBoolean("addons.holographicdisplays");
         this.streak2 = XSound.matchXSound(plugin.getConfig().getString("sounds.streak2")).orElse(XSound.UI_BUTTON_CLICK).parseSound();
         this.streak3 = XSound.matchXSound(plugin.getConfig().getString("sounds.streak3")).orElse(XSound.UI_BUTTON_CLICK).parseSound();
         this.streak4 = XSound.matchXSound(plugin.getConfig().getString("sounds.streak4")).orElse(XSound.UI_BUTTON_CLICK).parseSound();

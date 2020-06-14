@@ -1,6 +1,8 @@
 debugMode: false
 addons:
   placeholdersAPI: true
+  holograms: false
+  holographicdisplays: true
 mainLobby: null
 redPanelInLocked: true
 progressBarAmount: 10
