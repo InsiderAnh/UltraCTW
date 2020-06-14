@@ -18,6 +18,12 @@ public class LevelManager {
 
     public LevelManager(Main plugin) {
         this.plugin = plugin;
+        reload();
+    }
+
+    public void reload(){
+        levels.clear();
+        if (!plugin.getLevels().isSet("levels")) return;
         ConfigurationSection conf = plugin.getLevels().getConfig().getConfigurationSection("levels");
         for (String c : conf.getKeys(false)) {
             levels.put(levels.size(), new Level(plugin, "levels." + c, levels.size()));

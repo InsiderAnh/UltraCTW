@@ -16,7 +16,7 @@ public class Placeholders extends PlaceholderExpansion {
     }
 
     public String getIdentifier() {
-        return "usw";
+        return "ctw";
     }
 
     public String getPlugin() {

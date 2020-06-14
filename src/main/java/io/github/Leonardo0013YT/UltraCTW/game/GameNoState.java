@@ -53,7 +53,7 @@ public class GameNoState implements Game {
         if (plugin.getArenas().isSet(path + ".lobbyProtection.min")) {
             this.lobbyProtection = new Squared(Utils.getStringLocation(plugin.getArenas().get(path + ".lobbyProtection.max")), Utils.getStringLocation(plugin.getArenas().get(path + ".lobbyProtection.min")), false, true);
         }
-        plugin.getWc().resetMap(lobby, schematic);
+        plugin.getWc().resetMap(new Location(lobby.getWorld(), 0, 75, 0), schematic);
         this.spectator = Utils.getStringLocation(plugin.getArenas().get(path + ".spectator"));
         for (String s : plugin.getArenas().getListOrDefault(path + ".npcShop", new ArrayList<>())) {
             npcShop.add(Utils.getStringLocation(s));
@@ -136,7 +136,7 @@ public class GameNoState implements Game {
         cached.clear();
         players.clear();
         teams.values().forEach(Team::reset);
-        plugin.getWc().resetMap(lobby, schematic);
+        plugin.getWc().resetMap(new Location(lobby.getWorld(), 0, 75, 0), schematic);
         lobby.getWorld().getEntities().stream().filter(e -> !e.getType().equals(EntityType.PLAYER)).forEach(Entity::remove);
         starting = plugin.getCm().getStarting();
         time = 0;
@@ -175,6 +175,8 @@ public class GameNoState implements Game {
                     sendGameMessage(s);
                 }
                 for (Player on : cached) {
+                    CTWPlayer ctw = plugin.getDb().getCTWPlayer(on);
+                    ctw.setPlayed(ctw.getPlayed() + 1);
                     Team t = getTeamPlayer(on);
                     if (t == null) {
                         addPlayerRandomTeam(on);
@@ -350,6 +352,8 @@ public class GameNoState implements Game {
         p.getInventory().clear();
         team.addMember(p);
         if (isState(State.GAME)) {
+            CTWPlayer ctw = plugin.getDb().getCTWPlayer(p);
+            ctw.setPlayed(ctw.getPlayed() + 1);
             p.teleport(team.getSpawn());
             plugin.getKm().giveDefaultKit(p, this, team);
             Utils.updateSB(p);

@@ -1,0 +1,10 @@
+options:
+  lobbyWorld: exampleLobby
+  noBreak: true
+  noPlace: true
+  noDamage: true
+  noHunger: true
+  noWeather: true
+  noExplosion: true
+  noDayCycle: true
+  noMobSpawn: true

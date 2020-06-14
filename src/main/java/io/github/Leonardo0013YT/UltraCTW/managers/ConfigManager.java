@@ -2,6 +2,7 @@ package io.github.Leonardo0013YT.UltraCTW.managers;
 
 import io.github.Leonardo0013YT.UltraCTW.Main;
 import io.github.Leonardo0013YT.UltraCTW.utils.Utils;
+import io.github.Leonardo0013YT.UltraCTW.xseries.XSound;
 import lombok.Getter;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -15,8 +16,9 @@ public class ConfigManager {
     private Location mainLobby;
     private short redPanelData;
     private Material back, redPanelMaterial;
-    private Sound upgradeSound, cancelStartSound, wineffectschicken, wineffectsvulcanfire, wineffectvulcanwool, wineffectnotes, killEffectTNT, killEffectSquid;
-    private int coinsKill, coinsWin, coinsAssists, xpKill, xpWin, xpAssists, starting, progressBarAmount;
+    private Sound streak2, streak3, streak4, streak5, upgradeSound, cancelStartSound, wineffectschicken, wineffectsvulcanfire, wineffectvulcanwool, wineffectnotes, killEffectTNT, killEffectSquid;
+    private int coinsKill, coinsWin, coinsAssists, xpKill, xpWin, xpAssists, starting, progressBarAmount, timeToKill;
+    private double bountyMin, bountyMax, bountyPerKill;
 
     public ConfigManager(Main plugin) {
         this.plugin = plugin;
@@ -24,6 +26,14 @@ public class ConfigManager {
     }
 
     public void reload() {
+        this.streak2 = XSound.matchXSound(plugin.getConfig().getString("sounds.streak2")).orElse(XSound.UI_BUTTON_CLICK).parseSound();
+        this.streak3 = XSound.matchXSound(plugin.getConfig().getString("sounds.streak3")).orElse(XSound.UI_BUTTON_CLICK).parseSound();
+        this.streak4 = XSound.matchXSound(plugin.getConfig().getString("sounds.streak4")).orElse(XSound.UI_BUTTON_CLICK).parseSound();
+        this.streak5 = XSound.matchXSound(plugin.getConfig().getString("sounds.streak5")).orElse(XSound.UI_BUTTON_CLICK).parseSound();
+        this.timeToKill = plugin.getConfig().getInt("gameDefaults.timeToKill");
+        this.bountyMin = plugin.getConfig().getDouble("bounty.min");
+        this.bountyMax = plugin.getConfig().getDouble("bounty.max");
+        this.bountyPerKill = plugin.getConfig().getDouble("bounty.perKill");
         this.coinsKill = plugin.getConfig().getInt("gameDefaults.coins.kill");
         this.coinsWin = plugin.getConfig().getInt("gameDefaults.coins.win");
         this.coinsAssists = plugin.getConfig().getInt("gameDefaults.coins.assists");

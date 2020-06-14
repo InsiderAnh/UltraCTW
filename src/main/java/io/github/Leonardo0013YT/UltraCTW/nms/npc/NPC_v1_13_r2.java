@@ -71,6 +71,7 @@ public class NPC_v1_13_r2 implements NPC {
 
     @Override
     public boolean toHide(Location loc) {
+        if (!this.loc.getWorld().getName().equals(loc.getWorld().getName())) return true;
         return this.loc.distance(loc) > 30;
     }
 
@@ -147,8 +148,12 @@ public class NPC_v1_13_r2 implements NPC {
     public void destroy() {
         this.showing = false;
         PlayerConnection connection = ((CraftPlayer) p).getHandle().playerConnection;
-        connection.sendPacket(new PacketPlayOutEntityDestroy(entity.getId()));
+        if (connection == null) return;
+        if (entity != null){
+            connection.sendPacket(new PacketPlayOutEntityDestroy(entity.getId()));
+        }
         for (Entity e : armors) {
+            if (e == null) continue;
             connection.sendPacket(new PacketPlayOutEntityDestroy(e.getId()));
         }
     }

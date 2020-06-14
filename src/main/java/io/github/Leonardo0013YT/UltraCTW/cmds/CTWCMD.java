@@ -28,6 +28,9 @@ public class CTWCMD implements CommandExecutor {
                 return true;
             }
             switch (args[0].toLowerCase()) {
+                case "lobby":
+                    plugin.getUim().openContentInventory(p, plugin.getUim().getMenus("lobby"));
+                    break;
                 case "coins":
                     if (args.length < 4) {
                         sendHelp(sender);
@@ -100,14 +103,18 @@ public class CTWCMD implements CommandExecutor {
                             break;
                     }
                     break;
-                case "test":
-                    CTWPlayer ctw = plugin.getDb().getCTWPlayer(p);
-                    plugin.getSkm().spawnShopKeeper(p, p.getLocation(), ctw.getShopKeeper(), NPCType.KITS);
-                    plugin.getSkm().spawnShopKeeper(p, p.getLocation().add(0, 0, 1), ctw.getShopKeeper(), NPCType.SHOP);
-                    break;
                 case "leave":
                     plugin.getGm().removePlayerGame(p, true);
                     p.sendMessage(plugin.getLang().get("messages.leaveGame"));
+                    break;
+                case "randomjoin":
+                    if (plugin.getGm().isPlayerInGame(p)) {
+                        p.sendMessage(plugin.getLang().get("messages.alreadyIngame"));
+                        return true;
+                    }
+                    Game selected2 = plugin.getGm().getSelectedGame();
+                    if (selected2 == null) return true;
+                    plugin.getGm().addPlayerGame(p, selected2.getId());
                     break;
                 case "join":
                     if (args.length < 2) {
@@ -170,7 +177,9 @@ public class CTWCMD implements CommandExecutor {
 
     private void sendHelp(CommandSender s) {
         s.sendMessage("§7§m-----------------------------");
+        s.sendMessage("§e/ctw lobby §a- §bOpen the lobby menu.");
         s.sendMessage("§e/ctw join <name> §a- §bJoin to arena with name.");
+        s.sendMessage("§e/ctw leave §a- §bLeave the game.");
         s.sendMessage("§e/ctw coins add/remove/set <player> <coins> §7- §aHandles the addition, removal and set of coins.");
         s.sendMessage("§7§m-----------------------------");
     }

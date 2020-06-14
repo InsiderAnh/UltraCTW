@@ -40,6 +40,7 @@ public class NPCManager {
     public NPC getNPC(Player p, UUID uuid) {
         if (npcs.containsKey(p)) {
             for (NPC npc : npcs.get(p)) {
+                if (npc.getBukkitEntity() == null) continue;
                 if (npc.getBukkitEntity().getUniqueId().equals(uuid)) {
                     return npc;
                 }

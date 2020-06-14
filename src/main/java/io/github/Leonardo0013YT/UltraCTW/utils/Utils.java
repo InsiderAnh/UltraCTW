@@ -151,6 +151,18 @@ public class Utils {
         return t;
     }
 
+    public static Team getMajorPlayersTeam(Game game) {
+        Team t = null;
+        int mayor = 0;
+        for (Team tt : game.getTeams().values()) {
+            if (tt.getTeamSize() >= mayor) {
+                t = tt;
+                mayor = tt.getTeamSize();
+            }
+        }
+        return t;
+    }
+
     public static String getLocationString(Location loc) {
         return loc.getWorld().getName() + ";" + loc.getX() + ";" + loc.getY() + ";" + loc.getZ() + ";" + loc.getYaw() + ";" + loc.getPitch();
     }

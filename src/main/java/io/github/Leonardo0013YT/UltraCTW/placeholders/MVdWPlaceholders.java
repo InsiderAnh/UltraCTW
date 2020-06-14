@@ -16,7 +16,7 @@ public class MVdWPlaceholders {
     }
 
     public void register() {
-        PlaceholderAPI.registerPlaceholder(plugin, "usw_sshots", e -> {
+        PlaceholderAPI.registerPlaceholder(plugin, "ctw_sshots", e -> {
             Player p = e.getPlayer();
             CTWPlayer sw = plugin.getDb().getCTWPlayer(p);
             if (sw != null) {
@@ -24,7 +24,7 @@ public class MVdWPlaceholders {
             }
             return "";
         });
-        PlaceholderAPI.registerPlaceholder(plugin, "usw_walked", e -> {
+        PlaceholderAPI.registerPlaceholder(plugin, "ctw_walked", e -> {
             Player p = e.getPlayer();
             CTWPlayer sw = plugin.getDb().getCTWPlayer(p);
             if (sw != null) {
@@ -32,7 +32,7 @@ public class MVdWPlaceholders {
             }
             return "";
         });
-        PlaceholderAPI.registerPlaceholder(plugin, "usw_played", e -> {
+        PlaceholderAPI.registerPlaceholder(plugin, "ctw_played", e -> {
             Player p = e.getPlayer();
             CTWPlayer sw = plugin.getDb().getCTWPlayer(p);
             if (sw != null) {
@@ -40,7 +40,7 @@ public class MVdWPlaceholders {
             }
             return "";
         });
-        PlaceholderAPI.registerPlaceholder(plugin, "usw_placed", e -> {
+        PlaceholderAPI.registerPlaceholder(plugin, "ctw_placed", e -> {
             Player p = e.getPlayer();
             CTWPlayer sw = plugin.getDb().getCTWPlayer(p);
             if (sw != null) {
@@ -48,7 +48,7 @@ public class MVdWPlaceholders {
             }
             return "";
         });
-        PlaceholderAPI.registerPlaceholder(plugin, "usw_break", e -> {
+        PlaceholderAPI.registerPlaceholder(plugin, "ctw_break", e -> {
             Player p = e.getPlayer();
             CTWPlayer sw = plugin.getDb().getCTWPlayer(p);
             if (sw != null) {
@@ -56,7 +56,7 @@ public class MVdWPlaceholders {
             }
             return "";
         });
-        PlaceholderAPI.registerPlaceholder(plugin, "usw_shots", e -> {
+        PlaceholderAPI.registerPlaceholder(plugin, "ctw_shots", e -> {
             Player p = e.getPlayer();
             CTWPlayer sw = plugin.getDb().getCTWPlayer(p);
             if (sw != null) {
@@ -64,7 +64,7 @@ public class MVdWPlaceholders {
             }
             return "";
         });
-        PlaceholderAPI.registerPlaceholder(plugin, "usw_deaths", e -> {
+        PlaceholderAPI.registerPlaceholder(plugin, "ctw_deaths", e -> {
             Player p = e.getPlayer();
             CTWPlayer sw = plugin.getDb().getCTWPlayer(p);
             if (sw != null) {
@@ -72,7 +72,7 @@ public class MVdWPlaceholders {
             }
             return "";
         });
-        PlaceholderAPI.registerPlaceholder(plugin, "usw_wins", e -> {
+        PlaceholderAPI.registerPlaceholder(plugin, "ctw_wins", e -> {
             Player p = e.getPlayer();
             CTWPlayer sw = plugin.getDb().getCTWPlayer(p);
             if (sw != null) {
@@ -80,7 +80,7 @@ public class MVdWPlaceholders {
             }
             return "";
         });
-        PlaceholderAPI.registerPlaceholder(plugin, "usw_kills", e -> {
+        PlaceholderAPI.registerPlaceholder(plugin, "ctw_kills", e -> {
             Player p = e.getPlayer();
             CTWPlayer sw = plugin.getDb().getCTWPlayer(p);
             if (sw != null) {
@@ -88,7 +88,7 @@ public class MVdWPlaceholders {
             }
             return "";
         });
-        PlaceholderAPI.registerPlaceholder(plugin, "usw_xp", e -> {
+        PlaceholderAPI.registerPlaceholder(plugin, "ctw_xp", e -> {
             Player p = e.getPlayer();
             CTWPlayer sw = plugin.getDb().getCTWPlayer(p);
             if (sw != null) {
@@ -96,7 +96,7 @@ public class MVdWPlaceholders {
             }
             return "";
         });
-        PlaceholderAPI.registerPlaceholder(plugin, "usw_coins", e -> {
+        PlaceholderAPI.registerPlaceholder(plugin, "ctw_coins", e -> {
             Player p = e.getPlayer();
             CTWPlayer sw = plugin.getDb().getCTWPlayer(p);
             if (sw != null) {
@@ -104,7 +104,7 @@ public class MVdWPlaceholders {
             }
             return "";
         });
-        PlaceholderAPI.registerPlaceholder(plugin, "usw_level", e -> {
+        PlaceholderAPI.registerPlaceholder(plugin, "ctw_level", e -> {
             Player p = e.getPlayer();
             CTWPlayer sw = plugin.getDb().getCTWPlayer(p);
             if (sw != null) {
@@ -112,7 +112,7 @@ public class MVdWPlaceholders {
             }
             return "";
         });
-        PlaceholderAPI.registerPlaceholder(plugin, "usw_level_prefix", e -> {
+        PlaceholderAPI.registerPlaceholder(plugin, "ctw_level_prefix", e -> {
             Player p = e.getPlayer();
             CTWPlayer sw = plugin.getDb().getCTWPlayer(p);
             if (sw != null) {
@@ -120,7 +120,7 @@ public class MVdWPlaceholders {
             }
             return "";
         });
-        PlaceholderAPI.registerPlaceholder(plugin, "usw_level_progress", e -> {
+        PlaceholderAPI.registerPlaceholder(plugin, "ctw_level_progress", e -> {
             Player p = e.getPlayer();
             CTWPlayer sw = plugin.getDb().getCTWPlayer(p);
             if (sw != null) {
@@ -131,7 +131,7 @@ public class MVdWPlaceholders {
             }
             return "";
         });
-        PlaceholderAPI.registerPlaceholder(plugin, "usw_total_taunts", e -> {
+        PlaceholderAPI.registerPlaceholder(plugin, "ctw_total_taunts", e -> {
             Player p = e.getPlayer();
             CTWPlayer sw = plugin.getDb().getCTWPlayer(p);
             if (sw != null) {
@@ -139,7 +139,7 @@ public class MVdWPlaceholders {
             }
             return "";
         });
-        PlaceholderAPI.registerPlaceholder(plugin, "usw_percentage_taunts", e -> {
+        PlaceholderAPI.registerPlaceholder(plugin, "ctw_percentage_taunts", e -> {
             Player p = e.getPlayer();
             CTWPlayer sw = plugin.getDb().getCTWPlayer(p);
             if (sw != null) {
@@ -147,7 +147,7 @@ public class MVdWPlaceholders {
             }
             return "";
         });
-        PlaceholderAPI.registerPlaceholder(plugin, "usw_unlocked_killsounds", e -> {
+        PlaceholderAPI.registerPlaceholder(plugin, "ctw_unlocked_killsounds", e -> {
             Player p = e.getPlayer();
             CTWPlayer sw = plugin.getDb().getCTWPlayer(p);
             if (sw != null) {
@@ -155,7 +155,7 @@ public class MVdWPlaceholders {
             }
             return "";
         });
-        PlaceholderAPI.registerPlaceholder(plugin, "usw_total_killsounds", e -> {
+        PlaceholderAPI.registerPlaceholder(plugin, "ctw_total_killsounds", e -> {
             Player p = e.getPlayer();
             CTWPlayer sw = plugin.getDb().getCTWPlayer(p);
             if (sw != null) {
@@ -163,7 +163,7 @@ public class MVdWPlaceholders {
             }
             return "";
         });
-        PlaceholderAPI.registerPlaceholder(plugin, "usw_percentage_killsounds", e -> {
+        PlaceholderAPI.registerPlaceholder(plugin, "ctw_percentage_killsounds", e -> {
             Player p = e.getPlayer();
             CTWPlayer sw = plugin.getDb().getCTWPlayer(p);
             if (sw != null) {
@@ -171,7 +171,7 @@ public class MVdWPlaceholders {
             }
             return "";
         });
-        PlaceholderAPI.registerPlaceholder(plugin, "usw_unlocked_killeffects", e -> {
+        PlaceholderAPI.registerPlaceholder(plugin, "ctw_unlocked_killeffects", e -> {
             Player p = e.getPlayer();
             CTWPlayer sw = plugin.getDb().getCTWPlayer(p);
             if (sw != null) {
@@ -179,7 +179,7 @@ public class MVdWPlaceholders {
             }
             return "";
         });
-        PlaceholderAPI.registerPlaceholder(plugin, "usw_total_killeffects", e -> {
+        PlaceholderAPI.registerPlaceholder(plugin, "ctw_total_killeffects", e -> {
             Player p = e.getPlayer();
             CTWPlayer sw = plugin.getDb().getCTWPlayer(p);
             if (sw != null) {
@@ -187,7 +187,7 @@ public class MVdWPlaceholders {
             }
             return "";
         });
-        PlaceholderAPI.registerPlaceholder(plugin, "usw_percentage_killeffects", e -> {
+        PlaceholderAPI.registerPlaceholder(plugin, "ctw_percentage_killeffects", e -> {
             Player p = e.getPlayer();
             CTWPlayer sw = plugin.getDb().getCTWPlayer(p);
             if (sw != null) {
@@ -195,7 +195,7 @@ public class MVdWPlaceholders {
             }
             return "";
         });
-        PlaceholderAPI.registerPlaceholder(plugin, "usw_total_windances", e -> {
+        PlaceholderAPI.registerPlaceholder(plugin, "ctw_total_windances", e -> {
             Player p = e.getPlayer();
             CTWPlayer sw = plugin.getDb().getCTWPlayer(p);
             if (sw != null) {
@@ -203,7 +203,7 @@ public class MVdWPlaceholders {
             }
             return "";
         });
-        PlaceholderAPI.registerPlaceholder(plugin, "usw_percentage_windances", e -> {
+        PlaceholderAPI.registerPlaceholder(plugin, "ctw_percentage_windances", e -> {
             Player p = e.getPlayer();
             CTWPlayer sw = plugin.getDb().getCTWPlayer(p);
             if (sw != null) {
@@ -211,7 +211,7 @@ public class MVdWPlaceholders {
             }
             return "";
         });
-        PlaceholderAPI.registerPlaceholder(plugin, "usw_unlocked_wineffects", e -> {
+        PlaceholderAPI.registerPlaceholder(plugin, "ctw_unlocked_wineffects", e -> {
             Player p = e.getPlayer();
             CTWPlayer sw = plugin.getDb().getCTWPlayer(p);
             if (sw != null) {
@@ -219,7 +219,7 @@ public class MVdWPlaceholders {
             }
             return "";
         });
-        PlaceholderAPI.registerPlaceholder(plugin, "usw_total_wineffects", e -> {
+        PlaceholderAPI.registerPlaceholder(plugin, "ctw_total_wineffects", e -> {
             Player p = e.getPlayer();
             CTWPlayer sw = plugin.getDb().getCTWPlayer(p);
             if (sw != null) {
@@ -227,7 +227,7 @@ public class MVdWPlaceholders {
             }
             return "";
         });
-        PlaceholderAPI.registerPlaceholder(plugin, "usw_percentage_wineffects", e -> {
+        PlaceholderAPI.registerPlaceholder(plugin, "ctw_percentage_wineffects", e -> {
             Player p = e.getPlayer();
             CTWPlayer sw = plugin.getDb().getCTWPlayer(p);
             if (sw != null) {
@@ -235,7 +235,7 @@ public class MVdWPlaceholders {
             }
             return "";
         });
-        PlaceholderAPI.registerPlaceholder(plugin, "usw_unlocked_taunts", e -> {
+        PlaceholderAPI.registerPlaceholder(plugin, "ctw_unlocked_taunts", e -> {
             Player p = e.getPlayer();
             CTWPlayer sw = plugin.getDb().getCTWPlayer(p);
             if (sw != null) {
@@ -243,7 +243,7 @@ public class MVdWPlaceholders {
             }
             return "";
         });
-        PlaceholderAPI.registerPlaceholder(plugin, "usw_selected_trail", e -> {
+        PlaceholderAPI.registerPlaceholder(plugin, "ctw_selected_trail", e -> {
             Player p = e.getPlayer();
             CTWPlayer sw = plugin.getDb().getCTWPlayer(p);
             if (sw != null) {
@@ -251,7 +251,7 @@ public class MVdWPlaceholders {
             }
             return "";
         });
-        PlaceholderAPI.registerPlaceholder(plugin, "usw_selected_windance", e -> {
+        PlaceholderAPI.registerPlaceholder(plugin, "ctw_selected_windance", e -> {
             Player p = e.getPlayer();
             CTWPlayer sw = plugin.getDb().getCTWPlayer(p);
             if (sw != null) {
@@ -259,7 +259,7 @@ public class MVdWPlaceholders {
             }
             return "";
         });
-        PlaceholderAPI.registerPlaceholder(plugin, "usw_selected_wineffect", e -> {
+        PlaceholderAPI.registerPlaceholder(plugin, "ctw_selected_wineffect", e -> {
             Player p = e.getPlayer();
             CTWPlayer sw = plugin.getDb().getCTWPlayer(p);
             if (sw != null) {
@@ -267,7 +267,7 @@ public class MVdWPlaceholders {
             }
             return "";
         });
-        PlaceholderAPI.registerPlaceholder(plugin, "usw_selected_taunt", e -> {
+        PlaceholderAPI.registerPlaceholder(plugin, "ctw_selected_taunt", e -> {
             Player p = e.getPlayer();
             CTWPlayer sw = plugin.getDb().getCTWPlayer(p);
             if (sw != null) {
@@ -275,7 +275,7 @@ public class MVdWPlaceholders {
             }
             return "";
         });
-        PlaceholderAPI.registerPlaceholder(plugin, "usw_selected_killsound", e -> {
+        PlaceholderAPI.registerPlaceholder(plugin, "ctw_selected_killsound", e -> {
             Player p = e.getPlayer();
             CTWPlayer sw = plugin.getDb().getCTWPlayer(p);
             if (sw != null) {
@@ -283,7 +283,7 @@ public class MVdWPlaceholders {
             }
             return "";
         });
-        PlaceholderAPI.registerPlaceholder(plugin, "usw_selected_killeffect", e -> {
+        PlaceholderAPI.registerPlaceholder(plugin, "ctw_selected_killeffect", e -> {
             Player p = e.getPlayer();
             CTWPlayer sw = plugin.getDb().getCTWPlayer(p);
             if (sw != null) {
@@ -291,7 +291,7 @@ public class MVdWPlaceholders {
             }
             return "";
         });
-        PlaceholderAPI.registerPlaceholder(plugin, "usw_unlocked_trails", e -> {
+        PlaceholderAPI.registerPlaceholder(plugin, "ctw_unlocked_trails", e -> {
             Player p = e.getPlayer();
             CTWPlayer sw = plugin.getDb().getCTWPlayer(p);
             if (sw != null) {
@@ -299,7 +299,7 @@ public class MVdWPlaceholders {
             }
             return "";
         });
-        PlaceholderAPI.registerPlaceholder(plugin, "usw_total_trails", e -> {
+        PlaceholderAPI.registerPlaceholder(plugin, "ctw_total_trails", e -> {
             Player p = e.getPlayer();
             CTWPlayer sw = plugin.getDb().getCTWPlayer(p);
             if (sw != null) {

@@ -5,6 +5,7 @@ import io.github.Leonardo0013YT.UltraCTW.Main;
 import io.github.Leonardo0013YT.UltraCTW.api.events.PlayerLoadEvent;
 import io.github.Leonardo0013YT.UltraCTW.cosmetics.trails.Trail;
 import io.github.Leonardo0013YT.UltraCTW.enums.NPCType;
+import io.github.Leonardo0013YT.UltraCTW.enums.State;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.CTWPlayer;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.Game;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.NPC;
@@ -31,6 +32,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.stream.Collectors;
 
 public class PlayerListener implements Listener {
@@ -170,11 +172,15 @@ public class PlayerListener implements Listener {
         if (s1 != null) {
             e.setCancelled(s1.isNoBreak());
             p.sendMessage(plugin.getLang().get("messages.noBreak"));
+            return;
         }
         if (s2 != null) {
             e.setCancelled(s2.isNoBreak());
             p.sendMessage(plugin.getLang().get("messages.noBreak"));
+            return;
         }
+        CTWPlayer ctw = plugin.getDb().getCTWPlayer(p);
+        ctw.setBroken(ctw.getBroken() + 1);
     }
 
     @EventHandler
@@ -237,11 +243,15 @@ public class PlayerListener implements Listener {
         if (s1 != null) {
             e.setCancelled(s1.isNoBreak());
             p.sendMessage(plugin.getLang().get("messages.noPlace"));
+            return;
         }
         if (s2 != null) {
             e.setCancelled(s2.isNoBreak());
             p.sendMessage(plugin.getLang().get("messages.noPlace"));
+            return;
         }
+        CTWPlayer ctw = plugin.getDb().getCTWPlayer(p);
+        ctw.setPlaced(ctw.getPlaced() + 1);
     }
 
     @EventHandler
@@ -250,7 +260,7 @@ public class PlayerListener implements Listener {
         Game g = plugin.getGm().getGameByPlayer(p);
         if (g == null) return;
         Team team = g.getTeamPlayer(p);
-        if (team == null) {
+        if (team == null || g.isState(State.WAITING) || g.isState(State.STARTING)) {
             if (g.getLobbyProtection() != null) {
                 Squared s = g.getLobbyProtection();
                 if (!s.isInCuboid(p)) {
@@ -265,6 +275,13 @@ public class PlayerListener implements Listener {
             p.teleport(e.getFrom());
             p.setVelocity(p.getVelocity().multiply(-1));
             p.sendMessage(plugin.getLang().get("messages.noEntry"));
+            return;
+        }
+        Location to = e.getTo();
+        Location from = e.getFrom();
+        if (to.getBlockX() != from.getBlockX() || to.getBlockY() != from.getBlockY() || to.getBlockZ() != from.getBlockZ()){
+            CTWPlayer ctw = plugin.getDb().getCTWPlayer(p);
+            ctw.setWalked(ctw.getWalked() + 1);
         }
     }
 
@@ -323,6 +340,11 @@ public class PlayerListener implements Listener {
         if (g == null) return;
         Team team = g.getTeamPlayer(p);
         if (team == null) return;
+        if (!team.getColors().contains(c)){
+            e.setCancelled(true);
+            e.getItem().setItemStack(null);
+            return;
+        }
         ArrayList<Team> others = g.getTeams().values().stream().filter(t -> t.getId() != team.getId()).collect(Collectors.toCollection(ArrayList::new));
         team.getDropped().remove(c);
         team.getInProgress().putIfAbsent(c, new ArrayList<>());
@@ -357,11 +379,12 @@ public class PlayerListener implements Listener {
                     } else {
                         plugin.getTm().execute(p, cause, g, 0);
                     }
-                    g.addDeath(d);
+                    g.addKill(d);
+                } else {
+                    plugin.getTm().execute(p, e.getCause(), g, 0);
                 }
                 e.setCancelled(true);
                 respawn(team, g, p);
-                plugin.getTm().execute(p, e.getCause(), g, 0);
                 g.addDeath(p);
             }
         }
@@ -395,9 +418,12 @@ public class PlayerListener implements Listener {
                     e.setCancelled(true);
                     return;
                 }
+                double damage = e.getFinalDamage();
+                plugin.getTgm().setTag(d, p, damage, g);
                 if (e.getFinalDamage() >= p.getHealth()) {
                     CTWPlayer sk = plugin.getDb().getCTWPlayer(d);
                     g.addKill(d);
+                    plugin.getStm().addKill(d);
                     if (p.getLastDamageCause() == null || p.getLastDamageCause().getCause() == null) {
                         EntityDamageEvent.DamageCause cause = EntityDamageEvent.DamageCause.CONTACT;
                         if (sk != null) {
@@ -418,9 +444,12 @@ public class PlayerListener implements Listener {
                     e.setCancelled(true);
                     respawn(tp, g, p);
                     g.addDeath(p);
+                    plugin.getStm().resetStreak(p);
+                    d.sendMessage(plugin.getLang().get("messages.kill").replaceAll("<xp>", String.valueOf(plugin.getCm().getXpKill())).replaceAll("<coins>", String.valueOf(plugin.getCm().getCoinsKill())).replaceAll("<streak>", plugin.getStm().getPrefix(p)));
+                } else {
+                    Tagged tag = plugin.getTgm().getTagged(p);
+                    tag.addPlayerDamage(p, e.getFinalDamage());
                 }
-                double damage = e.getFinalDamage();
-                plugin.getTgm().setTag(d, p, damage, g);
             }
             if (e.getDamager() instanceof Projectile && ((Projectile) e.getDamager()).getShooter() instanceof Player) {
                 Player d = (Player) ((Projectile) e.getDamager()).getShooter();
@@ -436,8 +465,11 @@ public class PlayerListener implements Listener {
                     e.setCancelled(true);
                     return;
                 }
+                double damage = e.getFinalDamage();
+                plugin.getTgm().setTag(d, p, damage, g);
                 if (e.getFinalDamage() >= p.getHealth()) {
                     g.addKill(d);
+                    plugin.getStm().addKill(d);
                     CTWPlayer sk = plugin.getDb().getCTWPlayer(d);
                     if (p.getLastDamageCause() == null || p.getLastDamageCause().getCause() == null) {
                         EntityDamageEvent.DamageCause cause = EntityDamageEvent.DamageCause.CONTACT;
@@ -459,9 +491,14 @@ public class PlayerListener implements Listener {
                     e.setCancelled(true);
                     respawn(tp, g, p);
                     g.addDeath(p);
+                    plugin.getStm().resetStreak(p);
+                    d.sendMessage(plugin.getLang().get("messages.kill").replaceAll("<xp>", String.valueOf(plugin.getCm().getXpKill())).replaceAll("<coins>", String.valueOf(plugin.getCm().getCoinsKill())).replaceAll("<streak>", plugin.getStm().getPrefix(p)));
+                } else {
+                    Tagged tag = plugin.getTgm().getTagged(p);
+                    tag.addPlayerDamage(p, e.getFinalDamage());
                 }
-                double damage = e.getFinalDamage();
-                plugin.getTgm().setTag(d, p, damage, g);
+                CTWPlayer ctw = plugin.getDb().getCTWPlayer(d);
+                ctw.setsShots(ctw.getsShots() + 1);
             }
         }
     }
@@ -474,11 +511,11 @@ public class PlayerListener implements Listener {
             if (g == null) {
                 return;
             }
-            CTWPlayer sw = plugin.getDb().getCTWPlayer(p);
-            if (sw == null) return;
-            sw.setShots(sw.getShots() + 1);
+            CTWPlayer ctw = plugin.getDb().getCTWPlayer(p);
+            if (ctw == null) return;
+            ctw.setShots(ctw.getShots() + 1);
             Projectile proj = e.getEntity();
-            Trail trail = plugin.getTlm().getTrails().get(sw.getTrail());
+            Trail trail = plugin.getTlm().getTrails().get(ctw.getTrail());
             if (trail == null) {
                 return;
             }
@@ -511,6 +548,9 @@ public class PlayerListener implements Listener {
         if (item.equals(plugin.getIm().getLobby())) {
             plugin.getUim().openContentInventory(p, plugin.getUim().getMenus("lobby"));
         }
+        if (item.equals(plugin.getIm().getLeave())) {
+            plugin.getGm().removePlayerGame(p, true);
+        }
     }
 
     @EventHandler
@@ -533,6 +573,7 @@ public class PlayerListener implements Listener {
 
     private void respawn(Team team, Game g, Player p) {
         p.setNoDamageTicks(40);
+        p.setFallDistance(0);
         p.setHealth(p.getMaxHealth());
         p.teleport(team.getSpawn());
         for (ChatColor c : team.getColors()) {

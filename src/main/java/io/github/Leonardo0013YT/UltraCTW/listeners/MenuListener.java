@@ -13,6 +13,7 @@ import io.github.Leonardo0013YT.UltraCTW.interfaces.CTWPlayer;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.Game;
 import io.github.Leonardo0013YT.UltraCTW.team.Team;
 import io.github.Leonardo0013YT.UltraCTW.utils.NBTEditor;
+import io.github.Leonardo0013YT.UltraCTW.utils.Utils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -136,8 +137,17 @@ public class MenuListener implements Listener {
             }
             String co = NBTEditor.getString(item, "SELECTOR", "TEAM", "COLOR");
             if (co == null) return;
+            if (!p.hasPermission("ctw.teams.select")){
+                p.sendMessage(plugin.getLang().get("messages.noSelector"));
+                return;
+            }
             ChatColor c = ChatColor.valueOf(co);
             Team team = game.getTeams().get(c);
+            Team mayo = Utils.getMajorPlayersTeam(game);
+            if (team.getTeamSize() > mayo.getTeamSize()){
+                p.sendMessage(plugin.getLang().get("messages.teamMajorPlayers"));
+                return;
+            }
             game.addPlayerTeam(p, team);
             p.sendMessage(plugin.getLang().get("messages.joinTeam").replaceAll("<team>", team.getName()));
             p.closeInventory();

@@ -24,6 +24,10 @@ public class SetupCMD implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (sender instanceof Player) {
             Player p = (Player) sender;
+            if (!p.hasPermission("ctw.admin")) {
+                p.sendMessage(plugin.getLang().get(p, "messages.noPermission"));
+                return true;
+            }
             if (args.length < 1) {
                 sendHelp(sender);
                 return true;
@@ -99,6 +103,10 @@ public class SetupCMD implements CommandExecutor {
                     plugin.getCm().reload();
                     p.sendMessage(plugin.getLang().get("setup.setMainLobby"));
                     break;
+                case "reload":
+                    plugin.reload();
+                    p.sendMessage(plugin.getLang().get("setup.reload"));
+                    break;
                 case "inventory":
                     if (args.length < 2) {
                         sendHelp(p);
@@ -136,6 +144,7 @@ public class SetupCMD implements CommandExecutor {
         s.sendMessage("§e/ctws addkits §7- §aSet NPC Kits. §c(You need stay creating arena)");
         s.sendMessage("§e/ctws kits <name> §7- §aCreate a new kit.");
         s.sendMessage("§e/ctws inventory <type> §7- §aEdit a inventory.");
+        s.sendMessage("§e/ctws reload §7- §aReload the plugin");
         s.sendMessage("§7§m--------------------------------");
     }
 

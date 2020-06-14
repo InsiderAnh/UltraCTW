@@ -20,6 +20,9 @@ import io.github.Leonardo0013YT.UltraCTW.managers.*;
 import io.github.Leonardo0013YT.UltraCTW.menus.GameMenu;
 import io.github.Leonardo0013YT.UltraCTW.menus.SetupMenu;
 import io.github.Leonardo0013YT.UltraCTW.menus.UltraInventoryMenu;
+import io.github.Leonardo0013YT.UltraCTW.placeholders.MVdWPlaceholders;
+import io.github.Leonardo0013YT.UltraCTW.placeholders.Placeholders;
+import io.github.Leonardo0013YT.UltraCTW.xseries.XSound;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -57,6 +60,8 @@ public class Main extends JavaPlugin {
     private LevelManager lvl;
     private ShopManager shm;
     private NPCManager npc;
+    private InjectionManager ijm;
+    private StreakManager stm;
 
     public static Main get() {
         return instance;
@@ -115,12 +120,20 @@ public class Main extends JavaPlugin {
         skm.loadShopKeepers();
         lvl = new LevelManager(this);
         npc = new NPCManager(this);
+        ijm = new InjectionManager(this);
+        ijm.loadInjections();
         getCommand("ctws").setExecutor(new SetupCMD(this));
         getCommand("ctw").setExecutor(new CTWCMD(this));
         getServer().getPluginManager().registerEvents(new SetupListener(this), this);
         getServer().getPluginManager().registerEvents(new MenuListener(this), this);
         getServer().getPluginManager().registerEvents(new PlayerListener(this), this);
         getServer().getPluginManager().registerEvents(new WorldListener(this), this);
+        if (getServer().getPluginManager().isPluginEnabled("PlaceholderAPI")) {
+            new Placeholders(this).register();
+        }
+        if (getServer().getPluginManager().isPluginEnabled("MVdWPlaceholderAPI")) {
+            new MVdWPlaceholders(this).register();
+        }
         new BukkitRunnable() {
             @Override
             public void run() {
@@ -141,12 +154,40 @@ public class Main extends JavaPlugin {
 
     public void reload() {
         reloadConfig();
+        lang.reload();
+        arenas.reload();
+        killeffect.reload();
+        killsound.reload();
+        kits.reload();
+        levels.reload();
+        menus.reload();
+        shopkeepers.reload();
+        sources.reload();
+        taunt.reload();
+        trail.reload();
+        windance.reload();
+        wineffect.reload();
         cm.reload();
         adm.reload();
+        gm.reload();
+        kem.loadKillEffects();
+        km.loadKits();
+        ksm.loadKillSounds();
+        lvl.reload();
+        skm.loadShopKeepers();
+        tm.loadTaunts();
+        tlm.loadTrails();
+        wdm.loadWinDances();
+        wem.loadWinEffects();
+        ijm.reload();
     }
 
     private void setupSounds() {
         if (vc.is1_9to15()) {
+            getConfig().addDefault("sounds.streak2", "UI_BUTTON_CLICK");
+            getConfig().addDefault("sounds.streak3", "UI_BUTTON_CLICK");
+            getConfig().addDefault("sounds.streak4", "UI_BUTTON_CLICK");
+            getConfig().addDefault("sounds.streak5", "UI_BUTTON_CLICK");
             getConfig().addDefault("sounds.wineffects.vulcanwool", "ENTITY_CHICKEN_EGG");
             getConfig().addDefault("sounds.wineffects.vulcanfire", "ENTITY_CREEPER_HURT");
             if (vc.is1_13to15()) {
@@ -162,6 +203,10 @@ public class Main extends JavaPlugin {
             getConfig().addDefault("sounds.killeffects.tnt", "ENTITY_GENERIC_EXPLODE");
             getConfig().addDefault("sounds.killeffects.squid", "ENTITY_ITEM_PICKUP");
         } else {
+            getConfig().addDefault("sounds.streak2", "CLICK");
+            getConfig().addDefault("sounds.streak3", "CLICK");
+            getConfig().addDefault("sounds.streak4", "CLICK");
+            getConfig().addDefault("sounds.streak5", "CLICK");
             getConfig().addDefault("sounds.cancelStart", "NOTE_BASS");
             getConfig().addDefault("sounds.upgrade", "LEVEL_UP");
             getConfig().addDefault("sounds.wineffects.vulcanwool", "CHICKEN_EGG_POP");

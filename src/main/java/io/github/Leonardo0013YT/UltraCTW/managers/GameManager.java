@@ -8,8 +8,10 @@ import io.github.Leonardo0013YT.UltraCTW.interfaces.Game;
 import io.github.Leonardo0013YT.UltraCTW.utils.Utils;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class GameManager {
 
@@ -25,6 +27,8 @@ public class GameManager {
     }
 
     public void reload() {
+        games.clear();
+        gameNames.clear();
         if (!plugin.getArenas().isSet("arenas")) return;
         for (String s : plugin.getArenas().getConfig().getConfigurationSection("arenas").getKeys(false)) {
             int id = games.size();
@@ -33,6 +37,8 @@ public class GameManager {
             gameNames.put(game.getName(), id);
             plugin.sendLogMessage("§aGame §e" + s + "§a loaded correctly.");
         }
+        Game selectedGame = new ArrayList<>(games.values()).get(ThreadLocalRandom.current().nextInt(0, games.values().size()));
+        setSelectedGame(selectedGame);
     }
 
     public Game getSelectedGame() {
@@ -77,13 +83,15 @@ public class GameManager {
         if (game == null) return;
         game.removePlayer(p);
         NametagEdit.getApi().clearNametag(p);
-        if (toLobby) {
-            if (plugin.getCm().getMainLobby() != null) {
-                p.teleport(plugin.getCm().getMainLobby());
-            }
-        }
         playerGame.remove(p.getUniqueId());
         Utils.updateSB(p);
+        if (toLobby) {
+            if (plugin.getCm().getMainLobby() != null) {
+                if (plugin.getCm().getMainLobby().getWorld() != null) {
+                    p.teleport(plugin.getCm().getMainLobby());
+                }
+            }
+        }
     }
 
     public boolean isPlayerInGame(Player p) {
