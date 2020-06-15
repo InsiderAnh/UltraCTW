@@ -74,10 +74,6 @@ public class MySQLDatabase implements IDatabase {
             }
         }
         createTable();
-        loadTopBounty();
-        loadTopCaptured();
-        loadTopKills();
-        loadTopWins();
     }
 
     @Override
@@ -252,7 +248,7 @@ public class MySQLDatabase implements IDatabase {
             int pos = 1;
             List<String> tops = new ArrayList<>();
             while (result.next()) {
-                tops.add(result.getString("UUID") + ":" + result.getString("Name") + ":" + pos + ":" + result.getDouble("Bounty"));
+                tops.add(result.getString("UUID") + ":" + result.getString("Name") + ":" + pos + ":" + (int) result.getDouble("Bounty"));
                 pos++;
             }
             plugin.getTop().addTop(TopType.BOUNTY, tops);
@@ -286,6 +282,10 @@ public class MySQLDatabase implements IDatabase {
                     insert.setString(1, uuid);
                     insert.setString(2, p.getName());
                     insert.setString(3, plugin.toStringCTWPlayer(ctw));
+                    insert.setInt(4, 0);
+                    insert.setInt(5, 0);
+                    insert.setInt(6, 0);
+                    insert.setDouble(7, 0.0);
                     if (enabled) {
                         insert.setString(4, p.getName());
                         insert.execute();
@@ -311,6 +311,10 @@ public class MySQLDatabase implements IDatabase {
                 PreparedStatement save = connection.prepareStatement(SAVE_PD);
                 save.setString(1, plugin.toStringCTWPlayer(ipd));
                 save.setString(2, uuid.toString());
+                save.setInt(3, ipd.getKills());
+                save.setInt(4, ipd.getWins());
+                save.setInt(5, ipd.getWoolCaptured());
+                save.setDouble(6, ipd.getBounty());
                 save.execute();
                 close(connection, save, null);
             } catch (SQLException ignored) {
@@ -322,6 +326,10 @@ public class MySQLDatabase implements IDatabase {
                     PreparedStatement save = connection.prepareStatement(SAVE_PD);
                     save.setString(1, plugin.toStringCTWPlayer(ipd));
                     save.setString(2, uuid.toString());
+                    save.setInt(3, ipd.getKills());
+                    save.setInt(4, ipd.getWins());
+                    save.setInt(5, ipd.getWoolCaptured());
+                    save.setDouble(6, ipd.getBounty());
                     save.execute();
                     close(connection, save, null);
                 } catch (SQLException ignored) {
@@ -349,6 +357,7 @@ public class MySQLDatabase implements IDatabase {
 
     private void loadPlayerData(Player p, CTWPlayer pd) {
         CTWPlayer now = new PlayerCTW();
+        now.setBounty(pd.getBounty());
         now.setWoolCaptured(pd.getWoolCaptured());
         now.setXp(pd.getXp());
         now.setLevel(pd.getLevel());

@@ -1,6 +1,8 @@
-package io.github.Leonardo0013YT.UltraCTW;
+package io.github.Leonardo0013YT.UltraCTW.managers;
 
 import com.nametagedit.plugin.NametagEdit;
+import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.interfaces.CTWPlayer;
 import io.github.Leonardo0013YT.UltraCTW.streak.Streak;
 import io.github.Leonardo0013YT.UltraCTW.utils.Utils;
 import io.github.Leonardo0013YT.UltraCTW.xseries.XSound;
@@ -47,12 +49,16 @@ public class StreakManager {
         if (amount == 10){
             streak.setBounty(true);
             streak.setPrice(getBounty(amount));
+            CTWPlayer ctw = plugin.getDb().getCTWPlayer(p);
+            ctw.setBounty(streak.getPrice());
             Bukkit.broadcastMessage(plugin.getLang().get("messages.bounty").replaceAll("<name>", p.getName()).replaceAll("<coins>", Utils.format(streak.getPrice())));
             NametagEdit.getApi().setSuffix(p, " §6§l" + Utils.format(streak.getPrice()) + "g");
             return;
         }
         if (amount >= 10){
             streak.setPrice(getBounty(amount));
+            CTWPlayer ctw = plugin.getDb().getCTWPlayer(p);
+            ctw.setBounty(streak.getPrice());
             if (amount % 5 == 0){
                 Bukkit.broadcastMessage(plugin.getLang().get("messages.bounty").replaceAll("<name>", p.getName()).replaceAll("<coins>", Utils.format(streak.getPrice())));
             }

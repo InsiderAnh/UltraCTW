@@ -465,6 +465,7 @@ public class GameNoState implements Game {
     @Override
     public void givePlayerItems(Player p) {
         p.getInventory().setItem(4, plugin.getIm().getTeams());
+        p.getInventory().setItem(7, plugin.getIm().getLeave());
     }
 
     @Override

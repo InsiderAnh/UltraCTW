@@ -7,9 +7,21 @@ import java.util.ArrayList;
 public class PlayerCTW implements CTWPlayer {
 
     private ArrayList<Integer> partings = new ArrayList<>(), killeffects = new ArrayList<>(), wineffects = new ArrayList<>(), windances = new ArrayList<>(), killsounds = new ArrayList<>(), taunts = new ArrayList<>(), trails = new ArrayList<>();
-    private double coins = 0.0;
+    private double coins = 0.0, bounty = 0.0;
     private int woolCaptured = 0, kills = 0, deaths = 0, wins = 0, shots = 0, sShots = 0, walked = 0, played = 0, broken = 0, placed = 0;
     private int level = 1, xp = 0, shopKeeper = 0, winDance = 999999, winEffect = 0, killEffect = 999999, taunt = 0, trail = 999999, parting = 999999, killSound = 999999, assists = 0, kill5 = 0, kill25 = 0, kill50 = 0;
+
+    @Override
+    public void setBounty(double bounty) {
+        if (this.bounty < bounty){
+            this.bounty = bounty;
+        }
+    }
+
+    @Override
+    public double getBounty() {
+        return bounty;
+    }
 
     @Override
     public void addWoolCaptured() {

@@ -22,6 +22,7 @@ import io.github.Leonardo0013YT.UltraCTW.menus.SetupMenu;
 import io.github.Leonardo0013YT.UltraCTW.menus.UltraInventoryMenu;
 import io.github.Leonardo0013YT.UltraCTW.placeholders.MVdWPlaceholders;
 import io.github.Leonardo0013YT.UltraCTW.placeholders.Placeholders;
+import io.github.Leonardo0013YT.UltraCTW.utils.Utils;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -144,6 +145,16 @@ public class Main extends JavaPlugin {
                 getGm().getGames().values().forEach(Game::update);
             }
         }.runTaskTimer(this, 20, 20);
+        new BukkitRunnable(){
+            @Override
+            public void run() {
+                db.loadTopBounty();
+                db.loadTopCaptured();
+                db.loadTopKills();
+                db.loadTopWins();
+                Bukkit.getScheduler().scheduleSyncDelayedTask(Main.get(), () -> top.createTops());
+            }
+        }.runTaskTimer(this, 6000, 6000);
     }
 
     @Override
@@ -153,6 +164,12 @@ public class Main extends JavaPlugin {
             if (gm.isPlayerInGame(on)) {
                 gm.removePlayerGame(on, false);
             }
+            db.savePlayer(on.getUniqueId(), false);
+        }
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            Bukkit.getConsoleSender().sendMessage("§cError in save data.");
         }
     }
 
@@ -184,6 +201,7 @@ public class Main extends JavaPlugin {
         wdm.loadWinDances();
         wem.loadWinEffects();
         ijm.reload();
+        Utils.updateSB();
     }
 
     private void setupSounds() {

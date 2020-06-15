@@ -308,6 +308,10 @@ public class PlayerListener implements Listener {
     public void onDrop(PlayerDropItemEvent e) {
         Player p = e.getPlayer();
         ItemStack item = e.getItemDrop().getItemStack();
+        if (item.equals(plugin.getIm().getPoints()) || item.equals(plugin.getIm().getLobby()) || item.equals(plugin.getIm().getTeams()) || item.equals(plugin.getIm().getLeave()) || item.equals(plugin.getIm().getSetup())) {
+            e.setCancelled(true);
+            return;
+        }
         String co = NBTEditor.getString(item, "TEAM", "WOOL", "CAPTURE");
         if (co == null) return;
         Game g = plugin.getGm().getGameByPlayer(p);

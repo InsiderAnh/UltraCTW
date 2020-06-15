@@ -56,6 +56,11 @@ public class AddonManager {
                         plugin.saveConfig();
                     }
                 }
+                plugin.getDb().loadTopBounty();
+                plugin.getDb().loadTopCaptured();
+                plugin.getDb().loadTopKills();
+                plugin.getDb().loadTopWins();
+                Bukkit.getScheduler().scheduleSyncDelayedTask(Main.get(), () -> plugin.getTop().createTops());
             }
         }.runTaskLater(plugin, 80);
     }

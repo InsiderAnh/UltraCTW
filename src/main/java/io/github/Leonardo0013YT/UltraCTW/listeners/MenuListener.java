@@ -38,13 +38,17 @@ public class MenuListener implements Listener {
         if (e.getSlotType().equals(InventoryType.SlotType.OUTSIDE) || e.getCurrentItem() == null || e.getCurrentItem().getType().equals(Material.AIR)) {
             return;
         }
+        ItemStack item = e.getCurrentItem();
+        if (item.equals(plugin.getIm().getPoints()) || item.equals(plugin.getIm().getLobby()) || item.equals(plugin.getIm().getTeams()) || item.equals(plugin.getIm().getLeave()) || item.equals(plugin.getIm().getSetup())) {
+            e.setCancelled(true);
+            return;
+        }
         Player p = (Player) e.getWhoClicked();
         if (e.getView().getTitle().equals(plugin.getLang().get(p, "menus.kitlevels.title"))) {
             e.setCancelled(true);
             if (e.getCurrentItem() == null || e.getCurrentItem().getType().equals(Material.AIR)) {
                 return;
             }
-            ItemStack item = e.getCurrentItem();
             if (!item.hasItemMeta()) {
                 return;
             }
@@ -78,7 +82,6 @@ public class MenuListener implements Listener {
             if (e.getCurrentItem() == null || e.getCurrentItem().getType().equals(Material.AIR)) {
                 return;
             }
-            ItemStack item = e.getCurrentItem();
             if (!item.hasItemMeta()) {
                 return;
             }
@@ -124,7 +127,6 @@ public class MenuListener implements Listener {
         }
         if (e.getView().getTitle().equals(plugin.getLang().get("menus.teams.title"))) {
             e.setCancelled(true);
-            ItemStack item = e.getCurrentItem();
             if (!item.hasItemMeta() || !item.getItemMeta().hasDisplayName()) {
                 return;
             }
@@ -160,7 +162,6 @@ public class MenuListener implements Listener {
             if (e.getCurrentItem() == null || e.getCurrentItem().getType().equals(Material.AIR)) {
                 return;
             }
-            ItemStack item = e.getCurrentItem();
             if (!item.hasItemMeta()) {
                 return;
             }
@@ -202,7 +203,6 @@ public class MenuListener implements Listener {
             if (e.getCurrentItem() == null || e.getCurrentItem().getType().equals(Material.AIR)) {
                 return;
             }
-            ItemStack item = e.getCurrentItem();
             if (!item.hasItemMeta()) {
                 return;
             }
@@ -270,7 +270,6 @@ public class MenuListener implements Listener {
             if (e.getCurrentItem() == null || e.getCurrentItem().getType().equals(Material.AIR)) {
                 return;
             }
-            ItemStack item = e.getCurrentItem();
             if (!item.hasItemMeta()) {
                 return;
             }
@@ -338,7 +337,6 @@ public class MenuListener implements Listener {
             if (e.getCurrentItem() == null || e.getCurrentItem().getType().equals(Material.AIR)) {
                 return;
             }
-            ItemStack item = e.getCurrentItem();
             if (!item.hasItemMeta()) {
                 return;
             }
@@ -406,7 +404,6 @@ public class MenuListener implements Listener {
             if (e.getCurrentItem() == null || e.getCurrentItem().getType().equals(Material.AIR)) {
                 return;
             }
-            ItemStack item = e.getCurrentItem();
             if (!item.hasItemMeta()) {
                 return;
             }
@@ -474,7 +471,6 @@ public class MenuListener implements Listener {
             if (e.getCurrentItem() == null || e.getCurrentItem().getType().equals(Material.AIR)) {
                 return;
             }
-            ItemStack item = e.getCurrentItem();
             if (!item.hasItemMeta()) {
                 return;
             }
@@ -542,7 +538,6 @@ public class MenuListener implements Listener {
             if (e.getCurrentItem() == null || e.getCurrentItem().getType().equals(Material.AIR)) {
                 return;
             }
-            ItemStack item = e.getCurrentItem();
             if (!item.hasItemMeta()) {
                 return;
             }

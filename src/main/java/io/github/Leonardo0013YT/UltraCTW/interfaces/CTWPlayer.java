@@ -68,6 +68,10 @@ public interface CTWPlayer {
 
     void setAssists(int assists);
 
+    void setBounty(double bounty);
+
+    double getBounty();
+
     void addWoolCaptured();
 
     int getWoolCaptured();
