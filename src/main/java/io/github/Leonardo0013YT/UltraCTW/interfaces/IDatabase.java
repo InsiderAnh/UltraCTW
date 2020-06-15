@@ -6,6 +6,12 @@ import java.util.HashMap;
 import java.util.UUID;
 
 public interface IDatabase {
+    void loadMultipliers(DataBaseRequest request);
+
+    void createMultiplier(String type, String name, double amount, long ending, DataBaseRequest request);
+
+    boolean removeMultiplier(int id);
+
     void loadTopCaptured();
 
     void loadTopKills();

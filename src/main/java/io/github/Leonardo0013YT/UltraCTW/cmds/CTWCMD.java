@@ -167,6 +167,81 @@ public class CTWCMD implements CommandExecutor {
                     plugin.getUim().getPages().put(p, 1);
                     plugin.getUim().createTauntsSelectorMenu(p);
                     break;
+                case "multiplier":
+                    if (!p.hasPermission("ctw.admin")) {
+                        p.sendMessage(plugin.getLang().get(p, "messages.noPermission"));
+                        return true;
+                    }
+                    if (args.length < 5) {
+                        sendHelp(sender);
+                        return true;
+                    }
+                    switch (args[1].toLowerCase()) {
+                        case "coins":
+                            Player on = Bukkit.getPlayer(args[2]);
+                            if (on == null) {
+                                p.sendMessage(plugin.getLang().get(p, "setup.noOnline"));
+                                return true;
+                            }
+                            double amount;
+                            try {
+                                amount = Double.parseDouble(args[3]);
+                            } catch (NumberFormatException e) {
+                                p.sendMessage(plugin.getLang().get(p, "setup.noNumber"));
+                                return true;
+                            }
+                            int seconds;
+                            try {
+                                seconds = Integer.parseInt(args[4]);
+                            } catch (NumberFormatException e) {
+                                p.sendMessage(plugin.getLang().get(p, "setup.noNumber"));
+                                return true;
+                            }
+                            plugin.getDb().createMultiplier("COINS", on.getName(), amount, System.currentTimeMillis() + (seconds * 1000), b -> {
+                                if (b) {
+                                    plugin.getDb().loadMultipliers(b1 -> {
+                                        if (b1) {
+                                            p.sendMessage(plugin.getLang().get(p, "messages.multiplier").replaceAll("<type>", "Coins").replace("<name>", on.getName()).replace("<amount>", String.valueOf(amount)).replace("<time>", Utils.convertTime(seconds)));
+                                        }
+                                    });
+                                }
+                            });
+                            break;
+                        case "xp":
+                            Player on3 = Bukkit.getPlayer(args[2]);
+                            if (on3 == null) {
+                                p.sendMessage(plugin.getLang().get(p, "setup.noOnline"));
+                                return true;
+                            }
+                            double amount3;
+                            try {
+                                amount3 = Double.parseDouble(args[3]);
+                            } catch (NumberFormatException e) {
+                                p.sendMessage(plugin.getLang().get(p, "setup.noNumber"));
+                                return true;
+                            }
+                            int seconds3;
+                            try {
+                                seconds3 = Integer.parseInt(args[4]);
+                            } catch (NumberFormatException e) {
+                                p.sendMessage(plugin.getLang().get(p, "setup.noNumber"));
+                                return true;
+                            }
+                            plugin.getDb().createMultiplier("XP", on3.getName(), amount3, System.currentTimeMillis() + (seconds3 * 1000), b -> {
+                                if (b) {
+                                    plugin.getDb().loadMultipliers(b1 -> {
+                                        if (b1) {
+                                            p.sendMessage(plugin.getLang().get(p, "messages.multiplier").replaceAll("<type>", "XP").replace("<name>", on3.getName()).replace("<amount>", String.valueOf(amount3)).replace("<time>", Utils.convertTime(seconds3)));
+                                        }
+                                    });
+                                }
+                            });
+                            break;
+                        default:
+                            sendHelp(sender);
+                            break;
+                    }
+                    break;
                 default:
                     sendHelp(sender);
                     break;
@@ -181,6 +256,7 @@ public class CTWCMD implements CommandExecutor {
         s.sendMessage("§e/ctw join <name> §a- §bJoin to arena with name.");
         s.sendMessage("§e/ctw leave §a- §bLeave the game.");
         s.sendMessage("§e/ctw coins add/remove/set <player> <coins> §7- §aHandles the addition, removal and set of coins.");
+        s.sendMessage("§e/ctw multiplier <type> <player> <amount> <time> §7- §aCreate a multiplier of type with custom amount and duration.");
         s.sendMessage("§7§m-----------------------------");
     }
 

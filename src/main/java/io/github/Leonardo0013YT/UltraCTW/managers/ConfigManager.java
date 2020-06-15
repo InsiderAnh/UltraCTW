@@ -17,7 +17,7 @@ public class ConfigManager {
     private short redPanelData;
     private Material back, redPanelMaterial;
     private Sound streak2, streak3, streak4, streak5, upgradeSound, cancelStartSound, wineffectschicken, wineffectsvulcanfire, wineffectvulcanwool, wineffectnotes, killEffectTNT, killEffectSquid;
-    private int coinsKill, coinsWin, coinsAssists, xpKill, xpWin, xpAssists, starting, progressBarAmount, timeToKill;
+    private int maxMultiplier, coinsKill, coinsWin, coinsAssists, xpKill, xpWin, xpAssists, starting, progressBarAmount, timeToKill;
     private double bountyMin, bountyMax, bountyPerKill;
 
     public ConfigManager(Main plugin) {
@@ -26,6 +26,7 @@ public class ConfigManager {
     }
 
     public void reload() {
+        this.maxMultiplier = plugin.getConfig().getInt("gameDefaults.maxMultiplier");
         this.topKills = Utils.getStringLocation(plugin.getConfig().getString("topKills"));
         this.topWins = Utils.getStringLocation(plugin.getConfig().getString("topWins"));
         this.topCaptured = Utils.getStringLocation(plugin.getConfig().getString("topCaptured"));

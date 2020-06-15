@@ -51,7 +51,7 @@ public class SetupCMD implements CommandExecutor {
                             plugin.getTop().createTops();
                             p.sendMessage(plugin.getLang().get(p, "setup.setTopWins"));
                             break;
-                        case "deaths":
+                        case "captured":
                             plugin.getConfig().set("topCaptured", Utils.getLocationString(p.getLocation()));
                             plugin.saveConfig();
                             plugin.reloadConfig();
@@ -59,7 +59,7 @@ public class SetupCMD implements CommandExecutor {
                             plugin.getTop().createTops();
                             p.sendMessage(plugin.getLang().get(p, "setup.setTopCaptured"));
                             break;
-                        case "coins":
+                        case "bounty":
                             plugin.getConfig().set("topBounty", Utils.getLocationString(p.getLocation()));
                             plugin.saveConfig();
                             plugin.reloadConfig();
@@ -180,6 +180,7 @@ public class SetupCMD implements CommandExecutor {
         s.sendMessage("§e/ctws addkits §7- §aSet NPC Kits. §c(You need stay creating arena)");
         s.sendMessage("§e/ctws kits <name> §7- §aCreate a new kit.");
         s.sendMessage("§e/ctws inventory <type> §7- §aEdit a inventory.");
+        s.sendMessage("§e/ctws settop kills/wins/captured/bounty §7- §aSet top location.");
         s.sendMessage("§e/ctws reload §7- §aReload the plugin");
         s.sendMessage("§7§m--------------------------------");
     }

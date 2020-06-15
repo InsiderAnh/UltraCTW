@@ -10,6 +10,7 @@ redPanel:
   material: STAINED_GLASS_PANE
   data: 14
 gameDefaults:
+  maxMultiplier: 5
   starting: 30
   timeToKill: 30
   coins:

@@ -62,6 +62,7 @@ public class Main extends JavaPlugin {
     private InjectionManager ijm;
     private StreakManager stm;
     private TopManager top;
+    private MultiplierManager mm;
 
     public static Main get() {
         return instance;
@@ -124,6 +125,7 @@ public class Main extends JavaPlugin {
         ijm.loadInjections();
         stm = new StreakManager(this);
         top = new TopManager(this);
+        mm = new MultiplierManager(this);
         getCommand("ctws").setExecutor(new SetupCMD(this));
         getCommand("ctw").setExecutor(new CTWCMD(this));
         getServer().getPluginManager().registerEvents(new SetupListener(this), this);

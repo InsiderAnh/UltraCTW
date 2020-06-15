@@ -33,6 +33,8 @@ streaks:
   quarter: "&b&lQUADRUPLE "
   penta: "&6&lPENTA "
 messages:
+  multiplier: "&aThe &b<type> &amultiplier has been activated by &6<name> &aof &x<amount> &afor &e<time>&a."
+  multiplierFinish: "&aThe &b<type> &amultiplier of &6<name> &ahas been end."
   kill: "<streak>KILL! &8+&6<coins> &7and &8+&b<xp>"
   streak: "&c&lSTREAK! &7of &c<kills> &7kills by <nameStreak>"
   bounty: "&6&lBOUNTY! &7of &6&l<coins> &7for <name> for high streak."
