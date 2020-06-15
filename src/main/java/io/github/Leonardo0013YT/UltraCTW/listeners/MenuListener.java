@@ -11,6 +11,7 @@ import io.github.Leonardo0013YT.UltraCTW.cosmetics.windances.UltraWinDance;
 import io.github.Leonardo0013YT.UltraCTW.cosmetics.wineffects.UltraWinEffect;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.CTWPlayer;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.Game;
+import io.github.Leonardo0013YT.UltraCTW.objects.ShopItem;
 import io.github.Leonardo0013YT.UltraCTW.team.Team;
 import io.github.Leonardo0013YT.UltraCTW.utils.NBTEditor;
 import io.github.Leonardo0013YT.UltraCTW.utils.Utils;
@@ -44,6 +45,22 @@ public class MenuListener implements Listener {
             return;
         }
         Player p = (Player) e.getWhoClicked();
+        if (e.getView().getTitle().equals(plugin.getLang().get("menus.shop.title"))){
+            e.setCancelled(true);
+            if (e.getCurrentItem() == null || e.getCurrentItem().getType().equals(Material.AIR)) {
+                return;
+            }
+            if (!item.hasItemMeta()) {
+                return;
+            }
+            if (!item.getItemMeta().hasDisplayName()) {
+                return;
+            }
+            int id = NBTEditor.getInt(item, "SHOP", "ID", "BUY");
+            ShopItem si = plugin.getShm().getItems().get(id);
+            if (si == null) return;
+            plugin.getShm().buy(p, si, si.getItem().getItemMeta().getDisplayName());
+        }
         if (e.getView().getTitle().equals(plugin.getLang().get(p, "menus.kitlevels.title"))) {
             e.setCancelled(true);
             if (e.getCurrentItem() == null || e.getCurrentItem().getType().equals(Material.AIR)) {
@@ -65,7 +82,6 @@ public class MenuListener implements Listener {
                 p.closeInventory();
                 return;
             }
-            CTWPlayer sw = plugin.getDb().getCTWPlayer(p);
             Kit k = plugin.getKm().getKitByItem(p, item);
             if (k == null) {
                 return;
@@ -90,7 +106,7 @@ public class MenuListener implements Listener {
             }
             ItemMeta im = item.getItemMeta();
             String display = im.getDisplayName();
-            CTWPlayer sw = plugin.getDb().getCTWPlayer(p);
+            Game game = plugin.getGm().getGameByPlayer(p);
             if (e.getClick().equals(ClickType.LEFT)) {
                 if (display.equals(plugin.getLang().get(p, "menus.kitselector.close.nameItem"))) {
                     if (e.getClick().equals(ClickType.RIGHT)) {
@@ -103,12 +119,12 @@ public class MenuListener implements Listener {
             }
             if (display.equals(plugin.getLang().get(p, "menus.next.nameItem"))) {
                 plugin.getUim().addPage(p);
-                plugin.getUim().createKitSelectorMenu(p);
+                plugin.getUim().createKitSelectorMenu(p, game);
                 return;
             }
             if (display.equals(plugin.getLang().get(p, "menus.last.nameItem"))) {
                 plugin.getUim().removePage(p);
-                plugin.getUim().createKitSelectorMenu(p);
+                plugin.getUim().createKitSelectorMenu(p, game);
                 return;
             }
             if (display.equals(plugin.getLang().get(p, "menus.kitselector.kit.nameItem"))) {
@@ -116,7 +132,7 @@ public class MenuListener implements Listener {
             }
             if (display.equals(plugin.getLang().get(p, "menus.kitselector.deselect.nameItem"))) {
                 p.sendMessage(plugin.getLang().get(p, "messages.deselect"));
-                plugin.getUim().createKitSelectorMenu(p);
+                plugin.getUim().createKitSelectorMenu(p, game);
                 return;
             }
             Kit k = plugin.getKm().getKitByItem(p, item);
@@ -146,7 +162,7 @@ public class MenuListener implements Listener {
             ChatColor c = ChatColor.valueOf(co);
             Team team = game.getTeams().get(c);
             Team mayo = Utils.getMajorPlayersTeam(game);
-            if (team.getTeamSize() > mayo.getTeamSize()){
+            if (team.getTeamSize() >= mayo.getTeamSize()){
                 p.sendMessage(plugin.getLang().get("messages.teamMajorPlayers"));
                 return;
             }

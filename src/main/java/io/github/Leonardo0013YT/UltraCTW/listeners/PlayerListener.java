@@ -92,7 +92,9 @@ public class PlayerListener implements Listener {
         e.setCancelled(true);
         if (npc.getNpcType().equals(NPCType.KITS)) {
             plugin.getUim().getPages().put(p, 1);
-            plugin.getUim().createKitSelectorMenu(p);
+            plugin.getUim().createKitSelectorMenu(p, g);
+        } else if (npc.getNpcType().equals(NPCType.SHOP)){
+            plugin.getGem().createShopMenu(p);
         }
     }
 
@@ -346,7 +348,7 @@ public class PlayerListener implements Listener {
         if (team == null) return;
         if (!team.getColors().contains(c)){
             e.setCancelled(true);
-            e.getItem().setItemStack(null);
+            e.getItem().remove();
             return;
         }
         ArrayList<Team> others = g.getTeams().values().stream().filter(t -> t.getId() != team.getId()).collect(Collectors.toCollection(ArrayList::new));
@@ -369,7 +371,7 @@ public class PlayerListener implements Listener {
             Game g = plugin.getGm().getGameByPlayer(p);
             if (g == null) return;
             Team team = g.getTeamPlayer(p);
-            if (team == null) {
+            if (team == null || g.isState(State.WAITING) || g.isState(State.STARTING)) {
                 e.setCancelled(true);
                 return;
             }
@@ -383,7 +385,6 @@ public class PlayerListener implements Listener {
                     } else {
                         plugin.getTm().execute(p, cause, g, 0);
                     }
-                    g.addKill(d);
                 } else {
                     plugin.getTm().execute(p, e.getCause(), g, 0);
                 }
@@ -422,12 +423,8 @@ public class PlayerListener implements Listener {
                     e.setCancelled(true);
                     return;
                 }
-                double damage = e.getFinalDamage();
-                plugin.getTgm().setTag(d, p, damage, g);
                 if (e.getFinalDamage() >= p.getHealth()) {
                     CTWPlayer sk = plugin.getDb().getCTWPlayer(d);
-                    g.addKill(d);
-                    plugin.getStm().addKill(d);
                     if (p.getLastDamageCause() == null || p.getLastDamageCause().getCause() == null) {
                         EntityDamageEvent.DamageCause cause = EntityDamageEvent.DamageCause.CONTACT;
                         if (sk != null) {
@@ -448,12 +445,9 @@ public class PlayerListener implements Listener {
                     e.setCancelled(true);
                     respawn(tp, g, p);
                     g.addDeath(p);
-                    plugin.getStm().resetStreak(p);
-                    d.sendMessage(plugin.getLang().get("messages.kill").replaceAll("<xp>", String.valueOf(plugin.getCm().getXpKill())).replaceAll("<coins>", String.valueOf(plugin.getCm().getCoinsKill())).replaceAll("<streak>", plugin.getStm().getPrefix(p)));
-                } else {
-                    Tagged tag = plugin.getTgm().getTagged(p);
-                    tag.addPlayerDamage(p, e.getFinalDamage());
                 }
+                double damage = e.getFinalDamage();
+                plugin.getTgm().setTag(d, p, damage, g);
             }
             if (e.getDamager() instanceof Projectile && ((Projectile) e.getDamager()).getShooter() instanceof Player) {
                 Player d = (Player) ((Projectile) e.getDamager()).getShooter();
@@ -469,11 +463,7 @@ public class PlayerListener implements Listener {
                     e.setCancelled(true);
                     return;
                 }
-                double damage = e.getFinalDamage();
-                plugin.getTgm().setTag(d, p, damage, g);
                 if (e.getFinalDamage() >= p.getHealth()) {
-                    g.addKill(d);
-                    plugin.getStm().addKill(d);
                     CTWPlayer sk = plugin.getDb().getCTWPlayer(d);
                     if (p.getLastDamageCause() == null || p.getLastDamageCause().getCause() == null) {
                         EntityDamageEvent.DamageCause cause = EntityDamageEvent.DamageCause.CONTACT;
@@ -495,12 +485,9 @@ public class PlayerListener implements Listener {
                     e.setCancelled(true);
                     respawn(tp, g, p);
                     g.addDeath(p);
-                    plugin.getStm().resetStreak(p);
-                    d.sendMessage(plugin.getLang().get("messages.kill").replaceAll("<xp>", String.valueOf(plugin.getCm().getXpKill())).replaceAll("<coins>", String.valueOf(plugin.getCm().getCoinsKill())).replaceAll("<streak>", plugin.getStm().getPrefix(p)));
-                } else {
-                    Tagged tag = plugin.getTgm().getTagged(p);
-                    tag.addPlayerDamage(p, e.getFinalDamage());
                 }
+                double damage = e.getFinalDamage();
+                plugin.getTgm().setTag(d, p, damage, g);
                 CTWPlayer ctw = plugin.getDb().getCTWPlayer(d);
                 ctw.setsShots(ctw.getsShots() + 1);
             }

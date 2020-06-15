@@ -37,7 +37,18 @@ public class GameManager {
             gameNames.put(game.getName(), id);
             plugin.sendLogMessage("§aGame §e" + s + "§a loaded correctly.");
         }
+        reset();
+    }
+
+    public void reset(){
         Game selectedGame = new ArrayList<>(games.values()).get(ThreadLocalRandom.current().nextInt(0, games.values().size()));
+        setSelectedGame(selectedGame);
+    }
+
+    public void reset(Game game){
+        ArrayList<Game> back = new ArrayList<>(games.values());
+        back.remove(game);
+        Game selectedGame = new ArrayList<>(back).get(ThreadLocalRandom.current().nextInt(0, games.values().size()));
         setSelectedGame(selectedGame);
     }
 

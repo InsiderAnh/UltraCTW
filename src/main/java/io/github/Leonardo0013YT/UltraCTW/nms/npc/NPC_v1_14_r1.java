@@ -160,6 +160,7 @@ public class NPC_v1_14_r1 implements NPC {
 
     @Override
     public org.bukkit.entity.Entity getBukkitEntity() {
+        if (entity == null) return null;
         return entity.getBukkitEntity();
     }
 

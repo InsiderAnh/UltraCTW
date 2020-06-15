@@ -3,6 +3,7 @@ package io.github.Leonardo0013YT.UltraCTW.managers;
 import com.nametagedit.plugin.NametagEdit;
 import io.github.Leonardo0013YT.UltraCTW.Main;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.CTWPlayer;
+import io.github.Leonardo0013YT.UltraCTW.interfaces.Game;
 import io.github.Leonardo0013YT.UltraCTW.streak.Streak;
 import io.github.Leonardo0013YT.UltraCTW.utils.Utils;
 import io.github.Leonardo0013YT.UltraCTW.xseries.XSound;
@@ -28,7 +29,7 @@ public class StreakManager {
         Utils.updateSB(p);
     }
 
-    public void addKill(Player p){
+    public void addKill(Player p, Game game){
         Streak streak = get(p);
         streak.setStreak(streak.getStreak() + 1);
         if (streak.getLastKill() > System.currentTimeMillis() - (plugin.getCm().getTimeToKill() * 1000)){
@@ -39,7 +40,7 @@ public class StreakManager {
         }
         int amount = getStreak(p);
         if (amount % 5 == 0){
-            Bukkit.broadcastMessage(plugin.getLang().get("messages.streak").replaceAll("<kills>", String.valueOf(amount)).replaceAll("<nameStreak>", p.getName()));
+            game.sendGameMessage(plugin.getLang().get("messages.streak").replaceAll("<kills>", String.valueOf(amount)).replaceAll("<nameStreak>", p.getName()));
             for (Entity ent : p.getNearbyEntities(5, 5, 5)){
                 if (!(ent instanceof Player)) continue;
                 Player ar = (Player) ent;
@@ -51,7 +52,7 @@ public class StreakManager {
             streak.setPrice(getBounty(amount));
             CTWPlayer ctw = plugin.getDb().getCTWPlayer(p);
             ctw.setBounty(streak.getPrice());
-            Bukkit.broadcastMessage(plugin.getLang().get("messages.bounty").replaceAll("<name>", p.getName()).replaceAll("<coins>", Utils.format(streak.getPrice())));
+            game.sendGameMessage(plugin.getLang().get("messages.bounty").replaceAll("<name>", p.getName()).replaceAll("<coins>", Utils.format(streak.getPrice())));
             NametagEdit.getApi().setSuffix(p, " §6§l" + Utils.format(streak.getPrice()) + "g");
             return;
         }
@@ -60,7 +61,7 @@ public class StreakManager {
             CTWPlayer ctw = plugin.getDb().getCTWPlayer(p);
             ctw.setBounty(streak.getPrice());
             if (amount % 5 == 0){
-                Bukkit.broadcastMessage(plugin.getLang().get("messages.bounty").replaceAll("<name>", p.getName()).replaceAll("<coins>", Utils.format(streak.getPrice())));
+                game.sendGameMessage(plugin.getLang().get("messages.bounty").replaceAll("<name>", p.getName()).replaceAll("<coins>", Utils.format(streak.getPrice())));
             }
             NametagEdit.getApi().setSuffix(p, " §6§l" + Utils.format(streak.getPrice()) + "g");
         }

@@ -287,7 +287,7 @@ public class MySQLDatabase implements IDatabase {
                     insert.setInt(6, 0);
                     insert.setDouble(7, 0.0);
                     if (enabled) {
-                        insert.setString(4, p.getName());
+                        insert.setString(8, p.getName());
                         insert.execute();
                     } else {
                         insert.executeUpdate();
@@ -310,11 +310,11 @@ public class MySQLDatabase implements IDatabase {
                 Connection connection = getConnection();
                 PreparedStatement save = connection.prepareStatement(SAVE_PD);
                 save.setString(1, plugin.toStringCTWPlayer(ipd));
-                save.setString(2, uuid.toString());
-                save.setInt(3, ipd.getKills());
-                save.setInt(4, ipd.getWins());
-                save.setInt(5, ipd.getWoolCaptured());
-                save.setDouble(6, ipd.getBounty());
+                save.setInt(2, ipd.getKills());
+                save.setInt(3, ipd.getWins());
+                save.setInt(4, ipd.getWoolCaptured());
+                save.setDouble(5, ipd.getBounty());
+                save.setString(6, uuid.toString());
                 save.execute();
                 close(connection, save, null);
             } catch (SQLException ignored) {
@@ -325,11 +325,11 @@ public class MySQLDatabase implements IDatabase {
                     Connection connection = getConnection();
                     PreparedStatement save = connection.prepareStatement(SAVE_PD);
                     save.setString(1, plugin.toStringCTWPlayer(ipd));
-                    save.setString(2, uuid.toString());
-                    save.setInt(3, ipd.getKills());
-                    save.setInt(4, ipd.getWins());
-                    save.setInt(5, ipd.getWoolCaptured());
-                    save.setDouble(6, ipd.getBounty());
+                    save.setInt(2, ipd.getKills());
+                    save.setInt(3, ipd.getWins());
+                    save.setInt(4, ipd.getWoolCaptured());
+                    save.setDouble(5, ipd.getBounty());
+                    save.setString(6, uuid.toString());
                     save.execute();
                     close(connection, save, null);
                 } catch (SQLException ignored) {

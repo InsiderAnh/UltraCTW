@@ -34,7 +34,7 @@ public class Main extends JavaPlugin {
 
     private static Main instance;
     private Gson ctw;
-    private Settings arenas, lang, menus, kits, sources, windance, wineffect, killsound, taunt, trail, killeffect, shopkeepers, levels;
+    private Settings arenas, lang, menus, kits, sources, windance, wineffect, killsound, taunt, trail, killeffect, shopkeepers, levels, shop;
     private boolean debugMode, stop = false;
     private GameManager gm;
     private ConfigManager cm;
@@ -90,6 +90,7 @@ public class Main extends JavaPlugin {
         killeffect = new Settings(this, "killeffect", false, false);
         shopkeepers = new Settings(this, "shopkeepers", false, false);
         levels = new Settings(this, "levels", false, false);
+        shop = new Settings(this, "shop", false, false);
         debugMode = getConfig().getBoolean("debugMode");
         wc = new WorldController(this);
         db = new MySQLDatabase(this);
@@ -164,7 +165,7 @@ public class Main extends JavaPlugin {
             if (gm.isPlayerInGame(on)) {
                 gm.removePlayerGame(on, false);
             }
-            db.savePlayer(on.getUniqueId(), false);
+            db.savePlayer(on.getUniqueId(), true);
         }
         try {
             Thread.sleep(3000);
@@ -177,6 +178,7 @@ public class Main extends JavaPlugin {
         reloadConfig();
         lang.reload();
         arenas.reload();
+        shop.reload();
         killeffect.reload();
         killsound.reload();
         kits.reload();
@@ -200,6 +202,7 @@ public class Main extends JavaPlugin {
         tlm.loadTrails();
         wdm.loadWinDances();
         wem.loadWinEffects();
+        shm.reload();
         ijm.reload();
         Utils.updateSB();
     }

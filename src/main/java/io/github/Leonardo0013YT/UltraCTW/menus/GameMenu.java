@@ -2,6 +2,7 @@ package io.github.Leonardo0013YT.UltraCTW.menus;
 
 import io.github.Leonardo0013YT.UltraCTW.Main;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.Game;
+import io.github.Leonardo0013YT.UltraCTW.objects.ShopItem;
 import io.github.Leonardo0013YT.UltraCTW.team.Team;
 import io.github.Leonardo0013YT.UltraCTW.utils.ItemUtils;
 import io.github.Leonardo0013YT.UltraCTW.utils.NBTEditor;
@@ -21,6 +22,7 @@ import java.util.List;
 public class GameMenu {
 
     private List<Integer> slots = Arrays.asList(19, 20, 21, 22, 23, 24, 25, 28, 29, 30, 31, 32, 33, 34);
+    private List<Integer> shop = Arrays.asList(10, 11, 12, 13, 14, 15, 16, 19, 20, 21, 22, 23, 24, 25, 28, 29, 30, 31, 32, 33, 34);
     private Main plugin;
 
     public GameMenu(Main plugin) {
@@ -34,6 +36,17 @@ public class GameMenu {
         inv.setItem(4, random);
         for (Team t : game.getTeams().values()) {
             inv.setItem(slots.get(i), getTeamItem(t));
+            i++;
+        }
+        p.openInventory(inv);
+    }
+
+    public void createShopMenu(Player p){
+        Inventory inv = Bukkit.createInventory(null, 45, plugin.getLang().get("menus.shop.title"));
+        int i = 0;
+        for (int id : plugin.getShm().getItems().keySet()){
+            ShopItem si = plugin.getShm().getItems().get(id);
+            inv.setItem(shop.get(i), NBTEditor.set(si.getItem(), id, "SHOP", "ID", "BUY"));
             i++;
         }
         p.openInventory(inv);

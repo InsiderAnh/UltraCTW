@@ -35,10 +35,10 @@ streaks:
 messages:
   multiplier: "&aThe &b<type> &amultiplier has been activated by &6<name> &aof &x<amount> &afor &e<time>&a."
   multiplierFinish: "&aThe &b<type> &amultiplier of &6<name> &ahas been end."
-  kill: "<streak>KILL! &8+&6<coins> &7and &8+&b<xp>"
+  kill: "<streak>KILL! &8+&6<coins> Coins &7and &8+&b<xp> XP"
   streak: "&c&lSTREAK! &7of &c<kills> &7kills by <nameStreak>"
   bounty: "&6&lBOUNTY! &7of &6&l<coins> &7for <name> for high streak."
-  bountyClaimed: "&6&lBOUNTY CLAIMED! <killer> &7killed <death> &7for &6&l<coins>"
+  bountyClaimed: "&6&lBOUNTY CLAIMED! &e<killer> &7killed &e<death> &7for &6&l<coins>"
   teamMajorPlayers: "&cThere are many players on this team try to get into another."
   noSelector: "&cYou don't have permission for that, use automatic mode."
   noBuy: "&cThis cannot be purchased by users."
@@ -116,6 +116,7 @@ holograms:
       - "&7(Best Top 10 Bounty)"
       - "<top>"
 setup:
+  itemInHand: "&cYou must have the item in your hand."
   setTopKills: "&aYou've set up the top kills."
   setTopWins: "&aYou've set up the top wins."
   setTopCaptured: "&aYou've set up the top captured."
@@ -134,6 +135,7 @@ setup:
   setPrice: "&aWrite the price to this in the chat."
   setBuy: "&eThe state of this is now: <state>"
   setPosition: "&ePosition &a<pos> &ehas been established"
+  addItem: "&aThe item has been added successfully."
   team:
     giveAvailableWools: "&aYou have been given the available wools to set up."
     removed: "&cThe last Spawner has been removed."
@@ -325,6 +327,8 @@ scoreboards:
       &7
       &emc.spigot.net
 menus:
+  shop:
+    title: "&eShop Items"
   kitlevels:
     title: "&eKit Levels"
     close:
@@ -1196,6 +1200,18 @@ menus:
         &eClick to save!
   setup:
     title: "&aSetup Arena"
+    npcKits:
+      nameItem: "&eNPC Kits"
+      loreItem: |-
+        &7Add kits npc.
+        &7
+        &eClick to add NPC Kits.
+    npcShop:
+      nameItem: "&eNPC Shop"
+      loreItem: |-
+        &7Add Shop npc.
+        &7
+        &eClick to add NPC Shop.
     protection:
       nameItem: "&eLobby Protection"
       loreItem: |-

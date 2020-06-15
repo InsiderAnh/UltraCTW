@@ -77,7 +77,7 @@ public class AddonManager {
     }
 
     public void removeCoins(Player p, double price) {
-
+        plugin.getDb().getCTWPlayer(p).removeCoins(price);
     }
 
     public void createHologram(Location spawn, List<String> lines) {

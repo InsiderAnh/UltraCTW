@@ -33,6 +33,25 @@ public class SetupCMD implements CommandExecutor {
                 return true;
             }
             switch (args[0].toLowerCase()) {
+                case "addshopitem":
+                    if (args.length < 2) {
+                        sendHelp(sender);
+                        return true;
+                    }
+                    if (p.getItemInHand() == null || p.getItemInHand().getType().equals(Material.AIR)){
+                        p.sendMessage(plugin.getLang().get("setup.itemInHand"));
+                        return true;
+                    }
+                    double price;
+                    try {
+                        price = Double.parseDouble(args[1]);
+                    } catch (NumberFormatException e) {
+                        p.sendMessage(plugin.getLang().get("setup.noNumber"));
+                        return true;
+                    }
+                    plugin.getShm().addItem(p.getItemInHand(), price);
+                    p.sendMessage(plugin.getLang().get("setup.addItem"));
+                    break;
                 case "settop":
                     switch (args[1].toLowerCase()) {
                         case "kills":
@@ -178,6 +197,7 @@ public class SetupCMD implements CommandExecutor {
         s.sendMessage("§e/ctws create <name> <schematic> §7- §aCreate a new arena.");
         s.sendMessage("§e/ctws addshop §7- §aSet NPC Shop. §c(You need stay creating arena)");
         s.sendMessage("§e/ctws addkits §7- §aSet NPC Kits. §c(You need stay creating arena)");
+        s.sendMessage("§e/ctw addshopitem <price> §7- §aYou must have the item in your hand.");
         s.sendMessage("§e/ctws kits <name> §7- §aCreate a new kit.");
         s.sendMessage("§e/ctws inventory <type> §7- §aEdit a inventory.");
         s.sendMessage("§e/ctws settop kills/wins/captured/bounty §7- §aSet top location.");

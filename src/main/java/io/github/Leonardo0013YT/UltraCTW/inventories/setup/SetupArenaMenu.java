@@ -32,6 +32,8 @@ public class SetupArenaMenu implements UltraInventory {
                 ItemStack litem = plugin.getMenus().getConfig().getItemStack("menus." + name + ".items." + c);
                 ItemStack item = ItemBuilder.parse(plugin.getMenus().getConfig().getItemStack("menus." + name + ".items." + c).clone(),
                         new String[]{"{NAME}", plugin.getLang().get("menus.setup.name.nameItem"), plugin.getLang().get("menus.setup.name.loreItem")},
+                        new String[]{"{NPCSHOP}", plugin.getLang().get("menus.setup.npcShop.nameItem"), plugin.getLang().get("menus.setup.npcShop.loreItem")},
+                        new String[]{"{NPCKITS}", plugin.getLang().get("menus.setup.npcKits.nameItem"), plugin.getLang().get("menus.setup.npcKits.loreItem")},
                         new String[]{"{PROTECTION}", plugin.getLang().get("menus.setup.protection.nameItem"), plugin.getLang().get("menus.setup.protection.loreItem")},
                         new String[]{"{SCHEMATIC}", plugin.getLang().get("menus.setup.schematic.nameItem"), plugin.getLang().get("menus.setup.schematic.loreItem")},
                         new String[]{"{MIN}", plugin.getLang().get("menus.setup.min.nameItem"), plugin.getLang().get("menus.setup.min.loreItem")},
@@ -124,6 +126,8 @@ public class SetupArenaMenu implements UltraInventory {
                 ItemStack litem = plugin.getMenus().getConfig().getItemStack("menus." + name + ".items." + c);
                 ItemStack item = ItemBuilder.parse(plugin.getMenus().getConfig().getItemStack("menus." + name + ".items." + c).clone(),
                         new String[]{"{NAME}", plugin.getLang().get("menus.setup.name.nameItem"), plugin.getLang().get("menus.setup.name.loreItem")},
+                        new String[]{"{NPCSHOP}", plugin.getLang().get("menus.setup.npcShop.nameItem"), plugin.getLang().get("menus.setup.npcShop.loreItem")},
+                        new String[]{"{NPCKITS}", plugin.getLang().get("menus.setup.npcKits.nameItem"), plugin.getLang().get("menus.setup.npcKits.loreItem")},
                         new String[]{"{PROTECTION}", plugin.getLang().get("menus.setup.protection.nameItem"), plugin.getLang().get("menus.setup.protection.loreItem")},
                         new String[]{"{SCHEMATIC}", plugin.getLang().get("menus.setup.schematic.nameItem"), plugin.getLang().get("menus.setup.schematic.loreItem")},
                         new String[]{"{TEAMS}", plugin.getLang().get("menus.setup.teams.nameItem"), plugin.getLang().get("menus.setup.teams.loreItem")},

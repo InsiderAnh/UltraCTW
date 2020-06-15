@@ -11,16 +11,46 @@ import io.github.Leonardo0013YT.UltraCTW.cosmetics.wineffects.UltraWinEffect;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.CTWPlayer;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.Game;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.Purchasable;
+import io.github.Leonardo0013YT.UltraCTW.objects.ShopItem;
 import io.github.Leonardo0013YT.UltraCTW.team.Team;
 import io.github.Leonardo0013YT.UltraCTW.utils.Utils;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+
+import java.util.Arrays;
+import java.util.HashMap;
 
 public class ShopManager {
 
+    private HashMap<Integer, ShopItem> items = new HashMap<>();
     private Main plugin;
 
     public ShopManager(Main plugin) {
         this.plugin = plugin;
+        reload();
+    }
+
+    public void reload(){
+        items.clear();
+        if (!plugin.getShop().isSet("shop")) return;
+        for (String s : plugin.getShop().getConfig().getConfigurationSection("shop").getKeys(false)){
+            int id = Integer.parseInt(s);
+            items.put(id, new ShopItem(plugin, "shop." + s));
+        }
+    }
+
+    public void addItem(ItemStack item, double price){
+        String path = "shop." + items.size();
+        ItemStack newItem = item.clone();
+        ItemMeta im = newItem.getItemMeta();
+        im.setDisplayName("§eItem " + items.size());
+        im.setLore(Arrays.asList("§7This is a default lore", "§7change in shop.yml"));
+        newItem.setItemMeta(im);
+        plugin.getShop().set(path + ".item", newItem);
+        plugin.getShop().set(path + ".price", price);
+        plugin.getShop().save();
+        reload();
     }
 
     public void buy(Player p, Purchasable purchasable, String name) {
@@ -34,7 +64,10 @@ public class ShopManager {
         }
         CTWPlayer sw = plugin.getDb().getCTWPlayer(p);
         plugin.getAdm().removeCoins(p, purchasable.getPrice());
-        if (purchasable instanceof KitLevel) {
+        if (purchasable instanceof ShopItem) {
+            ShopItem si = (ShopItem) purchasable;
+            p.getInventory().addItem(si.getItem());
+        } else if (purchasable instanceof KitLevel) {
             KitLevel k = (KitLevel) purchasable;
             Game g = plugin.getGm().getGameByPlayer(p);
             Team team = g.getTeamPlayer(p);
@@ -62,4 +95,7 @@ public class ShopManager {
         p.sendMessage(plugin.getLang().get(p, "messages.bought").replaceAll("<name>", name));
     }
 
+    public HashMap<Integer, ShopItem> getItems() {
+        return items;
+    }
 }

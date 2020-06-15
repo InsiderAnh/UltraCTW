@@ -1784,6 +1784,14 @@ public class SetupListener implements Listener {
             ArenaSetup as = plugin.getSm().getSetup(p);
             ItemMeta im = e.getCurrentItem().getItemMeta();
             String display = im.getDisplayName();
+            if (display.equals(plugin.getLang().get(p, "menus.setup.npcKits.nameItem"))) {
+                as.getNpcKits().add(Utils.getLocationString(p.getLocation()));
+                p.sendMessage(plugin.getLang().get("setup.arena.setNPCKits"));
+            }
+            if (display.equals(plugin.getLang().get(p, "menus.setup.npcShop.nameItem"))) {
+                as.getNpcShop().add(Utils.getLocationString(p.getLocation()));
+                p.sendMessage(plugin.getLang().get("setup.arena.setNPCShop"));
+            }
             if (display.equals(plugin.getLang().get(p, "menus.setup.teams.nameItem"))) {
                 if (!plugin.getSm().isSetupTeam(p)) {
                     plugin.getSem().createSetupSelectMenu(p, as);

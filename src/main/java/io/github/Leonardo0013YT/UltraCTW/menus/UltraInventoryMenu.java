@@ -10,6 +10,7 @@ import io.github.Leonardo0013YT.UltraCTW.cosmetics.trails.Trail;
 import io.github.Leonardo0013YT.UltraCTW.cosmetics.windances.UltraWinDance;
 import io.github.Leonardo0013YT.UltraCTW.cosmetics.wineffects.UltraWinEffect;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.CTWPlayer;
+import io.github.Leonardo0013YT.UltraCTW.interfaces.Game;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.UltraInventory;
 import io.github.Leonardo0013YT.UltraCTW.inventories.LobbyShopMenu;
 import io.github.Leonardo0013YT.UltraCTW.inventories.setup.SetupArenaMenu;
@@ -108,11 +109,10 @@ public class UltraInventoryMenu {
         }
     }
 
-    public void createKitSelectorMenu(Player p) {
+    public void createKitSelectorMenu(Player p, Game game) {
         int page = pages.get(p);
         Inventory inv = Bukkit.createInventory(null, 54, plugin.getLang().get(p, "menus.kitselector.title"));
         CTWPlayer sw = plugin.getDb().getCTWPlayer(p);
-        ItemStack deselect = ItemBuilder.item(XMaterial.BARRIER, plugin.getLang().get(p, "menus.kitselector.deselect.nameItem"), plugin.getLang().get(p, "menus.kitselector.deselect.loreItem"));
         ItemStack close = ItemBuilder.item(XMaterial.matchXMaterial(plugin.getCm().getBack()), plugin.getLang().get(p, "menus.kitselector.close.nameItem"), plugin.getLang().get(p, "menus.kitselector.close.loreItem"));
         ItemStack next = ItemBuilder.item(XMaterial.ARROW, 1, plugin.getLang().get(p, "menus.next.nameItem"), plugin.getLang().get(p, "menus.next.loreItem"));
         ItemStack last = ItemBuilder.item(XMaterial.ARROW, 1, plugin.getLang().get(p, "menus.last.nameItem"), plugin.getLang().get(p, "menus.last.loreItem"));
@@ -121,6 +121,7 @@ public class UltraInventoryMenu {
                 continue;
             }
             if (k.getPage() != page) continue;
+            if (k.getId() == game.getDefKit()) continue;
             inv.setItem(k.getSlot(), k.getLevels().get(1).getIcon(p));
         }
         if (page > 1) {

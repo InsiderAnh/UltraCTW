@@ -169,7 +169,6 @@ public class GameNoState implements Game {
                 sendGameTitle("", "", 0, 1, 0);
             }
             if (starting == 0) {
-                plugin.getGm().setSelectedGame(this);
                 setState(State.GAME);
                 for (String s : plugin.getLang().getList("messages.start")) {
                     sendGameMessage(s);
@@ -244,7 +243,7 @@ public class GameNoState implements Game {
     @Override
     public void win(Team team) {
         if (plugin.isStop()) return;
-        plugin.getGm().setSelectedGame(null);
+        plugin.getGm().reset(this);
         setState(State.FINISH);
         GameWin gw = new GameWin(this);
         gw.setTeamWin(team);
@@ -278,7 +277,7 @@ public class GameNoState implements Game {
                 ArrayList<Player> back = new ArrayList<>(cached);
                 for (Player on : back) {
                     plugin.getGm().removePlayerGame(on, false);
-                    Game g = plugin.getGm().getRandomGame(GameNoState.this);
+                    Game g = plugin.getGm().getSelectedGame();
                     plugin.getGm().addPlayerGame(on, g.getId());
                 }
                 reset();
@@ -359,6 +358,12 @@ public class GameNoState implements Game {
             Utils.updateSB(p);
             inGame.add(p);
             inLobby.remove(p);
+            for (Location k : npcKits) {
+                plugin.getSkm().spawnShopKeeper(p, k, ctw.getShopKeeper(), NPCType.KITS);
+            }
+            for (Location s : npcShop) {
+                plugin.getSkm().spawnShopKeeper(p, s, ctw.getShopKeeper(), NPCType.SHOP);
+            }
             NametagEdit.getApi().setNametag(p, team.getColor() + "", "");
         }
     }
@@ -465,7 +470,7 @@ public class GameNoState implements Game {
     @Override
     public void givePlayerItems(Player p) {
         p.getInventory().setItem(4, plugin.getIm().getTeams());
-        p.getInventory().setItem(7, plugin.getIm().getLeave());
+        p.getInventory().setItem(8, plugin.getIm().getLeave());
     }
 
     @Override

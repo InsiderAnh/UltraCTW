@@ -141,7 +141,9 @@ public class CTWCMD implements CommandExecutor {
                     break;
                 case "kitsmenu":
                     plugin.getUim().getPages().put(p, 1);
-                    plugin.getUim().createKitSelectorMenu(p);
+                    Game game2 = plugin.getGm().getGameByPlayer(p);
+                    if (game2 == null) return true;
+                    plugin.getUim().createKitSelectorMenu(p, game2);
                     break;
                 case "killsoundsmenu":
                     plugin.getUim().getPages().put(p, 1);
@@ -254,6 +256,7 @@ public class CTWCMD implements CommandExecutor {
         s.sendMessage("§7§m-----------------------------");
         s.sendMessage("§e/ctw lobby §a- §bOpen the lobby menu.");
         s.sendMessage("§e/ctw join <name> §a- §bJoin to arena with name.");
+        s.sendMessage("§e/ctw randomjoin §a- §bRandom Join to arena.");
         s.sendMessage("§e/ctw leave §a- §bLeave the game.");
         s.sendMessage("§e/ctw coins add/remove/set <player> <coins> §7- §aHandles the addition, removal and set of coins.");
         s.sendMessage("§e/ctw multiplier <type> <player> <amount> <time> §7- §aCreate a multiplier of type with custom amount and duration.");

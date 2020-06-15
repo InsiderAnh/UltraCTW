@@ -4,6 +4,7 @@ import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import io.github.Leonardo0013YT.UltraCTW.Main;
 import io.github.Leonardo0013YT.UltraCTW.xseries.XMaterial;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -70,6 +71,16 @@ public class ItemBuilder {
         }
         i.setItemMeta(im);
         return i;
+    }
+
+    public static ItemStack item(Material material, String displayName, String s) {
+        ItemStack itemStack = new ItemStack(material);
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        itemMeta.setDisplayName(displayName);
+        itemMeta.setLore(s.isEmpty() ? new ArrayList<>() : Arrays.asList(s.split("\\n")));
+        addItemFlags(itemMeta);
+        itemStack.setItemMeta(itemMeta);
+        return itemStack;
     }
 
     public static ItemStack item(XMaterial material, String displayName, String s) {
