@@ -32,7 +32,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.stream.Collectors;
 
 public class PlayerListener implements Listener {
@@ -93,7 +92,7 @@ public class PlayerListener implements Listener {
         if (npc.getNpcType().equals(NPCType.KITS)) {
             plugin.getUim().getPages().put(p, 1);
             plugin.getUim().createKitSelectorMenu(p, g);
-        } else if (npc.getNpcType().equals(NPCType.SHOP)){
+        } else if (npc.getNpcType().equals(NPCType.SHOP)) {
             plugin.getGem().createShopMenu(p);
         }
     }
@@ -281,7 +280,7 @@ public class PlayerListener implements Listener {
         }
         Location to = e.getTo();
         Location from = e.getFrom();
-        if (to.getBlockX() != from.getBlockX() || to.getBlockY() != from.getBlockY() || to.getBlockZ() != from.getBlockZ()){
+        if (to.getBlockX() != from.getBlockX() || to.getBlockY() != from.getBlockY() || to.getBlockZ() != from.getBlockZ()) {
             CTWPlayer ctw = plugin.getDb().getCTWPlayer(p);
             ctw.setWalked(ctw.getWalked() + 1);
         }
@@ -346,7 +345,7 @@ public class PlayerListener implements Listener {
         if (g == null) return;
         Team team = g.getTeamPlayer(p);
         if (team == null) return;
-        if (!team.getColors().contains(c)){
+        if (!team.getColors().contains(c)) {
             e.setCancelled(true);
             e.getItem().remove();
             return;
@@ -400,11 +399,23 @@ public class PlayerListener implements Listener {
         if (e.getDamager() instanceof Player) {
             Player d = (Player) e.getDamager();
             Game g = plugin.getGm().getGameByPlayer(d);
-            if (g == null) return;
-            Entity entity = e.getEntity();
-            NPC npc = plugin.getNpc().getNPC(d, entity.getUniqueId());
-            if (npc != null) {
-                e.setCancelled(true);
+            if (g != null) {
+                Entity entity = e.getEntity();
+                NPC npc = plugin.getNpc().getNPC(d, entity.getUniqueId());
+                if (npc != null) {
+                    e.setCancelled(true);
+                }
+            }
+        }
+        if (e.getDamager() instanceof Projectile && ((Projectile) e.getDamager()).getShooter() instanceof Player) {
+            Player d = (Player) ((Projectile) e.getDamager()).getShooter();
+            Game g = plugin.getGm().getGameByPlayer(d);
+            if (g != null) {
+                Entity entity = e.getEntity();
+                NPC npc = plugin.getNpc().getNPC(d, entity.getUniqueId());
+                if (npc != null) {
+                    e.setCancelled(true);
+                }
             }
         }
         if (e.getEntity() instanceof Player) {

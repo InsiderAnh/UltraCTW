@@ -4,10 +4,12 @@ import io.github.Leonardo0013YT.UltraCTW.Main;
 import io.github.Leonardo0013YT.UltraCTW.cosmetics.killeffects.UltraKillEffect;
 import io.github.Leonardo0013YT.UltraCTW.cosmetics.killsounds.KillSound;
 import io.github.Leonardo0013YT.UltraCTW.cosmetics.kits.KitLevel;
+import io.github.Leonardo0013YT.UltraCTW.cosmetics.shopkeepers.ShopKeeper;
 import io.github.Leonardo0013YT.UltraCTW.cosmetics.taunts.Taunt;
 import io.github.Leonardo0013YT.UltraCTW.cosmetics.trails.Trail;
 import io.github.Leonardo0013YT.UltraCTW.cosmetics.windances.UltraWinDance;
 import io.github.Leonardo0013YT.UltraCTW.cosmetics.wineffects.UltraWinEffect;
+import io.github.Leonardo0013YT.UltraCTW.game.GamePlayer;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.CTWPlayer;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.Game;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.Purchasable;
@@ -31,16 +33,16 @@ public class ShopManager {
         reload();
     }
 
-    public void reload(){
+    public void reload() {
         items.clear();
         if (!plugin.getShop().isSet("shop")) return;
-        for (String s : plugin.getShop().getConfig().getConfigurationSection("shop").getKeys(false)){
+        for (String s : plugin.getShop().getConfig().getConfigurationSection("shop").getKeys(false)) {
             int id = Integer.parseInt(s);
             items.put(id, new ShopItem(plugin, "shop." + s));
         }
     }
 
-    public void addItem(ItemStack item, double price){
+    public void addItem(ItemStack item, double price) {
         String path = "shop." + items.size();
         ItemStack newItem = item.clone();
         ItemMeta im = newItem.getItemMeta();
@@ -54,6 +56,31 @@ public class ShopManager {
     }
 
     public void buy(Player p, Purchasable purchasable, String name) {
+        CTWPlayer sw = plugin.getDb().getCTWPlayer(p);
+        if (purchasable instanceof ShopItem) {
+            Game g = plugin.getGm().getGameByPlayer(p);
+            GamePlayer gp = g.getGamePlayer(p);
+            if (gp.getCoins() < purchasable.getPrice()) {
+                p.sendMessage(plugin.getLang().get(p, "messages.noCoins"));
+                return;
+            }
+            ShopItem si = (ShopItem) purchasable;
+            p.getInventory().addItem(si.getItem());
+            gp.setCoins(gp.getCoins() - si.getPrice());
+            return;
+        } else if (purchasable instanceof KitLevel) {
+            Game g = plugin.getGm().getGameByPlayer(p);
+            GamePlayer gp = g.getGamePlayer(p);
+            if (gp.getCoins() < purchasable.getPrice()) {
+                p.sendMessage(plugin.getLang().get(p, "messages.noCoins"));
+                return;
+            }
+            KitLevel k = (KitLevel) purchasable;
+            gp.setCoins(gp.getCoins() - k.getPrice());
+            Team team = g.getTeamPlayer(p);
+            plugin.getKm().giveKit(p, k.getKitID(), k.getLevel(), team);
+            return;
+        }
         if (!purchasable.isBuy()) {
             p.sendMessage(plugin.getLang().get(p, "messages.noBuy"));
             return;
@@ -62,17 +89,7 @@ public class ShopManager {
             p.sendMessage(plugin.getLang().get(p, "messages.noCoins"));
             return;
         }
-        CTWPlayer sw = plugin.getDb().getCTWPlayer(p);
-        plugin.getAdm().removeCoins(p, purchasable.getPrice());
-        if (purchasable instanceof ShopItem) {
-            ShopItem si = (ShopItem) purchasable;
-            p.getInventory().addItem(si.getItem());
-        } else if (purchasable instanceof KitLevel) {
-            KitLevel k = (KitLevel) purchasable;
-            Game g = plugin.getGm().getGameByPlayer(p);
-            Team team = g.getTeamPlayer(p);
-            plugin.getKm().giveKit(p, k.getKitID(), k.getLevel(), team);
-        } else if (purchasable instanceof UltraKillEffect) {
+        if (purchasable instanceof UltraKillEffect) {
             UltraKillEffect k = (UltraKillEffect) purchasable;
             sw.addKillEffects(k.getId());
         } else if (purchasable instanceof KillSound) {
@@ -90,9 +107,13 @@ public class ShopManager {
         } else if (purchasable instanceof UltraWinEffect) {
             UltraWinEffect k = (UltraWinEffect) purchasable;
             sw.addWinEffects(k.getId());
+        } else if (purchasable instanceof ShopKeeper) {
+            ShopKeeper k = (ShopKeeper) purchasable;
+            sw.addShopKeepers(k.getId());
         }
         Utils.updateSB(p);
         p.sendMessage(plugin.getLang().get(p, "messages.bought").replaceAll("<name>", name));
+        plugin.getAdm().removeCoins(p, purchasable.getPrice());
     }
 
     public HashMap<Integer, ShopItem> getItems() {

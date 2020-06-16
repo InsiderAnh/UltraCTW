@@ -41,10 +41,10 @@ public class GameMenu {
         p.openInventory(inv);
     }
 
-    public void createShopMenu(Player p){
+    public void createShopMenu(Player p) {
         Inventory inv = Bukkit.createInventory(null, 45, plugin.getLang().get("menus.shop.title"));
         int i = 0;
-        for (int id : plugin.getShm().getItems().keySet()){
+        for (int id : plugin.getShm().getItems().keySet()) {
             ShopItem si = plugin.getShm().getItems().get(id);
             inv.setItem(shop.get(i), NBTEditor.set(si.getItem(), id, "SHOP", "ID", "BUY"));
             i++;

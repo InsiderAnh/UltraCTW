@@ -17,7 +17,7 @@ public class ConfigManager {
     private short redPanelData;
     private Material back, redPanelMaterial;
     private Sound streak2, streak3, streak4, streak5, upgradeSound, cancelStartSound, wineffectschicken, wineffectsvulcanfire, wineffectvulcanwool, wineffectnotes, killEffectTNT, killEffectSquid;
-    private int maxMultiplier, coinsKill, coinsWin, coinsAssists, xpKill, xpWin, xpAssists, starting, progressBarAmount, timeToKill;
+    private int maxMultiplier, gCoinsKills, gCoinsWins, gCoinsAssists, coinsKill, coinsWin, coinsAssists, xpKill, xpWin, xpAssists, starting, progressBarAmount, timeToKill;
     private double bountyMin, bountyMax, bountyPerKill;
 
     public ConfigManager(Main plugin) {
@@ -41,6 +41,9 @@ public class ConfigManager {
         this.bountyMin = plugin.getConfig().getDouble("bounty.min");
         this.bountyMax = plugin.getConfig().getDouble("bounty.max");
         this.bountyPerKill = plugin.getConfig().getDouble("bounty.perKill");
+        this.gCoinsKills = plugin.getConfig().getInt("gameDefaults.gcoins.kill");
+        this.gCoinsWins = plugin.getConfig().getInt("gameDefaults.gcoins.win");
+        this.gCoinsAssists = plugin.getConfig().getInt("gameDefaults.gcoins.assists");
         this.coinsKill = plugin.getConfig().getInt("gameDefaults.coins.kill");
         this.coinsWin = plugin.getConfig().getInt("gameDefaults.coins.win");
         this.coinsAssists = plugin.getConfig().getInt("gameDefaults.coins.assists");

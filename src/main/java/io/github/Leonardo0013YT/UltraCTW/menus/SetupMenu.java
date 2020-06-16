@@ -49,7 +49,7 @@ public class SetupMenu {
     public void createSetupKitLevelsMenu(Player p, KitLevelSetup kls) {
         Inventory inv = Bukkit.createInventory(null, 45, plugin.getLang().get("menus.kitlevelssetup.title"));
         ItemStack price = new ItemUtils(XMaterial.GOLD_NUGGET).setDisplayName(plugin.getLang().get("menus.kitlevelssetup.price.nameItem")).setLore(plugin.getLang().get("menus.kitlevelssetup.price.loreItem").replaceAll("<price>", String.valueOf(kls.getPrice()))).build();
-        ItemStack icon = new ItemUtils(XMaterial.DIAMOND_SWORD).setDisplayName(plugin.getLang().get("menus.kitsetup.icon.nameItem")).setLore(plugin.getLang().get("menus.kitsetup.icon.loreItem")).build();
+        ItemStack icon = new ItemUtils(XMaterial.DIAMOND_SWORD).setDisplayName(plugin.getLang().get("menus.kitlevelssetup.icon.nameItem")).setLore(plugin.getLang().get("menus.kitlevelssetup.icon.loreItem")).build();
         ItemStack items = new ItemUtils(XMaterial.CHEST).setDisplayName(plugin.getLang().get("menus.kitlevelssetup.items.nameItem")).setLore(plugin.getLang().get("menus.kitlevelssetup.items.loreItem")).build();
         ItemStack buy = new ItemUtils(XMaterial.DIAMOND).setDisplayName(plugin.getLang().get("menus.kitlevelssetup.buy.nameItem")).setLore(plugin.getLang().get("menus.kitlevelssetup.buy.loreItem").replaceAll("<status>", Utils.parseBoolean(kls.isBuy()))).build();
         ItemStack slot = new ItemUtils(XMaterial.PAPER).setDisplayName(plugin.getLang().get("menus.kitlevelssetup.slot.nameItem")).setLore(plugin.getLang().get("menus.kitlevelssetup.slot.loreItem").replaceAll("<slot>", String.valueOf(kls.getSlot()))).build();

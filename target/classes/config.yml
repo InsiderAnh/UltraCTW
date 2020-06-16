@@ -13,6 +13,10 @@ gameDefaults:
   maxMultiplier: 5
   starting: 30
   timeToKill: 30
+  gcoins:
+    kill: 3
+    win: 10
+    assists: 1
   coins:
     kill: 5
     win: 20

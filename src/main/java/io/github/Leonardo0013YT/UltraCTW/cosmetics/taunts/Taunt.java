@@ -8,7 +8,6 @@ import io.github.Leonardo0013YT.UltraCTW.streak.Streak;
 import io.github.Leonardo0013YT.UltraCTW.utils.ItemBuilder;
 import io.github.Leonardo0013YT.UltraCTW.utils.Utils;
 import io.github.Leonardo0013YT.UltraCTW.xseries.XMaterial;
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageEvent;
@@ -69,7 +68,7 @@ public class Taunt implements Purchasable {
             Main.get().getStm().addKill(k, game);
             k.sendMessage(Main.get().getLang().get("messages.kill").replaceAll("<xp>", String.valueOf(Main.get().getCm().getXpKill())).replaceAll("<coins>", String.valueOf(Main.get().getCm().getCoinsKill())).replaceAll("<streak>", Main.get().getStm().getPrefix(k)));
             Streak st = Main.get().getStm().get(d);
-            if (st.isBounty()){
+            if (st.isBounty()) {
                 game.sendGameMessage(Main.get().getLang().get("messages.bountyClaimed").replaceAll("<coins>", Utils.format(st.getPrice())).replaceAll("<death>", d.getName()).replaceAll("<killer>", k.getName()));
                 Main.get().getDb().getCTWPlayer(k).addCoins(st.getPrice());
                 st.setBounty(false);

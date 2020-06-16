@@ -146,7 +146,7 @@ public class Main extends JavaPlugin {
                 getGm().getGames().values().forEach(Game::update);
             }
         }.runTaskTimer(this, 20, 20);
-        new BukkitRunnable(){
+        new BukkitRunnable() {
             @Override
             public void run() {
                 db.loadTopBounty();

@@ -5,6 +5,7 @@ import io.github.Leonardo0013YT.UltraCTW.cosmetics.killeffects.UltraKillEffect;
 import io.github.Leonardo0013YT.UltraCTW.cosmetics.killsounds.KillSound;
 import io.github.Leonardo0013YT.UltraCTW.cosmetics.kits.Kit;
 import io.github.Leonardo0013YT.UltraCTW.cosmetics.kits.KitLevel;
+import io.github.Leonardo0013YT.UltraCTW.cosmetics.shopkeepers.ShopKeeper;
 import io.github.Leonardo0013YT.UltraCTW.cosmetics.taunts.Taunt;
 import io.github.Leonardo0013YT.UltraCTW.cosmetics.trails.Trail;
 import io.github.Leonardo0013YT.UltraCTW.cosmetics.windances.UltraWinDance;
@@ -45,7 +46,7 @@ public class MenuListener implements Listener {
             return;
         }
         Player p = (Player) e.getWhoClicked();
-        if (e.getView().getTitle().equals(plugin.getLang().get("menus.shop.title"))){
+        if (e.getView().getTitle().equals(plugin.getLang().get("menus.shop.title"))) {
             e.setCancelled(true);
             if (e.getCurrentItem() == null || e.getCurrentItem().getType().equals(Material.AIR)) {
                 return;
@@ -155,14 +156,14 @@ public class MenuListener implements Listener {
             }
             String co = NBTEditor.getString(item, "SELECTOR", "TEAM", "COLOR");
             if (co == null) return;
-            if (!p.hasPermission("ctw.teams.select")){
+            if (!p.hasPermission("ctw.teams.select")) {
                 p.sendMessage(plugin.getLang().get("messages.noSelector"));
                 return;
             }
             ChatColor c = ChatColor.valueOf(co);
             Team team = game.getTeams().get(c);
             Team mayo = Utils.getMajorPlayersTeam(game);
-            if (team.getTeamSize() >= mayo.getTeamSize()){
+            if (team.getTeamSize() >= mayo.getTeamSize()) {
                 p.sendMessage(plugin.getLang().get("messages.teamMajorPlayers"));
                 return;
             }
@@ -187,7 +188,8 @@ public class MenuListener implements Listener {
             ItemMeta im = item.getItemMeta();
             String display = im.getDisplayName();
             if (display.equals(plugin.getLang().get(p, "menus.lobby.shopkeepers.nameItem"))) {
-
+                plugin.getUim().getPages().put(p, 1);
+                plugin.getUim().createShopKeeperSelectorMenu(p);
             }
             if (display.equals(plugin.getLang().get(p, "menus.lobby.trails.nameItem"))) {
                 plugin.getUim().getPages().put(p, 1);
@@ -213,6 +215,73 @@ public class MenuListener implements Listener {
                 plugin.getUim().getPages().put(p, 1);
                 plugin.getUim().createKillSoundSelectorMenu(p);
             }
+        }
+        if (e.getView().getTitle().equals(plugin.getLang().get(p, "menus.shopkeeperselector.title"))) {
+            e.setCancelled(true);
+            if (e.getCurrentItem() == null || e.getCurrentItem().getType().equals(Material.AIR)) {
+                return;
+            }
+            if (!item.hasItemMeta()) {
+                return;
+            }
+            if (!item.getItemMeta().hasDisplayName()) {
+                return;
+            }
+            ItemMeta im = item.getItemMeta();
+            String display = im.getDisplayName();
+            if (display.equals(plugin.getLang().get(p, "menus.next.nameItem"))) {
+                plugin.getUim().addPage(p);
+                plugin.getUim().createShopKeeperSelectorMenu(p);
+                return;
+            }
+            if (display.equals(plugin.getLang().get(p, "menus.last.nameItem"))) {
+                plugin.getUim().removePage(p);
+                plugin.getUim().createShopKeeperSelectorMenu(p);
+                return;
+            }
+            CTWPlayer sw = plugin.getDb().getCTWPlayer(p);
+            if (display.equals(plugin.getLang().get(p, "menus.shopkeeperselector.shopkeeper.nameItem"))) {
+                return;
+            }
+            if (display.equals(plugin.getLang().get(p, "menus.shopkeeperselector.deselect.nameItem"))) {
+                if (sw.getShopKeeper() == 999999) {
+                    p.sendMessage(plugin.getLang().get(p, "messages.noSelect"));
+                    return;
+                }
+                sw.setShopKeeper(999999);
+                p.sendMessage(plugin.getLang().get(p, "messages.deselectShopKeeper"));
+                plugin.getUim().createShopKeeperSelectorMenu(p);
+                return;
+            }
+            if (display.equals(plugin.getLang().get(p, "menus.shopkeeperselector.close.nameItem"))) {
+                if (e.getClick().equals(ClickType.RIGHT)) {
+                    p.sendMessage(plugin.getLang().get(p, "messages.closeWithClick"));
+                    return;
+                }
+                p.closeInventory();
+                return;
+            }
+            ShopKeeper k = plugin.getSkm().getShopKeeperByItem(p, item);
+            if (k == null) {
+                return;
+            }
+            if (p.hasPermission(k.getAutoGivePermission())) {
+                sw.setShopKeeper(k.getId());
+                p.sendMessage(plugin.getLang().get(p, "messages.selectShopKeeper").replaceAll("<shopkeeper>", k.getName()));
+                plugin.getUim().createShopKeeperSelectorMenu(p);
+                return;
+            }
+            if (!sw.getShopkeepers().contains(k.getId())) {
+                if (k.needPermToBuy() && !p.hasPermission(k.getPermission())) {
+                    p.sendMessage(plugin.getLang().get(p, "messages.noPermit"));
+                } else {
+                    plugin.getShm().buy(p, k, k.getName());
+                }
+            } else {
+                sw.setShopKeeper(k.getId());
+                p.sendMessage(plugin.getLang().get(p, "messages.selectShopKeeper").replaceAll("<shopkeeper>", k.getName()));
+            }
+            plugin.getUim().createShopKeeperSelectorMenu(p);
         }
         if (e.getView().getTitle().equals(plugin.getLang().get(p, "menus.trailsselector.title"))) {
             e.setCancelled(true);

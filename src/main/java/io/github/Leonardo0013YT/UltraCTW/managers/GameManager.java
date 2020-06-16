@@ -2,7 +2,6 @@ package io.github.Leonardo0013YT.UltraCTW.managers;
 
 import com.nametagedit.plugin.NametagEdit;
 import io.github.Leonardo0013YT.UltraCTW.Main;
-import io.github.Leonardo0013YT.UltraCTW.enums.State;
 import io.github.Leonardo0013YT.UltraCTW.game.GameNoState;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.Game;
 import io.github.Leonardo0013YT.UltraCTW.utils.Utils;
@@ -40,15 +39,15 @@ public class GameManager {
         reset();
     }
 
-    public void reset(){
+    public void reset() {
         Game selectedGame = new ArrayList<>(games.values()).get(ThreadLocalRandom.current().nextInt(0, games.values().size()));
         setSelectedGame(selectedGame);
     }
 
-    public void reset(Game game){
+    public void reset(Game game) {
         ArrayList<Game> back = new ArrayList<>(games.values());
         back.remove(game);
-        Game selectedGame = new ArrayList<>(back).get(ThreadLocalRandom.current().nextInt(0, games.values().size()));
+        Game selectedGame = new ArrayList<>(back).get(ThreadLocalRandom.current().nextInt(0, back.size()));
         setSelectedGame(selectedGame);
     }
 
@@ -66,15 +65,6 @@ public class GameManager {
 
     public Game getGameByPlayer(Player p) {
         return games.get(playerGame.get(p.getUniqueId()));
-    }
-
-    public Game getRandomGame(Game ex) {
-        Game g = null;
-        for (Game game : games.values()) {
-            if (ex.getId() == game.getId() || game.isState(State.FINISH) || game.isState(State.RESTARTING)) continue;
-            g = game;
-        }
-        return g;
     }
 
     public HashMap<Integer, Game> getGames() {

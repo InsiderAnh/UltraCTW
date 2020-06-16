@@ -68,9 +68,15 @@ public interface CTWPlayer {
 
     void setAssists(int assists);
 
-    void setBounty(double bounty);
+    ArrayList<Integer> getShopkeepers();
+
+    void setShopkeepers(ArrayList<Integer> shopkeepers);
+
+    void addShopKeepers(int id);
 
     double getBounty();
+
+    void setBounty(double bounty);
 
     void addWoolCaptured();
 

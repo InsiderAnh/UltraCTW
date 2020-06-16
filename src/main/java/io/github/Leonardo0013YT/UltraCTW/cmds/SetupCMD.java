@@ -38,7 +38,7 @@ public class SetupCMD implements CommandExecutor {
                         sendHelp(sender);
                         return true;
                     }
-                    if (p.getItemInHand() == null || p.getItemInHand().getType().equals(Material.AIR)){
+                    if (p.getItemInHand() == null || p.getItemInHand().getType().equals(Material.AIR)) {
                         p.sendMessage(plugin.getLang().get("setup.itemInHand"));
                         return true;
                     }

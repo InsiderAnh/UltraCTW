@@ -1380,9 +1380,13 @@ public class SetupListener implements Listener {
             KitSetup ks = plugin.getSm().getSetupKit(p);
             KitLevelSetup kls = ks.getKls();
             ItemStack item = e.getCurrentItem();
-            String display = item.getItemMeta().getDisplayName();
-            if (e.getSlot() == 0) {
-                e.setCancelled(true);
+            if (e.getSlot() == 3) {
+                for (int i = 10; i < 36; i++) {
+                    kls.getInv()[i] = e.getInventory().getItem(i);
+                }
+                for (int i = 45; i < 54; i++) {
+                    kls.getInv()[i - 45] = e.getInventory().getItem(i);
+                }
                 if (e.getCursor() == null || e.getCursor().getType().equals(Material.AIR) || p.getItemOnCursor() == null || p.getItemOnCursor().getType().equals(Material.AIR)) {
                     new BukkitRunnable() {
                         @Override
@@ -1393,6 +1397,7 @@ public class SetupListener implements Listener {
                         }
                     }.runTaskLater(plugin, 1);
                 } else {
+                    e.setCancelled(true);
                     kls.getArmor()[3] = p.getItemOnCursor();
                     new BukkitRunnable() {
                         @Override
@@ -1403,8 +1408,13 @@ public class SetupListener implements Listener {
                     }.runTaskLater(plugin, 1);
                 }
             }
-            if (e.getSlot() == 1) {
-                e.setCancelled(true);
+            if (e.getSlot() == 2) {
+                for (int i = 10; i < 36; i++) {
+                    kls.getInv()[i] = e.getInventory().getItem(i);
+                }
+                for (int i = 45; i < 54; i++) {
+                    kls.getInv()[i - 45] = e.getInventory().getItem(i);
+                }
                 if (e.getCursor() == null || e.getCursor().getType().equals(Material.AIR) || p.getItemOnCursor() == null || p.getItemOnCursor().getType().equals(Material.AIR)) {
                     new BukkitRunnable() {
                         @Override
@@ -1415,6 +1425,7 @@ public class SetupListener implements Listener {
                         }
                     }.runTaskLater(plugin, 1);
                 } else {
+                    e.setCancelled(true);
                     kls.getArmor()[2] = p.getItemOnCursor();
                     new BukkitRunnable() {
                         @Override
@@ -1425,8 +1436,13 @@ public class SetupListener implements Listener {
                     }.runTaskLater(plugin, 1);
                 }
             }
-            if (e.getSlot() == 2) {
-                e.setCancelled(true);
+            if (e.getSlot() == 1) {
+                for (int i = 10; i < 36; i++) {
+                    kls.getInv()[i] = e.getInventory().getItem(i);
+                }
+                for (int i = 45; i < 54; i++) {
+                    kls.getInv()[i - 45] = e.getInventory().getItem(i);
+                }
                 if (e.getCursor() == null || e.getCursor().getType().equals(Material.AIR) || p.getItemOnCursor() == null || p.getItemOnCursor().getType().equals(Material.AIR)) {
                     new BukkitRunnable() {
                         @Override
@@ -1437,6 +1453,7 @@ public class SetupListener implements Listener {
                         }
                     }.runTaskLater(plugin, 1);
                 } else {
+                    e.setCancelled(true);
                     kls.getArmor()[1] = p.getItemOnCursor();
                     new BukkitRunnable() {
                         @Override
@@ -1447,7 +1464,13 @@ public class SetupListener implements Listener {
                     }.runTaskLater(plugin, 1);
                 }
             }
-            if (e.getSlot() == 3) {
+            if (e.getSlot() == 0) {
+                for (int i = 10; i < 36; i++) {
+                    kls.getInv()[i] = e.getInventory().getItem(i);
+                }
+                for (int i = 45; i < 54; i++) {
+                    kls.getInv()[i - 45] = e.getInventory().getItem(i);
+                }
                 if (e.getCursor() == null || e.getCursor().getType().equals(Material.AIR) || p.getItemOnCursor() == null || p.getItemOnCursor().getType().equals(Material.AIR)) {
                     new BukkitRunnable() {
                         @Override
@@ -1458,6 +1481,7 @@ public class SetupListener implements Listener {
                         }
                     }.runTaskLater(plugin, 1);
                 } else {
+                    e.setCancelled(true);
                     kls.getArmor()[0] = p.getItemOnCursor();
                     new BukkitRunnable() {
                         @Override
@@ -1564,8 +1588,8 @@ public class SetupListener implements Listener {
                 plugin.getSem().createSetupKitLevelsMenu(p, ks.getKls());
             }
             if (display.equals(plugin.getLang().get("menus.kitsetup.save.nameItem"))) {
-                plugin.getSm().removeSetupKit(p);
                 ks.save();
+                plugin.getSm().removeSetupKit(p);
                 p.closeInventory();
                 p.sendMessage(plugin.getLang().get("setup.kits.saveKit"));
             }
@@ -1594,7 +1618,6 @@ public class SetupListener implements Listener {
         }
         if (e.getView().getTitle().equals(plugin.getLang().get("menus.spawners.title"))) {
             e.setCancelled(true);
-            ArenaSetup as = plugin.getSm().getSetup(p);
             TeamSetup ts = plugin.getSm().getSetupTeam(p);
             ItemStack item = e.getCurrentItem();
             String c = NBTEditor.getString(item, "SELECT", "TEAM", "SPAWNER");

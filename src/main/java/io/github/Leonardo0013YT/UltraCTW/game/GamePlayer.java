@@ -11,6 +11,7 @@ public class GamePlayer {
 
     private Player p;
     private int kills = 0, deaths = 0;
+    private double coins = 0;
     private ItemStack[] inv, armor;
     private boolean reset;
 
@@ -28,6 +29,10 @@ public class GamePlayer {
         p.getInventory().setContents(inv);
         p.getInventory().setArmorContents(armor);
         reset = true;
+    }
+
+    public void addCoins(double amount) {
+        coins += amount;
     }
 
 }

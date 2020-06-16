@@ -7,7 +7,7 @@ public class CTWAPI {
 
     private static Main plugin = Main.get();
 
-    public static boolean isInLobby(Player p){
+    public static boolean isInLobby(Player p) {
         return !plugin.getGm().isPlayerInGame(p);
     }
 

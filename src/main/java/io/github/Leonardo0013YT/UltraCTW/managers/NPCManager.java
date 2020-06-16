@@ -17,6 +17,7 @@ public class NPCManager {
     public NPCManager(Main plugin) {
         this.plugin = plugin;
         startUpdate();
+
     }
 
     public void startUpdate() {

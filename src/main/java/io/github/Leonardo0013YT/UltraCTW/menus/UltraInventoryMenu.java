@@ -5,6 +5,7 @@ import io.github.Leonardo0013YT.UltraCTW.cosmetics.killeffects.UltraKillEffect;
 import io.github.Leonardo0013YT.UltraCTW.cosmetics.killsounds.KillSound;
 import io.github.Leonardo0013YT.UltraCTW.cosmetics.kits.Kit;
 import io.github.Leonardo0013YT.UltraCTW.cosmetics.kits.KitLevel;
+import io.github.Leonardo0013YT.UltraCTW.cosmetics.shopkeepers.ShopKeeper;
 import io.github.Leonardo0013YT.UltraCTW.cosmetics.taunts.Taunt;
 import io.github.Leonardo0013YT.UltraCTW.cosmetics.trails.Trail;
 import io.github.Leonardo0013YT.UltraCTW.cosmetics.windances.UltraWinDance;
@@ -140,6 +141,39 @@ public class UltraInventoryMenu {
         for (KitLevel kl : k.getLevels().values()) {
             ItemStack i = kl.getIcon(p);
             inv.setItem(kl.getSlot(), i);
+        }
+        inv.setItem(49, close);
+        p.openInventory(inv);
+    }
+
+    public void createShopKeeperSelectorMenu(Player p) {
+        int page = pages.get(p);
+        Inventory inv = Bukkit.createInventory(null, 54, plugin.getLang().get(p, "menus.shopkeeperselector.title"));
+        CTWPlayer sw = plugin.getDb().getCTWPlayer(p);
+        ItemStack deselect = ItemBuilder.item(XMaterial.BARRIER, plugin.getLang().get(p, "menus.shopkeeperselector.deselect.nameItem"), plugin.getLang().get(p, "menus.shopkeeperselector.deselect.loreItem"));
+        ItemStack close = ItemBuilder.item(XMaterial.matchXMaterial(plugin.getCm().getBack()), plugin.getLang().get(p, "menus.shopkeeperselector.close.nameItem"), plugin.getLang().get(p, "menus.shopkeeperselector.close.loreItem"));
+        ItemStack next = ItemBuilder.item(XMaterial.ARROW, 1, plugin.getLang().get(p, "menus.next.nameItem"), plugin.getLang().get(p, "menus.next.loreItem"));
+        ItemStack last = ItemBuilder.item(XMaterial.ARROW, 1, plugin.getLang().get(p, "menus.last.nameItem"), plugin.getLang().get(p, "menus.last.loreItem"));
+        for (ShopKeeper k : plugin.getSkm().getShopkeepers().values()) {
+            if (k.getId() == sw.getTrail()) {
+                ItemStack i = k.getIcon(p);
+                ItemStack kit = ItemBuilder.nameLore(i.clone(), plugin.getLang().get(p, "menus.shopkeeperselector.shopkeeper.nameItem"), plugin.getLang().get(p, "menus.shopkeeperselector.shopkeeper.loreItem"));
+                inv.setItem(50, kit);
+                if (k.getPage() != page) continue;
+                inv.setItem(k.getSlot(), i);
+            } else {
+                if (k.getPage() != page) continue;
+                inv.setItem(k.getSlot(), k.getIcon(p));
+            }
+        }
+        if (sw.getTrail() != 999999) {
+            inv.setItem(48, deselect);
+        }
+        if (page > 1) {
+            inv.setItem(45, last);
+        }
+        if (page < plugin.getSkm().getLastPage()) {
+            inv.setItem(53, next);
         }
         inv.setItem(49, close);
         p.openInventory(inv);

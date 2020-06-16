@@ -70,6 +70,8 @@ public interface Game {
 
     Team getTeamByWool(ChatColor color);
 
+    void checkTeamBalance();
+
     void joinRandomTeam(Player p);
 
     void removePlayerAllTeam(Player p);

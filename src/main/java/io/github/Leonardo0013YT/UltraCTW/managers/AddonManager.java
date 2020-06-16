@@ -7,7 +7,6 @@ import io.github.Leonardo0013YT.UltraCTW.addons.PlaceholderAPIAddon;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.List;

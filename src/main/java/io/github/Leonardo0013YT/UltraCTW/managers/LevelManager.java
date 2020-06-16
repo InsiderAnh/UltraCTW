@@ -21,7 +21,7 @@ public class LevelManager {
         reload();
     }
 
-    public void reload(){
+    public void reload() {
         levels.clear();
         if (!plugin.getLevels().isSet("levels")) return;
         ConfigurationSection conf = plugin.getLevels().getConfig().getConfigurationSection("levels");

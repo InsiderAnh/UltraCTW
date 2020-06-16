@@ -97,6 +97,7 @@ public class GameNoState implements Game {
 
     @Override
     public void removePlayer(Player p) {
+        plugin.getNpc().removePlayer(p);
         Utils.setCleanPlayer(p);
         removePlayerAllTeam(p);
         cached.remove(p);
@@ -111,7 +112,6 @@ public class GameNoState implements Game {
         }
         checkCancel();
         checkWin();
-        plugin.getNpc().removePlayer(p);
     }
 
     @Override
@@ -193,19 +193,9 @@ public class GameNoState implements Game {
             starting--;
         }
         if (isState(State.GAME)) {
-            if (time == 1) {
-                for (Player on : cached) {
-                    CTWPlayer ctw = plugin.getDb().getCTWPlayer(on);
-                    for (Location k : npcKits) {
-                        plugin.getSkm().spawnShopKeeper(on, k, ctw.getShopKeeper(), NPCType.KITS);
-                    }
-                    for (Location s : npcShop) {
-                        plugin.getSkm().spawnShopKeeper(on, s, ctw.getShopKeeper(), NPCType.SHOP);
-                    }
-                }
-            }
             time++;
             teams.values().forEach(Team::updateSpawner);
+            //checkTeamBalance();
         }
     }
 
@@ -264,8 +254,9 @@ public class GameNoState implements Game {
         for (Player w : team.getMembers()) {
             CTWPlayer ctw = plugin.getDb().getCTWPlayer(w);
             if (ctw == null) continue;
-            ctw.addCoins(plugin.getCm().getCoinsWin());
+            ctw.addCoins(plugin.getCm().getGCoinsWins());
             ctw.setXp(ctw.getXp() + plugin.getCm().getXpWin());
+            ctw.setWins(ctw.getWins() + 1);
             plugin.getLvl().checkUpgrade(w);
             plugin.getVc().getNMS().sendTitle(w, plugin.getLang().get("titles.win.title").replaceAll("<color>", team.getColor() + ""), plugin.getLang().get("titles.win.subtitle"), 0, 40, 0);
             plugin.getWem().execute(this, w, ctw.getWinEffect());
@@ -290,8 +281,9 @@ public class GameNoState implements Game {
         if (gamePlayer.containsKey(p)) {
             GamePlayer gp = gamePlayer.get(p);
             gp.setKills(gp.getKills() + 1);
+            gp.addCoins(plugin.getCm().getCoinsKill());
             CTWPlayer ctw = plugin.getDb().getCTWPlayer(p);
-            ctw.addCoins(plugin.getCm().getCoinsKill());
+            ctw.addCoins(plugin.getCm().getGCoinsKills());
             ctw.setXp(ctw.getXp() + plugin.getCm().getXpKill());
             ctw.setKills(ctw.getKills() + 1);
             plugin.getLvl().checkUpgrade(p);
@@ -415,6 +407,21 @@ public class GameNoState implements Game {
             }
         }
         return null;
+    }
+
+    @Override
+    public void checkTeamBalance() {
+        Team minor = Utils.getMinorPlayersTeam(this);
+        Team major = Utils.getMajorPlayersTeam(this);
+        if (minor.getId() == major.getId()) return;
+        if (minor.getTeamSize() < major.getTeamSize()) {
+            Player on = major.getMembers().stream().findAny().orElse(null);
+            if (on == null) return;
+            removePlayerTeam(on, minor);
+            addPlayerTeam(on, minor);
+            on.sendMessage(plugin.getLang().get("messages.balancedTeam").replaceAll("<team>", minor.getName()));
+            on.playSound(on.getLocation(), XSound.ENTITY_PLAYER_LEVELUP.parseSound(), 1.0f, 1.0f);
+        }
     }
 
     @Override

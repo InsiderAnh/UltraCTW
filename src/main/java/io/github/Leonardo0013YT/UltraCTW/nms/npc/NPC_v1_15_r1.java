@@ -3,24 +3,19 @@ package io.github.Leonardo0013YT.UltraCTW.nms.npc;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import io.github.Leonardo0013YT.UltraCTW.Main;
-import io.github.Leonardo0013YT.UltraCTW.cosmetics.shopkeepers.KeeperData;
 import io.github.Leonardo0013YT.UltraCTW.enums.NPCType;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.NPC;
 import net.minecraft.server.v1_15_R1.*;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_15_R1.CraftServer;
 import org.bukkit.craftbukkit.v1_15_R1.CraftWorld;
 import org.bukkit.craftbukkit.v1_15_R1.entity.CraftPlayer;
 import org.bukkit.craftbukkit.v1_15_R1.util.CraftChatMessage;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.event.entity.CreatureSpawnEvent;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.UUID;
 
 public class NPC_v1_15_r1 implements NPC {
 
@@ -29,13 +24,9 @@ public class NPC_v1_15_r1 implements NPC {
     private Player p;
     private Location loc;
     private EntityType type;
-    private KeeperData kd;
     private Main plugin;
     private NPCType npcType;
-    private MinecraftServer nmsServer;
     private double up = 0.8;
-    private PacketPlayOutScoreboardTeam packet;
-    private GameProfile gameProfile;
     private WorldServer nmsWorld;
     private boolean showing;
 
@@ -44,22 +35,11 @@ public class NPC_v1_15_r1 implements NPC {
     }
 
     @Override
-    public void create(Player p, Location loc, EntityType type, KeeperData kd, NPCType npcType) {
+    public void create(Player p, Location loc, EntityType type, NPCType npcType) {
         this.p = p;
         this.loc = loc;
         this.type = type;
-        this.kd = kd;
         this.nmsWorld = ((CraftWorld) loc.getWorld()).getHandle();
-        this.gameProfile = new GameProfile(UUID.randomUUID(), "");
-        this.nmsServer = ((CraftServer) Bukkit.getServer()).getServer();
-        this.packet = new PacketPlayOutScoreboardTeam();
-        String name = UUID.randomUUID().toString().substring(0, 12);
-        this.setField("i", 0);
-        this.setField("b", new ChatComponentText(name));
-        this.setField("a", name);
-        this.setField("c", new ChatComponentText(name));
-        this.setField("e", "never");
-        this.setField("j", 1);
         this.showing = false;
         this.npcType = npcType;
     }
@@ -78,35 +58,17 @@ public class NPC_v1_15_r1 implements NPC {
     @Override
     public void spawn() {
         this.showing = true;
-        if (type.equals(EntityType.PLAYER)) {
-            changeSkin(gameProfile, kd.getValue(), kd.getSignature());
-            EntityPlayer npc = new EntityPlayer(nmsServer, nmsWorld, gameProfile, new PlayerInteractManager(nmsWorld));
-            npc.setLocation(loc.getX(), loc.getY(), loc.getZ(), newDirection(loc.getYaw()), newDirection(loc.getPitch()));
-            npc.setCustomNameVisible(false);
-            PlayerConnection connection = ((CraftPlayer) p).getHandle().playerConnection;
-            connection.sendPacket(new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.ADD_PLAYER, npc));
-            connection.sendPacket(new PacketPlayOutNamedEntitySpawn(npc));
-            connection.sendPacket(new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.REMOVE_PLAYER, npc));
-            new PlayerConnection(nmsServer, new NetworkManager(EnumProtocolDirection.SERVERBOUND), npc);
-            ((CraftWorld) loc.getWorld()).getHandle().addEntity(npc);
-            try {
-                Field f = packet.getClass().getDeclaredField("h");
-                f.setAccessible(true);
-                ((Collection) f.get(packet)).add(gameProfile.getName());
-                connection.sendPacket(packet);
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-            entity = npc;
-        } else {
-            EntityLiving ev = getEntityByType(type, nmsWorld);
-            ev.setLocation(loc.getX(), loc.getY(), loc.getZ(), newDirection(loc.getYaw()), newDirection(loc.getPitch()));
-            ev.setCustomNameVisible(false);
-            PlayerConnection connection = ((CraftPlayer) p).getHandle().playerConnection;
-            connection.sendPacket(new PacketPlayOutSpawnEntityLiving(ev));
-            nmsWorld.addEntity(ev);
-            entity = ev;
-        }
+        EntityLiving ev = getEntityByType(type, nmsWorld);
+        ev.setLocation(loc.getX(), loc.getY(), loc.getZ(), newDirection(loc.getYaw()), newDirection(loc.getPitch()));
+        ev.setCustomNameVisible(false);
+        NBTTagCompound compound = new NBTTagCompound();
+        ev.c(compound);
+        compound.setByte("NoAI", (byte) 1);
+        ev.f(compound);
+        PlayerConnection connection = ((CraftPlayer) p).getHandle().playerConnection;
+        connection.sendPacket(new PacketPlayOutSpawnEntityLiving(ev));
+        ((CraftWorld) loc.getWorld()).getHandle().addEntity(ev, CreatureSpawnEvent.SpawnReason.CUSTOM);
+        entity = ev;
         spawnHologram();
     }
 
@@ -149,7 +111,7 @@ public class NPC_v1_15_r1 implements NPC {
         this.showing = false;
         PlayerConnection connection = ((CraftPlayer) p).getHandle().playerConnection;
         if (connection == null) return;
-        if (entity != null){
+        if (entity != null) {
             connection.sendPacket(new PacketPlayOutEntityDestroy(entity.getId()));
         }
         for (Entity e : armors) {
@@ -157,22 +119,11 @@ public class NPC_v1_15_r1 implements NPC {
             connection.sendPacket(new PacketPlayOutEntityDestroy(e.getId()));
         }
     }
-	
+
     @Override
     public org.bukkit.entity.Entity getBukkitEntity() {
         if (entity == null) return null;
         return entity.getBukkitEntity();
-    }
-
-    private void setField(String field, Object value) {
-        try {
-            Field f = packet.getClass().getDeclaredField(field);
-            f.setAccessible(true);
-            f.set(packet, value);
-            f.setAccessible(false);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
     }
 
     private EntityLiving getEntityByType(EntityType type, WorldServer nmsWorld) {

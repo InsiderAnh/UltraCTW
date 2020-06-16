@@ -184,6 +184,7 @@ public class ScoreboardManager {
         CTWPlayer ctw = plugin.getDb().getCTWPlayer(p);
         Level level = plugin.getLvl().getLevel(p);
         return s.replaceAll("<leveUp>", String.valueOf(level.getLevelUp()))
+                .replaceAll("<gcoins>", Utils.format(ctw.getCoins()))
                 .replaceAll("<now>", String.valueOf(ctw.getXp()))
                 .replaceAll("<wins>", String.valueOf(ctw.getWins()))
                 .replaceAll("<deaths>", String.valueOf(ctw.getDeaths()))
@@ -217,7 +218,8 @@ public class ScoreboardManager {
         Level level = plugin.getLvl().getLevel(p);
         return s.replaceAll("<leveUp>", String.valueOf(level.getLevelUp()))
                 .replaceAll("<now>", String.valueOf(ctw.getXp()))
-                .replaceAll("<coins>", Utils.format(ctw.getCoins()))
+                .replaceAll("<gcoins>", Utils.format(ctw.getCoins()))
+                .replaceAll("<coins>", Utils.format(gp.getCoins()))
                 .replaceAll("<time>", Utils.convertTime(game.getTime()))
                 .replaceAll("<map>", game.getName())
                 .replaceAll("<T1Wools>", Utils.getWoolsString(t1))
