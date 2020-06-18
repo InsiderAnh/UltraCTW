@@ -139,7 +139,7 @@ setup:
   alreadyCreating: "&cYou are already creating an arena."
   noOnline: "&cThat player is not online."
   noSchema: "&cThere is no schematic by that name."
-  noCursor: "&cYou must have the icon on the cursor."
+  noHand: "&cYou must have the icon on the hand."
   noNumber: "&cPlease write a number."
   setPermission: "&aWrite the permission to use this in the chat."
   setSlot: "&aWrite the slot to this in the chat."
@@ -299,7 +299,7 @@ scoreboards:
       &7
       &fPlayers: &a<players>/<max>
       &7
-      &fIniciando: &a<time>
+      &fStarting: &a<time>
       &7
       &emc.spigot.net
   simple-game:

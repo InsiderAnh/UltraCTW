@@ -89,7 +89,6 @@ public class PlayerListener implements Listener {
         if (npc == null) {
             return;
         }
-        e.setCancelled(true);
         if (npc.getNpcType().equals(NPCType.KITS)) {
             plugin.getUim().getPages().put(p, 1);
             plugin.getUim().createKitSelectorMenu(p, g);
@@ -358,7 +357,7 @@ public class PlayerListener implements Listener {
             team.getInProgress().get(c).add(p.getUniqueId());
             team.sendMessage(plugin.getLang().get("messages.teampick").replaceAll("<color>", c + "").replaceAll("<wool>", c + plugin.getLang().get("scoreboards.wools.captured")));
             ChatColor finalC = c;
-            others.forEach(t -> t.sendMessage(plugin.getLang().get("titles.otherpick").replaceAll("<color>", finalC + "").replaceAll("<wool>", finalC + plugin.getLang().get("scoreboards.wools.captured"))));
+            others.forEach(t -> t.sendMessage(plugin.getLang().get("messages.otherpick").replaceAll("<color>", finalC + "").replaceAll("<wool>", finalC + plugin.getLang().get("scoreboards.wools.captured"))));
             team.playSound(XSound.ENTITY_FIREWORK_ROCKET_BLAST, 1.0f, 1.0f);
             others.forEach(t -> t.playSound(XSound.ENTITY_WITHER_HURT, 1.0f, 1.0f));
         }
@@ -397,28 +396,6 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void onDamageByEntity(EntityDamageByEntityEvent e) {
-        if (e.getDamager() instanceof Player) {
-            Player d = (Player) e.getDamager();
-            Game g = plugin.getGm().getGameByPlayer(d);
-            if (g != null) {
-                Entity entity = e.getEntity();
-                NPC npc = plugin.getNpc().getNPC(d, entity.getUniqueId());
-                if (npc != null) {
-                    e.setCancelled(true);
-                }
-            }
-        }
-        if (e.getDamager() instanceof Projectile && ((Projectile) e.getDamager()).getShooter() instanceof Player) {
-            Player d = (Player) ((Projectile) e.getDamager()).getShooter();
-            Game g = plugin.getGm().getGameByPlayer(d);
-            if (g != null) {
-                Entity entity = e.getEntity();
-                NPC npc = plugin.getNpc().getNPC(d, entity.getUniqueId());
-                if (npc != null) {
-                    e.setCancelled(true);
-                }
-            }
-        }
         if (e.getEntity() instanceof Player) {
             Player p = (Player) e.getEntity();
             if (e.getDamager() instanceof Player) {

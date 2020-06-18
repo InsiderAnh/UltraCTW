@@ -13,31 +13,38 @@ import io.github.Leonardo0013YT.UltraCTW.interfaces.NPC;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
+import java.util.HashMap;
+import java.util.UUID;
+
 public class ProtocolLib {
 
     private static ProtocolManager protocolManager;
-    private Main plugin;
+    private HashMap<UUID, Long> lastClick = new HashMap<>();
+    private Main main;
 
-    public ProtocolLib(Main plugin) {
-        this.plugin = plugin;
+    public ProtocolLib(Main main) {
+        this.main = main;
         protocolManager = ProtocolLibrary.getProtocolManager();
         register();
     }
 
     public void register(){
-        protocolManager.addPacketListener(new PacketAdapter(Main.get(), ListenerPriority.NORMAL, PacketType.Play.Client.USE_ENTITY) {
+        protocolManager.addPacketListener(new PacketAdapter(main, ListenerPriority.NORMAL, PacketType.Play.Client.USE_ENTITY) {
             @Override
             public void onPacketReceiving(PacketEvent event){
                 if(event.getPacketType() == PacketType.Play.Client.USE_ENTITY){
                     Player p = event.getPlayer();
-                    if (!Main.get().getNpc().getNpcs().containsKey(p)) return;
+                    if (!main.getNpc().getNpcs().containsKey(p)) return;
+                    lastClick.putIfAbsent(p.getUniqueId(), 0L);
+                    if (lastClick.get(p.getUniqueId()) + 1000 > System.currentTimeMillis()) return;
                     try {
                         PacketContainer packet = event.getPacket();
                         int id = packet.getIntegers().read(0);
-                        for (NPC npc : Main.get().getNpc().getNpcs().get(p)){
+                        for (NPC npc : main.getNpc().getNpcs().get(p)){
                             if (npc.getEntityID() == id){
                                 CTWNPCInteractEvent interactevent = new CTWNPCInteractEvent(p, npc);
                                 Bukkit.getScheduler().scheduleSyncDelayedTask(Main.get(), () -> Bukkit.getPluginManager().callEvent(interactevent));
+                                lastClick.put(p.getUniqueId(), System.currentTimeMillis());
                                 break;
                             }
                         }

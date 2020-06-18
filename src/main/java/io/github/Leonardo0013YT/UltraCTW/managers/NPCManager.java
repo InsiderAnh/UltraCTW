@@ -35,19 +35,7 @@ public class NPCManager {
                     }
                 }
             }
-        }, 100, 100);
-    }
-
-    public NPC getNPC(Player p, UUID uuid) {
-        if (npcs.containsKey(p)) {
-            for (NPC npc : npcs.get(p)) {
-                if (npc.getBukkitEntity() == null) continue;
-                if (npc.getBukkitEntity().getUniqueId().equals(uuid)) {
-                    return npc;
-                }
-            }
-        }
-        return null;
+        }, 60, 60);
     }
 
     public void addNPC(Player p, NPC npc) {
@@ -64,6 +52,7 @@ public class NPCManager {
             for (NPC npc : npcs.get(p)) {
                 npc.destroy();
             }
+            npcs.get(p).clear();
         }
     }
 

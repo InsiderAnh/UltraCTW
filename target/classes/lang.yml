@@ -75,6 +75,8 @@ messages:
   deselectKillEffect: "&aYou've deselected your current killeffect."
   deselectWinDance: "&aYou've deselected your current windances."
   noOther: "&cYou can't enter another game if one is already selected."
+  otherpick: "&c&lPICKED &fThey picked up your wool <wool>"
+  teampick: "<color>&lPICKED &fThey picked up wool <wool>"
   start:
     - "<center>&a&m&l---------------------------------------------"
     - "<center>&7"
@@ -137,7 +139,7 @@ setup:
   alreadyCreating: "&cYou are already creating an arena."
   noOnline: "&cThat player is not online."
   noSchema: "&cThere is no schematic by that name."
-  noCursor: "&cYou must have the icon on the cursor."
+  noHand: "&cYou must have the icon on the hand."
   noNumber: "&cPlease write a number."
   setPermission: "&aWrite the permission to use this in the chat."
   setSlot: "&aWrite the slot to this in the chat."
@@ -217,14 +219,8 @@ titles:
   starting:
     title: "&c<time>"
     subtitle: "&7"
-  otherpick:
-    title: "&c&lPICKED"
-    subtitle: "&fThey picked up your wool <wool>"
-  teampick:
-    title: "<color>&lPICKED"
-    subtitle: "&fThey picked up wool <wool>"
   captured:
-    title: "<color>&lCAPTURED"
+    title: "<color><player> &lCAPTURED"
     subtitle: "&fYour team captured <wool>"
   win:
     title: "<color>WIN!"
@@ -234,7 +230,7 @@ titles:
     subtitle: "&7Game over :c."
   otherCaptured:
     title: "<color>Team <name>"
-    subtitle: "&7Captured wool <wool>&7."
+    subtitle: "<color><player> &7Captured wool <wool>&7."
 items:
   leave:
     nameItem: "&cLeave"
@@ -303,7 +299,7 @@ scoreboards:
       &7
       &fPlayers: &a<players>/<max>
       &7
-      &fIniciando: &a<time>
+      &fStarting: &a<time>
       &7
       &emc.spigot.net
   simple-game:

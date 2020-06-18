@@ -1189,11 +1189,11 @@ public class SetupListener implements Listener {
                 ItemMeta im = item.getItemMeta();
                 String display = im.getDisplayName();
                 if (display.equals(plugin.getLang().get(p, "menus.trails.icon.nameItem"))) {
-                    if (e.getCursor() == null || e.getCursor().getType().equals(Material.AIR) || p.getItemOnCursor() == null || p.getItemOnCursor().getType().equals(Material.AIR)) {
-                        p.sendMessage(plugin.getLang().get(p, "setup.trails.noCursor"));
+                    if (p.getItemInHand() == null || p.getItemInHand().getType().equals(Material.AIR)) {
+                        p.sendMessage(plugin.getLang().get(p, "setup.noHand"));
                         return;
                     }
-                    ItemStack it = p.getItemOnCursor();
+                    ItemStack it = p.getItemInHand();
                     if (it.hasItemMeta()) {
                         ItemMeta imt = it.getItemMeta();
                         imt.setDisplayName(null);
@@ -1305,11 +1305,11 @@ public class SetupListener implements Listener {
                 ItemMeta im = item.getItemMeta();
                 String display = im.getDisplayName();
                 if (display.equals(plugin.getLang().get(p, "menus.killsounds.icon.nameItem"))) {
-                    if (e.getCursor() == null || e.getCursor().getType().equals(Material.AIR) || p.getItemOnCursor() == null || p.getItemOnCursor().getType().equals(Material.AIR)) {
-                        p.sendMessage(plugin.getLang().get(p, "setup.killsounds.noCursor"));
+                    if (p.getItemInHand() == null || p.getItemInHand().getType().equals(Material.AIR)) {
+                        p.sendMessage(plugin.getLang().get(p, "setup.noHand"));
                         return;
                     }
-                    ItemStack it = p.getItemOnCursor();
+                    ItemStack it = p.getItemInHand();
                     if (it.hasItemMeta()) {
                         ItemMeta imt = it.getItemMeta();
                         imt.setDisplayName(null);
@@ -1517,11 +1517,11 @@ public class SetupListener implements Listener {
             ItemStack item = e.getCurrentItem();
             String display = item.getItemMeta().getDisplayName();
             if (display.equals(plugin.getLang().get("menus.kitlevelssetup.icon.nameItem"))) {
-                if (e.getCursor() == null || e.getCursor().getType().equals(Material.AIR) || p.getItemOnCursor() == null || p.getItemOnCursor().getType().equals(Material.AIR)) {
-                    p.sendMessage(plugin.getLang().get(p, "setup.noCursor"));
+                if (p.getItemInHand() == null || p.getItemInHand().getType().equals(Material.AIR)) {
+                    p.sendMessage(plugin.getLang().get(p, "setup.noHand"));
                     return;
                 }
-                ItemStack it = p.getItemOnCursor();
+                ItemStack it = p.getItemInHand();
                 if (it.hasItemMeta()) {
                     ItemMeta imt = it.getItemMeta();
                     imt.setDisplayName("§a" + ks.getName());

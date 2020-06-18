@@ -184,6 +184,12 @@ public class GameNoState implements Game {
                         Utils.updateSB(on);
                         inGame.add(on);
                         inLobby.remove(on);
+                        for (Location k : npcKits) {
+                            plugin.getSkm().spawnShopKeeper(on, k, ctw.getShopKeeper(), NPCType.KITS);
+                        }
+                        for (Location s : npcShop) {
+                            plugin.getSkm().spawnShopKeeper(on, s, ctw.getShopKeeper(), NPCType.SHOP);
+                        }
                         NametagEdit.getApi().setNametag(on, t.getColor() + "", "");
                     }
                 }
