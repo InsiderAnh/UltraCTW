@@ -31,6 +31,17 @@ public class KitLevel implements Purchasable {
         this.slot = plugin.getKits().getInt(path + ".slot");
         this.armors = ((List<String>) plugin.getKits().getConfig().get(path + ".armor")).toArray(new ItemStack[0]);
         this.inv = ((List<String>) plugin.getKits().getConfig().get(path + ".inv")).toArray(new ItemStack[0]);
+        this.armors = reverse(armors, armors.length);
+    }
+
+    private ItemStack[] reverse(ItemStack[] a, int n) {
+        ItemStack[] b = new ItemStack[n];
+        int j = n;
+        for (int i = 0; i < n; i++) {
+            b[j - 1] = a[i];
+            j = j - 1;
+        }
+        return b;
     }
 
     public void giveKitLevel(Player p, Team team) {

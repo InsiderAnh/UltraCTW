@@ -9,10 +9,7 @@ import io.github.Leonardo0013YT.UltraCTW.objects.Squared;
 import io.github.Leonardo0013YT.UltraCTW.team.Team;
 import io.github.Leonardo0013YT.UltraCTW.utils.Utils;
 import io.github.Leonardo0013YT.UltraCTW.xseries.XSound;
-import org.bukkit.ChatColor;
-import org.bukkit.GameMode;
-import org.bukkit.Location;
-import org.bukkit.Sound;
+import org.bukkit.*;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -125,18 +122,19 @@ public class GameNoState implements Game {
 
     @Override
     public void reset() {
-        wools.clear();
-        inGame.clear();
-        inLobby.clear();
         winDances.forEach(WinDance::stop);
         winEffects.forEach(WinEffect::stop);
         killEffects.forEach(KillEffect::stop);
+        wools.clear();
+        inGame.clear();
+        inLobby.clear();
         gamePlayer.clear();
         spectators.clear();
         cached.clear();
         players.clear();
         teams.values().forEach(Team::reset);
         plugin.getWc().resetMap(new Location(lobby.getWorld(), 0, 75, 0), schematic);
+        lobby.getWorld().setTime(500);
         lobby.getWorld().getEntities().stream().filter(e -> !e.getType().equals(EntityType.PLAYER)).forEach(Entity::remove);
         starting = plugin.getCm().getStarting();
         time = 0;

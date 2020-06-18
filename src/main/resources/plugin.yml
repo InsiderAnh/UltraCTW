@@ -3,7 +3,7 @@ main: io.github.Leonardo0013YT.UltraCTW.Main
 version: 1.0.0
 author: Leonardo0013YT
 softdepend: [PlaceholderAPI, MVdWPlaceholderAPI]
-depend: [NametagEdit]
+depend: [NametagEdit, ProtocolLib]
 commands:
   ctws:
   ctw:

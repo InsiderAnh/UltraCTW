@@ -35,4 +35,8 @@ public class GamePlayer {
         coins += amount;
     }
 
+    public void removeCoins(double amount) {
+        coins -= amount;
+    }
+
 }

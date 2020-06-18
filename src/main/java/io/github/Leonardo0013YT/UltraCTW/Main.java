@@ -20,6 +20,7 @@ import io.github.Leonardo0013YT.UltraCTW.managers.*;
 import io.github.Leonardo0013YT.UltraCTW.menus.GameMenu;
 import io.github.Leonardo0013YT.UltraCTW.menus.SetupMenu;
 import io.github.Leonardo0013YT.UltraCTW.menus.UltraInventoryMenu;
+import io.github.Leonardo0013YT.UltraCTW.objects.ProtocolLib;
 import io.github.Leonardo0013YT.UltraCTW.placeholders.MVdWPlaceholders;
 import io.github.Leonardo0013YT.UltraCTW.placeholders.Placeholders;
 import io.github.Leonardo0013YT.UltraCTW.utils.Utils;
@@ -128,6 +129,7 @@ public class Main extends JavaPlugin {
         stm = new StreakManager(this);
         top = new TopManager(this);
         mm = new MultiplierManager(this);
+        new ProtocolLib(this);
         getCommand("ctws").setExecutor(new SetupCMD(this));
         getCommand("ctw").setExecutor(new CTWCMD(this));
         getServer().getPluginManager().registerEvents(new SetupListener(this), this);

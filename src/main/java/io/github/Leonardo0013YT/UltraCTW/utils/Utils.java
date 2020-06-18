@@ -87,6 +87,8 @@ public class Utils {
         }
         p.setFlying(false);
         p.setAllowFlight(false);
+        p.setLevel(0);
+        p.setExp(0);
         p.setNoDamageTicks(0);
         p.setFireTicks(0);
         p.setWalkSpeed(0.2f);

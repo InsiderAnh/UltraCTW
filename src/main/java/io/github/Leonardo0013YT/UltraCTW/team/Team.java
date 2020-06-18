@@ -99,6 +99,10 @@ public class Team {
         members.forEach(m -> plugin.getVc().getNMS().sendTitle(m, title, subtitle, in, stay, out));
     }
 
+    public void sendMessage(String msg){
+        members.forEach(m -> m.sendMessage(msg));
+    }
+
     public void addKill() {
         kills++;
     }

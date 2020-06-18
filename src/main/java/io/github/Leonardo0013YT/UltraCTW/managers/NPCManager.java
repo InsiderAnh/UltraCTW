@@ -55,6 +55,10 @@ public class NPCManager {
         npcs.get(p).add(npc);
     }
 
+    public HashMap<Player, ArrayList<NPC>> getNpcs() {
+        return npcs;
+    }
+
     public void removePlayer(Player p) {
         if (npcs.containsKey(p)) {
             for (NPC npc : npcs.get(p)) {

@@ -126,6 +126,12 @@ public class NPC_v1_15_r1 implements NPC {
         return entity.getBukkitEntity();
     }
 
+    @Override
+    public int getEntityID(){
+        if (entity == null) return -5000;
+        return entity.getId();
+    }
+
     private EntityLiving getEntityByType(EntityType type, WorldServer nmsWorld) {
         if (type.equals(EntityType.ZOMBIE)) {
             return new EntityZombie(nmsWorld);

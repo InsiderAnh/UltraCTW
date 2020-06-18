@@ -58,13 +58,8 @@ public class NPC_v1_8_r3 implements NPC {
         EntityLiving ev = getEntityByType(type, nmsWorld);
         ev.setLocation(loc.getX(), loc.getY(), loc.getZ(), newDirection(loc.getYaw()), newDirection(loc.getPitch()));
         ev.setCustomNameVisible(false);
-        NBTTagCompound compound = new NBTTagCompound();
-        ev.c(compound);
-        compound.setByte("NoAI", (byte) 1);
-        ev.f(compound);
         PlayerConnection connection = ((CraftPlayer) p).getHandle().playerConnection;
         connection.sendPacket(new PacketPlayOutSpawnEntityLiving(ev));
-        ((CraftWorld) loc.getWorld()).getHandle().addEntity(ev, CreatureSpawnEvent.SpawnReason.CUSTOM);
         entity = ev;
         spawnHologram();
     }
@@ -121,6 +116,12 @@ public class NPC_v1_8_r3 implements NPC {
     public org.bukkit.entity.Entity getBukkitEntity() {
         if (entity == null) return null;
         return entity.getBukkitEntity();
+    }
+
+    @Override
+    public int getEntityID(){
+        if (entity == null) return -5000;
+        return entity.getId();
     }
 
     private EntityLiving getEntityByType(EntityType type, WorldServer nmsWorld) {

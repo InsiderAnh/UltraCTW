@@ -25,4 +25,5 @@ public interface NPC {
 
     org.bukkit.entity.Entity getBukkitEntity();
 
+    int getEntityID();
 }

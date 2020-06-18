@@ -2,6 +2,7 @@ package io.github.Leonardo0013YT.UltraCTW.listeners;
 
 import com.nametagedit.plugin.NametagEdit;
 import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.api.events.CTWNPCInteractEvent;
 import io.github.Leonardo0013YT.UltraCTW.api.events.PlayerLoadEvent;
 import io.github.Leonardo0013YT.UltraCTW.cosmetics.trails.Trail;
 import io.github.Leonardo0013YT.UltraCTW.enums.NPCType;
@@ -30,6 +31,7 @@ import org.bukkit.event.entity.*;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
+import org.bukkit.potion.PotionEffect;
 
 import java.util.ArrayList;
 import java.util.stream.Collectors;
@@ -79,12 +81,11 @@ public class PlayerListener implements Listener {
     }
 
     @EventHandler
-    public void onInteractEntity(PlayerInteractAtEntityEvent e) {
+    public void onInteractEntity(CTWNPCInteractEvent e) {
         Player p = e.getPlayer();
         Game g = plugin.getGm().getGameByPlayer(p);
         if (g == null) return;
-        Entity entity = e.getRightClicked();
-        NPC npc = plugin.getNpc().getNPC(p, entity.getUniqueId());
+        NPC npc = e.getNpc();
         if (npc == null) {
             return;
         }
@@ -214,8 +215,8 @@ public class PlayerListener implements Listener {
             ctw.addWoolCaptured();
             p.sendMessage(plugin.getLang().get("messages.placeTeam").replaceAll("<place>", c + plugin.getLang().get("scoreboards.wools.captured")));
             team.getCaptured().add(c);
-            team.sendTitle(plugin.getLang().get("titles.captured.title").replaceAll("<color>", c + ""), plugin.getLang().get("titles.captured.subtitle").replaceAll("<wool>", c + plugin.getLang().get("scoreboards.wools.captured")), 0, 30, 10);
-            g.getTeams().values().stream().filter(t -> t.getId() != team.getId()).forEach(t -> t.sendTitle(plugin.getLang().get("titles.otherCaptured.title").replaceAll("<name>", team.getName()).replaceAll("<color>", team.getColor() + ""), plugin.getLang().get("titles.otherCaptured.subtitle").replaceAll("<wool>", c + plugin.getLang().get("scoreboards.wools.captured")), 0, 30, 10));
+            team.sendTitle(plugin.getLang().get("titles.captured.title").replaceAll("<color>", c + "").replace("<player>", p.getName()), plugin.getLang().get("titles.captured.subtitle").replaceAll("<color>", c + "").replace("<player>", p.getName()).replaceAll("<wool>", c + plugin.getLang().get("scoreboards.wools.captured")), 0, 30, 10);
+            g.getTeams().values().stream().filter(t -> t.getId() != team.getId()).forEach(t -> t.sendTitle(plugin.getLang().get("titles.otherCaptured.title").replaceAll("<color>", c + "").replace("<player>", p.getName()).replaceAll("<name>", team.getName()).replaceAll("<color>", team.getColor() + ""), plugin.getLang().get("titles.otherCaptured.subtitle").replaceAll("<color>", c + "").replace("<player>", p.getName()).replaceAll("<wool>", c + plugin.getLang().get("scoreboards.wools.captured")), 0, 30, 10));
             team.playSound(XSound.ENTITY_PLAYER_LEVELUP, 1.0f, 1.0f);
             if (team.checkWools()) {
                 g.win(team);
@@ -355,9 +356,9 @@ public class PlayerListener implements Listener {
         team.getInProgress().putIfAbsent(c, new ArrayList<>());
         if (!team.getInProgress().get(c).contains(p.getUniqueId())) {
             team.getInProgress().get(c).add(p.getUniqueId());
-            team.sendTitle(plugin.getLang().get("titles.teampick.title").replaceAll("<color>", c + ""), plugin.getLang().get("titles.teampick.subtitle").replaceAll("<wool>", c + plugin.getLang().get("scoreboards.wools.captured")), 0, 30, 10);
+            team.sendMessage(plugin.getLang().get("messages.teampick").replaceAll("<color>", c + "").replaceAll("<wool>", c + plugin.getLang().get("scoreboards.wools.captured")));
             ChatColor finalC = c;
-            others.forEach(t -> t.sendTitle(plugin.getLang().get("titles.otherpick.title").replaceAll("<color>", finalC + ""), plugin.getLang().get("titles.otherpick.subtitle").replaceAll("<wool>", finalC + plugin.getLang().get("scoreboards.wools.captured")), 0, 30, 10));
+            others.forEach(t -> t.sendMessage(plugin.getLang().get("titles.otherpick").replaceAll("<color>", finalC + "").replaceAll("<wool>", finalC + plugin.getLang().get("scoreboards.wools.captured"))));
             team.playSound(XSound.ENTITY_FIREWORK_ROCKET_BLAST, 1.0f, 1.0f);
             others.forEach(t -> t.playSound(XSound.ENTITY_WITHER_HURT, 1.0f, 1.0f));
         }
@@ -576,6 +577,8 @@ public class PlayerListener implements Listener {
     private void respawn(Team team, Game g, Player p) {
         p.setNoDamageTicks(40);
         p.setFallDistance(0);
+        p.setLevel(0);
+        p.setExp(0);
         p.setHealth(p.getMaxHealth());
         p.teleport(team.getSpawn());
         for (ChatColor c : team.getColors()) {
@@ -585,6 +588,10 @@ public class PlayerListener implements Listener {
                 g.sendGameMessage(plugin.getLang().get("messages.lost").replaceAll("<wool>", c + plugin.getLang().get("scoreboards.wools.captured")));
                 team.sendTitle(plugin.getLang().get("titles.dropped.title"), plugin.getLang().get("titles.dropped.subtitle").replaceAll("<wool>", c + plugin.getLang().get("scoreboards.wools.captured")), 0, 20, 0);
             }
+        }
+        p.setFireTicks(0);
+        for (PotionEffect ef : p.getActivePotionEffects()){
+            p.removePotionEffect(ef.getType());
         }
         p.getInventory().clear();
         plugin.getKm().giveDefaultKit(p, g, team);
