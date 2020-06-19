@@ -35,7 +35,7 @@ public class Main extends JavaPlugin {
 
     private static Main instance;
     private Gson ctw;
-    private Settings arenas, lang, menus, kits, sources, windance, wineffect, killsound, taunt, trail, killeffect, shopkeepers, levels, shop;
+    private Settings arenas, lang, menus, kits, sources, windance, wineffect, killsound, taunt, trail, killeffect, shopkeepers, levels, shop, migration;
     private boolean debugMode, stop = false;
     private GameManager gm;
     private ConfigManager cm;
@@ -92,6 +92,7 @@ public class Main extends JavaPlugin {
         shopkeepers = new Settings(this, "shopkeepers", false, false);
         levels = new Settings(this, "levels", false, false);
         shop = new Settings(this, "shop", false, false);
+        //migration = new Settings(this, "migration", true, true);
         debugMode = getConfig().getBoolean("debugMode");
         wc = new WorldController(this);
         db = new MySQLDatabase(this);

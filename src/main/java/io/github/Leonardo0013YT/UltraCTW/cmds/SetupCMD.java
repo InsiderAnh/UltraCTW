@@ -2,8 +2,7 @@ package io.github.Leonardo0013YT.UltraCTW.cmds;
 
 import io.github.Leonardo0013YT.UltraCTW.Main;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.UltraInventory;
-import io.github.Leonardo0013YT.UltraCTW.setup.ArenaSetup;
-import io.github.Leonardo0013YT.UltraCTW.setup.KitSetup;
+import io.github.Leonardo0013YT.UltraCTW.setup.*;
 import io.github.Leonardo0013YT.UltraCTW.utils.Utils;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -33,6 +32,110 @@ public class SetupCMD implements CommandExecutor {
                 return true;
             }
             switch (args[0].toLowerCase()) {
+                case "killsounds":
+                    if (plugin.getSm().isSetupKillSound(p)) {
+                        KillSoundSetup kss = plugin.getSm().getSetupKillSound(p);
+                        plugin.getUim().openInventory(p, plugin.getUim().getMenus("killsounds"),
+                                new String[]{"<name>", kss.getName()}, new String[]{"<slot>", "" + kss.getSlot()}, new String[]{"<sound>", "" + kss.getSound().name()},
+                                new String[]{"<vol1>", "" + kss.getVol1()}, new String[]{"<vol2>", "" + kss.getVol2()}, new String[]{"<price>", "" + kss.getPrice()},
+                                new String[]{"<page>", "" + kss.getPage()}, new String[]{"<permission>", kss.getPermission()}, new String[]{"<name>", kss.getName()},
+                                new String[]{"<purchasable>", Utils.parseBoolean(kss.isBuy())});
+                        return true;
+                    }
+                    if (args.length < 2) {
+                        sendHelp(p);
+                        return true;
+                    }
+                    String nameks = args[1];
+                    KillSoundSetup kss = new KillSoundSetup(p, nameks);
+                    plugin.getSm().setSetupKillSound(p, kss);
+                    plugin.getUim().openInventory(p, plugin.getUim().getMenus("killsounds"),
+                            new String[]{"<name>", kss.getName()}, new String[]{"<slot>", "" + kss.getSlot()},
+                            new String[]{"<sound>", "" + kss.getSound().name()}, new String[]{"<vol1>", "" + kss.getVol1()}, new String[]{"<vol2>", "" + kss.getVol2()},
+                            new String[]{"<price>", "" + kss.getPrice()}, new String[]{"<page>", "" + kss.getPage()}, new String[]{"<permission>", kss.getPermission()},
+                            new String[]{"<name>", kss.getName()}, new String[]{"<purchasable>", Utils.parseBoolean(kss.isBuy())});
+                    p.sendMessage(plugin.getLang().get(p, "setup.killsounds.created").replaceAll("<name>", kss.getName()));
+                    break;
+                case "trails":
+                    if (plugin.getSm().isSetupTrail(p)) {
+                        TrailSetup ts = plugin.getSm().getSetupTrail(p);
+                        plugin.getUim().openInventory(p, plugin.getUim().getMenus("trails"),
+                                new String[]{"<name>", ts.getName()},
+                                new String[]{"<slot>", "" + ts.getSlot()},
+                                new String[]{"<price>", "" + ts.getPrice()},
+                                new String[]{"<page>", "" + ts.getPage()},
+                                new String[]{"<speed>", "" + ts.getSpeed()},
+                                new String[]{"<offsetX>", "" + ts.getOffsetX()},
+                                new String[]{"<offsetY>", "" + ts.getOffsetY()},
+                                new String[]{"<offsetZ>", "" + ts.getOffsetZ()},
+                                new String[]{"<amount>", "" + ts.getAmount()},
+                                new String[]{"<range>", "" + ts.getRange()},
+                                new String[]{"<particle>", ts.getParticle()},
+                                new String[]{"<permission>", ts.getPermission()},
+                                new String[]{"<name>", ts.getName()},
+                                new String[]{"<purchasable>", Utils.parseBoolean(ts.isBuy())});
+                        return true;
+                    }
+                    if (args.length < 2) {
+                        sendHelp(p);
+                        return true;
+                    }
+                    String namett = args[1];
+                    TrailSetup tts = new TrailSetup(p, namett);
+                    plugin.getSm().setSetupTrail(p, tts);
+                    plugin.getUim().openInventory(p, plugin.getUim().getMenus("trails"),
+                            new String[]{"<name>", tts.getName()},
+                            new String[]{"<slot>", "" + tts.getSlot()},
+                            new String[]{"<price>", "" + tts.getPrice()},
+                            new String[]{"<page>", "" + tts.getPage()},
+                            new String[]{"<speed>", "" + tts.getSpeed()},
+                            new String[]{"<offsetX>", "" + tts.getOffsetX()},
+                            new String[]{"<offsetY>", "" + tts.getOffsetY()},
+                            new String[]{"<offsetZ>", "" + tts.getOffsetZ()},
+                            new String[]{"<amount>", "" + tts.getAmount()},
+                            new String[]{"<range>", "" + tts.getRange()},
+                            new String[]{"<particle>", tts.getParticle()},
+                            new String[]{"<permission>", tts.getPermission()},
+                            new String[]{"<name>", tts.getName()},
+                            new String[]{"<purchasable>", Utils.parseBoolean(tts.isBuy())});
+                    p.sendMessage(plugin.getLang().get(p, "setup.trails.created").replaceAll("<name>", tts.getName()));
+                    break;
+                case "taunts":
+                    if (plugin.getSm().isSetupTaunt(p)) {
+                        TauntSetup ts = plugin.getSm().getSetupTaunt(p);
+                        plugin.getUim().openInventory(p, plugin.getUim().getMenus("taunts"),
+                                new String[]{"<title>", ts.getTitle()},
+                                new String[]{"<subtitle>", ts.getSubtitle()},
+                                new String[]{"<name>", ts.getName()},
+                                new String[]{"<player>", ts.getPlayer()},
+                                new String[]{"<none>", ts.getNone()},
+                                new String[]{"<slot>", "" + ts.getSlot()},
+                                new String[]{"<price>", "" + ts.getPrice()},
+                                new String[]{"<page>", "" + ts.getPage()},
+                                new String[]{"<permission>", ts.getPermission()},
+                                new String[]{"<purchasable>", Utils.parseBoolean(ts.isBuy())});
+                        return true;
+                    }
+                    if (args.length < 2) {
+                        sendHelp(p);
+                        return true;
+                    }
+                    String namet = args[1];
+                    TauntSetup ts = new TauntSetup(plugin, p, namet);
+                    plugin.getSm().setSetupTaunt(p, ts);
+                    plugin.getUim().openInventory(p, plugin.getUim().getMenus("taunts"),
+                            new String[]{"<title>", ts.getTitle()},
+                            new String[]{"<subtitle>", ts.getSubtitle()},
+                            new String[]{"<name>", ts.getName()},
+                            new String[]{"<player>", ts.getPlayer()},
+                            new String[]{"<none>", ts.getNone()},
+                            new String[]{"<slot>", "" + ts.getSlot()},
+                            new String[]{"<price>", "" + ts.getPrice()},
+                            new String[]{"<page>", "" + ts.getPage()},
+                            new String[]{"<permission>", ts.getPermission()},
+                            new String[]{"<purchasable>", Utils.parseBoolean(ts.isBuy())});
+                    p.sendMessage(plugin.getLang().get(p, "setup.taunts.created").replaceAll("<name>", ts.getName()));
+                    break;
                 case "addshopitem":
                     if (args.length < 2) {
                         sendHelp(sender);
@@ -170,6 +273,10 @@ public class SetupCMD implements CommandExecutor {
                     switch (args[1].toLowerCase()) {
                         case "setup":
                         case "lobby":
+                        case "taunts":
+                        case "tauntstype":
+                        case "killsounds":
+                        case "trails":
                         case "teamsetup":
                             UltraInventory inv = plugin.getUim().getMenus(args[1].toLowerCase());
                             plugin.getUim().openInventory(p, inv);
@@ -178,6 +285,10 @@ public class SetupCMD implements CommandExecutor {
                         default:
                             p.sendMessage("§cThe available menus are:");
                             p.sendMessage("§7 - §eSetup");
+                            p.sendMessage("§7 - §eTrails");
+                            p.sendMessage("§7 - §eKillSound");
+                            p.sendMessage("§7 - §eTaunts");
+                            p.sendMessage("§7 - §eTauntsType");
                             p.sendMessage("§7 - §eTeamSetup");
                             p.sendMessage("§7 - §eLobby");
                             break;
@@ -199,6 +310,9 @@ public class SetupCMD implements CommandExecutor {
         s.sendMessage("§e/ctws addkits §7- §aSet NPC Kits. §c(You need stay creating arena)");
         s.sendMessage("§e/ctw addshopitem <price> §7- §aYou must have the item in your hand.");
         s.sendMessage("§e/ctws kits <name> §7- §aCreate a new kit.");
+        s.sendMessage("§e/ctws taunts <name> §7- §aCreating a new taunt.");
+        s.sendMessage("§e/ctws trails <name> §7- §aCreating a new trail.");
+        s.sendMessage("§e/ctws killsounds <name> §7- §aCreating a new killsound.");
         s.sendMessage("§e/ctws inventory <type> §7- §aEdit a inventory.");
         s.sendMessage("§e/ctws settop kills/wins/captured/bounty §7- §aSet top location.");
         s.sendMessage("§e/ctws reload §7- §aReload the plugin");

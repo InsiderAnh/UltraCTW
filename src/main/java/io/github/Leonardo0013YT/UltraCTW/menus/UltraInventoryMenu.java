@@ -14,8 +14,7 @@ import io.github.Leonardo0013YT.UltraCTW.interfaces.CTWPlayer;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.Game;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.UltraInventory;
 import io.github.Leonardo0013YT.UltraCTW.inventories.LobbyShopMenu;
-import io.github.Leonardo0013YT.UltraCTW.inventories.setup.SetupArenaMenu;
-import io.github.Leonardo0013YT.UltraCTW.inventories.setup.SetupTeamMenu;
+import io.github.Leonardo0013YT.UltraCTW.inventories.setup.*;
 import io.github.Leonardo0013YT.UltraCTW.setup.TauntTypeSetup;
 import io.github.Leonardo0013YT.UltraCTW.utils.ItemBuilder;
 import io.github.Leonardo0013YT.UltraCTW.xseries.XMaterial;
@@ -44,6 +43,10 @@ public class UltraInventoryMenu {
         menus.put("setup", new SetupArenaMenu(plugin, "setup"));
         menus.put("teamsetup", new SetupTeamMenu(plugin, "teamsetup"));
         menus.put("lobby", new LobbyShopMenu(plugin, "lobby"));
+        menus.put("killsounds", new SetupKillSoundMenu(plugin, "killsounds"));
+        menus.put("taunts", new SetupTauntMenu(plugin, "taunts"));
+        menus.put("tauntstype", new SetupTauntTypeMenu(plugin, "tauntstype"));
+        menus.put("trails", new SetupTrailMenu(plugin, "trails"));
     }
 
     public UltraInventory getMenus(String t) {

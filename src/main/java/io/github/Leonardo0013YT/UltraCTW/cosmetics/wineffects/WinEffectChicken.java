@@ -38,7 +38,7 @@ public class WinEffectChicken implements WinEffect {
                     }
                 }
             }
-        }.runTaskTimer(Main.get(), 5, 5);
+        }.runTaskTimer(Main.get(), 20, 20);
     }
 
     @Override

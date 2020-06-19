@@ -49,7 +49,7 @@ public class WinDanceThunder implements WinDance, Cloneable {
                 thunder(loc7);
                 thunder(loc8);
             }
-        }.runTaskTimer(Main.get(), 0, 10);
+        }.runTaskTimer(Main.get(), 0, 20);
     }
 
     private void thunder(Location loc) {

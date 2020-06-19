@@ -35,7 +35,7 @@ public class WinEffectFireworks implements WinEffect, Cloneable {
                 }
                 firework(p.getLocation());
             }
-        }.runTaskTimer(Main.get(), 0, 6);
+        }.runTaskTimer(Main.get(), 0, 20);
     }
 
     @Override

@@ -41,7 +41,7 @@ public class WinEffectNotes implements WinEffect {
                     }
                 }
             }
-        }.runTaskTimer(Main.get(), 0, 6);
+        }.runTaskTimer(Main.get(), 0, 10);
     }
 
     @Override

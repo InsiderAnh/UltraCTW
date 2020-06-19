@@ -56,7 +56,7 @@ public class WinDanceAnvilLand implements WinDance, Cloneable {
                 world.spawnFallingBlock(loc11, Material.ANVIL, blockData);
                 world.spawnFallingBlock(loc12, Material.ANVIL, blockData);
             }
-        }.runTaskTimer(Main.get(), 5, 5);
+        }.runTaskTimer(Main.get(), 15, 15);
     }
 
     @Override

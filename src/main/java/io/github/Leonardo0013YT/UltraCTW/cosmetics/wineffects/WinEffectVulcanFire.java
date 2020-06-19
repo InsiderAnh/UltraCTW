@@ -32,7 +32,7 @@ public class WinEffectVulcanFire implements WinEffect, Cloneable {
                 fallingBlock.setDropItem(false);
                 fires.add(fallingBlock);
             }
-        }.runTaskTimer(Main.get(), 0, 2);
+        }.runTaskTimer(Main.get(), 0, 5);
     }
 
     @Override

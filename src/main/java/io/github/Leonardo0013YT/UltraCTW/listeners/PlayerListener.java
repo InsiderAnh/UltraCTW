@@ -287,17 +287,6 @@ public class PlayerListener implements Listener {
     }
 
     @EventHandler
-    public void onFood(FoodLevelChangeEvent e) {
-        if (e.getEntity() instanceof Player) {
-            Player p = (Player) e.getEntity();
-            Game g = plugin.getGm().getGameByPlayer(p);
-            if (g == null) return;
-            e.setCancelled(true);
-            e.setFoodLevel(40);
-        }
-    }
-
-    @EventHandler
     public void onItemDespawn(ItemDespawnEvent e) {
         Item i = e.getEntity();
         if (i.hasMetadata("DROPPED")) {
