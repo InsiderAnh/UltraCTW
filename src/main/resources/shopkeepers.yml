@@ -16,7 +16,7 @@ shopkeepers:
     isBuy: false
     slot: 10
     page: 1
-    permission: ultraskywars.shopkeepers.zombie
+    permission: ultractw.shopkeepers.zombie
   blaze:
     id: 1
     icon:
@@ -34,4 +34,4 @@ shopkeepers:
     isBuy: false
     slot: 11
     page: 1
-    permission: ultraskywars.shopkeepers.blaze
+    permission: ultractw.shopkeepers.blaze

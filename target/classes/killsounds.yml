@@ -2,7 +2,7 @@ killsounds:
   Default:
     id: 0
     name: Default
-    permission: ultraskywars.killsound.Default
+    permission: ultractw.killsound.Default
     icon:
       ==: org.bukkit.inventory.ItemStack
       type: GHAST_TEAR

@@ -163,7 +163,7 @@ public class MenuListener implements Listener {
             ChatColor c = ChatColor.valueOf(co);
             Team team = game.getTeams().get(c);
             Team mayo = Utils.getMajorPlayersTeam(game);
-            if (team.getTeamSize() >= mayo.getTeamSize()) {
+            if (team.getTeamSize() > mayo.getTeamSize()) {
                 p.sendMessage(plugin.getLang().get("messages.teamMajorPlayers"));
                 return;
             }

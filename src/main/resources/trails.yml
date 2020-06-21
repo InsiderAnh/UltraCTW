@@ -15,7 +15,7 @@ trails:
           - <price>
           - §7
           - <status>
-    permission: ultraskywars.trails.Test
+    permission: ultractw.trails.Test
     particle: LAVA
     offsetX: 0.0
     offsetY: 0.0

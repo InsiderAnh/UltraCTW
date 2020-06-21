@@ -2,7 +2,7 @@ kits:
   default:
     id: 0
     name: default
-    permission: UltraCTW.kits.default
+    permission: ultractw.kits.default
     slot: 10
     page: 1
     levels:

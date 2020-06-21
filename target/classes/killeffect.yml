@@ -16,7 +16,7 @@ killeffects:
     isBuy: false
     slot: 10
     page: 1
-    permission: ultraskywars.killeffect.default
+    permission: ultractw.killeffect.default
   fireworks:
     id: 1
     icon:
@@ -38,7 +38,7 @@ killeffects:
     isBuy: false
     slot: 11
     page: 1
-    permission: ultraskywars.killeffect.fireworks
+    permission: ultractw.killeffect.fireworks
   thunder:
     id: 2
     icon:
@@ -60,7 +60,7 @@ killeffects:
     isBuy: false
     slot: 12
     page: 1
-    permission: ultraskywars.killeffect.thunder
+    permission: ultractw.killeffect.thunder
   explode:
     id: 3
     icon:
@@ -82,7 +82,7 @@ killeffects:
     isBuy: false
     slot: 13
     page: 1
-    permission: ultraskywars.killeffect.explode
+    permission: ultractw.killeffect.explode
   squid:
     id: 4
     icon:
@@ -105,7 +105,7 @@ killeffects:
     isBuy: false
     slot: 14
     page: 1
-    permission: ultraskywars.killeffect.squid
+    permission: ultractw.killeffect.squid
   blood:
     id: 5
     icon:
@@ -127,7 +127,7 @@ killeffects:
     isBuy: false
     slot: 15
     page: 1
-    permission: ultraskywars.killeffect.blood
+    permission: ultractw.killeffect.blood
   diamond:
     id: 6
     icon:
@@ -149,7 +149,7 @@ killeffects:
     isBuy: false
     slot: 16
     page: 1
-    permission: ultraskywars.killeffect.diamond
+    permission: ultractw.killeffect.diamond
   flower:
     id: 7
     icon:
@@ -171,7 +171,7 @@ killeffects:
     isBuy: false
     slot: 19
     page: 1
-    permission: ultraskywars.killeffect.flower
+    permission: ultractw.killeffect.flower
   head:
     id: 8
     icon:
@@ -194,7 +194,7 @@ killeffects:
     isBuy: false
     slot: 20
     page: 1
-    permission: ultraskywars.killeffect.head
+    permission: ultractw.killeffect.head
   snow:
     id: 9
     icon:
@@ -216,4 +216,4 @@ killeffects:
     isBuy: false
     slot: 21
     page: 1
-    permission: ultraskywars.killeffect.snow
+    permission: ultractw.killeffect.snow

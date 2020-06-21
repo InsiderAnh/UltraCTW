@@ -141,10 +141,16 @@ public class PlayerListener implements Listener {
     }
 
     private String formatTeam(Player p, Team team, String msg) {
+        if (team == null){
+            return plugin.getLang().get(p, "chat.team").replaceAll("<team>", "").replaceAll("<player>", p.getName()).replaceAll("<msg>", msg);
+        }
         return plugin.getLang().get(p, "chat.team").replaceAll("<team>", team.getName()).replaceAll("<player>", p.getName()).replaceAll("<msg>", msg);
     }
 
     private String formatGame(Player p, Team team, String msg) {
+        if (team == null){
+            return plugin.getLang().get(p, "chat.team").replaceAll("<team>", "").replaceAll("<player>", p.getName()).replaceAll("<msg>", msg);
+        }
         return plugin.getLang().get(p, "chat.global").replaceAll("<team>", team.getName()).replaceAll("<player>", p.getName()).replaceAll("<msg>", msg.replaceFirst("!", ""));
     }
 

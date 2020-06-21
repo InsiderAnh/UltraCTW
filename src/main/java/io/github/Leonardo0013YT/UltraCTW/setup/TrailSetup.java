@@ -22,7 +22,7 @@ public class TrailSetup {
         this.p = p;
         this.name = name;
         this.icon = new ItemStack(Material.BOW);
-        this.permission = "ultraskywars.trails." + name;
+        this.permission = "ultractw.trails." + name;
         this.particle = "LAVA";
         this.offsetX = 0.0f;
         this.offsetY = 0.0f;

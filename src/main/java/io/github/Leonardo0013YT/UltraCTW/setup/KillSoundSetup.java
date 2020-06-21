@@ -22,7 +22,7 @@ public class KillSoundSetup {
     public KillSoundSetup(Player p, String name) {
         this.p = p;
         this.name = name;
-        this.permission = "ultraskywars.killsound." + name;
+        this.permission = "ultractw.killsound." + name;
         this.icon = new ItemStack(Material.GHAST_TEAR);
         this.slot = 10;
         this.page = 1;

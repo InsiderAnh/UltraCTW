@@ -22,7 +22,7 @@ taunts:
     slot: 10
     page: 1
     price: 500
-    permission: ultraskywars.taunt.prueba
+    permission: ultractw.taunt.prueba
     isBuy: true
     taunts:
       CONTACT:

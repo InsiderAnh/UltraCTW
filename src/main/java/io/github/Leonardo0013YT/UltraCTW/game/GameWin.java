@@ -50,7 +50,9 @@ public class GameWin {
             String color = "RESET";
             Player on = Bukkit.getPlayer(key);
             if (on != null && game.getPlayers().contains(on)) {
-                color = game.getTeamPlayer(on).getColor().name();
+                Team team = game.getTeamPlayer(on);
+                if (team == null) continue;
+                color = team.getColor().name();
             }
             tops.set(top, key + ":" + sorted_map.ceilingEntry(key).getValue() + ":" + color);
             top++;

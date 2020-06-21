@@ -23,7 +23,7 @@ public class KitSetup {
     public KitSetup(Main plugin, String name) {
         this.plugin = plugin;
         this.name = name;
-        this.permission = "UltraCTW.kits." + name;
+        this.permission = "ultractw.kits." + name;
     }
 
     public void saveKitLevel() {

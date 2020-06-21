@@ -20,7 +20,7 @@ wineffects:
     isBuy: false
     slot: 10
     page: 1
-    permission: ultraskywars.wineffects.fireworks
+    permission: ultractw.wineffects.fireworks
   vulcanwool:
     id: 1
     icon:
@@ -45,7 +45,7 @@ wineffects:
     isBuy: true
     slot: 11
     page: 1
-    permission: ultraskywars.wineffects.vulcanwool
+    permission: ultractw.wineffects.vulcanwool
   vulcanfire:
     id: 2
     icon:
@@ -69,7 +69,7 @@ wineffects:
     isBuy: true
     slot: 12
     page: 1
-    permission: ultraskywars.wineffects.vulcanfire
+    permission: ultractw.wineffects.vulcanfire
   icewalker:
     id: 3
     icon:
@@ -92,7 +92,7 @@ wineffects:
     isBuy: true
     slot: 13
     page: 1
-    permission: ultraskywars.wineffects.icewalker
+    permission: ultractw.wineffects.icewalker
   notes:
     id: 4
     icon:
@@ -115,7 +115,7 @@ wineffects:
     isBuy: true
     slot: 14
     page: 1
-    permission: ultraskywars.wineffects.notes
+    permission: ultractw.wineffects.notes
   chickens:
     id: 5
     icon:
@@ -138,7 +138,7 @@ wineffects:
     isBuy: true
     slot: 15
     page: 1
-    permission: ultraskywars.wineffects.chickens
+    permission: ultractw.wineffects.chickens
   guardian:
     id: 6
     icon:
@@ -161,4 +161,4 @@ wineffects:
     isBuy: true
     slot: 16
     page: 1
-    permission: ultraskywars.wineffects.guardian
+    permission: ultractw.wineffects.guardian

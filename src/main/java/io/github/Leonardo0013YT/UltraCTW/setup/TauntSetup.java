@@ -23,7 +23,7 @@ public class TauntSetup {
     public TauntSetup(Main plugin, Player p, String name) {
         this.plugin = plugin;
         this.name = name;
-        this.permission = "ultraskywars.taunt." + name;
+        this.permission = "ultractw.taunt." + name;
         for (String c : plugin.getVc().getNMS().getDamageCauses()) {
             taunts.put(c, new TauntTypeSetup(p, c, Collections.singletonList(plugin.getLang().get(p, "taunts." + c))));
         }
