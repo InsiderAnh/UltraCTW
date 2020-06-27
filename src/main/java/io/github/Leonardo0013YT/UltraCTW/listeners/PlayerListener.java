@@ -160,7 +160,7 @@ public class PlayerListener implements Listener {
         Game g = plugin.getGm().getGameByPlayer(p);
         if (g == null) return;
         Team team = g.getTeamPlayer(p);
-        if (team == null) {
+        if (team == null || g.isState(State.WAITING) || g.isState(State.STARTING) || g.isState(State.FINISH) || g.isState(State.RESTARTING)) {
             e.setCancelled(true);
             return;
         }
@@ -191,12 +191,24 @@ public class PlayerListener implements Listener {
     }
 
     @EventHandler
+    public void onFood(FoodLevelChangeEvent e){
+        if (e.getEntity() instanceof Player){
+            Player p = (Player) e.getEntity();
+            Game g = plugin.getGm().getGameByPlayer(p);
+            if (g == null) return;
+            if (g.isState(State.WAITING) || g.isState(State.STARTING) || g.isState(State.FINISH) || g.isState(State.RESTARTING)){
+                e.setCancelled(true);
+            }
+        }
+    }
+
+    @EventHandler
     public void onPlace(BlockPlaceEvent e) {
         Player p = e.getPlayer();
         Game g = plugin.getGm().getGameByPlayer(p);
         if (g == null) return;
         Team team = g.getTeamPlayer(p);
-        if (team == null) {
+        if (team == null || g.isState(State.WAITING) || g.isState(State.STARTING)) {
             e.setCancelled(true);
             return;
         }
@@ -338,6 +350,10 @@ public class PlayerListener implements Listener {
         if (c == null) return;
         Game g = plugin.getGm().getGameByPlayer(p);
         if (g == null) return;
+        if (g.isState(State.FINISH) || g.isState(State.RESTARTING)){
+            e.setCancelled(true);
+            return;
+        }
         Team team = g.getTeamPlayer(p);
         if (team == null) return;
         if (!team.getColors().contains(c)) {
@@ -521,7 +537,7 @@ public class PlayerListener implements Listener {
             plugin.getGem().createTeamsMenu(p, game);
         }
         if (item.equals(plugin.getIm().getLobby())) {
-            plugin.getUim().openContentInventory(p, plugin.getUim().getMenus("lobby"));
+            p.chat(plugin.getCm().getItemLobbyCMD());
         }
         if (item.equals(plugin.getIm().getLeave())) {
             plugin.getGm().removePlayerGame(p, true);
@@ -571,7 +587,9 @@ public class PlayerListener implements Listener {
     }
 
     private void givePlayerItems(Player p) {
-        p.getInventory().setItem(4, plugin.getIm().getLobby());
+        if (plugin.getCm().isItemLobbyEnabled()){
+            p.getInventory().setItem(plugin.getCm().getItemLobbySlot(), plugin.getIm().getLobby());
+        }
     }
 
 }

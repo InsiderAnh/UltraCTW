@@ -12,13 +12,14 @@ import org.bukkit.Sound;
 public class ConfigManager {
 
     private Main plugin;
-    private boolean placeholdersAPI, redPanelInLocked, holograms, holographicdisplays;
+    private boolean excluideDefKits, itemLobbyEnabled, placeholdersAPI, redPanelInLocked, holograms, holographicdisplays;
     private Location mainLobby, topKills, topWins, topCaptured, topBounty;
     private short redPanelData;
     private Material back, redPanelMaterial;
     private Sound streak2, streak3, streak4, streak5, upgradeSound, cancelStartSound, wineffectschicken, wineffectsvulcanfire, wineffectvulcanwool, wineffectnotes, killEffectTNT, killEffectSquid;
-    private int maxMultiplier, gCoinsKills, gCoinsWins, gCoinsAssists, coinsKill, coinsWin, coinsAssists, xpKill, xpWin, xpAssists, starting, progressBarAmount, timeToKill;
+    private int itemLobbySlot, maxMultiplier, gCoinsKills, gCoinsWins, gCoinsAssists, coinsKill, coinsWin, coinsAssists, xpKill, xpWin, xpAssists, starting, progressBarAmount, timeToKill;
     private double bountyMin, bountyMax, bountyPerKill;
+    private String itemLobbyCMD;
 
     public ConfigManager(Main plugin) {
         this.plugin = plugin;
@@ -26,6 +27,10 @@ public class ConfigManager {
     }
 
     public void reload() {
+        this.excluideDefKits = plugin.getConfig().getBoolean("excluideDefKits");
+        this.itemLobbyEnabled = plugin.getConfig().getBoolean("items.lobby.enabled");
+        this.itemLobbySlot = plugin.getConfig().getInt("items.lobby.slot");
+        this.itemLobbyCMD = plugin.getConfig().getString("items.lobby.cmd");
         this.maxMultiplier = plugin.getConfig().getInt("gameDefaults.maxMultiplier");
         this.topKills = Utils.getStringLocation(plugin.getConfig().getString("topKills"));
         this.topWins = Utils.getStringLocation(plugin.getConfig().getString("topWins"));

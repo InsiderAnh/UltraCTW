@@ -5,14 +5,18 @@ import io.github.Leonardo0013YT.UltraCTW.cosmetics.kits.Kit;
 import io.github.Leonardo0013YT.UltraCTW.cosmetics.kits.KitLevel;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.Game;
 import io.github.Leonardo0013YT.UltraCTW.team.Team;
+import lombok.Getter;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
+@Getter
 public class KitManager {
 
     private HashMap<Integer, Kit> kits = new HashMap<>();
+    private ArrayList<Integer> defaultKits = new ArrayList<>();
     private int lastPage;
     private Main plugin;
 
@@ -54,14 +58,6 @@ public class KitManager {
 
     public int getNextID() {
         return kits.size();
-    }
-
-    public HashMap<Integer, Kit> getKits() {
-        return kits;
-    }
-
-    public int getLastPage() {
-        return lastPage;
     }
 
     public void setLastPage(int lastPage) {

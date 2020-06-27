@@ -61,6 +61,7 @@ public class GameNoState implements Game {
         this.teamSize = plugin.getArenas().getInt(path + ".teamSize");
         this.woolSize = plugin.getArenas().getInt(path + ".woolSize");
         this.defKit = plugin.getArenas().getIntOrDefault(path + ".defKit", 0);
+        plugin.getKm().getDefaultKits().add(defKit);
         this.starting = plugin.getCm().getStarting();
         this.min = plugin.getArenas().getInt(path + ".min");
         for (String c : plugin.getArenas().getConfig().getConfigurationSection(path + ".teams").getKeys(false)) {

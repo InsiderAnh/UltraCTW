@@ -92,7 +92,6 @@ public class Main extends JavaPlugin {
         shopkeepers = new Settings(this, "shopkeepers", false, false);
         levels = new Settings(this, "levels", false, false);
         shop = new Settings(this, "shop", false, false);
-        //migration = new Settings(this, "migration", true, true);
         debugMode = getConfig().getBoolean("debugMode");
         wc = new WorldController(this);
         db = new MySQLDatabase(this);
@@ -101,10 +100,10 @@ public class Main extends JavaPlugin {
         im = new ItemManager(this);
         sm = new SetupManager(this);
         sem = new SetupMenu(this);
-        gm = new GameManager(this);
-        uim = new UltraInventoryMenu(this);
         km = new KitManager(this);
         km.loadKits();
+        gm = new GameManager(this);
+        uim = new UltraInventoryMenu(this);
         sb = new ScoreboardManager(this);
         gem = new GameMenu(this);
         wdm = new WinDancesManager(this);

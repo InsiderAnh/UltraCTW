@@ -6,6 +6,7 @@ addons:
 mainLobby: null
 redPanelInLocked: true
 progressBarAmount: 10
+excluideDefKits: true
 redPanel:
   material: STAINED_GLASS_PANE
   data: 14
@@ -29,6 +30,11 @@ bounty:
   min: 90
   max: 110
   perKill: 0.10
+items:
+  lobby:
+    enabled: true
+    slot: 2
+    cmd: /ctw lobby
 materials:
   lobby: DIAMOND
   closeitem: BOOK
