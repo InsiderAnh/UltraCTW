@@ -221,12 +221,16 @@ public class Main extends JavaPlugin {
                 getConfig().addDefault("sounds.cancelStart", "BLOCK_NOTE_BLOCK_BASS");
                 getConfig().addDefault("sounds.wineffects.notes", "ENTITY_FIREWORK_ROCKET_LAUNCH");
                 getConfig().addDefault("sounds.wineffects.chicken", "ENTITY_FIREWORK_ROCKET_LAUNCH");
+                getConfig().addDefault("sounds.pickUpTeam", "ENTITY_FIREWORK_ROCKET_BLAST");
             } else {
                 getConfig().addDefault("sounds.cancelStart", "BLOCK_NOTE_BASS");
                 getConfig().addDefault("sounds.wineffects.notes", "ENTITY_FIREWORK_LAUNCH");
                 getConfig().addDefault("sounds.wineffects.chicken", "ENTITY_FIREWORK_LAUNCH");
+                getConfig().addDefault("sounds.pickUpTeam", "ENTITY_FIREWORK_ROCKET_BLAST");
             }
-            getConfig().addDefault("sounds.upgrade", "ENTITY_PLAYER_LEVELUP");
+            getConfig().addDefault("sounds.upgrade", "ENTITY_FIREWORK_BLAST");
+            getConfig().addDefault("sounds.pickUpOthers", "ENTITY_WITHER_HURT");
+            getConfig().addDefault("sounds.captured", "ENTITY_PLAYER_LEVELUP");
             getConfig().addDefault("sounds.killeffects.tnt", "ENTITY_GENERIC_EXPLODE");
             getConfig().addDefault("sounds.killeffects.squid", "ENTITY_ITEM_PICKUP");
         } else {
@@ -240,6 +244,9 @@ public class Main extends JavaPlugin {
             getConfig().addDefault("sounds.wineffects.vulcanfire", "FUSE");
             getConfig().addDefault("sounds.wineffects.notes", "FIREWORK_LAUNCH");
             getConfig().addDefault("sounds.wineffects.chicken", "FIREWORK_LAUNCH");
+            getConfig().addDefault("sounds.pickUpTeam", "FIREWORK_LAUNCH");
+            getConfig().addDefault("sounds.pickUpOthers", "WITHER_HURT");
+            getConfig().addDefault("sounds.captured", "LEVEL_UP");
             getConfig().addDefault("sounds.killeffects.tnt", "EXPLODE");
             getConfig().addDefault("sounds.killeffects.squid", "ITEM_PICKUP");
         }

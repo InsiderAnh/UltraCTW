@@ -17,6 +17,7 @@ public class ConfigManager {
     private short redPanelData;
     private Material back, redPanelMaterial;
     private Sound streak2, streak3, streak4, streak5, upgradeSound, cancelStartSound, wineffectschicken, wineffectsvulcanfire, wineffectvulcanwool, wineffectnotes, killEffectTNT, killEffectSquid;
+    private XSound pickUpTeam, pickUpOthers, captured;
     private int itemLobbySlot, maxMultiplier, gCoinsKills, gCoinsWins, gCoinsAssists, coinsKill, coinsWin, coinsAssists, xpKill, xpWin, xpAssists, starting, progressBarAmount, timeToKill;
     private double bountyMin, bountyMax, bountyPerKill;
     private String itemLobbyCMD;
@@ -60,6 +61,9 @@ public class ConfigManager {
         this.progressBarAmount = plugin.getConfig().getInt("progressBarAmount");
         this.placeholdersAPI = plugin.getConfig().getBoolean("addons.placeholdersAPI");
         this.mainLobby = Utils.getStringLocation(plugin.getConfig().getString("mainLobby"));
+        this.pickUpTeam = XSound.matchXSound(plugin.getConfig().getString("sounds.pickUpTeam")).orElse(XSound.ENTITY_FIREWORK_ROCKET_BLAST);
+        this.pickUpOthers = XSound.matchXSound(plugin.getConfig().getString("sounds.pickUpOthers")).orElse(XSound.ENTITY_WITHER_HURT);
+        this.captured = XSound.matchXSound(plugin.getConfig().getString("sounds.captured")).orElse(XSound.ENTITY_PLAYER_LEVELUP);
         this.cancelStartSound = Sound.valueOf(plugin.getConfig().getString("sounds.cancelStart"));
         this.wineffectschicken = Sound.valueOf(plugin.getConfig().getString("sounds.wineffects.chicken"));
         this.wineffectnotes = Sound.valueOf(plugin.getConfig().getString("sounds.wineffects.notes"));

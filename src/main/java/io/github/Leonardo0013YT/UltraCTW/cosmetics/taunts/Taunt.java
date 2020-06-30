@@ -5,6 +5,7 @@ import io.github.Leonardo0013YT.UltraCTW.interfaces.CTWPlayer;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.Game;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.Purchasable;
 import io.github.Leonardo0013YT.UltraCTW.streak.Streak;
+import io.github.Leonardo0013YT.UltraCTW.team.Team;
 import io.github.Leonardo0013YT.UltraCTW.utils.ItemBuilder;
 import io.github.Leonardo0013YT.UltraCTW.utils.Utils;
 import io.github.Leonardo0013YT.UltraCTW.xseries.XMaterial;
@@ -75,6 +76,7 @@ public class Taunt implements Purchasable {
                 st.setPrice(0);
             }
         }
+        Main.get().getTgm().removeTag(d);
         Main.get().getStm().resetStreak(d);
         new BukkitRunnable() {
             @Override
@@ -85,17 +87,32 @@ public class Taunt implements Purchasable {
             }
         }.runTaskLater(Main.get(), 5L);
         if (k == null) {
+            Team td = game.getTeamPlayer(d);
+            String cd = "";
+            if (td != null){
+                cd = td.getColor() + "";
+            }
             String msg = taunts.get(cause.name()).getRandomMessage();
             String death = d.getName();
-            msg = msg.replaceAll("<death>", death);
+            msg = msg.replaceAll("<death>", cd + death);
             for (Player p : game.getCached()) {
                 p.sendMessage(msg + none);
             }
         } else {
+            Team tk = game.getTeamPlayer(k);
+            Team td = game.getTeamPlayer(d);
+            String ck = "";
+            String cd = "";
+            if (tk != null){
+                ck = tk.getColor() + "";
+            }
+            if (td != null){
+                cd = td.getColor() + "";
+            }
             String msg = taunts.get(cause.name()).getRandomMessage();
-            String killer = player.replaceAll("<killer>", k.getName());
+            String killer = player.replaceAll("<killer>",ck +  k.getName());
             String death = d.getName();
-            msg = msg.replaceAll("<killer>", killer).replaceAll("<death>", death);
+            msg = msg.replaceAll("<killer>", ck + killer).replaceAll("<death>", cd + death);
             for (Player p : game.getCached()) {
                 p.sendMessage(msg + killer);
             }

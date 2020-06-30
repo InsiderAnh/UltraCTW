@@ -234,7 +234,7 @@ public class PlayerListener implements Listener {
             team.getCaptured().add(c);
             team.sendTitle(plugin.getLang().get("titles.captured.title").replaceAll("<color>", c + "").replace("<player>", p.getName()), plugin.getLang().get("titles.captured.subtitle").replaceAll("<color>", c + "").replace("<player>", p.getName()).replaceAll("<wool>", c + plugin.getLang().get("scoreboards.wools.captured")), 0, 30, 10);
             g.getTeams().values().stream().filter(t -> t.getId() != team.getId()).forEach(t -> t.sendTitle(plugin.getLang().get("titles.otherCaptured.title").replaceAll("<color>", c + "").replace("<player>", p.getName()).replaceAll("<name>", team.getName()).replaceAll("<color>", team.getColor() + ""), plugin.getLang().get("titles.otherCaptured.subtitle").replaceAll("<color>", c + "").replace("<player>", p.getName()).replaceAll("<wool>", c + plugin.getLang().get("scoreboards.wools.captured")), 0, 30, 10));
-            team.playSound(XSound.ENTITY_PLAYER_LEVELUP, 1.0f, 1.0f);
+            team.playSound(plugin.getCm().getCaptured(), 1.0f, 1.0f);
             if (team.checkWools()) {
                 g.win(team);
             }
@@ -369,8 +369,8 @@ public class PlayerListener implements Listener {
             team.sendMessage(plugin.getLang().get("messages.teampick").replaceAll("<color>", c + "").replaceAll("<wool>", c + plugin.getLang().get("scoreboards.wools.captured")));
             ChatColor finalC = c;
             others.forEach(t -> t.sendMessage(plugin.getLang().get("messages.otherpick").replaceAll("<color>", finalC + "").replaceAll("<wool>", finalC + plugin.getLang().get("scoreboards.wools.captured"))));
-            team.playSound(XSound.ENTITY_FIREWORK_ROCKET_BLAST, 1.0f, 1.0f);
-            others.forEach(t -> t.playSound(XSound.ENTITY_WITHER_HURT, 1.0f, 1.0f));
+            team.playSound(plugin.getCm().getPickUpTeam(), 1.0f, 1.0f);
+            others.forEach(t -> t.playSound(plugin.getCm().getPickUpOthers(), 1.0f, 1.0f));
         }
     }
 
@@ -569,6 +569,7 @@ public class PlayerListener implements Listener {
         p.setExp(0);
         p.setHealth(p.getMaxHealth());
         p.teleport(team.getSpawn());
+        p.setFoodLevel(20);
         for (ChatColor c : team.getColors()) {
             if (team.getInProgress().get(c).isEmpty()) continue;
             team.getInProgress().get(c).remove(p.getUniqueId());
