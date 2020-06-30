@@ -1,0 +1,19 @@
+mines:
+  coal:
+    material: COAL_ORE
+    regenerate: 5
+  iron:
+    material: IRON_ORE
+    regenerate: 10
+  gold:
+    material: GOLD_ORE
+    regenerate: 15
+  diamond:
+    material: DIAMOND_ORE
+    regenerate: 20
+  emerald:
+    material: EMERALD_ORE
+    regenerate: 20
+  quartz:
+    material: QUARTZ_ORE
+    regenerate: 10

@@ -35,7 +35,7 @@ public class Main extends JavaPlugin {
 
     private static Main instance;
     private Gson ctw;
-    private Settings arenas, lang, menus, kits, sources, windance, wineffect, killsound, taunt, trail, killeffect, shopkeepers, levels, shop, migration;
+    private Settings mines, arenas, lang, menus, kits, sources, windance, wineffect, killsound, taunt, trail, killeffect, shopkeepers, levels, shop, migration;
     private boolean debugMode, stop = false;
     private GameManager gm;
     private ConfigManager cm;
@@ -78,6 +78,7 @@ public class Main extends JavaPlugin {
         setupSounds();
         saveConfig();
         ctw = new GsonBuilder().registerTypeAdapter(CTWPlayer.class, new ICTWPlayerAdapter()).create();
+        mines = new Settings(this, "mines", false, false);
         arenas = new Settings(this, "arenas", false, false);
         lang = new Settings(this, "lang", true, false);
         sources = new Settings(this, "sources", true, false);
@@ -181,6 +182,7 @@ public class Main extends JavaPlugin {
         lang.reload();
         arenas.reload();
         shop.reload();
+        mines.reload();
         killeffect.reload();
         killsound.reload();
         kits.reload();
