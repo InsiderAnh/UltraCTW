@@ -1,10 +1,7 @@
 package io.github.Leonardo0013YT.UltraCTW.menus;
 
 import io.github.Leonardo0013YT.UltraCTW.Main;
-import io.github.Leonardo0013YT.UltraCTW.setup.ArenaSetup;
-import io.github.Leonardo0013YT.UltraCTW.setup.KitLevelSetup;
-import io.github.Leonardo0013YT.UltraCTW.setup.KitSetup;
-import io.github.Leonardo0013YT.UltraCTW.setup.TeamSetup;
+import io.github.Leonardo0013YT.UltraCTW.setup.*;
 import io.github.Leonardo0013YT.UltraCTW.utils.ItemUtils;
 import io.github.Leonardo0013YT.UltraCTW.utils.NBTEditor;
 import io.github.Leonardo0013YT.UltraCTW.utils.Utils;
@@ -129,6 +126,16 @@ public class SetupMenu {
     }
 
     public void createSetupColorTeam(Player p, ArenaSetup as) {
+        Inventory inv = Bukkit.createInventory(null, 45, plugin.getLang().get("menus.teamColor.title"));
+        int i = 0;
+        for (ChatColor xm : as.getAvailableColors()) {
+            inv.setItem(slots[i], NBTEditor.set(new ItemUtils(Utils.getXMaterialByColor(xm)).setDisplayName(xm + "Team " + plugin.getLang().get("teams." + xm.name().toLowerCase())).build(), xm.name(), "SELECT", "TEAM", "COLORS"));
+            i++;
+        }
+        p.openInventory(inv);
+    }
+
+    public void createSetupColorTeam(Player p, FlagSetup as) {
         Inventory inv = Bukkit.createInventory(null, 45, plugin.getLang().get("menus.teamColor.title"));
         int i = 0;
         for (ChatColor xm : as.getAvailableColors()) {

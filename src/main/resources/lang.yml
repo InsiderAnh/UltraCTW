@@ -161,8 +161,9 @@ setup:
     saveLevel: "&aThe kit level has been saved."
     saveKit: "&aThe kit has been saved."
   arena:
-    setNPCShop: "&aThe location of the selector NPC has been added."
-    setNPCKits: "&aThe location of the shop NPC has been added."
+    setNPCUpgrade: "&aThe location of the upgrade NPC has been added."
+    setNPCShop: "&aThe location of the shop NPC has been added."
+    setNPCKits: "&aThe location of the selector NPC has been added."
     alreadySetWool: "&aTeam colors have already been set."
     setSpawn: "&aThe team's spawn has been established in &e<location>&a."
     addSpawner: "&aA spawner has been added in &e<location>&a."
@@ -1225,6 +1226,30 @@ menus:
         &7Set the team spawn:
         &7
         &eLocation: &b<spawn>
+        &7
+        &eClick to set!
+    save:
+      nameItem: "&eSave Team"
+      loreItem: |-
+        &7Save the team in arena
+        &7
+        &eClick to save!
+  teamflag:
+    title: "&aFlag Team"
+    spawn:
+      nameItem: "&eTeam Spawn"
+      loreItem: |-
+        &7Set the team spawn:
+        &7
+        &eLocation: &b<spawn>
+        &7
+        &eClick to set!
+    flag:
+      nameItem: "&eTeam Flag"
+      loreItem: |-
+        &7Set the team flag:
+        &7
+        &eLocation: &b<flag>
         &7
         &eClick to set!
     save:

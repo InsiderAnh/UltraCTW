@@ -240,6 +240,35 @@ public class SetupCMD implements CommandExecutor {
                     p.getInventory().addItem(plugin.getIm().getPoints());
                     p.getInventory().addItem(plugin.getIm().getSetup());
                     break;
+                case "createflag":
+                    if (args.length < 3) {
+                        sendHelp(sender);
+                        return true;
+                    }
+                    if (plugin.getSm().isSetupFlag(p)) {
+                        p.sendMessage(plugin.getLang().get(p, "setup.alreadyCreating"));
+                        return true;
+                    }
+                    String name2 = args[1];
+                    String schematic2;
+                    if (args[2].endsWith(".schematic")) {
+                        schematic2 = args[2];
+                    } else {
+                        schematic2 = args[2] + ".schematic";
+                    }
+                    if (!Utils.existsFile(schematic2)) {
+                        p.sendMessage(plugin.getLang().get(p, "setup.noSchema"));
+                        return true;
+                    }
+                    plugin.getSm().setSetupFlag(p, new FlagSetup(plugin, p, name2, schematic2));
+                    World w2 = plugin.getWc().createEmptyWorld(name2);
+                    w2.getBlockAt(0, 75, 0).setType(Material.STONE);
+                    w2.setSpawnLocation(0, 75, 0);
+                    plugin.getWc().resetMap(w2.getSpawnLocation(), schematic2);
+                    p.teleport(w2.getSpawnLocation());
+                    p.getInventory().remove(plugin.getIm().getSetup());
+                    p.getInventory().addItem(plugin.getIm().getSetup());
+                    break;
                 case "kits":
                     if (args.length < 2) {
                         sendHelp(sender);
@@ -272,6 +301,8 @@ public class SetupCMD implements CommandExecutor {
                     }
                     switch (args[1].toLowerCase()) {
                         case "setup":
+                        case "flag":
+                        case "teamflag":
                         case "lobby":
                         case "taunts":
                         case "tauntstype":
@@ -285,6 +316,8 @@ public class SetupCMD implements CommandExecutor {
                         default:
                             p.sendMessage("§cThe available menus are:");
                             p.sendMessage("§7 - §eSetup");
+                            p.sendMessage("§7 - §eFlag");
+                            p.sendMessage("§7 - §eTeamFlag");
                             p.sendMessage("§7 - §eTrails");
                             p.sendMessage("§7 - §eKillSound");
                             p.sendMessage("§7 - §eTaunts");

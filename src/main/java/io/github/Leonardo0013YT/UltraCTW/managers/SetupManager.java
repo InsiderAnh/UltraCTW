@@ -18,6 +18,8 @@ public class SetupManager {
     private HashMap<Player, KillSoundSetup> setupKillSound = new HashMap<>();
     private HashMap<Player, TauntSetup> setupTaunt = new HashMap<>();
     private HashMap<Player, TrailSetup> setupTrail = new HashMap<>();
+    private HashMap<Player, FlagSetup> setupFlag = new HashMap<>();
+    private HashMap<Player, FlagTeamSetup> setupTeamFlag = new HashMap<>();
 
     public SetupManager(Main plugin) {
         this.plugin = plugin;
@@ -149,6 +151,38 @@ public class SetupManager {
 
     public void removeTaunt(Player p) {
         setupTaunt.remove(p);
+    }
+
+    public void setSetupFlag(Player p, FlagSetup a) {
+        setupFlag.put(p, a);
+    }
+
+    public FlagSetup getSetupFlag(Player p) {
+        return setupFlag.get(p);
+    }
+
+    public boolean isSetupFlag(Player p) {
+        return setupFlag.containsKey(p);
+    }
+
+    public void removeFlag(Player p) {
+        setupFlag.remove(p);
+    }
+
+    public void setTeamFlagSetup(Player p, FlagTeamSetup a) {
+        setupTeamFlag.put(p, a);
+    }
+
+    public FlagTeamSetup getTeamFlagSetup(Player p) {
+        return setupTeamFlag.get(p);
+    }
+
+    public boolean isTeamFlagSetup(Player p) {
+        return setupTeamFlag.containsKey(p);
+    }
+
+    public void removeTeamFlag(Player p) {
+        setupTeamFlag.remove(p);
     }
 
 }

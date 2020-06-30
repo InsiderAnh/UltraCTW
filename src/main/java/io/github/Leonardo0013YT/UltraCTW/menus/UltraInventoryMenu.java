@@ -42,6 +42,7 @@ public class UltraInventoryMenu {
         menus.clear();
         menus.put("setup", new SetupArenaMenu(plugin, "setup"));
         menus.put("flag", new SetupFlagArenaMenu(plugin, "flag"));
+        menus.put("teamflag", new SetupFlagTeamMenu(plugin, "teamflag"));
         menus.put("teamsetup", new SetupTeamMenu(plugin, "teamsetup"));
         menus.put("lobby", new LobbyShopMenu(plugin, "lobby"));
         menus.put("killsounds", new SetupKillSoundMenu(plugin, "killsounds"));
