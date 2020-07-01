@@ -25,7 +25,7 @@ public class FlagSetup {
     private ArrayList<String> upgradeShops = new ArrayList<>();
     private ArrayList<PhaseType> phases = new ArrayList<>();
     private FlagTeamSetup actual;
-    private int pool, min, teamSize;
+    private int pool = 10, min, teamSize;
 
     public FlagSetup(Main plugin, Player p, String name, String schematic) {
         this.plugin = plugin;
@@ -64,6 +64,7 @@ public class FlagSetup {
         plugin.getArenas().set(path + ".spectator", Utils.getLocationString(spectator));
         plugin.getArenas().set(path + ".teamSize", teamSize);
         plugin.getArenas().set(path + ".min", min);
+        plugin.getArenas().set(path + ".pool", pool);
         plugin.getArenas().set(path + ".npcUpgrade", upgradeShops);
         for (FlagTeamSetup ts : teams) {
             String tpath = "arenas." + name + ".teams." + ts.getColor().name();

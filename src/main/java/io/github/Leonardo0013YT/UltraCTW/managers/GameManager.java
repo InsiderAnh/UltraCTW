@@ -2,6 +2,7 @@ package io.github.Leonardo0013YT.UltraCTW.managers;
 
 import com.nametagedit.plugin.NametagEdit;
 import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.game.GameFlag;
 import io.github.Leonardo0013YT.UltraCTW.game.GameNoState;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.Game;
 import io.github.Leonardo0013YT.UltraCTW.utils.Utils;
@@ -17,6 +18,8 @@ public class GameManager {
     private HashMap<Integer, Game> games = new HashMap<>();
     private HashMap<String, Integer> gameNames = new HashMap<>();
     private HashMap<UUID, Integer> playerGame = new HashMap<>();
+    private HashMap<Integer, GameFlag> flagGames = new HashMap<>();
+    private HashMap<String, Integer> flagGameNames = new HashMap<>();
     private Game selectedGame;
     private Main plugin;
 
@@ -30,11 +33,20 @@ public class GameManager {
         gameNames.clear();
         if (!plugin.getArenas().isSet("arenas")) return;
         for (String s : plugin.getArenas().getConfig().getConfigurationSection("arenas").getKeys(false)) {
-            int id = games.size();
-            Game game = new GameNoState(plugin, "arenas." + s, id);
-            games.put(id, game);
-            gameNames.put(game.getName(), id);
-            plugin.sendLogMessage("§aGame §e" + s + "§a loaded correctly.");
+            String type = plugin.getArenas().getOrDefault("arenas." + s + ".type", "NORMAL");
+            if (type.equals("NORMAL")){
+                int id = games.size();
+                Game game = new GameNoState(plugin, "arenas." + s, id);
+                games.put(id, game);
+                gameNames.put(game.getName(), id);
+                plugin.sendLogMessage("§aGame §e" + s + "§a loaded correctly.");
+            } else {
+                int id = flagGames.size();
+                GameFlag game = new GameFlag(plugin, "arenas." + s, id);
+                flagGames.put(id, game);
+                flagGameNames.put(game.getName(), id);
+                plugin.sendLogMessage("§aGameFlag §e" + s + "§a loaded correctly.");
+            }
         }
         reset();
     }
