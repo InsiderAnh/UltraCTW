@@ -574,3 +574,108 @@ menus:
           meta-type: UNSPECIFIC
           display-name: '{LOBBYWINDANCES}'
           repair-cost: 1
+  flag:
+    rows: 6
+    items:
+      '49':
+        ==: org.bukkit.inventory.ItemStack
+        type: NETHER_STAR
+        meta:
+          ==: ItemMeta
+          meta-type: UNSPECIFIC
+          display-name: '{SAVE}'
+          repair-cost: 1
+      '3':
+        ==: org.bukkit.inventory.ItemStack
+        type: BEACON
+        meta:
+          ==: ItemMeta
+          meta-type: TILE_ENTITY
+          display-name: '{LOBBY}'
+          repair-cost: 1
+          blockMaterial: BEACON
+      '5':
+        ==: org.bukkit.inventory.ItemStack
+        type: COMPASS
+        meta:
+          ==: ItemMeta
+          meta-type: UNSPECIFIC
+          display-name: '{SPECT}'
+          repair-cost: 1
+      '21':
+        ==: org.bukkit.inventory.ItemStack
+        type: EMPTY_MAP
+        meta:
+          ==: ItemMeta
+          meta-type: UNSPECIFIC
+          display-name: '{MIN}'
+          repair-cost: 1
+      '23':
+        ==: org.bukkit.inventory.ItemStack
+        type: FIREWORK_CHARGE
+        meta:
+          ==: ItemMeta
+          meta-type: FIREWORK_EFFECT
+          display-name: '{TEAMSIZE}'
+          repair-cost: 1
+      '11':
+        ==: org.bukkit.inventory.ItemStack
+        type: PAPER
+        meta:
+          ==: ItemMeta
+          meta-type: UNSPECIFIC
+          display-name: '{NAME}'
+          repair-cost: 1
+      '13':
+        ==: org.bukkit.inventory.ItemStack
+        type: MONSTER_EGG
+        damage: 120
+        meta:
+          ==: ItemMeta
+          meta-type: UNSPECIFIC
+          display-name: '{NPCUPGRADE}'
+          repair-cost: 1
+      '15':
+        ==: org.bukkit.inventory.ItemStack
+        type: BOOK_AND_QUILL
+        meta:
+          ==: ItemMeta
+          meta-type: BOOK
+          display-name: '{SCHEMATIC}'
+          repair-cost: 1
+      '31':
+        ==: org.bukkit.inventory.ItemStack
+        type: EXP_BOTTLE
+        meta:
+          ==: ItemMeta
+          meta-type: UNSPECIFIC
+          display-name: '{TEAMS}'
+          repair-cost: 1
+  teamflag:
+    rows: 4
+    items:
+      '12':
+        ==: org.bukkit.inventory.ItemStack
+        type: BEACON
+        meta:
+          ==: ItemMeta
+          meta-type: TILE_ENTITY
+          display-name: '{SPAWN}'
+          repair-cost: 1
+          blockMaterial: BEACON
+      '14':
+        ==: org.bukkit.inventory.ItemStack
+        type: PAPER
+        meta:
+          ==: ItemMeta
+          meta-type: UNSPECIFIC
+          display-name: '{FLAG}'
+          repair-cost: 1
+      '31':
+        ==: org.bukkit.inventory.ItemStack
+        type: NETHER_STAR
+        meta:
+          ==: ItemMeta
+          meta-type: UNSPECIFIC
+          display-name: '{SAVE}'
+          repair-cost: 1

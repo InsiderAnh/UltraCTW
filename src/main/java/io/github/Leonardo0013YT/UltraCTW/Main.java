@@ -65,6 +65,7 @@ public class Main extends JavaPlugin {
     private StreakManager stm;
     private TopManager top;
     private MultiplierManager mm;
+    private FlagManager fm;
 
     public static Main get() {
         return instance;
@@ -130,6 +131,7 @@ public class Main extends JavaPlugin {
         stm = new StreakManager(this);
         top = new TopManager(this);
         mm = new MultiplierManager(this);
+        fm = new FlagManager(this);
         new ProtocolLib(this);
         getCommand("ctws").setExecutor(new SetupCMD(this));
         getCommand("ctw").setExecutor(new CTWCMD(this));

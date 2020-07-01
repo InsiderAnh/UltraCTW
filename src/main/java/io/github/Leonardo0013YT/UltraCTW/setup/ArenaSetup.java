@@ -95,6 +95,7 @@ public class ArenaSetup {
 
     public void save(Player p) {
         String path = "arenas." + name;
+        plugin.getArenas().set(path + ".type", "NORMAL");
         plugin.getArenas().set(path + ".name", name);
         plugin.getArenas().set(path + ".schematic", schematic);
         plugin.getArenas().set(path + ".lobby", Utils.getLocationString(lobby));

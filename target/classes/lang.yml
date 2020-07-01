@@ -161,6 +161,7 @@ setup:
     saveLevel: "&aThe kit level has been saved."
     saveKit: "&aThe kit has been saved."
   arena:
+    addMine: "&aA &e<type> &atype mine was added."
     setNPCUpgrade: "&aThe location of the upgrade NPC has been added."
     setNPCShop: "&aThe location of the shop NPC has been added."
     setNPCKits: "&aThe location of the selector NPC has been added."

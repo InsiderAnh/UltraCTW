@@ -1064,6 +1064,15 @@ public class SetupListener implements Listener {
                 p.sendMessage(plugin.getLang().get("setup.arena.addWool").replaceAll("<loc>", Utils.getFormatedLocation(b.getLocation())));
             }
         }
+        if (plugin.getSm().isSetupFlag(p)) {
+            FlagSetup as = plugin.getSm().getSetupFlag(p);
+            ItemStack item = p.getItemInHand();
+            if (item == null || item.getType().equals(Material.AIR)) return;
+            if (plugin.getFm().isMine(item.getType())){
+                as.getMines().put(e.getBlockPlaced().getLocation(), item.getType());
+                p.sendMessage(plugin.getLang().get("setup.arena.addMine").replace("<type>", item.getType().name()));
+            }
+        }
     }
 
     @EventHandler
@@ -1678,7 +1687,7 @@ public class SetupListener implements Listener {
                 FlagTeamSetup fts = new FlagTeamSetup(color);
                 as.setActual(fts);
                 plugin.getSm().setTeamFlagSetup(p, fts);
-                plugin.getUim().openInventory(p, plugin.getUim().getMenus("teamsetup"),
+                plugin.getUim().openInventory(p, plugin.getUim().getMenus("teamflag"),
                         new String[]{"<flag>", Utils.getFormatedLocation(fts.getFlag())},
                         new String[]{"<spawn>", Utils.getFormatedLocation(fts.getSpawn())});
             }
@@ -1875,19 +1884,19 @@ public class SetupListener implements Listener {
             FlagTeamSetup fts = plugin.getSm().getTeamFlagSetup(p);
             ItemMeta im = e.getCurrentItem().getItemMeta();
             String display = im.getDisplayName();
-            if (display.equals(plugin.getLang().get(p, "menus.flag.spawn.nameItem"))) {
+            if (display.equals(plugin.getLang().get(p, "menus.teamflag.spawn.nameItem"))) {
                 fts.setSpawn(p.getLocation());
                 plugin.getUim().openInventory(p, plugin.getUim().getMenus("teamflag"),
                         new String[]{"<flag>", Utils.getFormatedLocation(fts.getFlag())},
                         new String[]{"<spawn>", Utils.getFormatedLocation(fts.getSpawn())});
             }
-            if (display.equals(plugin.getLang().get(p, "menus.flag.flag.nameItem"))) {
+            if (display.equals(plugin.getLang().get(p, "menus.teamflag.flag.nameItem"))) {
                 fts.setFlag(p.getLocation());
                 plugin.getUim().openInventory(p, plugin.getUim().getMenus("teamflag"),
                         new String[]{"<flag>", Utils.getFormatedLocation(fts.getFlag())},
                         new String[]{"<spawn>", Utils.getFormatedLocation(fts.getSpawn())});
             }
-            if (display.equals(plugin.getLang().get(p, "menus.flag.save.nameItem"))) {
+            if (display.equals(plugin.getLang().get(p, "menus.teamflag.save.nameItem"))) {
                 as.getTeams().add(fts);
                 as.setActual(null);
                 plugin.getSm().removeTeamFlag(p);
@@ -1951,6 +1960,12 @@ public class SetupListener implements Listener {
                             new String[]{"<flag>", Utils.getFormatedLocation(fts.getFlag())},
                             new String[]{"<spawn>", Utils.getFormatedLocation(fts.getSpawn())});
                 }
+            }
+            if (display.equals(plugin.getLang().get(p, "menus.flag.save.nameItem"))) {
+                as.save();
+                p.closeInventory();
+                plugin.getSm().removeFlag(p);
+                p.getInventory().clear();
             }
         }
         if (e.getView().getTitle().equals(plugin.getLang().get("menus.setup.title"))) {
