@@ -9,7 +9,6 @@ import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
-import org.bukkit.event.entity.CreatureSpawnEvent;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -119,7 +118,7 @@ public class NPC_v1_8_r3 implements NPC {
     }
 
     @Override
-    public int getEntityID(){
+    public int getEntityID() {
         if (entity == null) return -5000;
         return entity.getId();
     }

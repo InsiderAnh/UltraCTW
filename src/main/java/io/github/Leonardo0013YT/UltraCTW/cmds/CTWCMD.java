@@ -1,6 +1,7 @@
 package io.github.Leonardo0013YT.UltraCTW.cmds;
 
 import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.game.GameFlag;
 import io.github.Leonardo0013YT.UltraCTW.game.GamePlayer;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.CTWPlayer;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.Game;
@@ -214,6 +215,23 @@ public class CTWCMD implements CommandExecutor {
                     }
                     plugin.getGm().addPlayerGame(p, found.getId());
                     break;
+                case "joinflag":
+                    if (args.length < 2) {
+                        sendHelp(sender);
+                        return true;
+                    }
+                    if (plugin.getGm().isPlayerInGame(p)) {
+                        p.sendMessage(plugin.getLang().get("messages.alreadyIngame"));
+                        return true;
+                    }
+                    String arena2 = args[1];
+                    GameFlag found2 = plugin.getGm().getGameFlagByName(arena2);
+                    if (found2 == null) {
+                        p.sendMessage(plugin.getLang().get("messages.gameNotExists"));
+                        return true;
+                    }
+                    plugin.getGm().addPlayerGameFlag(p, found2.getId());
+                    break;
                 case "kitsmenu":
                     plugin.getUim().getPages().put(p, 1);
                     Game game2 = plugin.getGm().getGameByPlayer(p);
@@ -331,6 +349,7 @@ public class CTWCMD implements CommandExecutor {
         s.sendMessage("§7§m-----------------------------");
         s.sendMessage("§e/ctw lobby §a- §bOpen the lobby menu.");
         s.sendMessage("§e/ctw join <name> §a- §bJoin to arena with name.");
+        s.sendMessage("§e/ctw joinflag <name> §a- §bJoin to flag arena with name.");
         s.sendMessage("§e/ctw randomjoin §a- §bRandom Join to arena.");
         s.sendMessage("§e/ctw leave §a- §bLeave the game.");
         s.sendMessage("§e/ctw coins add/remove/set <player> <coins> §7- §aHandles the addition, removal and set of coins.");

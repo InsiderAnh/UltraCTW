@@ -2,7 +2,6 @@ package io.github.Leonardo0013YT.UltraCTW.managers;
 
 import io.github.Leonardo0013YT.UltraCTW.Main;
 import io.github.Leonardo0013YT.UltraCTW.cosmetics.shopkeepers.ShopKeeper;
-import io.github.Leonardo0013YT.UltraCTW.cosmetics.trails.Trail;
 import io.github.Leonardo0013YT.UltraCTW.enums.NPCType;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.NPC;
 import org.bukkit.Location;
@@ -39,7 +38,7 @@ public class ShopKeepersManager {
         ShopKeeper sk = getShopKeeper(id);
         EntityType type = EntityType.valueOf(sk.getEntityType());
         NPC npc = plugin.getVc().createNewNPC();
-        npc.create(p, loc, type,  npcType);
+        npc.create(p, loc, type, npcType);
         if (!npc.toHide(p.getLocation())) {
             npc.spawn();
         }

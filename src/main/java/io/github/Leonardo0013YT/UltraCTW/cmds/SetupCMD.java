@@ -339,6 +339,7 @@ public class SetupCMD implements CommandExecutor {
         s.sendMessage("§7§m--------------------------------");
         s.sendMessage("§e/ctws setmainlobby §7- §aSet main lobby.");
         s.sendMessage("§e/ctws create <name> <schematic> §7- §aCreate a new arena.");
+        s.sendMessage("§e/ctws createflag <name> <schematic> §7- §aCreate a new flag arena.");
         s.sendMessage("§e/ctws addshop §7- §aSet NPC Shop. §c(You need stay creating arena)");
         s.sendMessage("§e/ctws addkits §7- §aSet NPC Kits. §c(You need stay creating arena)");
         s.sendMessage("§e/ctw addshopitem <price> §7- §aYou must have the item in your hand.");

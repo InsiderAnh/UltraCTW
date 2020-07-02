@@ -44,7 +44,7 @@ public class TaggedManager {
         return tagged.containsKey(p);
     }
 
-    public void removeTag(Player p){
+    public void removeTag(Player p) {
         tagged.remove(p);
     }
 

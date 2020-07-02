@@ -33,6 +33,7 @@ streaks:
   quarter: "&b&lQUADRUPLE "
   penta: "&6&lPENTA "
 messages:
+  limit: "&cYou can't build higher than the limit."
   balancedTeam: "&aThe teams were unbalanced, now you're part of the <team> Team&a."
   multiplier: "&aThe &b<type> &amultiplier has been activated by &6<name> &aof &x<amount> &afor &e<time>&a."
   multiplierFinish: "&aThe &b<type> &amultiplier of &6<name> &ahas been end."
@@ -109,6 +110,10 @@ holograms:
   shop:
     - "&e&lCAPTURE THE WOOL"
     - "&7Item Shop"
+    - "&b(Right-Click to open)"
+  upgrades:
+    - "&e&lCAPTURE THE FLAG"
+    - "&7Upgrades Shop"
     - "&b(Right-Click to open)"
   tops:
     kills:
@@ -292,8 +297,30 @@ scoreboards:
       &fPlayers: &a<players>/<max>
       &7
       &emc.spigot.net
+  waitingFlag:
+    title: "&e&lCAPTURE THE FLAG"
+    lines: |-
+      &7
+      &fMap: &a<map>
+      &fExp: &a<now>&7/&c<leveUp>
+      &7
+      &fPlayers: &a<players>/<max>
+      &7
+      &emc.spigot.net
   starting:
     title: "&e&lCAPTURE THE WOOL"
+    lines: |-
+      &7
+      &fMap: &a<map>
+      &fExp: &a<now>&7/&c<leveUp>
+      &7
+      &fPlayers: &a<players>/<max>
+      &7
+      &fStarting: &a<time>
+      &7
+      &emc.spigot.net
+  startingFlag:
+    title: "&e&lCAPTURE THE FLAG"
     lines: |-
       &7
       &fMap: &a<map>
@@ -319,6 +346,21 @@ scoreboards:
       &7
       &fKills: &a<kills>
       &fDeaths: &a<deaths>
+      &7
+      &emc.spigot.net
+  flag-game:
+    title: "&e&lCAPTURE THE FLAG"
+    lines: |-
+      &fTeam: <team>
+      &7
+      &fFlag: <flagStatus>
+      &7
+      &fNext Phase:
+      &a<nextPhase>
+      &7
+      &fKills: &a<kills>
+      &fDeaths: &a<deaths>
+      &fLifes: &a<lifesRemaining>&7/&c<totalLifes>
       &7
       &emc.spigot.net
   big-game:

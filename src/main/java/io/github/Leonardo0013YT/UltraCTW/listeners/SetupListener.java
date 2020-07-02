@@ -1015,7 +1015,7 @@ public class SetupListener implements Listener {
                         new String[]{"<teamAmount>", "" + as.getAmountTeams()},
                         new String[]{"<lobby>", Utils.getFormatedLocation(as.getLobby())},
                         new String[]{"<spect>", Utils.getFormatedLocation(as.getSpectator())});
-            } else if (plugin.getSm().isSetupFlag(p)){
+            } else if (plugin.getSm().isSetupFlag(p)) {
                 FlagSetup as = plugin.getSm().getSetupFlag(p);
                 plugin.getUim().openInventory(p, plugin.getUim().getMenus("flag"),
                         new String[]{"<name>", as.getName()},
@@ -1068,7 +1068,7 @@ public class SetupListener implements Listener {
             FlagSetup as = plugin.getSm().getSetupFlag(p);
             ItemStack item = p.getItemInHand();
             if (item == null || item.getType().equals(Material.AIR)) return;
-            if (plugin.getFm().isMine(item.getType())){
+            if (plugin.getFm().isMine(item.getType())) {
                 as.getMines().put(e.getBlockPlaced().getLocation(), item.getType());
                 p.sendMessage(plugin.getLang().get("setup.arena.addMine").replace("<type>", item.getType().name()));
             }
@@ -1668,7 +1668,7 @@ public class SetupListener implements Listener {
                 return;
             }
             ChatColor color = ChatColor.valueOf(c);
-            if (plugin.getSm().isSetup(p)){
+            if (plugin.getSm().isSetup(p)) {
                 ArenaSetup as = plugin.getSm().getSetup(p);
                 TeamSetup ts = plugin.getSm().getSetupTeam(p);
                 ts.getColors().add(color);
@@ -1682,7 +1682,7 @@ public class SetupListener implements Listener {
                 }
                 p.sendMessage(plugin.getLang().get("setup.arena.addColor").replaceAll("<color>", plugin.getLang().get("teams." + color.name().toLowerCase())));
                 plugin.getSem().createSetupColorTeam(p, as);
-            } else if (plugin.getSm().isSetupFlag(p)){
+            } else if (plugin.getSm().isSetupFlag(p)) {
                 FlagSetup as = plugin.getSm().getSetupFlag(p);
                 FlagTeamSetup fts = new FlagTeamSetup(color);
                 as.setActual(fts);
@@ -1952,7 +1952,7 @@ public class SetupListener implements Listener {
                 p.sendMessage(plugin.getLang().get("setup.arena.setNPCUpgrade"));
             }
             if (display.equals(plugin.getLang().get(p, "menus.flag.teams.nameItem"))) {
-                if (!plugin.getSm().isTeamFlagSetup(p)){
+                if (!plugin.getSm().isTeamFlagSetup(p)) {
                     plugin.getSem().createSetupColorTeam(p, as);
                 } else {
                     FlagTeamSetup fts = plugin.getSm().getTeamFlagSetup(p);

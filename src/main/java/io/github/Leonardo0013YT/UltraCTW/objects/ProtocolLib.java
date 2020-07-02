@@ -28,11 +28,11 @@ public class ProtocolLib {
         register();
     }
 
-    public void register(){
+    public void register() {
         protocolManager.addPacketListener(new PacketAdapter(main, ListenerPriority.NORMAL, PacketType.Play.Client.USE_ENTITY) {
             @Override
-            public void onPacketReceiving(PacketEvent event){
-                if(event.getPacketType() == PacketType.Play.Client.USE_ENTITY){
+            public void onPacketReceiving(PacketEvent event) {
+                if (event.getPacketType() == PacketType.Play.Client.USE_ENTITY) {
                     Player p = event.getPlayer();
                     if (!main.getNpc().getNpcs().containsKey(p)) return;
                     lastClick.putIfAbsent(p.getUniqueId(), 0L);
@@ -40,15 +40,16 @@ public class ProtocolLib {
                     try {
                         PacketContainer packet = event.getPacket();
                         int id = packet.getIntegers().read(0);
-                        for (NPC npc : main.getNpc().getNpcs().get(p)){
-                            if (npc.getEntityID() == id){
+                        for (NPC npc : main.getNpc().getNpcs().get(p)) {
+                            if (npc.getEntityID() == id) {
                                 CTWNPCInteractEvent interactevent = new CTWNPCInteractEvent(p, npc);
                                 Bukkit.getScheduler().scheduleSyncDelayedTask(Main.get(), () -> Bukkit.getPluginManager().callEvent(interactevent));
                                 lastClick.put(p.getUniqueId(), System.currentTimeMillis());
                                 break;
                             }
                         }
-                    } catch (Exception ignored){}
+                    } catch (Exception ignored) {
+                    }
                 }
             }
         });

@@ -1,7 +1,9 @@
 package io.github.Leonardo0013YT.UltraCTW.objects;
 
+import lombok.Getter;
 import org.bukkit.Location;
 
+@Getter
 public class MineCountdown {
 
     private String mine;
@@ -12,6 +14,10 @@ public class MineCountdown {
         this.mine = mine;
         this.block = block;
         this.time = time;
+    }
+
+    public void reduce() {
+        time--;
     }
 
 }

@@ -8,6 +8,8 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 
+import java.util.List;
+
 @Getter
 public class ConfigManager {
 
@@ -18,9 +20,10 @@ public class ConfigManager {
     private Material back, redPanelMaterial;
     private Sound streak2, streak3, streak4, streak5, upgradeSound, cancelStartSound, wineffectschicken, wineffectsvulcanfire, wineffectvulcanwool, wineffectnotes, killEffectTNT, killEffectSquid;
     private XSound pickUpTeam, pickUpOthers, captured;
-    private int itemLobbySlot, maxMultiplier, gCoinsKills, gCoinsWins, gCoinsAssists, coinsKill, coinsWin, coinsAssists, xpKill, xpWin, xpAssists, starting, progressBarAmount, timeToKill;
+    private int limitOfYSpawn, itemLobbySlot, maxMultiplier, gCoinsKills, gCoinsWins, gCoinsAssists, coinsKill, coinsWin, coinsAssists, xpKill, xpWin, xpAssists, starting, progressBarAmount, timeToKill;
     private double bountyMin, bountyMax, bountyPerKill;
     private String itemLobbyCMD;
+    private List<String> noDrop;
 
     public ConfigManager(Main plugin) {
         this.plugin = plugin;
@@ -43,6 +46,7 @@ public class ConfigManager {
         this.streak3 = XSound.matchXSound(plugin.getConfig().getString("sounds.streak3")).orElse(XSound.UI_BUTTON_CLICK).parseSound();
         this.streak4 = XSound.matchXSound(plugin.getConfig().getString("sounds.streak4")).orElse(XSound.UI_BUTTON_CLICK).parseSound();
         this.streak5 = XSound.matchXSound(plugin.getConfig().getString("sounds.streak5")).orElse(XSound.UI_BUTTON_CLICK).parseSound();
+        this.limitOfYSpawn = plugin.getConfig().getInt("gameDefaults.limitOfYSpawn");
         this.timeToKill = plugin.getConfig().getInt("gameDefaults.timeToKill");
         this.bountyMin = plugin.getConfig().getDouble("bounty.min");
         this.bountyMax = plugin.getConfig().getDouble("bounty.max");
@@ -75,5 +79,6 @@ public class ConfigManager {
         this.killEffectTNT = Sound.valueOf(plugin.getConfig().getString("sounds.killeffects.tnt"));
         this.killEffectSquid = Sound.valueOf(plugin.getConfig().getString("sounds.killeffects.squid"));
         this.back = Material.valueOf(plugin.getConfig().getString("materials.closeitem"));
+        this.noDrop = plugin.getConfig().getStringList("gameDefaults.noDrop");
     }
 }

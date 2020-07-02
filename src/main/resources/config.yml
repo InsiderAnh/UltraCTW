@@ -14,6 +14,7 @@ gameDefaults:
   maxMultiplier: 5
   starting: 30
   timeToKill: 30
+  limitOfYSpawn: 30
   gcoins:
     kill: 3
     win: 10
@@ -26,6 +27,14 @@ gameDefaults:
     kill: 5
     win: 10
     assists: 2
+  noDrop:
+    - IRON_HELMET
+    - IRON_CHESTPLATE
+    - IRON_LEGGINGS
+    - IRON_BOOTS
+    - ARROW
+    - GOLDEN_APPLE
+    - STAINED_CLAY
 bounty:
   min: 90
   max: 110

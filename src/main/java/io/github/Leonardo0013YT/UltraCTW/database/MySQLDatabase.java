@@ -260,7 +260,7 @@ public class MySQLDatabase implements IDatabase {
     }
 
     @Override
-    public void createPlayer(UUID uuid, String name, CTWPlayer ctw){
+    public void createPlayer(UUID uuid, String name, CTWPlayer ctw) {
         try {
             Connection connection = getConnection();
             PreparedStatement insert;

@@ -5,7 +5,8 @@ import lombok.Setter;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 
-@Getter@Setter
+@Getter
+@Setter
 public class FlagTeamSetup {
 
     private ChatColor color;

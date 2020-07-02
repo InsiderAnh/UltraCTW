@@ -124,7 +124,7 @@ public class NPC_v1_9_r2 implements NPC {
     }
 
     @Override
-    public int getEntityID(){
+    public int getEntityID() {
         if (entity == null) return -5000;
         return entity.getId();
     }

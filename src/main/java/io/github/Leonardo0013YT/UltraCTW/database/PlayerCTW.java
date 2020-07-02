@@ -22,7 +22,7 @@ public class PlayerCTW implements CTWPlayer {
     }
 
     @Override
-    public void addShopKeepers(int id){
+    public void addShopKeepers(int id) {
         this.shopkeepers.add(id);
     }
 

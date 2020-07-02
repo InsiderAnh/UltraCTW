@@ -16,10 +16,8 @@ import io.github.Leonardo0013YT.UltraCTW.utils.NBTEditor;
 import io.github.Leonardo0013YT.UltraCTW.utils.Tagged;
 import io.github.Leonardo0013YT.UltraCTW.utils.Utils;
 import io.github.Leonardo0013YT.UltraCTW.xseries.XMaterial;
-import io.github.Leonardo0013YT.UltraCTW.xseries.XSound;
 import org.bukkit.*;
 import org.bukkit.block.Block;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
@@ -141,14 +139,14 @@ public class PlayerListener implements Listener {
     }
 
     private String formatTeam(Player p, Team team, String msg) {
-        if (team == null){
+        if (team == null) {
             return plugin.getLang().get(p, "chat.team").replaceAll("<team>", "").replaceAll("<player>", p.getName()).replaceAll("<msg>", msg);
         }
         return plugin.getLang().get(p, "chat.team").replaceAll("<team>", team.getName()).replaceAll("<player>", p.getName()).replaceAll("<msg>", msg);
     }
 
     private String formatGame(Player p, Team team, String msg) {
-        if (team == null){
+        if (team == null) {
             return plugin.getLang().get(p, "chat.team").replaceAll("<team>", "").replaceAll("<player>", p.getName()).replaceAll("<msg>", msg);
         }
         return plugin.getLang().get(p, "chat.global").replaceAll("<team>", team.getName()).replaceAll("<player>", p.getName()).replaceAll("<msg>", msg.replaceFirst("!", ""));
@@ -191,12 +189,12 @@ public class PlayerListener implements Listener {
     }
 
     @EventHandler
-    public void onFood(FoodLevelChangeEvent e){
-        if (e.getEntity() instanceof Player){
+    public void onFood(FoodLevelChangeEvent e) {
+        if (e.getEntity() instanceof Player) {
             Player p = (Player) e.getEntity();
             Game g = plugin.getGm().getGameByPlayer(p);
             if (g == null) return;
-            if (g.isState(State.WAITING) || g.isState(State.STARTING) || g.isState(State.FINISH) || g.isState(State.RESTARTING)){
+            if (g.isState(State.WAITING) || g.isState(State.STARTING) || g.isState(State.FINISH) || g.isState(State.RESTARTING)) {
                 e.setCancelled(true);
             }
         }
@@ -213,6 +211,12 @@ public class PlayerListener implements Listener {
             return;
         }
         Location l = e.getBlockPlaced().getLocation();
+        if (team.getSpawn().getBlockY() + plugin.getCm().getLimitOfYSpawn() < l.getBlockY()) {
+            e.setCancelled(true);
+            e.setBuild(false);
+            p.sendMessage(plugin.getLang().get("messages.limit"));
+            return;
+        }
         ItemStack item = p.getItemInHand();
         if (team.getWools().containsKey(l)) {
             if (item == null || item.getType().equals(Material.AIR)) return;
@@ -316,6 +320,10 @@ public class PlayerListener implements Listener {
     public void onDrop(PlayerDropItemEvent e) {
         Player p = e.getPlayer();
         ItemStack item = e.getItemDrop().getItemStack();
+        if (plugin.getCm().getNoDrop().contains(item.getType().name())) {
+            e.setCancelled(true);
+            return;
+        }
         if (item.equals(plugin.getIm().getPoints()) || item.equals(plugin.getIm().getLobby()) || item.equals(plugin.getIm().getTeams()) || item.equals(plugin.getIm().getLeave()) || item.equals(plugin.getIm().getSetup())) {
             e.setCancelled(true);
             return;
@@ -350,7 +358,7 @@ public class PlayerListener implements Listener {
         if (c == null) return;
         Game g = plugin.getGm().getGameByPlayer(p);
         if (g == null) return;
-        if (g.isState(State.FINISH) || g.isState(State.RESTARTING)){
+        if (g.isState(State.FINISH) || g.isState(State.RESTARTING)) {
             e.setCancelled(true);
             return;
         }
@@ -359,6 +367,9 @@ public class PlayerListener implements Listener {
         if (!team.getColors().contains(c)) {
             e.setCancelled(true);
             e.getItem().remove();
+            return;
+        }
+        if (team.getCaptured().contains(c)) {
             return;
         }
         ArrayList<Team> others = g.getTeams().values().stream().filter(t -> t.getId() != team.getId()).collect(Collectors.toCollection(ArrayList::new));
@@ -579,7 +590,7 @@ public class PlayerListener implements Listener {
             }
         }
         p.setFireTicks(0);
-        for (PotionEffect ef : p.getActivePotionEffects()){
+        for (PotionEffect ef : p.getActivePotionEffects()) {
             p.removePotionEffect(ef.getType());
         }
         p.getInventory().clear();
@@ -588,7 +599,7 @@ public class PlayerListener implements Listener {
     }
 
     private void givePlayerItems(Player p) {
-        if (plugin.getCm().isItemLobbyEnabled()){
+        if (plugin.getCm().isItemLobbyEnabled()) {
             p.getInventory().setItem(plugin.getCm().getItemLobbySlot(), plugin.getIm().getLobby());
         }
     }

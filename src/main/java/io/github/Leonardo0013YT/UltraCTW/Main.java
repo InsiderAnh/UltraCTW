@@ -9,13 +9,11 @@ import io.github.Leonardo0013YT.UltraCTW.config.Settings;
 import io.github.Leonardo0013YT.UltraCTW.controllers.VersionController;
 import io.github.Leonardo0013YT.UltraCTW.controllers.WorldController;
 import io.github.Leonardo0013YT.UltraCTW.database.MySQLDatabase;
+import io.github.Leonardo0013YT.UltraCTW.game.GameFlag;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.CTWPlayer;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.Game;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.IDatabase;
-import io.github.Leonardo0013YT.UltraCTW.listeners.MenuListener;
-import io.github.Leonardo0013YT.UltraCTW.listeners.PlayerListener;
-import io.github.Leonardo0013YT.UltraCTW.listeners.SetupListener;
-import io.github.Leonardo0013YT.UltraCTW.listeners.WorldListener;
+import io.github.Leonardo0013YT.UltraCTW.listeners.*;
 import io.github.Leonardo0013YT.UltraCTW.managers.*;
 import io.github.Leonardo0013YT.UltraCTW.menus.GameMenu;
 import io.github.Leonardo0013YT.UltraCTW.menus.SetupMenu;
@@ -139,6 +137,7 @@ public class Main extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new MenuListener(this), this);
         getServer().getPluginManager().registerEvents(new PlayerListener(this), this);
         getServer().getPluginManager().registerEvents(new WorldListener(this), this);
+        getServer().getPluginManager().registerEvents(new FlagListener(this), this);
         if (getServer().getPluginManager().isPluginEnabled("PlaceholderAPI")) {
             new Placeholders(this).register();
         }
@@ -149,6 +148,7 @@ public class Main extends JavaPlugin {
             @Override
             public void run() {
                 getGm().getGames().values().forEach(Game::update);
+                getGm().getFlagGames().values().forEach(GameFlag::update);
             }
         }.runTaskTimer(this, 20, 20);
         new BukkitRunnable() {

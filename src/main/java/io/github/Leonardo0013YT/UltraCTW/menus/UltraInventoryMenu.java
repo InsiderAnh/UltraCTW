@@ -127,7 +127,7 @@ public class UltraInventoryMenu {
                 continue;
             }
             if (k.getPage() != page) continue;
-            if (plugin.getCm().isExcluideDefKits()){
+            if (plugin.getCm().isExcluideDefKits()) {
                 if (plugin.getKm().getDefaultKits().contains(k.getId())) continue;
             }
             inv.setItem(k.getSlot(), k.getLevels().get(1).getIcon(p));

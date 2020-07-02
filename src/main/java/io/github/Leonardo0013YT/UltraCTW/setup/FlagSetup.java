@@ -13,7 +13,8 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-@Getter@Setter
+@Getter
+@Setter
 public class FlagSetup {
 
     private Main plugin;
@@ -55,7 +56,7 @@ public class FlagSetup {
         return empty;
     }
 
-    public void save(){
+    public void save() {
         String path = "arenas." + name;
         plugin.getArenas().set(path + ".type", "FLAG");
         plugin.getArenas().set(path + ".name", name);
@@ -66,6 +67,14 @@ public class FlagSetup {
         plugin.getArenas().set(path + ".min", min);
         plugin.getArenas().set(path + ".pool", pool);
         plugin.getArenas().set(path + ".npcUpgrade", upgradeShops);
+        int id = 0;
+        for (Location l : mines.keySet()) {
+            String tpath = "arenas." + name + ".mines." + id;
+            Material material = mines.get(l);
+            plugin.getArenas().set(tpath + ".loc", Utils.getLocationString(l));
+            plugin.getArenas().set(tpath + ".material", material.name());
+            id++;
+        }
         for (FlagTeamSetup ts : teams) {
             String tpath = "arenas." + name + ".teams." + ts.getColor().name();
             plugin.getArenas().set(tpath + ".color", ts.getColor().name());
