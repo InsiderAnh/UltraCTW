@@ -33,6 +33,7 @@ streaks:
   quarter: "&b&lQUADRUPLE "
   penta: "&6&lPENTA "
 messages:
+  noPlaceInGrace: "&cYou can't build bridges in grace time."
   limit: "&cYou can't build higher than the limit."
   balancedTeam: "&aThe teams were unbalanced, now you're part of the <team> Team&a."
   multiplier: "&aThe &b<type> &amultiplier has been activated by &6<name> &aof &x<amount> &afor &e<time>&a."

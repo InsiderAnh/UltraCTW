@@ -10,6 +10,8 @@ excluideDefKits: true
 redPanel:
   material: STAINED_GLASS_PANE
   data: 14
+flagDefaults:
+  gracePeriod: 60
 gameDefaults:
   maxMultiplier: 5
   starting: 30
