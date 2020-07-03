@@ -80,6 +80,10 @@ public class Utils {
         return wools.toString();
     }
 
+    public static String getFlagIcon(ChatColor color){
+        return color + plugin.getLang().get("scoreboards.wools.captured");
+    }
+
     public static void setCleanPlayer(Player p) {
         p.getInventory().clear();
         p.getInventory().setArmorContents(null);

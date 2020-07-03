@@ -2,6 +2,7 @@ package io.github.Leonardo0013YT.UltraCTW.managers;
 
 import io.github.Leonardo0013YT.UltraCTW.Main;
 import io.github.Leonardo0013YT.UltraCTW.cosmetics.wineffects.*;
+import io.github.Leonardo0013YT.UltraCTW.game.GameFlag;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.CTWPlayer;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.Game;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.WinEffect;
@@ -33,6 +34,45 @@ public class WinEffectsManager {
     }
 
     public void execute(Game game, Player p, int id) {
+        UltraWinEffect uwe = winEffects.get(id);
+        if (uwe == null || uwe.getType().equals("none")) {
+            return;
+        }
+        WinEffect we;
+        switch (uwe.getType()) {
+            case "fireworks":
+                we = new WinEffectFireworks();
+                we.start(p);
+                break;
+            case "vulcanfire":
+                we = new WinEffectVulcanFire();
+                we.start(p);
+                break;
+            case "icewalker":
+                we = new WinEffectIceWalker();
+                we.start(p);
+                break;
+            case "notes":
+                we = new WinEffectNotes();
+                we.start(p);
+                break;
+            case "chickens":
+                we = new WinEffectChicken();
+                we.start(p);
+                break;
+            case "guardian":
+                we = new WinEffectGuardians();
+                we.start(p);
+                break;
+            default:
+                we = new WinEffectVulcanWool();
+                we.start(p);
+                break;
+        }
+        game.addWinEffects(we);
+    }
+
+    public void execute(GameFlag game, Player p, int id) {
         UltraWinEffect uwe = winEffects.get(id);
         if (uwe == null || uwe.getType().equals("none")) {
             return;

@@ -5,14 +5,24 @@ import io.github.Leonardo0013YT.UltraCTW.enums.State;
 import io.github.Leonardo0013YT.UltraCTW.flag.Mine;
 import io.github.Leonardo0013YT.UltraCTW.game.GameFlag;
 import io.github.Leonardo0013YT.UltraCTW.objects.MineCountdown;
+import io.github.Leonardo0013YT.UltraCTW.team.FlagTeam;
+import io.github.Leonardo0013YT.UltraCTW.utils.Utils;
+import io.github.Leonardo0013YT.UltraCTW.xseries.XMaterial;
+import io.github.Leonardo0013YT.UltraCTW.xseries.XSound;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.Banner;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class FlagListener implements Listener {
@@ -48,6 +58,66 @@ public class FlagListener implements Listener {
                     }
                 }.runTaskLater(plugin, 1L);
             }
+        }
+        FlagTeam ft = g.getTeamByLoc(loc);
+        FlagTeam yt = g.getTeamPlayer(p);
+        if (ft == null) return;
+        if (ft.equals(yt)){
+            e.setCancelled(true);
+            p.sendMessage(plugin.getLang().get("messages.noBreakFlag"));
+            return;
+        }
+        yt.setCapturing(p, ft.getColor());
+        p.getInventory().setHelmet(ft.getFlagItem());
+        b.getDrops().clear();
+        ft.sendMessage(plugin.getLang().get("messages.breakFlag").replace("<color>", ft.getColor() + "").replace("<player>", p.getName()));
+        yt.sendMessage(plugin.getLang().get("messages.stealFlag").replace("<team>", ft.getName()).replace("<color>", ft.getColor() + "").replace("<player>", p.getName()));
+        ft.playSound(XSound.ENTITY_WITHER_HURT, 1.0f, 1.0f);
+        yt.playSound(XSound.ENTITY_FIREWORK_ROCKET_BLAST, 1.0f, 1.0f);
+    }
+
+    @EventHandler
+    public void onDeath(PlayerDeathEvent e){
+        Player p = e.getEntity();
+        GameFlag g = plugin.getGm().getGameFlagByPlayer(p);
+        if (g == null) return;
+        FlagTeam team = g.getTeamPlayer(p);
+        if (team == null) return;
+        team.removeLife();
+        g.checkWin();
+    }
+
+    @EventHandler
+    public void onMove(PlayerMoveEvent e){
+        Player p = e.getPlayer();
+        GameFlag g = plugin.getGm().getGameFlagByPlayer(p);
+        if (g == null) return;
+        FlagTeam team = g.getTeamPlayer(p);
+        if (team == null) return;
+        if (team.getFlag().distance(p.getLocation()) < 3){
+            if (team.isCapturing(p)){
+                ChatColor color = team.getCapturing(p);
+                FlagTeam ft = g.getTeamByColor(color);
+                ft.removeLife();
+                team.removeCapturing(p);
+                Block b = ft.getFlag().getBlock();
+                b.setType(XMaterial.WHITE_BANNER.parseMaterial());
+                Banner banner = (Banner) b.getState();
+                banner.setBaseColor(Utils.getDyeColorByChatColor(ft.getColor()));
+                banner.update(true, true);
+                team.playSound(XSound.ENTITY_PLAYER_LEVELUP, 1.0f, 1.0f);
+                team.sendTitle(plugin.getLang().get("titles.capturedFlag.title").replace("<flag>", Utils.getFlagIcon(ft.getColor())).replace("<player>", p.getName()).replace("<color>", ft.getColor() + ""), plugin.getLang().get("titles.capturedFlag.subtitle").replace("<flag>", Utils.getFlagIcon(ft.getColor())).replace("<player>", p.getName()).replace("<color>", ft.getColor() + ""), 0, 30, 0);
+                ft.sendTitle(plugin.getLang().get("titles.otherCapturedFlag.title").replace("<name>", team.getName()).replace("<flag>", Utils.getFlagIcon(ft.getColor())).replace("<player>", p.getName()).replace("<color>", ft.getColor() + ""), plugin.getLang().get("titles.capturedFlag.subtitle").replace("<flag>", Utils.getFlagIcon(ft.getColor())).replace("<player>", p.getName()).replace("<name>", team.getName()).replace("<color>", ft.getColor() + ""), 0, 30, 0);
+                ft.playSound(XSound.ENTITY_WITHER_HURT, 1.0f, 1.0f);
+                g.checkWin();
+            }
+        }
+    }
+
+    @EventHandler
+    public void onClick(InventoryClickEvent e){
+        if (e.getSlotType().equals(InventoryType.SlotType.ARMOR) && e.getSlot() == 39){
+            e.setCancelled(true);
         }
     }
 

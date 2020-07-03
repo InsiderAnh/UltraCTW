@@ -4,10 +4,7 @@ import io.github.Leonardo0013YT.UltraCTW.Main;
 import io.github.Leonardo0013YT.UltraCTW.enums.NPCType;
 import io.github.Leonardo0013YT.UltraCTW.enums.State;
 import io.github.Leonardo0013YT.UltraCTW.flag.Mine;
-import io.github.Leonardo0013YT.UltraCTW.interfaces.CTWPlayer;
-import io.github.Leonardo0013YT.UltraCTW.interfaces.KillEffect;
-import io.github.Leonardo0013YT.UltraCTW.interfaces.WinDance;
-import io.github.Leonardo0013YT.UltraCTW.interfaces.WinEffect;
+import io.github.Leonardo0013YT.UltraCTW.interfaces.*;
 import io.github.Leonardo0013YT.UltraCTW.objects.MineCountdown;
 import io.github.Leonardo0013YT.UltraCTW.team.FlagTeam;
 import io.github.Leonardo0013YT.UltraCTW.utils.Utils;
@@ -21,10 +18,12 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 
 @Getter
 public class GameFlag {
@@ -202,6 +201,44 @@ public class GameFlag {
     public void win(FlagTeam team) {
         if (plugin.isStop()) return;
         setState(State.FINISH);
+        GameWinFlag gw = new GameWinFlag(this);
+        gw.setTeamWin(team);
+        List<String> top = gw.getTop();
+        String[] s1 = top.get(0).split(":");
+        String[] s2 = top.get(1).split(":");
+        String[] s3 = top.get(2).split(":");
+        for (Player on : cached) {
+            if (!team.getMembers().contains(on)) {
+                plugin.getVc().getNMS().sendTitle(on, plugin.getLang().get("titles.lose.title"), plugin.getLang().get("titles.lose.subtitle"), 0, 40, 0);
+                continue;
+            }
+            for (String s : plugin.getLang().getList("messages.win")) {
+                on.sendMessage(s.replaceAll("&", "§").replaceAll("<winner>", gw.getWinner()).replaceAll("<number1>", s1[1]).replaceAll("<top1>", s1[0]).replaceAll("<color1>", "" + ChatColor.valueOf(s1[2])).replaceAll("<number2>", s2[1]).replaceAll("<top2>", s2[0]).replaceAll("<color2>", "" + ChatColor.valueOf(s2[2])).replaceAll("<number3>", s3[1]).replaceAll("<top3>", s3[0]).replaceAll("<color3>", "" + ChatColor.valueOf(s3[2])));
+            }
+        }
+        for (Player w : team.getMembers()) {
+            CTWPlayer ctw = plugin.getDb().getCTWPlayer(w);
+            if (ctw == null) continue;
+            ctw.addCoins(plugin.getCm().getGCoinsWins());
+            ctw.setXp(ctw.getXp() + plugin.getCm().getXpWin());
+            ctw.setWins(ctw.getWins() + 1);
+            plugin.getLvl().checkUpgrade(w);
+            plugin.getVc().getNMS().sendTitle(w, plugin.getLang().get("titles.win.title").replaceAll("<color>", team.getColor() + ""), plugin.getLang().get("titles.win.subtitle"), 0, 40, 0);
+            plugin.getWem().execute(this, w, ctw.getWinEffect());
+            plugin.getWdm().execute(this, w, ctw.getWinDance());
+        }
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                ArrayList<Player> back = new ArrayList<>(cached);
+                for (Player on : back) {
+                    plugin.getGm().removePlayerGame(on, false);
+                    Game g = plugin.getGm().getSelectedGame();
+                    plugin.getGm().addPlayerGame(on, g.getId());
+                }
+                reset();
+            }
+        }.runTaskLater(plugin, 20 * 15);
     }
 
     public void addPlayerTeam(Player p, FlagTeam team) {
@@ -254,11 +291,37 @@ public class GameFlag {
     public int getTeamAlive() {
         int c = 0;
         for (FlagTeam team : teams.values()) {
+            if (team.getLifes() <= 0) continue;
             if (team.getTeamSize() > 0) {
                 c++;
             }
         }
         return c;
+    }
+
+    public void addWinEffects(WinEffect e) {
+        winEffects.add(e);
+    }
+
+    public void addWinDance(WinDance e) {
+        winDances.add(e);
+    }
+
+    public void addKillEffects(KillEffect e) {
+        killEffects.add(e);
+    }
+
+    public FlagTeam getTeamByColor(ChatColor color){
+        return teams.get(color);
+    }
+
+    public FlagTeam getTeamByLoc(Location loc){
+        for (FlagTeam team : teams.values()) {
+            if (team.isFlag(loc)) {
+                return team;
+            }
+        }
+        return null;
     }
 
     public FlagTeam getTeamPlayer(Player p) {

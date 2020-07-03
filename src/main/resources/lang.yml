@@ -33,6 +33,9 @@ streaks:
   quarter: "&b&lQUADRUPLE "
   penta: "&6&lPENTA "
 messages:
+  breakFlag: "&7<color><player> &eto steal your flag."
+  stealFlag: "&7<color><player>&e steal the <team> team flag."
+  noBreakFlag: "&cYou can't break your own flag."
   noPlaceInGrace: "&cYou can't build bridges in grace time."
   limit: "&cYou can't build higher than the limit."
   balancedTeam: "&aThe teams were unbalanced, now you're part of the <team> Team&a."
@@ -218,6 +221,12 @@ setup:
   menus:
     finishEdit: "&aYou have edited the menu correctly."
 titles:
+  capturedFlag:
+    title: "<color><player> &lCAPTURED"
+    subtitle: "&fYour team captured <flag>"
+  otherCapturedFlag:
+    title: "<color>Team <name>"
+    subtitle: "<color><player> &7Captured flag <flag>&7."
   dropped:
     title: "&a&lDROPPED"
     subtitle: "&fDrop the wool <wool>"

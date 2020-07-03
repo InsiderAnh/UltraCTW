@@ -2,6 +2,7 @@ package io.github.Leonardo0013YT.UltraCTW.managers;
 
 import io.github.Leonardo0013YT.UltraCTW.Main;
 import io.github.Leonardo0013YT.UltraCTW.cosmetics.windances.*;
+import io.github.Leonardo0013YT.UltraCTW.game.GameFlag;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.CTWPlayer;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.Game;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.WinDance;
@@ -33,6 +34,41 @@ public class WinDancesManager {
     }
 
     public void execute(Game game, Player p, int id) {
+        UltraWinDance uwe = winDance.get(id);
+        if (uwe == null || uwe.getType().equals("none")) {
+            return;
+        }
+        WinDance we;
+        switch (uwe.getType()) {
+            case "anvilland":
+                we = new WinDanceAnvilLand();
+                we.start(p);
+                break;
+            case "daynight":
+                we = new WinDanceDayNight();
+                we.start(p);
+                break;
+            case "explode":
+                we = new WinDanceDestroyIsland();
+                we.start(p);
+                break;
+            case "fireworks":
+                we = new WinDanceFireworks();
+                we.start(p);
+                break;
+            case "icewalker":
+                we = new WinDanceIceWalker();
+                we.start(p);
+                break;
+            default:
+                we = new WinDanceThunder();
+                we.start(p);
+                break;
+        }
+        game.addWinDance(we);
+    }
+
+    public void execute(GameFlag game, Player p, int id) {
         UltraWinDance uwe = winDance.get(id);
         if (uwe == null || uwe.getType().equals("none")) {
             return;
