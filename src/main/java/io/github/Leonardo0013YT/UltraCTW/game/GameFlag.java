@@ -30,7 +30,7 @@ import java.util.Iterator;
 public class GameFlag {
 
     private Main plugin;
-    private int id, teamSize, starting, min, max, pool;
+    private int id, teamSize, starting, min, max, pool, time = 0;
     private ArrayList<Player> cached = new ArrayList<>(), players = new ArrayList<>(), spectators = new ArrayList<>();
     private String name, schematic;
     private Location lobby, spectator;
@@ -89,6 +89,38 @@ public class GameFlag {
         checkStart();
     }
 
+    public void removePlayer(Player p) {
+        plugin.getNpc().removePlayer(p);
+        Utils.setCleanPlayer(p);
+        removePlayerAllTeam(p);
+        cached.remove(p);
+        players.remove(p);
+        spectators.remove(p);
+        if (gamePlayer.containsKey(p)) {
+            GamePlayer gp = gamePlayer.get(p);
+            gp.reset();
+            gamePlayer.remove(p);
+        }
+        checkCancel();
+        checkWin();
+    }
+
+    public void checkCancel() {
+        if (isState(State.STARTING)) {
+            if (min > players.size()) {
+                cancel();
+            }
+        }
+    }
+
+    public void cancel() {
+        this.starting = plugin.getCm().getStarting();
+        setState(State.WAITING);
+        sendGameMessage(plugin.getLang().get(null, "messages.cancelStart"));
+        sendGameTitle(plugin.getLang().get(null, "titles.cancel.title"), plugin.getLang().get(null, "titles.cancel.subtitle"), 0, 40, 0);
+        sendGameSound(plugin.getCm().getCancelStartSound());
+    }
+
     public void checkStart() {
         if (isState(State.WAITING)) {
             if (players.size() >= min) {
@@ -111,9 +143,11 @@ public class GameFlag {
         lobby.getWorld().getEntities().stream().filter(e -> !e.getType().equals(EntityType.PLAYER)).forEach(Entity::remove);
         starting = plugin.getCm().getStarting();
         setState(State.WAITING);
+        time = 0;
     }
 
     public void update() {
+        Utils.updateSB(this);
         if (isState(State.STARTING)) {
             if (starting == 30 || starting == 15 || starting == 10 || starting == 5 || starting == 4 || starting == 3 || starting == 2 || starting == 1) {
                 sendGameTitle(plugin.getLang().get("titles.starting.title").replaceAll("<time>", String.valueOf(starting)), plugin.getLang().get("titles.starting.subtitle").replaceAll("<time>", String.valueOf(starting)), 0, 40, 0);
@@ -130,10 +164,14 @@ public class GameFlag {
                         joinRandomTeam(on);
                     }
                 }
+                for (FlagTeam ft : teams.values()){
+                    ft.fillLifes();
+                }
             }
             starting--;
         }
         if (isState(State.GAME)) {
+            time++;
             countdowns.values().forEach(MineCountdown::reduce);
             Iterator<Location> cools = countdowns.keySet().iterator();
             while (cools.hasNext()) {
@@ -173,6 +211,14 @@ public class GameFlag {
         for (Location s : npcUpgrades) {
             plugin.getSkm().spawnShopKeeper(p, s, ctw.getShopKeeper(), NPCType.UPGRADES);
         }
+    }
+
+    public GamePlayer getGamePlayer(Player p){
+        return gamePlayer.get(p);
+    }
+
+    public boolean isGracePeriod(){
+        return plugin.getCm().getGracePeriod() - time > 0;
     }
 
     public void removePlayerTeam(Player p, FlagTeam team) {

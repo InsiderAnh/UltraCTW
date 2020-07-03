@@ -7,6 +7,7 @@ import io.github.Leonardo0013YT.UltraCTW.game.GamePlayer;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.CTWPlayer;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.Game;
 import io.github.Leonardo0013YT.UltraCTW.objects.Level;
+import io.github.Leonardo0013YT.UltraCTW.team.FlagTeam;
 import io.github.Leonardo0013YT.UltraCTW.team.Team;
 import io.github.Leonardo0013YT.UltraCTW.utils.ScoreboardUtil;
 import io.github.Leonardo0013YT.UltraCTW.utils.Utils;
@@ -256,7 +257,7 @@ public class ScoreboardManager {
                         }
                     } else {
                         if (sb.get(p).equals("flag")) {
-                            String titulo = flag(p, plugin.getLang().get(p, "scoreboards.simple-game.lines"), gameFlag);
+                            String titulo = flag(p, plugin.getLang().get(p, "scoreboards.flag-game.lines"), gameFlag);
                             String[] title = titulo.split("\\n");
                             for (int n = 1, n2 = title.length - 1; n < title.length + 1; ++n, --n2) {
                                 scoreboardUtil.lines(n, title[n2]);
@@ -272,67 +273,86 @@ public class ScoreboardManager {
         }
     }
 
-    public String waitingFlag(Player p, String s, GameFlag gameFlag) {
-        return s;
+    public String waitingFlag(Player p, String s, GameFlag game) {
+        CTWPlayer ctw = plugin.getDb().getCTWPlayer(p);
+        Level level = plugin.getLvl().getLevel(p);
+        return s.replace("<leveUp>", String.valueOf(level.getLevelUp()))
+                .replace("<now>", String.valueOf(ctw.getXp()))
+                .replace("<max>", String.valueOf(game.getMax()))
+                .replace("<players>", String.valueOf(game.getPlayers().size()))
+                .replace("<map>", game.getName());
     }
 
-    public String startingFlag(Player p, String s, GameFlag gameFlag) {
-        return s;
+    public String startingFlag(Player p, String s, GameFlag game) {
+        CTWPlayer ctw = plugin.getDb().getCTWPlayer(p);
+        Level level = plugin.getLvl().getLevel(p);
+        return s.replace("<leveUp>", String.valueOf(level.getLevelUp()))
+                .replace("<now>", String.valueOf(ctw.getXp()))
+                .replace("<time>", Utils.convertTime(game.getStarting()))
+                .replace("<max>", String.valueOf(game.getMax()))
+                .replace("<players>", String.valueOf(game.getPlayers().size()))
+                .replace("<map>", game.getName());
     }
 
-    public String flag(Player p, String s, GameFlag gameFlag) {
-        return s;
+    public String flag(Player p, String s, GameFlag game) {
+        FlagTeam team = game.getTeamPlayer(p);
+        GamePlayer gp = game.getGamePlayer(p);
+        return s.replace("<totalLifes>", team.getMaxLifes() + "")
+                .replace("<lifesRemaining>", team.getLifes() + "")
+                .replace("<team>", team.getName())
+                .replace("<kills>", String.valueOf(gp.getKills()))
+                .replace("<deaths>", String.valueOf(gp.getDeaths()));
     }
 
     public String main(Player p, String s) {
         CTWPlayer ctw = plugin.getDb().getCTWPlayer(p);
         Level level = plugin.getLvl().getLevel(p);
-        return s.replaceAll("<leveUp>", String.valueOf(level.getLevelUp()))
-                .replaceAll("<gcoins>", Utils.format(ctw.getCoins()))
-                .replaceAll("<now>", String.valueOf(ctw.getXp()))
-                .replaceAll("<wins>", String.valueOf(ctw.getWins()))
-                .replaceAll("<deaths>", String.valueOf(ctw.getDeaths()))
-                .replaceAll("<captured>", String.valueOf(ctw.getWoolCaptured()))
-                .replaceAll("<kills>", String.valueOf(ctw.getKills()));
+        return s.replace("<leveUp>", String.valueOf(level.getLevelUp()))
+                .replace("<gcoins>", Utils.format(ctw.getCoins()))
+                .replace("<now>", String.valueOf(ctw.getXp()))
+                .replace("<wins>", String.valueOf(ctw.getWins()))
+                .replace("<deaths>", String.valueOf(ctw.getDeaths()))
+                .replace("<captured>", String.valueOf(ctw.getWoolCaptured()))
+                .replace("<kills>", String.valueOf(ctw.getKills()));
     }
 
     public String waiting(Player p, String s, Game game) {
         CTWPlayer ctw = plugin.getDb().getCTWPlayer(p);
         Level level = plugin.getLvl().getLevel(p);
-        return s.replaceAll("<leveUp>", String.valueOf(level.getLevelUp()))
-                .replaceAll("<now>", String.valueOf(ctw.getXp()))
-                .replaceAll("<max>", String.valueOf(game.getMax()))
-                .replaceAll("<players>", String.valueOf(game.getPlayers().size()))
-                .replaceAll("<map>", game.getName());
+        return s.replace("<leveUp>", String.valueOf(level.getLevelUp()))
+                .replace("<now>", String.valueOf(ctw.getXp()))
+                .replace("<max>", String.valueOf(game.getMax()))
+                .replace("<players>", String.valueOf(game.getPlayers().size()))
+                .replace("<map>", game.getName());
     }
 
     public String starting(Player p, String s, Game game) {
         CTWPlayer ctw = plugin.getDb().getCTWPlayer(p);
         Level level = plugin.getLvl().getLevel(p);
-        return s.replaceAll("<leveUp>", String.valueOf(level.getLevelUp()))
-                .replaceAll("<now>", String.valueOf(ctw.getXp()))
-                .replaceAll("<time>", Utils.convertTime(game.getStarting()))
-                .replaceAll("<max>", String.valueOf(game.getMax()))
-                .replaceAll("<players>", String.valueOf(game.getPlayers().size()))
-                .replaceAll("<map>", game.getName());
+        return s.replace("<leveUp>", String.valueOf(level.getLevelUp()))
+                .replace("<now>", String.valueOf(ctw.getXp()))
+                .replace("<time>", Utils.convertTime(game.getStarting()))
+                .replace("<max>", String.valueOf(game.getMax()))
+                .replace("<players>", String.valueOf(game.getPlayers().size()))
+                .replace("<map>", game.getName());
     }
 
     public String simple(Player p, String s, Game game, Team team, GamePlayer gp, Team t1, Team t2) {
         CTWPlayer ctw = plugin.getDb().getCTWPlayer(p);
         Level level = plugin.getLvl().getLevel(p);
-        return s.replaceAll("<leveUp>", String.valueOf(level.getLevelUp()))
-                .replaceAll("<now>", String.valueOf(ctw.getXp()))
-                .replaceAll("<gcoins>", Utils.format(ctw.getCoins()))
-                .replaceAll("<coins>", Utils.format(gp.getCoins()))
-                .replaceAll("<time>", Utils.convertTime(game.getTime()))
-                .replaceAll("<map>", game.getName())
-                .replaceAll("<T1Wools>", Utils.getWoolsString(t1))
-                .replaceAll("<T2Wools>", Utils.getWoolsString(t2))
-                .replaceAll("<T1>", plugin.getLang().get("scoreboards.team").replaceAll("<TColor>", t1.getColor() + "").replaceAll("<TName>", t1.getName()))
-                .replaceAll("<T2>", plugin.getLang().get("scoreboards.team").replaceAll("<TColor>", t2.getColor() + "").replaceAll("<TName>", t2.getName()))
-                .replaceAll("<team>", team.getName())
-                .replaceAll("<kills>", String.valueOf(gp.getKills()))
-                .replaceAll("<deaths>", String.valueOf(gp.getDeaths()));
+        return s.replace("<leveUp>", String.valueOf(level.getLevelUp()))
+                .replace("<now>", String.valueOf(ctw.getXp()))
+                .replace("<gcoins>", Utils.format(ctw.getCoins()))
+                .replace("<coins>", Utils.format(gp.getCoins()))
+                .replace("<time>", Utils.convertTime(game.getTime()))
+                .replace("<map>", game.getName())
+                .replace("<T1Wools>", Utils.getWoolsString(t1))
+                .replace("<T2Wools>", Utils.getWoolsString(t2))
+                .replace("<T1>", plugin.getLang().get("scoreboards.team").replace("<TColor>", t1.getColor() + "").replace("<TName>", t1.getName()))
+                .replace("<T2>", plugin.getLang().get("scoreboards.team").replace("<TColor>", t2.getColor() + "").replace("<TName>", t2.getName()))
+                .replace("<team>", team.getName())
+                .replace("<kills>", String.valueOf(gp.getKills()))
+                .replace("<deaths>", String.valueOf(gp.getDeaths()));
     }
 
     public void remove(Player p) {

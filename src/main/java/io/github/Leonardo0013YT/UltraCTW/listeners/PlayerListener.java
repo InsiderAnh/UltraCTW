@@ -7,10 +7,12 @@ import io.github.Leonardo0013YT.UltraCTW.api.events.PlayerLoadEvent;
 import io.github.Leonardo0013YT.UltraCTW.cosmetics.trails.Trail;
 import io.github.Leonardo0013YT.UltraCTW.enums.NPCType;
 import io.github.Leonardo0013YT.UltraCTW.enums.State;
+import io.github.Leonardo0013YT.UltraCTW.game.GameFlag;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.CTWPlayer;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.Game;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.NPC;
 import io.github.Leonardo0013YT.UltraCTW.objects.Squared;
+import io.github.Leonardo0013YT.UltraCTW.team.FlagTeam;
 import io.github.Leonardo0013YT.UltraCTW.team.Team;
 import io.github.Leonardo0013YT.UltraCTW.utils.NBTEditor;
 import io.github.Leonardo0013YT.UltraCTW.utils.Tagged;
@@ -193,9 +195,16 @@ public class PlayerListener implements Listener {
         if (e.getEntity() instanceof Player) {
             Player p = (Player) e.getEntity();
             Game g = plugin.getGm().getGameByPlayer(p);
-            if (g == null) return;
-            if (g.isState(State.WAITING) || g.isState(State.STARTING) || g.isState(State.FINISH) || g.isState(State.RESTARTING)) {
-                e.setCancelled(true);
+            if (g != null) {
+                if (g.isState(State.WAITING) || g.isState(State.STARTING) || g.isState(State.FINISH) || g.isState(State.RESTARTING)) {
+                    e.setCancelled(true);
+                }
+            }
+            GameFlag gf = plugin.getGm().getGameFlagByPlayer(p);
+            if (gf != null) {
+                if (gf.isState(State.WAITING) || gf.isState(State.STARTING) || gf.isState(State.FINISH) || gf.isState(State.RESTARTING)) {
+                    e.setCancelled(true);
+                }
             }
         }
     }
@@ -390,28 +399,36 @@ public class PlayerListener implements Listener {
         if (e.getEntity() instanceof Player) {
             Player p = (Player) e.getEntity();
             Game g = plugin.getGm().getGameByPlayer(p);
-            if (g == null) return;
-            Team team = g.getTeamPlayer(p);
-            if (team == null || g.isState(State.WAITING) || g.isState(State.STARTING)) {
-                e.setCancelled(true);
-                return;
-            }
-            if (e.getFinalDamage() >= p.getHealth()) {
-                if (plugin.getTgm().hasTag(p)) {
-                    Player d = plugin.getTgm().getTagged(p).getLast();
-                    CTWPlayer sk = plugin.getDb().getCTWPlayer(d);
-                    EntityDamageEvent.DamageCause cause = e.getCause();
-                    if (sk != null) {
-                        plugin.getTm().execute(p, cause, g, sk.getTaunt());
-                    } else {
-                        plugin.getTm().execute(p, cause, g, 0);
-                    }
-                } else {
-                    plugin.getTm().execute(p, e.getCause(), g, 0);
+            if (g != null) {
+                Team team = g.getTeamPlayer(p);
+                if (team == null || g.isState(State.WAITING) || g.isState(State.STARTING)) {
+                    e.setCancelled(true);
+                    return;
                 }
-                e.setCancelled(true);
-                respawn(team, g, p);
-                g.addDeath(p);
+                if (e.getFinalDamage() >= p.getHealth()) {
+                    if (plugin.getTgm().hasTag(p)) {
+                        Player d = plugin.getTgm().getTagged(p).getLast();
+                        CTWPlayer sk = plugin.getDb().getCTWPlayer(d);
+                        EntityDamageEvent.DamageCause cause = e.getCause();
+                        if (sk != null) {
+                            plugin.getTm().execute(p, cause, g, sk.getTaunt());
+                        } else {
+                            plugin.getTm().execute(p, cause, g, 0);
+                        }
+                    } else {
+                        plugin.getTm().execute(p, e.getCause(), g, 0);
+                    }
+                    e.setCancelled(true);
+                    respawn(team, g, p);
+                    g.addDeath(p);
+                }
+            }
+            GameFlag gf = plugin.getGm().getGameFlagByPlayer(p);
+            if (gf != null) {
+                FlagTeam team = gf.getTeamPlayer(p);
+                if (team == null || gf.isState(State.WAITING) || gf.isState(State.STARTING)) {
+                    e.setCancelled(true);
+                }
             }
         }
     }

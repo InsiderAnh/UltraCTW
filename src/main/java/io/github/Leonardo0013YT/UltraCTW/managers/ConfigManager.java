@@ -20,7 +20,7 @@ public class ConfigManager {
     private Material back, redPanelMaterial;
     private Sound streak2, streak3, streak4, streak5, upgradeSound, cancelStartSound, wineffectschicken, wineffectsvulcanfire, wineffectvulcanwool, wineffectnotes, killEffectTNT, killEffectSquid;
     private XSound pickUpTeam, pickUpOthers, captured;
-    private int limitOfYSpawn, itemLobbySlot, maxMultiplier, gCoinsKills, gCoinsWins, gCoinsAssists, coinsKill, coinsWin, coinsAssists, xpKill, xpWin, xpAssists, starting, progressBarAmount, timeToKill;
+    private int gracePeriod, limitOfYSpawn, itemLobbySlot, maxMultiplier, gCoinsKills, gCoinsWins, gCoinsAssists, coinsKill, coinsWin, coinsAssists, xpKill, xpWin, xpAssists, starting, progressBarAmount, timeToKill;
     private double bountyMin, bountyMax, bountyPerKill;
     private String itemLobbyCMD;
     private List<String> noDrop;
@@ -31,6 +31,7 @@ public class ConfigManager {
     }
 
     public void reload() {
+        this.gracePeriod = plugin.getConfig().getInt("flagDefaults.gracePeriod");
         this.excluideDefKits = plugin.getConfig().getBoolean("excluideDefKits");
         this.itemLobbyEnabled = plugin.getConfig().getBoolean("items.lobby.enabled");
         this.itemLobbySlot = plugin.getConfig().getInt("items.lobby.slot");

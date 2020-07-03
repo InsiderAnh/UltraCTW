@@ -1,6 +1,7 @@
 package io.github.Leonardo0013YT.UltraCTW.utils;
 
 import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.game.GameFlag;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.Game;
 import io.github.Leonardo0013YT.UltraCTW.team.Team;
 import io.github.Leonardo0013YT.UltraCTW.xseries.XMaterial;
@@ -102,6 +103,10 @@ public class Utils {
     public static void updateSB() {
         if (plugin.getCm().getMainLobby() == null) return;
         plugin.getCm().getMainLobby().getWorld().getPlayers().forEach(p -> plugin.getSb().update(p));
+    }
+
+    public static void updateSB(GameFlag game) {
+        game.getCached().forEach(p -> plugin.getSb().update(p));
     }
 
     public static void updateSB(Game game) {
