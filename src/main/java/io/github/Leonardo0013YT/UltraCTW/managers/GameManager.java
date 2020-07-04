@@ -107,8 +107,13 @@ public class GameManager {
         if (!playerGame.containsKey(p.getUniqueId())) return;
         int id = playerGame.get(p.getUniqueId());
         Game game = games.get(id);
-        if (game == null) return;
-        game.removePlayer(p);
+        GameFlag gf = flagGames.get(id);
+        if (game != null) {
+            game.removePlayer(p);
+        }
+        if (gf != null) {
+            gf.removePlayer(p);
+        }
         NametagEdit.getApi().clearNametag(p);
         playerGame.remove(p.getUniqueId());
         Utils.updateSB(p);

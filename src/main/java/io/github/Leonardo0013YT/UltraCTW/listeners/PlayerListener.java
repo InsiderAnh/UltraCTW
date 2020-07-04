@@ -91,9 +91,11 @@ public class PlayerListener implements Listener {
         }
         if (npc.getNpcType().equals(NPCType.KITS)) {
             plugin.getUim().getPages().put(p, 1);
-            plugin.getUim().createKitSelectorMenu(p, g);
+            plugin.getUim().createKitSelectorMenu(p);
         } else if (npc.getNpcType().equals(NPCType.SHOP)) {
             plugin.getGem().createShopMenu(p);
+        } else if (npc.getNpcType().equals(NPCType.UPGRADES)) {
+            plugin.getFgm().createMainUpgradeMenu(p);
         }
     }
 

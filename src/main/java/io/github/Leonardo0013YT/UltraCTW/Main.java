@@ -15,6 +15,7 @@ import io.github.Leonardo0013YT.UltraCTW.interfaces.Game;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.IDatabase;
 import io.github.Leonardo0013YT.UltraCTW.listeners.*;
 import io.github.Leonardo0013YT.UltraCTW.managers.*;
+import io.github.Leonardo0013YT.UltraCTW.menus.FlagMenu;
 import io.github.Leonardo0013YT.UltraCTW.menus.GameMenu;
 import io.github.Leonardo0013YT.UltraCTW.menus.SetupMenu;
 import io.github.Leonardo0013YT.UltraCTW.menus.UltraInventoryMenu;
@@ -33,7 +34,7 @@ public class Main extends JavaPlugin {
 
     private static Main instance;
     private Gson ctw;
-    private Settings mines, arenas, lang, menus, kits, sources, windance, wineffect, killsound, taunt, trail, killeffect, shopkeepers, levels, shop, migration;
+    private Settings upgrades, mines, arenas, lang, menus, kits, sources, windance, wineffect, killsound, taunt, trail, killeffect, shopkeepers, levels, shop, migration;
     private boolean debugMode, stop = false;
     private GameManager gm;
     private ConfigManager cm;
@@ -64,6 +65,8 @@ public class Main extends JavaPlugin {
     private TopManager top;
     private MultiplierManager mm;
     private FlagManager fm;
+    private UpgradeManager um;
+    private FlagMenu fgm;
 
     public static Main get() {
         return instance;
@@ -92,6 +95,7 @@ public class Main extends JavaPlugin {
         shopkeepers = new Settings(this, "shopkeepers", false, false);
         levels = new Settings(this, "levels", false, false);
         shop = new Settings(this, "shop", false, false);
+        upgrades = new Settings(this, "upgrades", false, false);
         debugMode = getConfig().getBoolean("debugMode");
         wc = new WorldController(this);
         db = new MySQLDatabase(this);
@@ -130,6 +134,8 @@ public class Main extends JavaPlugin {
         top = new TopManager(this);
         mm = new MultiplierManager(this);
         fm = new FlagManager(this);
+        um = new UpgradeManager(this);
+        fgm = new FlagMenu(this);
         new ProtocolLib(this);
         getCommand("ctws").setExecutor(new SetupCMD(this));
         getCommand("ctw").setExecutor(new CTWCMD(this));
@@ -187,6 +193,7 @@ public class Main extends JavaPlugin {
         mines.reload();
         killeffect.reload();
         killsound.reload();
+        upgrades.reload();
         kits.reload();
         levels.reload();
         menus.reload();
@@ -210,6 +217,7 @@ public class Main extends JavaPlugin {
         wem.loadWinEffects();
         shm.reload();
         ijm.reload();
+        um.reload();
         Utils.updateSB();
     }
 

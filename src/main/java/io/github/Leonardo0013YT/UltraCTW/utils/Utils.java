@@ -80,7 +80,7 @@ public class Utils {
         return wools.toString();
     }
 
-    public static String getFlagIcon(ChatColor color){
+    public static String getFlagIcon(ChatColor color) {
         return color + plugin.getLang().get("scoreboards.wools.captured");
     }
 

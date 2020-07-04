@@ -19,6 +19,7 @@ public class KitSetup {
     private int slot = 10, page = 1;
     private HashMap<Integer, KitLevelSetup> levels = new HashMap<>();
     private KitLevelSetup kls;
+    private boolean flag = false;
 
     public KitSetup(Main plugin, String name) {
         this.plugin = plugin;
@@ -38,6 +39,7 @@ public class KitSetup {
         plugin.getKits().set(n + ".permission", permission);
         plugin.getKits().set(n + ".slot", slot);
         plugin.getKits().set(n + ".page", page);
+        plugin.getKits().set(n + ".flag", flag);
         for (KitLevelSetup kls : levels.values()) {
             String nl = "kits." + name + ".levels." + kls.getLevel();
             plugin.getKits().set(nl + ".level", kls.getLevel());

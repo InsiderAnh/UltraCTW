@@ -20,9 +20,11 @@ public class KitLevel implements Purchasable {
     private ItemStack icon;
     private String permission;
     private int price, slot, level;
+    private Kit kit;
     private int kitID;
 
-    public KitLevel(Main plugin, String path, int kitID) {
+    public KitLevel(Main plugin, Kit kit, String path, int kitID) {
+        this.kit = kit;
         this.kitID = kitID;
         this.level = plugin.getKits().getInt(path + ".level");
         this.permission = plugin.getKits().get(null, path + ".permission");

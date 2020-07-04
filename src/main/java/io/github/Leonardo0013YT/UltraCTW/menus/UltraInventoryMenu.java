@@ -11,7 +11,6 @@ import io.github.Leonardo0013YT.UltraCTW.cosmetics.trails.Trail;
 import io.github.Leonardo0013YT.UltraCTW.cosmetics.windances.UltraWinDance;
 import io.github.Leonardo0013YT.UltraCTW.cosmetics.wineffects.UltraWinEffect;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.CTWPlayer;
-import io.github.Leonardo0013YT.UltraCTW.interfaces.Game;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.UltraInventory;
 import io.github.Leonardo0013YT.UltraCTW.inventories.LobbyShopMenu;
 import io.github.Leonardo0013YT.UltraCTW.inventories.setup.*;
@@ -115,17 +114,39 @@ public class UltraInventoryMenu {
         }
     }
 
-    public void createKitSelectorMenu(Player p, Game game) {
+    public void createKitFlagSelectorMenu(Player p) {
+        int page = pages.get(p);
+        Inventory inv = Bukkit.createInventory(null, 54, plugin.getLang().get(p, "menus.kitflagselector.title"));
+        CTWPlayer sw = plugin.getDb().getCTWPlayer(p);
+        ItemStack close = ItemBuilder.item(XMaterial.matchXMaterial(plugin.getCm().getBack()), plugin.getLang().get(p, "menus.kitflagselector.close.nameItem"), plugin.getLang().get(p, "menus.kitflagselector.close.loreItem"));
+        ItemStack next = ItemBuilder.item(XMaterial.ARROW, 1, plugin.getLang().get(p, "menus.next.nameItem"), plugin.getLang().get(p, "menus.next.loreItem"));
+        ItemStack last = ItemBuilder.item(XMaterial.ARROW, 1, plugin.getLang().get(p, "menus.last.nameItem"), plugin.getLang().get(p, "menus.last.loreItem"));
+        for (Kit k : plugin.getKm().getKits().values()) {
+            if (!k.isFlag()) continue;
+            if (sw == null) {
+                continue;
+            }
+            if (k.getPage() != page) continue;
+            inv.setItem(k.getSlot(), k.getLevels().get(1).getIcon(p));
+        }
+        if (page > 1) {
+            inv.setItem(45, last);
+        }
+        if (page < plugin.getKm().getLastPage()) {
+            inv.setItem(53, next);
+        }
+        inv.setItem(49, close);
+        p.openInventory(inv);
+    }
+
+    public void createKitSelectorMenu(Player p) {
         int page = pages.get(p);
         Inventory inv = Bukkit.createInventory(null, 54, plugin.getLang().get(p, "menus.kitselector.title"));
-        CTWPlayer sw = plugin.getDb().getCTWPlayer(p);
         ItemStack close = ItemBuilder.item(XMaterial.matchXMaterial(plugin.getCm().getBack()), plugin.getLang().get(p, "menus.kitselector.close.nameItem"), plugin.getLang().get(p, "menus.kitselector.close.loreItem"));
         ItemStack next = ItemBuilder.item(XMaterial.ARROW, 1, plugin.getLang().get(p, "menus.next.nameItem"), plugin.getLang().get(p, "menus.next.loreItem"));
         ItemStack last = ItemBuilder.item(XMaterial.ARROW, 1, plugin.getLang().get(p, "menus.last.nameItem"), plugin.getLang().get(p, "menus.last.loreItem"));
         for (Kit k : plugin.getKm().getKits().values()) {
-            if (sw == null) {
-                continue;
-            }
+            if (k.isFlag()) continue;
             if (k.getPage() != page) continue;
             if (plugin.getCm().isExcluideDefKits()) {
                 if (plugin.getKm().getDefaultKits().contains(k.getId())) continue;
@@ -144,6 +165,17 @@ public class UltraInventoryMenu {
 
     public void createKitLevelSelectorMenu(Player p, Kit k) {
         Inventory inv = Bukkit.createInventory(null, 54, plugin.getLang().get(p, "menus.kitlevels.title"));
+        ItemStack close = ItemBuilder.item(XMaterial.matchXMaterial(plugin.getCm().getBack()), plugin.getLang().get(p, "menus.kitlevels.close.nameItem"), plugin.getLang().get(p, "menus.kitlevels.close.loreItem"));
+        for (KitLevel kl : k.getLevels().values()) {
+            ItemStack i = kl.getIcon(p);
+            inv.setItem(kl.getSlot(), i);
+        }
+        inv.setItem(49, close);
+        p.openInventory(inv);
+    }
+
+    public void createFlagKitLevelSelectorMenu(Player p, Kit k) {
+        Inventory inv = Bukkit.createInventory(null, 54, plugin.getLang().get(p, "menus.kitflaglevels.title"));
         ItemStack close = ItemBuilder.item(XMaterial.matchXMaterial(plugin.getCm().getBack()), plugin.getLang().get(p, "menus.kitlevels.close.nameItem"), plugin.getLang().get(p, "menus.kitlevels.close.loreItem"));
         for (KitLevel kl : k.getLevels().values()) {
             ItemStack i = kl.getIcon(p);

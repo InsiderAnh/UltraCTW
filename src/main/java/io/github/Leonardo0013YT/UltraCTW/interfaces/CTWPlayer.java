@@ -68,6 +68,20 @@ public interface CTWPlayer {
 
     void setAssists(int assists);
 
+    int getKit();
+
+    void setKit(int kit);
+
+    int getKitLevel();
+
+    void setKitLevel(int kitLevel);
+
+    void addKitLevel(int kitID, int level);
+
+    void removeKitLevel(int kitID, int level);
+
+    boolean hasKitLevel(int kitID, int level);
+
     ArrayList<Integer> getShopkeepers();
 
     void setShopkeepers(ArrayList<Integer> shopkeepers);

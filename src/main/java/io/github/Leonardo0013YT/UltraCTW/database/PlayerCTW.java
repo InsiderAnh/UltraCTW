@@ -3,13 +3,59 @@ package io.github.Leonardo0013YT.UltraCTW.database;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.CTWPlayer;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class PlayerCTW implements CTWPlayer {
 
+    private HashMap<Integer, List<Integer>> kits = new HashMap<>();
     private ArrayList<Integer> shopkeepers = new ArrayList<>(), partings = new ArrayList<>(), killeffects = new ArrayList<>(), wineffects = new ArrayList<>(), windances = new ArrayList<>(), killsounds = new ArrayList<>(), taunts = new ArrayList<>(), trails = new ArrayList<>();
     private double coins = 0.0, bounty = 0.0;
     private int woolCaptured = 0, kills = 0, deaths = 0, wins = 0, shots = 0, sShots = 0, walked = 0, played = 0, broken = 0, placed = 0;
-    private int level = 1, xp = 0, shopKeeper = 0, winDance = 999999, winEffect = 0, killEffect = 999999, taunt = 0, trail = 999999, parting = 999999, killSound = 999999, assists = 0, kill5 = 0, kill25 = 0, kill50 = 0;
+    private int kit = 999999, kitLevel = 1, level = 1, xp = 0, shopKeeper = 0, winDance = 999999, winEffect = 0, killEffect = 999999, taunt = 0, trail = 999999, parting = 999999, killSound = 999999, assists = 0, kill5 = 0, kill25 = 0, kill50 = 0;
+
+    @Override
+    public int getKit() {
+        return kit;
+    }
+
+    @Override
+    public void setKit(int kit) {
+        this.kit = kit;
+    }
+
+    @Override
+    public int getKitLevel() {
+        return kitLevel;
+    }
+
+    @Override
+    public void setKitLevel(int kitLevel) {
+        this.kitLevel = kitLevel;
+    }
+
+    @Override
+    public void addKitLevel(int kitID, int level) {
+        if (!kits.containsKey(kitID)) {
+            kits.put(kitID, new ArrayList<>());
+        }
+        kits.get(kitID).add(level);
+    }
+
+    @Override
+    public void removeKitLevel(int kitID, int level) {
+        if (kits.containsKey(kitID)) {
+            kits.get(kitID).remove(level);
+        }
+    }
+
+    @Override
+    public boolean hasKitLevel(int kitID, int level) {
+        if (kits.containsKey(kitID)) {
+            return kits.get(kitID).contains(level);
+        }
+        return false;
+    }
 
     @Override
     public ArrayList<Integer> getShopkeepers() {

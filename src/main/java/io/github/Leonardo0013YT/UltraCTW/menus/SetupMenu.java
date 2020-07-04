@@ -33,12 +33,14 @@ public class SetupMenu {
         ItemStack permission = new ItemUtils(XMaterial.BARRIER).setDisplayName(plugin.getLang().get("menus.kitsetup.permission.nameItem")).setLore(plugin.getLang().get("menus.kitsetup.permission.loreItem").replaceAll("<permission>", ks.getPermission())).build();
         ItemStack slot = new ItemUtils(XMaterial.PAPER).setDisplayName(plugin.getLang().get("menus.kitsetup.slot.nameItem")).setLore(plugin.getLang().get("menus.kitsetup.slot.loreItem").replaceAll("<slot>", String.valueOf(ks.getSlot()))).build();
         ItemStack page = new ItemUtils(XMaterial.MAP).setDisplayName(plugin.getLang().get("menus.kitsetup.page.nameItem")).setLore(plugin.getLang().get("menus.kitsetup.page.loreItem").replaceAll("<page>", String.valueOf(ks.getPage()))).build();
+        ItemStack banner = new ItemUtils(XMaterial.WHITE_BANNER).setDisplayName(plugin.getLang().get("menus.kitsetup.flag.nameItem")).setLore(plugin.getLang().get("menus.kitsetup.flag.loreItem").replaceAll("<state>", Utils.parseBoolean(ks.isFlag()))).build();
         ItemStack save = new ItemUtils(XMaterial.NETHER_STAR).setDisplayName(plugin.getLang().get("menus.kitsetup.save.nameItem")).setLore(plugin.getLang().get("menus.kitsetup.save.loreItem")).build();
         inv.setItem(4, name);
         inv.setItem(13, levels);
         inv.setItem(15, permission);
         inv.setItem(11, slot);
-        inv.setItem(22, page);
+        inv.setItem(21, page);
+        inv.setItem(22, banner);
         inv.setItem(40, save);
         p.openInventory(inv);
     }

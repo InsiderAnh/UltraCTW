@@ -14,16 +14,18 @@ public class Kit {
     private HashMap<Integer, KitLevel> levels = new HashMap<>();
     private int id, slot, page;
     private String name, permission;
+    private boolean flag;
 
     public Kit(Main plugin, String path) {
         this.id = plugin.getKits().getInt(path + ".id");
         this.slot = plugin.getKits().getInt(path + ".slot");
         this.page = plugin.getKits().getInt(path + ".page");
         this.name = plugin.getKits().get(null, path + ".name");
+        this.flag = plugin.getKits().getBooleanOrDefault(path + ".flag", false);
         this.permission = plugin.getKits().get(null, path + ".permission");
         for (String s : plugin.getKits().getConfig().getConfigurationSection(path + ".levels").getKeys(false)) {
             String lpa = path + ".levels." + s;
-            levels.put(plugin.getKits().getInt(lpa + ".level"), new KitLevel(plugin, lpa, id));
+            levels.put(plugin.getKits().getInt(lpa + ".level"), new KitLevel(plugin, this, lpa, id));
         }
         plugin.getKm().setLastPage(page);
     }

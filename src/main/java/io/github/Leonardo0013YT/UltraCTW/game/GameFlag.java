@@ -4,7 +4,10 @@ import io.github.Leonardo0013YT.UltraCTW.Main;
 import io.github.Leonardo0013YT.UltraCTW.enums.NPCType;
 import io.github.Leonardo0013YT.UltraCTW.enums.State;
 import io.github.Leonardo0013YT.UltraCTW.flag.Mine;
-import io.github.Leonardo0013YT.UltraCTW.interfaces.*;
+import io.github.Leonardo0013YT.UltraCTW.interfaces.CTWPlayer;
+import io.github.Leonardo0013YT.UltraCTW.interfaces.KillEffect;
+import io.github.Leonardo0013YT.UltraCTW.interfaces.WinDance;
+import io.github.Leonardo0013YT.UltraCTW.interfaces.WinEffect;
 import io.github.Leonardo0013YT.UltraCTW.objects.MineCountdown;
 import io.github.Leonardo0013YT.UltraCTW.team.FlagTeam;
 import io.github.Leonardo0013YT.UltraCTW.utils.Utils;
@@ -73,7 +76,7 @@ public class GameFlag {
         this.starting = plugin.getCm().getStarting();
         this.min = plugin.getArenas().getInt(path + ".min");
         this.max = teamSize * teams.size();
-        this.pool = plugin.getArenas().getInt(path + ".pool");
+        this.pool = plugin.getArenas().getIntOrDefault(path + ".pool", 10);
         setState(State.WAITING);
         lobby.getWorld().getEntities().stream().filter(e -> !e.getType().equals(EntityType.PLAYER)).forEach(Entity::remove);
     }
@@ -158,12 +161,15 @@ public class GameFlag {
             }
             if (starting == 0) {
                 setState(State.GAME);
+                for (String s : plugin.getLang().getList("messages.startFlag")) {
+                    sendGameMessage(s);
+                }
                 for (Player on : players) {
                     if (getTeamPlayer(on) == null) {
                         joinRandomTeam(on);
                     }
                 }
-                for (FlagTeam ft : teams.values()){
+                for (FlagTeam ft : teams.values()) {
                     ft.fillLifes();
                 }
             }
@@ -212,7 +218,7 @@ public class GameFlag {
                 plugin.getVc().getNMS().sendTitle(on, plugin.getLang().get("titles.lose.title"), plugin.getLang().get("titles.lose.subtitle"), 0, 40, 0);
                 continue;
             }
-            for (String s : plugin.getLang().getList("messages.win")) {
+            for (String s : plugin.getLang().getList("messages.winFlag")) {
                 on.sendMessage(s.replaceAll("&", "§").replaceAll("<winner>", gw.getWinner()).replaceAll("<number1>", s1[1]).replaceAll("<top1>", s1[0]).replaceAll("<color1>", "" + ChatColor.valueOf(s1[2])).replaceAll("<number2>", s2[1]).replaceAll("<top2>", s2[0]).replaceAll("<color2>", "" + ChatColor.valueOf(s2[2])).replaceAll("<number3>", s3[1]).replaceAll("<top3>", s3[0]).replaceAll("<color3>", "" + ChatColor.valueOf(s3[2])));
             }
         }
@@ -232,9 +238,7 @@ public class GameFlag {
             public void run() {
                 ArrayList<Player> back = new ArrayList<>(cached);
                 for (Player on : back) {
-                    plugin.getGm().removePlayerGame(on, false);
-                    Game g = plugin.getGm().getSelectedGame();
-                    plugin.getGm().addPlayerGame(on, g.getId());
+                    plugin.getGm().removePlayerGame(on, true);
                 }
                 reset();
             }
@@ -250,11 +254,11 @@ public class GameFlag {
         }
     }
 
-    public GamePlayer getGamePlayer(Player p){
+    public GamePlayer getGamePlayer(Player p) {
         return gamePlayer.get(p);
     }
 
-    public boolean isGracePeriod(){
+    public boolean isGracePeriod() {
         return plugin.getCm().getGracePeriod() - time > 0;
     }
 
@@ -311,11 +315,11 @@ public class GameFlag {
         killEffects.add(e);
     }
 
-    public FlagTeam getTeamByColor(ChatColor color){
+    public FlagTeam getTeamByColor(ChatColor color) {
         return teams.get(color);
     }
 
-    public FlagTeam getTeamByLoc(Location loc){
+    public FlagTeam getTeamByLoc(Location loc) {
         for (FlagTeam team : teams.values()) {
             if (team.isFlag(loc)) {
                 return team;

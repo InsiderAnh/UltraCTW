@@ -70,15 +70,24 @@ public class ShopManager {
             return;
         } else if (purchasable instanceof KitLevel) {
             Game g = plugin.getGm().getGameByPlayer(p);
-            GamePlayer gp = g.getGamePlayer(p);
-            if (gp.getCoins() < purchasable.getPrice()) {
-                p.sendMessage(plugin.getLang().get(p, "messages.noCoins"));
-                return;
+            if (g != null) {
+                GamePlayer gp = g.getGamePlayer(p);
+                if (gp.getCoins() < purchasable.getPrice()) {
+                    p.sendMessage(plugin.getLang().get(p, "messages.noCoins"));
+                    return;
+                }
+                KitLevel k = (KitLevel) purchasable;
+                gp.setCoins(gp.getCoins() - k.getPrice());
+                Team team = g.getTeamPlayer(p);
+                plugin.getKm().giveKit(p, k.getKitID(), k.getLevel(), team);
+            } else {
+                KitLevel k = (KitLevel) purchasable;
+                if (plugin.getCm().isKitLevelsOrder() && !isLastLevel(sw, k)) {
+                    p.sendMessage(plugin.getLang().get(p, "messages.buyLastLevel"));
+                    return;
+                }
+                sw.addKitLevel(k.getKit().getId(), k.getLevel());
             }
-            KitLevel k = (KitLevel) purchasable;
-            gp.setCoins(gp.getCoins() - k.getPrice());
-            Team team = g.getTeamPlayer(p);
-            plugin.getKm().giveKit(p, k.getKitID(), k.getLevel(), team);
             return;
         }
         if (!purchasable.isBuy()) {
@@ -119,4 +128,12 @@ public class ShopManager {
     public HashMap<Integer, ShopItem> getItems() {
         return items;
     }
+
+    public boolean isLastLevel(CTWPlayer sw, KitLevel kl) {
+        if (kl.getLevel() == 1) {
+            return true;
+        }
+        return sw.hasKitLevel(kl.getKit().getId(), kl.getLevel() - 1);
+    }
+
 }

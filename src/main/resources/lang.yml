@@ -33,8 +33,9 @@ streaks:
   quarter: "&b&lQUADRUPLE "
   penta: "&6&lPENTA "
 messages:
+  buyLastLevel: "&cYou must buy the previous level."
   breakFlag: "&7<color><player> &eto steal your flag."
-  stealFlag: "&7<color><player>&e steal the <team> team flag."
+  stealFlag: "&7<color><player>&e steal the <team>&e team flag."
   noBreakFlag: "&cYou can't break your own flag."
   noPlaceInGrace: "&cYou can't build bridges in grace time."
   limit: "&cYou can't build higher than the limit."
@@ -93,10 +94,34 @@ messages:
     - "<center>&e&lfor killing someone with a streak, have fun."
     - "<center>&7"
     - "<center>&a&m&l---------------------------------------------"
+  startFlag:
+    - "<center>&a&m&l---------------------------------------------"
+    - "<center>&7"
+    - "<center>&f&lCAPTURE THE FLAG"
+    - "<center>&7"
+    - "<center>&e&lCapture the flags on the enemy team,"
+    - "<center>&e&lfight so they don't capture your flags,"
+    - "<center>&e&ldont death, each death remove 1 lifes,"
+    - "<center>&e&lget a streak of eliminations, bounty"
+    - "<center>&e&lfor killing someone with a streak, have fun."
+    - "<center>&7"
+    - "<center>&a&m&l---------------------------------------------"
   win:
     - "<center>&a&m&l---------------------------------------------"
     - "<center>&7"
     - "<center>&f&lCAPTURE THE WOOL"
+    - "<center>&7"
+    - "<center>&aWinner &7- <winner>"
+    - "<center>&7"
+    - "<center>&a&l1st Killer &7- <color1><top1> &7- <number1>"
+    - "<center>&6&l2nd Killer &7- <color2><top2> &7- <number2>"
+    - "<center>&c&l3rt Killer &7- <color3><top3> &7- <number3>"
+    - "<center>&7"
+    - "<center>&a&m&l---------------------------------------------"
+  winFlag:
+    - "<center>&a&m&l---------------------------------------------"
+    - "<center>&7"
+    - "<center>&f&lCAPTURE THE FLAG"
     - "<center>&7"
     - "<center>&aWinner &7- <winner>"
     - "<center>&7"
@@ -387,6 +412,8 @@ scoreboards:
       &7
       &emc.spigot.net
 menus:
+  upgrades:
+    titles: "&eUpgrade NPC"
   shop:
     title: "&eShop Items"
   shopkeeperselector:
@@ -426,8 +453,46 @@ menus:
         &7Close this inventory.
         &7
         &eClick to close!
+  kitflaglevels:
+    title: "&aKit Levels"
+    close:
+      nameItem: "&cClose"
+      loreItem: |-
+        &7Close this inventory.
+        &7
+        &eClick to close!
   kitselector:
     title: "&eKit Selector"
+    noPermission: "&cYou can't buy this kit!"
+    hasBuy: "&aYou already have this kit!"
+    buy: "&eYou can buy this kit!"
+    noMoney: "&cYou don't have money to buy."
+    level: "&aLevel: &6<level>"
+    price: "&aPrice: &6<price>"
+    noBuyable: "&cNot buyable."
+    buyed: "&6Bought"
+    deselect:
+      nameItem: "&eDeselect Kit"
+      loreItem: |-
+        &7By clicking you will
+        &7deselect this kit.
+        &7
+        &eClick to deselect!
+    kit:
+      nameItem: "&eKit Selected"
+      loreItem: |-
+        &7By clicking you can see
+        &7the contents of this kit.
+        &7
+        &eClick to view!
+    close:
+      nameItem: "&cClose"
+      loreItem: |-
+        &7Close this inventory.
+        &7
+        &eClick to close!
+  kitflagselector:
+    title: "&aKit Selector"
     noPermission: "&cYou can't buy this kit!"
     hasBuy: "&aYou already have this kit!"
     buy: "&eYou can buy this kit!"
@@ -1214,6 +1279,14 @@ menus:
         &7This is the kit page:
         &7
         &ePage: &b<page>
+        &7
+        &eClick to change!
+    flag:
+      nameItem: "&eKit Flag"
+      loreItem: |-
+        &7This is the kit type:
+        &7
+        &eFlag: &b<state>
         &7
         &eClick to change!
     save:

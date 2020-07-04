@@ -59,42 +59,42 @@ public class FlagTeam {
         members.forEach(m -> m.sendMessage(msg));
     }
 
-    public void fillLifes(){
-        lifes = gameFlag.getPool() * members.size();
+    public void fillLifes() {
+        lifes = gameFlag.getPool() * Math.max(members.size(), 1);
         maxLifes = lifes;
     }
 
-    public void removeLife(){
+    public void removeLife() {
         lifes--;
     }
 
-    public void setCapturing(Player p, ChatColor color){
+    public void setCapturing(Player p, ChatColor color) {
         capturing.put(p, color);
     }
 
-    public boolean isCapturing(Player p){
+    public boolean isCapturing(Player p) {
         return capturing.containsKey(p);
     }
 
-    public ChatColor getCapturing(Player p){
+    public ChatColor getCapturing(Player p) {
         return capturing.get(p);
     }
 
-    public void removeCapturing(Player p){
+    public void removeCapturing(Player p) {
         capturing.remove(p);
     }
 
-    public boolean isStolen(){
+    public boolean isStolen() {
         return flag.getBlock().getType().equals(Material.AIR);
     }
 
-    public boolean isFlag(Location loc){
+    public boolean isFlag(Location loc) {
         return loc.getBlock().getLocation().equals(flag.getBlock().getLocation());
     }
 
-    public ItemStack getFlagItem(){
+    public ItemStack getFlagItem() {
         ItemStack banner = new ItemStack(Material.BANNER, 1);
-        BannerMeta meta = (BannerMeta)banner.getItemMeta();
+        BannerMeta meta = (BannerMeta) banner.getItemMeta();
         meta.setBaseColor(Utils.getDyeColorByChatColor(color));
         banner.setItemMeta(meta);
         return banner;
@@ -112,7 +112,7 @@ public class FlagTeam {
         return members.size();
     }
 
-    public boolean equals(FlagTeam ft){
+    public boolean equals(FlagTeam ft) {
         return id == ft.getId();
     }
 

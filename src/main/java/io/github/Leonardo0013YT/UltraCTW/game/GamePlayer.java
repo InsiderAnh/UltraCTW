@@ -10,7 +10,7 @@ import org.bukkit.inventory.ItemStack;
 public class GamePlayer {
 
     private Player p;
-    private int kills = 0, deaths = 0;
+    private int kills = 0, deaths = 0, PiUpgrade = 0;
     private double coins = 0;
     private ItemStack[] inv, armor;
     private boolean reset;

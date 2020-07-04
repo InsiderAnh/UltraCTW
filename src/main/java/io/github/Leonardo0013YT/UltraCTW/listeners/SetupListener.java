@@ -1646,6 +1646,11 @@ public class SetupListener implements Listener {
                 p.closeInventory();
                 p.sendMessage(plugin.getLang().get(p, "setup.setPage"));
             }
+            if (display.equals(plugin.getLang().get("menus.kitsetup.flag.nameItem"))) {
+                ks.setFlag(!ks.isFlag());
+                plugin.getSem().createSetupKitMenu(p, ks);
+                p.sendMessage(plugin.getLang().get(p, "setup.setBuy").replace("<state>", Utils.parseBoolean(ks.isFlag())));
+            }
             if (display.equals(plugin.getLang().get("menus.kitsetup.levels.nameItem"))) {
                 if (ks.getKls() == null) {
                     ks.setKls(new KitLevelSetup(ks.getLevels().size() + 1));

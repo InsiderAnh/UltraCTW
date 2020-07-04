@@ -62,14 +62,15 @@ public class FlagListener implements Listener {
         FlagTeam ft = g.getTeamByLoc(loc);
         FlagTeam yt = g.getTeamPlayer(p);
         if (ft == null) return;
-        if (ft.equals(yt)){
+        if (ft.equals(yt)) {
             e.setCancelled(true);
             p.sendMessage(plugin.getLang().get("messages.noBreakFlag"));
             return;
         }
+        e.setCancelled(true);
+        b.setType(Material.AIR);
         yt.setCapturing(p, ft.getColor());
         p.getInventory().setHelmet(ft.getFlagItem());
-        b.getDrops().clear();
         ft.sendMessage(plugin.getLang().get("messages.breakFlag").replace("<color>", ft.getColor() + "").replace("<player>", p.getName()));
         yt.sendMessage(plugin.getLang().get("messages.stealFlag").replace("<team>", ft.getName()).replace("<color>", ft.getColor() + "").replace("<player>", p.getName()));
         ft.playSound(XSound.ENTITY_WITHER_HURT, 1.0f, 1.0f);
@@ -77,7 +78,7 @@ public class FlagListener implements Listener {
     }
 
     @EventHandler
-    public void onDeath(PlayerDeathEvent e){
+    public void onDeath(PlayerDeathEvent e) {
         Player p = e.getEntity();
         GameFlag g = plugin.getGm().getGameFlagByPlayer(p);
         if (g == null) return;
@@ -88,18 +89,19 @@ public class FlagListener implements Listener {
     }
 
     @EventHandler
-    public void onMove(PlayerMoveEvent e){
+    public void onMove(PlayerMoveEvent e) {
         Player p = e.getPlayer();
         GameFlag g = plugin.getGm().getGameFlagByPlayer(p);
         if (g == null) return;
         FlagTeam team = g.getTeamPlayer(p);
         if (team == null) return;
-        if (team.getFlag().distance(p.getLocation()) < 3){
-            if (team.isCapturing(p)){
+        if (team.getFlag().distance(p.getLocation()) < 3) {
+            if (team.isCapturing(p)) {
+                p.getInventory().setHelmet(null);
                 ChatColor color = team.getCapturing(p);
+                team.removeCapturing(p);
                 FlagTeam ft = g.getTeamByColor(color);
                 ft.removeLife();
-                team.removeCapturing(p);
                 Block b = ft.getFlag().getBlock();
                 b.setType(XMaterial.WHITE_BANNER.parseMaterial());
                 Banner banner = (Banner) b.getState();
@@ -115,14 +117,14 @@ public class FlagListener implements Listener {
     }
 
     @EventHandler
-    public void onClick(InventoryClickEvent e){
-        if (e.getSlotType().equals(InventoryType.SlotType.ARMOR) && e.getSlot() == 39){
+    public void onClick(InventoryClickEvent e) {
+        if (e.getSlotType().equals(InventoryType.SlotType.ARMOR) && e.getSlot() == 39) {
             e.setCancelled(true);
         }
     }
 
     @EventHandler
-    public void onPlace(BlockPlaceEvent e){
+    public void onPlace(BlockPlaceEvent e) {
         Player p = e.getPlayer();
         GameFlag g = plugin.getGm().getGameFlagByPlayer(p);
         if (g == null) return;
@@ -130,20 +132,20 @@ public class FlagListener implements Listener {
             e.setCancelled(true);
             return;
         }
-        if (g.isGracePeriod()){
+        if (g.isGracePeriod()) {
             Block b = e.getBlock();
             boolean isVoid = isVoidBlock(b.getLocation().clone());
             e.setCancelled(isVoid);
-            if (isVoid){
+            if (isVoid) {
                 p.sendMessage(plugin.getLang().get("messages.noPlaceInGrace"));
             }
         }
     }
 
-    public boolean isVoidBlock(Location loc){
+    public boolean isVoidBlock(Location loc) {
         int airBlocks = 0;
-        for (int i = 1; i < 30; i++){
-            if (!loc.clone().subtract(0, i, 0).getBlock().getType().equals(Material.AIR)){
+        for (int i = 1; i < 30; i++) {
+            if (!loc.clone().subtract(0, i, 0).getBlock().getType().equals(Material.AIR)) {
                 break;
             }
             airBlocks++;

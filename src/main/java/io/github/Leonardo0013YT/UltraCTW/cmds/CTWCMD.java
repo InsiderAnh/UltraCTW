@@ -235,8 +235,11 @@ public class CTWCMD implements CommandExecutor {
                 case "kitsmenu":
                     plugin.getUim().getPages().put(p, 1);
                     Game game2 = plugin.getGm().getGameByPlayer(p);
-                    if (game2 == null) return true;
-                    plugin.getUim().createKitSelectorMenu(p, game2);
+                    if (game2 == null) {
+                        plugin.getUim().createKitFlagSelectorMenu(p);
+                        return true;
+                    }
+                    plugin.getUim().createKitSelectorMenu(p);
                     break;
                 case "killsoundsmenu":
                     plugin.getUim().getPages().put(p, 1);

@@ -1,0 +1,83 @@
+buy: "&aClick to buy!"
+noMoney: "&cYou don't have enough coins!"
+max: "&cMaximum improvement!"
+upgrades:
+  individual:
+    slot: 10
+    name: "&aPickaxe Upgrades &7(YOU)"
+    lore: |-
+      &eApply improvements to your pickaxe,
+      &enext upgrade:
+      <now> → <next>
+      &7
+      <status>
+    materials:
+      - WOOD_PICKAXE
+      - STONE_PICKAXE
+      - IRON_PICKAXE
+      - DIAMOND_PICKAXE
+    levels:
+      level0:
+        level: 0
+        price: 100
+        name: "&bEfficiency I"
+        enchants:
+          - "NONE"
+        selfEffects:
+          - "NONE"
+        teamEffects:
+          - "NONE"
+      level1:
+        level: 1
+        price: 100
+        name: "&bEfficiency II"
+        enchants:
+          - "DAMAGE_ALL:1:true"
+        selfEffects:
+          - "NONE"
+        teamEffects:
+          - "NONE"
+      level2:
+        level: 2
+        price: 100
+        name: "&bEfficiency II &7/ &bFortune I"
+        enchants:
+          - "DAMAGE_ALL:2:true"
+          - "LOOT_BONUS_BLOCKS:1:true"
+        selfEffects:
+          - "NONE"
+        teamEffects:
+          - "NONE"
+      level3:
+        level: 3
+        price: 100
+        name: "&bEfficiency III &7/ &bFortune I"
+        enchants:
+          - "DAMAGE_ALL:3:true"
+          - "LOOT_BONUS_BLOCKS:1:true"
+        selfEffects:
+          - "NONE"
+        teamEffects:
+          - "NONE"
+      level4:
+        level: 4
+        price: 100
+        name: "&bEfficiency III &7/ &bFortune II"
+        enchants:
+          - "DAMAGE_ALL:3:true"
+          - "LOOT_BONUS_BLOCKS:2:true"
+        selfEffects:
+          - "NONE"
+        teamEffects:
+          - "NONE"
+      level5:
+        level: 5
+        price: 100
+        name: "&bEfficiency IV &7/ &bFortune III"
+        enchants:
+          - "DAMAGE_ALL:4:true"
+          - "LOOT_BONUS_BLOCKS:3:true"
+        selfEffects:
+          - "NONE"
+        teamEffects:
+          - "NONE"

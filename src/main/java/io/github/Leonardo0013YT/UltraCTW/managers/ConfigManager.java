@@ -14,7 +14,7 @@ import java.util.List;
 public class ConfigManager {
 
     private Main plugin;
-    private boolean excluideDefKits, itemLobbyEnabled, placeholdersAPI, redPanelInLocked, holograms, holographicdisplays;
+    private boolean kitLevelsOrder, excluideDefKits, itemLobbyEnabled, placeholdersAPI, redPanelInLocked, holograms, holographicdisplays;
     private Location mainLobby, topKills, topWins, topCaptured, topBounty;
     private short redPanelData;
     private Material back, redPanelMaterial;
@@ -31,6 +31,7 @@ public class ConfigManager {
     }
 
     public void reload() {
+        this.kitLevelsOrder = plugin.getConfig().getBoolean("kitLevelsOrder");
         this.gracePeriod = plugin.getConfig().getInt("flagDefaults.gracePeriod");
         this.excluideDefKits = plugin.getConfig().getBoolean("excluideDefKits");
         this.itemLobbyEnabled = plugin.getConfig().getBoolean("items.lobby.enabled");
