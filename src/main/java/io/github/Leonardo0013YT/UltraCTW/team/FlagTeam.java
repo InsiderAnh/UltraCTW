@@ -28,7 +28,7 @@ public class FlagTeam {
     private int id, maxLifes;
     private String name;
     @Setter
-    private int lifes;
+    private int lifes, upgradeHaste = 0;
 
     public FlagTeam(Main plugin, GameFlag gameFlag, String path, int id) {
         this.plugin = plugin;

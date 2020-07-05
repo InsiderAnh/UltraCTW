@@ -84,18 +84,23 @@ public class PlayerListener implements Listener {
     public void onInteractEntity(CTWNPCInteractEvent e) {
         Player p = e.getPlayer();
         Game g = plugin.getGm().getGameByPlayer(p);
-        if (g == null) return;
+        GameFlag gf = plugin.getGm().getGameFlagByPlayer(p);
         NPC npc = e.getNpc();
         if (npc == null) {
             return;
         }
-        if (npc.getNpcType().equals(NPCType.KITS)) {
-            plugin.getUim().getPages().put(p, 1);
-            plugin.getUim().createKitSelectorMenu(p);
-        } else if (npc.getNpcType().equals(NPCType.SHOP)) {
-            plugin.getGem().createShopMenu(p);
-        } else if (npc.getNpcType().equals(NPCType.UPGRADES)) {
-            plugin.getFgm().createMainUpgradeMenu(p);
+        if (g != null) {
+            if (npc.getNpcType().equals(NPCType.KITS)) {
+                plugin.getUim().getPages().put(p, 1);
+                plugin.getUim().createKitSelectorMenu(p);
+            } else if (npc.getNpcType().equals(NPCType.SHOP)) {
+                plugin.getGem().createShopMenu(p);
+            }
+        }
+        if (gf != null){
+            if (npc.getNpcType().equals(NPCType.UPGRADES)) {
+                plugin.getFgm().createMainUpgradeMenu(p);
+            }
         }
     }
 

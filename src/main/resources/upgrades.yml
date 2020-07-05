@@ -2,13 +2,57 @@ buy: "&aClick to buy!"
 noMoney: "&cYou don't have enough coins!"
 max: "&cMaximum improvement!"
 upgrades:
-  individual:
+  teampickaxe:
+    slot: 11
+    material: DIAMOND_PICKAXE
+    name: "&aPickaxe Upgrades &7(TEAM)"
+    lore: |-
+      &eApply improvements to team pickaxes,
+      &enext upgrade:
+      <now> &7→ <next>
+      &7
+      <status>
+    materials:
+      - NONE
+    levels:
+      level0:
+        level: 0
+        price: 100
+        name: "&cNo Effect"
+        enchants:
+          - "NONE"
+        selfEffects:
+          - "NONE"
+        teamEffects:
+          - "NONE"
+      level1:
+        level: 1
+        price: 100
+        name: "&bHaste I"
+        enchants:
+          - "NONE"
+        selfEffects:
+          - "NONE"
+        teamEffects:
+          - "FAST_DIGGING:1:999999"
+      level2:
+        level: 2
+        price: 100
+        name: "&bHaste II"
+        enchants:
+          - "NONE"
+        selfEffects:
+          - "NONE"
+        teamEffects:
+          - "FAST_DIGGING:2:999999"
+  youpickaxe:
     slot: 10
+    material: IRON_PICKAXE
     name: "&aPickaxe Upgrades &7(YOU)"
     lore: |-
       &eApply improvements to your pickaxe,
       &enext upgrade:
-      <now> → <next>
+      <now> &7→ <next>
       &7
       <status>
     materials:
@@ -32,7 +76,7 @@ upgrades:
         price: 100
         name: "&bEfficiency II"
         enchants:
-          - "DAMAGE_ALL:1:true"
+          - "DIG_SPEED:1:true"
         selfEffects:
           - "NONE"
         teamEffects:
@@ -42,7 +86,7 @@ upgrades:
         price: 100
         name: "&bEfficiency II &7/ &bFortune I"
         enchants:
-          - "DAMAGE_ALL:2:true"
+          - "DIG_SPEED:2:true"
           - "LOOT_BONUS_BLOCKS:1:true"
         selfEffects:
           - "NONE"
@@ -53,7 +97,7 @@ upgrades:
         price: 100
         name: "&bEfficiency III &7/ &bFortune I"
         enchants:
-          - "DAMAGE_ALL:3:true"
+          - "DIG_SPEED:3:true"
           - "LOOT_BONUS_BLOCKS:1:true"
         selfEffects:
           - "NONE"
@@ -64,7 +108,7 @@ upgrades:
         price: 100
         name: "&bEfficiency III &7/ &bFortune II"
         enchants:
-          - "DAMAGE_ALL:3:true"
+          - "DIG_SPEED:3:true"
           - "LOOT_BONUS_BLOCKS:2:true"
         selfEffects:
           - "NONE"
@@ -75,7 +119,7 @@ upgrades:
         price: 100
         name: "&bEfficiency IV &7/ &bFortune III"
         enchants:
-          - "DAMAGE_ALL:4:true"
+          - "DIG_SPEED:4:true"
           - "LOOT_BONUS_BLOCKS:3:true"
         selfEffects:
           - "NONE"

@@ -33,6 +33,8 @@ streaks:
   quarter: "&b&lQUADRUPLE "
   penta: "&6&lPENTA "
 messages:
+  buyed: "&aYou have purchased &e<enchant>&a correctly."
+  maxImprovement: "&cYou've reached the maximum of this improvement"
   buyLastLevel: "&cYou must buy the previous level."
   breakFlag: "&7<color><player> &eto steal your flag."
   stealFlag: "&7<color><player>&e steal the <team>&e team flag."
@@ -413,7 +415,7 @@ scoreboards:
       &emc.spigot.net
 menus:
   upgrades:
-    titles: "&eUpgrade NPC"
+    title: "&eUpgrade NPC"
   shop:
     title: "&eShop Items"
   shopkeeperselector:

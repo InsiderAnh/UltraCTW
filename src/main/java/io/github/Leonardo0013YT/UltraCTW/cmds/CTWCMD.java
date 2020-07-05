@@ -128,7 +128,13 @@ public class CTWCMD implements CommandExecutor {
                                 return true;
                             }
                             Game gpgg = plugin.getGm().getGameByPlayer(on);
-                            GamePlayer gp = gpgg.getGamePlayer(on);
+                            GameFlag gpgf = plugin.getGm().getGameFlagByPlayer(on);
+                            GamePlayer gp;
+                            if (gpgg != null){
+                                gp = gpgg.getGamePlayer(on);
+                            } else {
+                                gp = gpgf.getGamePlayer(on);
+                            }
                             gp.addCoins(amount);
                             p.sendMessage(plugin.getLang().get(p, "coins.add.you").replaceAll("<coins>", String.valueOf(amount)).replaceAll("<player>", on.getName()));
                             on.sendMessage(plugin.getLang().get(p, "coins.add.receiver").replaceAll("<coins>", String.valueOf(amount)).replaceAll("<sender>", p.getName()));
@@ -148,7 +154,13 @@ public class CTWCMD implements CommandExecutor {
                                 return true;
                             }
                             Game gpgg1 = plugin.getGm().getGameByPlayer(on1);
-                            GamePlayer gp1 = gpgg1.getGamePlayer(on1);
+                            GameFlag gpgf1 = plugin.getGm().getGameFlagByPlayer(on1);
+                            GamePlayer gp1;
+                            if (gpgg1 != null){
+                                gp1 = gpgg1.getGamePlayer(on1);
+                            } else {
+                                gp1 = gpgf1.getGamePlayer(on1);
+                            }
                             gp1.removeCoins(amount1);
                             p.sendMessage(plugin.getLang().get(p, "coins.remove.you").replaceAll("<coins>", String.valueOf(amount1)).replaceAll("<player>", on1.getName()));
                             on1.sendMessage(plugin.getLang().get(p, "coins.remove.receiver").replaceAll("<coins>", String.valueOf(amount1)).replaceAll("<sender>", p.getName()));
@@ -168,7 +180,13 @@ public class CTWCMD implements CommandExecutor {
                                 return true;
                             }
                             Game gpgg2 = plugin.getGm().getGameByPlayer(on2);
-                            GamePlayer gp2 = gpgg2.getGamePlayer(on2);
+                            GameFlag gpgf2 = plugin.getGm().getGameFlagByPlayer(on2);
+                            GamePlayer gp2;
+                            if (gpgg2 != null){
+                                gp2 = gpgg2.getGamePlayer(on2);
+                            } else {
+                                gp2 = gpgf2.getGamePlayer(on2);
+                            }
                             gp2.setCoins(amount2);
                             p.sendMessage(plugin.getLang().get(p, "coins.set.you").replaceAll("<coins>", String.valueOf(amount2)).replaceAll("<player>", on2.getName()));
                             on2.sendMessage(plugin.getLang().get(p, "coins.set.receiver").replaceAll("<coins>", String.valueOf(amount2)).replaceAll("<sender>", p.getName()));

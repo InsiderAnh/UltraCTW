@@ -10,12 +10,18 @@ import io.github.Leonardo0013YT.UltraCTW.cosmetics.taunts.Taunt;
 import io.github.Leonardo0013YT.UltraCTW.cosmetics.trails.Trail;
 import io.github.Leonardo0013YT.UltraCTW.cosmetics.windances.UltraWinDance;
 import io.github.Leonardo0013YT.UltraCTW.cosmetics.wineffects.UltraWinEffect;
+import io.github.Leonardo0013YT.UltraCTW.game.GameFlag;
+import io.github.Leonardo0013YT.UltraCTW.game.GamePlayer;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.CTWPlayer;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.Game;
 import io.github.Leonardo0013YT.UltraCTW.objects.ShopItem;
+import io.github.Leonardo0013YT.UltraCTW.team.FlagTeam;
 import io.github.Leonardo0013YT.UltraCTW.team.Team;
+import io.github.Leonardo0013YT.UltraCTW.upgrades.Upgrade;
+import io.github.Leonardo0013YT.UltraCTW.upgrades.UpgradeLevel;
 import io.github.Leonardo0013YT.UltraCTW.utils.NBTEditor;
 import io.github.Leonardo0013YT.UltraCTW.utils.Utils;
+import io.github.Leonardo0013YT.UltraCTW.xseries.XSound;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -46,6 +52,49 @@ public class MenuListener implements Listener {
             return;
         }
         Player p = (Player) e.getWhoClicked();
+        if (e.getView().getTitle().equals(plugin.getLang().get("menus.upgrades.title"))) {
+            e.setCancelled(true);
+            if (e.getCurrentItem() == null || e.getCurrentItem().getType().equals(Material.AIR)) {
+                return;
+            }
+            if (!item.hasItemMeta()) {
+                return;
+            }
+            if (!item.getItemMeta().hasDisplayName()) {
+                return;
+            }
+            String key = NBTEditor.getString(item, "UPGRADE", "FLAG", "MENU");
+            if (key == null || !plugin.getUm().getUpgrades().containsKey(key)) return;
+            Upgrade upgrade = plugin.getUm().getUpgrade(key);
+            GameFlag gf = plugin.getGm().getGameFlagByPlayer(p);
+            GamePlayer gp = gf.getGamePlayer(p);
+            UpgradeLevel next;
+            FlagTeam ft = gf.getTeamPlayer(p);
+            if (key.equalsIgnoreCase("youpickaxe")){
+                next = upgrade.getNextLevel(gp.getPiUpgrade());
+            } else {
+                next = upgrade.getNextLevel(ft.getUpgradeHaste());
+            }
+            if (next == null){
+                p.sendMessage(plugin.getLang().get("messages.maxImprovement"));
+                return;
+            }
+            if (next.getPrice() < gp.getCoins()){
+                gp.removeCoins(next.getPrice());
+                upgrade.apply(p, ft, next);
+                if (key.equalsIgnoreCase("youpickaxe")){
+                    gp.setPiUpgrade(gp.getPiUpgrade() + 1);
+                } else if (key.equalsIgnoreCase("teampickaxe")) {
+                    ft.setUpgradeHaste(ft.getUpgradeHaste() + 1);
+                }
+                p.playSound(p.getLocation(), XSound.BLOCK_NOTE_BLOCK_PLING.parseSound(), 1.0f, 1.0f);
+                p.sendMessage(plugin.getLang().get("messages.buyed").replace("<enchant>", next.getName()));
+                plugin.getFgm().createMainUpgradeMenu(p);
+            } else {
+                p.playSound(p.getLocation(), XSound.ENTITY_ENDERMAN_TELEPORT.parseSound(), 1.0f, 1.0f);
+                p.sendMessage(plugin.getLang().get("messages.noCoins"));
+            }
+        }
         if (e.getView().getTitle().equals(plugin.getLang().get("menus.shop.title"))) {
             e.setCancelled(true);
             if (e.getCurrentItem() == null || e.getCurrentItem().getType().equals(Material.AIR)) {
@@ -157,7 +206,6 @@ public class MenuListener implements Listener {
             }
             ItemMeta im = item.getItemMeta();
             String display = im.getDisplayName();
-            Game game = plugin.getGm().getGameByPlayer(p);
             if (e.getClick().equals(ClickType.LEFT)) {
                 if (display.equals(plugin.getLang().get(p, "menus.kitflagselector.close.nameItem"))) {
                     if (e.getClick().equals(ClickType.RIGHT)) {

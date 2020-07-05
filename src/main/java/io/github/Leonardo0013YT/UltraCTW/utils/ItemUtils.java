@@ -2,6 +2,7 @@ package io.github.Leonardo0013YT.UltraCTW.utils;
 
 import io.github.Leonardo0013YT.UltraCTW.xseries.XMaterial;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -52,6 +53,13 @@ public class ItemUtils {
     public ItemUtils addEnchant(Enchantment enchantment, int level) {
         ItemMeta im = item.getItemMeta();
         im.addEnchant(enchantment, level, true);
+        item.setItemMeta(im);
+        return this;
+    }
+
+    public ItemUtils applyAttributes() {
+        ItemMeta im = item.getItemMeta();
+        im.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_DESTROYS, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_PLACED_ON, ItemFlag.HIDE_POTION_EFFECTS, ItemFlag.HIDE_UNBREAKABLE);
         item.setItemMeta(im);
         return this;
     }
