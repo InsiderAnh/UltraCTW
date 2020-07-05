@@ -130,7 +130,7 @@ public class CTWCMD implements CommandExecutor {
                             Game gpgg = plugin.getGm().getGameByPlayer(on);
                             GameFlag gpgf = plugin.getGm().getGameFlagByPlayer(on);
                             GamePlayer gp;
-                            if (gpgg != null){
+                            if (gpgg != null) {
                                 gp = gpgg.getGamePlayer(on);
                             } else {
                                 gp = gpgf.getGamePlayer(on);
@@ -156,7 +156,7 @@ public class CTWCMD implements CommandExecutor {
                             Game gpgg1 = plugin.getGm().getGameByPlayer(on1);
                             GameFlag gpgf1 = plugin.getGm().getGameFlagByPlayer(on1);
                             GamePlayer gp1;
-                            if (gpgg1 != null){
+                            if (gpgg1 != null) {
                                 gp1 = gpgg1.getGamePlayer(on1);
                             } else {
                                 gp1 = gpgf1.getGamePlayer(on1);
@@ -182,7 +182,7 @@ public class CTWCMD implements CommandExecutor {
                             Game gpgg2 = plugin.getGm().getGameByPlayer(on2);
                             GameFlag gpgf2 = plugin.getGm().getGameFlagByPlayer(on2);
                             GamePlayer gp2;
-                            if (gpgg2 != null){
+                            if (gpgg2 != null) {
                                 gp2 = gpgg2.getGamePlayer(on2);
                             } else {
                                 gp2 = gpgf2.getGamePlayer(on2);

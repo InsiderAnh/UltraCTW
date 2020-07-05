@@ -1,6 +1,7 @@
 package io.github.Leonardo0013YT.UltraCTW.utils;
 
 import io.github.Leonardo0013YT.UltraCTW.xseries.XMaterial;
+import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -20,6 +21,10 @@ public class ItemUtils {
 
     public ItemUtils(XMaterial material, int amount) {
         this.item = new ItemStack(material.parseMaterial(), amount, material.getData());
+    }
+
+    public ItemUtils(Material material, int amount, int data) {
+        this.item = new ItemStack(material, amount, (short) data);
     }
 
     public ItemUtils setDisplayName(String displayName) {

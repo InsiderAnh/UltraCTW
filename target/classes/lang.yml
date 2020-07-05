@@ -33,7 +33,7 @@ streaks:
   quarter: "&b&lQUADRUPLE "
   penta: "&6&lPENTA "
 messages:
-  buyed: "&aYou have purchased &e<enchant>&a correctly."
+  buyed: "&6You have purchased &e<enchant>&6 correctly."
   maxImprovement: "&cYou've reached the maximum of this improvement"
   buyLastLevel: "&cYou must buy the previous level."
   breakFlag: "&7<color><player> &eto steal your flag."
@@ -145,6 +145,10 @@ holograms:
   upgrades:
     - "&e&lCAPTURE THE FLAG"
     - "&7Upgrades Shop"
+    - "&b(Right-Click to open)"
+  buff:
+    - "&e&lCAPTURE THE FLAG"
+    - "&7Buff & DeBuff Shop"
     - "&b(Right-Click to open)"
   tops:
     kills:
@@ -416,6 +420,10 @@ scoreboards:
 menus:
   upgrades:
     title: "&eUpgrade NPC"
+  buffDebuff:
+    title: "&eBuff & DeBuff NPC"
+  buffItems:
+    title: "&eBuff '&' DeBuff Items"
   shop:
     title: "&eShop Items"
   shopkeeperselector:

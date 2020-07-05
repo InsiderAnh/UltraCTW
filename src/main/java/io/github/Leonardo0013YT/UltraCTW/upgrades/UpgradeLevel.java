@@ -1,6 +1,7 @@
 package io.github.Leonardo0013YT.UltraCTW.upgrades;
 
 import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.objects.ObjectPotion;
 import io.github.Leonardo0013YT.UltraCTW.xseries.XEnchantment;
 import io.github.Leonardo0013YT.UltraCTW.xseries.XPotion;
 import lombok.Getter;
@@ -14,7 +15,7 @@ public class UpgradeLevel {
     private int level;
     private String name;
     private ArrayList<UpgradeEnchantment> enchantments = new ArrayList<>();
-    private ArrayList<UpgradePotion> selfEffects = new ArrayList<>(), teamEffects = new ArrayList<>();
+    private ArrayList<ObjectPotion> selfEffects = new ArrayList<>(), teamEffects = new ArrayList<>();
 
     public UpgradeLevel(Main plugin, String path) {
         this.price = plugin.getUpgrades().getConfig().getDouble(path + ".price");
@@ -34,7 +35,7 @@ public class UpgradeLevel {
             XPotion potion = XPotion.matchXPotion(st[0]).orElse(XPotion.ABSORPTION);
             int level = Integer.parseInt(st[1]);
             int duration = Integer.parseInt(st[2]);
-            selfEffects.add(new UpgradePotion(potion, level, duration));
+            selfEffects.add(new ObjectPotion(potion, level, duration));
         }
         for (String s : plugin.getUpgrades().getListOrDefault(path + ".teamEffects", new ArrayList<>())) {
             if (s.equalsIgnoreCase("none")) continue;
@@ -42,7 +43,7 @@ public class UpgradeLevel {
             XPotion potion = XPotion.matchXPotion(st[0]).orElse(XPotion.ABSORPTION);
             int level = Integer.parseInt(st[1]);
             int duration = Integer.parseInt(st[2]);
-            teamEffects.add(new UpgradePotion(potion, level, duration));
+            teamEffects.add(new ObjectPotion(potion, level, duration));
         }
     }
 

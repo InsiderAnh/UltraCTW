@@ -95,6 +95,7 @@ public class FlagListener implements Listener {
         if (g == null) return;
         FlagTeam team = g.getTeamPlayer(p);
         if (team == null) return;
+        if (!team.getFlag().getWorld().getName().equals(p.getLocation().getWorld().getName())) return;
         if (team.getFlag().distance(p.getLocation()) < 3) {
             if (team.isCapturing(p)) {
                 p.getInventory().setHelmet(null);
@@ -108,8 +109,8 @@ public class FlagListener implements Listener {
                 banner.setBaseColor(Utils.getDyeColorByChatColor(ft.getColor()));
                 banner.update(true, true);
                 team.playSound(XSound.ENTITY_PLAYER_LEVELUP, 1.0f, 1.0f);
-                team.sendTitle(plugin.getLang().get("titles.capturedFlag.title").replace("<flag>", Utils.getFlagIcon(ft.getColor())).replace("<player>", p.getName()).replace("<color>", ft.getColor() + ""), plugin.getLang().get("titles.capturedFlag.subtitle").replace("<flag>", Utils.getFlagIcon(ft.getColor())).replace("<player>", p.getName()).replace("<color>", ft.getColor() + ""), 0, 30, 0);
-                ft.sendTitle(plugin.getLang().get("titles.otherCapturedFlag.title").replace("<name>", team.getName()).replace("<flag>", Utils.getFlagIcon(ft.getColor())).replace("<player>", p.getName()).replace("<color>", ft.getColor() + ""), plugin.getLang().get("titles.capturedFlag.subtitle").replace("<flag>", Utils.getFlagIcon(ft.getColor())).replace("<player>", p.getName()).replace("<name>", team.getName()).replace("<color>", ft.getColor() + ""), 0, 30, 0);
+                team.sendTitle(plugin.getLang().get("titles.capturedFlag.title").replace("<flag>", Utils.getFlagIcon(ft.getColor())).replace("<player>", p.getName()).replace("<color>", team.getColor() + ""), plugin.getLang().get("titles.capturedFlag.subtitle").replace("<flag>", Utils.getFlagIcon(ft.getColor())).replace("<player>", p.getName()).replace("<color>", team.getColor() + ""), 0, 30, 0);
+                ft.sendTitle(plugin.getLang().get("titles.otherCapturedFlag.title").replace("<player>", p.getName()).replace("<name>", team.getName()).replace("<flag>", Utils.getFlagIcon(ft.getColor())).replace("<player>", p.getName()).replace("<color>", team.getColor() + ""), plugin.getLang().get("titles.otherCapturedFlag.subtitle").replace("<player>", p.getName()).replace("<flag>", Utils.getFlagIcon(ft.getColor())).replace("<player>", p.getName()).replace("<name>", team.getName()).replace("<color>", team.getColor() + ""), 0, 30, 0);
                 ft.playSound(XSound.ENTITY_WITHER_HURT, 1.0f, 1.0f);
                 g.checkWin();
             }

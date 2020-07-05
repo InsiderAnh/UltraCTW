@@ -3,6 +3,8 @@ package io.github.Leonardo0013YT.UltraCTW.menus;
 import io.github.Leonardo0013YT.UltraCTW.Main;
 import io.github.Leonardo0013YT.UltraCTW.game.GameFlag;
 import io.github.Leonardo0013YT.UltraCTW.game.GamePlayer;
+import io.github.Leonardo0013YT.UltraCTW.shop.Shop;
+import io.github.Leonardo0013YT.UltraCTW.shop.ShopItem;
 import io.github.Leonardo0013YT.UltraCTW.team.FlagTeam;
 import io.github.Leonardo0013YT.UltraCTW.upgrades.Upgrade;
 import org.bukkit.Bukkit;
@@ -24,6 +26,22 @@ public class FlagMenu {
         GamePlayer gp = gf.getGamePlayer(p);
         for (Upgrade upgrade : plugin.getUm().getUpgrades().values()) {
             inv.setItem(upgrade.getSlot(), upgrade.getIcon(ft, gp));
+        }
+        p.openInventory(inv);
+    }
+
+    public void createMainBuffDebuffMenu(Player p) {
+        Inventory inv = Bukkit.createInventory(null, 36, plugin.getLang().get("menus.buffDebuff.title"));
+        for (Shop shop : plugin.getUm().getShops().values()) {
+            inv.setItem(shop.getSlot(), shop.getIcon());
+        }
+        p.openInventory(inv);
+    }
+
+    public void createShopItemsMenu(Player p, Shop shop) {
+        Inventory inv = Bukkit.createInventory(null, 36, plugin.getLang().get("menus.buffItems.title"));
+        for (ShopItem upgrade : shop.getItems().values()) {
+            inv.setItem(upgrade.getSlot(), upgrade.getIcon());
         }
         p.openInventory(inv);
     }

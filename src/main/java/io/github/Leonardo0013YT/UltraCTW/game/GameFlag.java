@@ -36,7 +36,7 @@ public class GameFlag {
     private ArrayList<Player> cached = new ArrayList<>(), players = new ArrayList<>(), spectators = new ArrayList<>();
     private String name, schematic;
     private Location lobby, spectator;
-    private ArrayList<Location> npcUpgrades = new ArrayList<>();
+    private ArrayList<Location> npcUpgrades = new ArrayList<>(), npcBuff = new ArrayList<>();
     private ArrayList<WinEffect> winEffects = new ArrayList<>();
     private ArrayList<WinDance> winDances = new ArrayList<>();
     private ArrayList<KillEffect> killEffects = new ArrayList<>();
@@ -59,6 +59,9 @@ public class GameFlag {
         this.teamSize = plugin.getArenas().getInt(path + ".teamSize");
         for (String s : plugin.getArenas().getListOrDefault(path + ".npcUpgrade", new ArrayList<>())) {
             npcUpgrades.add(Utils.getStringLocation(s));
+        }
+        for (String s : plugin.getArenas().getListOrDefault(path + ".npcBuff", new ArrayList<>())) {
+            npcBuff.add(Utils.getStringLocation(s));
         }
         if (plugin.getArenas().isSet(path + ".mines")) {
             for (String c : plugin.getArenas().getConfig().getConfigurationSection(path + ".mines").getKeys(false)) {
@@ -87,6 +90,7 @@ public class GameFlag {
         cached.add(p);
         players.add(p);
         p.teleport(lobby);
+        givePlayerItems(p);
         Utils.updateSB(p);
         checkStart();
     }
@@ -245,12 +249,21 @@ public class GameFlag {
         }.runTaskLater(plugin, 20 * 15);
     }
 
+    public void addPlayerRandomTeam(Player p) {
+        FlagTeam t = Utils.getMinorPlayersTeam(this);
+        addPlayerTeam(p, t);
+        p.sendMessage(plugin.getLang().get("messages.randomTeam").replaceAll("<team>", t.getName()));
+    }
+
     public void addPlayerTeam(Player p, FlagTeam team) {
         team.addMember(p);
         p.teleport(team.getSpawn());
         CTWPlayer ctw = plugin.getDb().getCTWPlayer(p);
         for (Location s : npcUpgrades) {
             plugin.getSkm().spawnShopKeeper(p, s, ctw.getShopKeeper(), NPCType.UPGRADES);
+        }
+        for (Location s : npcBuff) {
+            plugin.getSkm().spawnShopKeeper(p, s, ctw.getShopKeeper(), NPCType.BUFF);
         }
     }
 
@@ -285,6 +298,7 @@ public class GameFlag {
 
     public FlagTeam getLastTeam() {
         for (FlagTeam team : teams.values()) {
+            if (team.getLifes() <= 0) continue;
             if (team.getTeamSize() > 0) {
                 return team;
             }
@@ -363,4 +377,8 @@ public class GameFlag {
         this.state = state;
     }
 
+    public void givePlayerItems(Player p) {
+        p.getInventory().setItem(4, plugin.getIm().getTeams());
+        p.getInventory().setItem(8, plugin.getIm().getLeave());
+    }
 }

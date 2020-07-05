@@ -1,8 +1,10 @@
 package io.github.Leonardo0013YT.UltraCTW.menus;
 
 import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.game.GameFlag;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.Game;
 import io.github.Leonardo0013YT.UltraCTW.objects.ShopItem;
+import io.github.Leonardo0013YT.UltraCTW.team.FlagTeam;
 import io.github.Leonardo0013YT.UltraCTW.team.Team;
 import io.github.Leonardo0013YT.UltraCTW.utils.ItemUtils;
 import io.github.Leonardo0013YT.UltraCTW.utils.NBTEditor;
@@ -41,6 +43,18 @@ public class GameMenu {
         p.openInventory(inv);
     }
 
+    public void createTeamsMenu(Player p, GameFlag game) {
+        Inventory inv = Bukkit.createInventory(null, 45, plugin.getLang().get("menus.teams.title"));
+        ItemStack random = new ItemUtils(XMaterial.EXPERIENCE_BOTTLE).setDisplayName(plugin.getLang().get("menus.teams.random.nameItem")).setLore(plugin.getLang().get("menus.teams.random.loreItem")).build();
+        int i = 0;
+        inv.setItem(4, random);
+        for (FlagTeam t : game.getTeams().values()) {
+            inv.setItem(slots.get(i), getTeamItem(t));
+            i++;
+        }
+        p.openInventory(inv);
+    }
+
     public void createShopMenu(Player p) {
         Inventory inv = Bukkit.createInventory(null, 45, plugin.getLang().get("menus.shop.title"));
         int i = 0;
@@ -53,6 +67,17 @@ public class GameMenu {
     }
 
     private ItemStack getTeamItem(Team team) {
+        ItemStack banner = NBTEditor.set(new ItemStack(Material.BANNER, 1), team.getColor().name(), "SELECTOR", "TEAM", "COLOR");
+        BannerMeta bm = (BannerMeta) banner.getItemMeta();
+        bm.setBaseColor(Utils.getDyeColorByChatColor(team.getColor()));
+        bm.setDisplayName(plugin.getLang().get("menus.teams.team.nameItem").replaceAll("<team>", team.getName()));
+        String lore = plugin.getLang().get("menus.teams.team.loreItem").replaceAll("<players>", String.valueOf(team.getTeamSize()));
+        bm.setLore(lore.isEmpty() ? new ArrayList<>() : Arrays.asList(lore.split("\\n")));
+        banner.setItemMeta(bm);
+        return banner;
+    }
+
+    private ItemStack getTeamItem(FlagTeam team) {
         ItemStack banner = NBTEditor.set(new ItemStack(Material.BANNER, 1), team.getColor().name(), "SELECTOR", "TEAM", "COLOR");
         BannerMeta bm = (BannerMeta) banner.getItemMeta();
         bm.setBaseColor(Utils.getDyeColorByChatColor(team.getColor()));

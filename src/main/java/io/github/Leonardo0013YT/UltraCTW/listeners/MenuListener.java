@@ -14,7 +14,8 @@ import io.github.Leonardo0013YT.UltraCTW.game.GameFlag;
 import io.github.Leonardo0013YT.UltraCTW.game.GamePlayer;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.CTWPlayer;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.Game;
-import io.github.Leonardo0013YT.UltraCTW.objects.ShopItem;
+import io.github.Leonardo0013YT.UltraCTW.shop.Shop;
+import io.github.Leonardo0013YT.UltraCTW.shop.ShopItem;
 import io.github.Leonardo0013YT.UltraCTW.team.FlagTeam;
 import io.github.Leonardo0013YT.UltraCTW.team.Team;
 import io.github.Leonardo0013YT.UltraCTW.upgrades.Upgrade;
@@ -52,6 +53,46 @@ public class MenuListener implements Listener {
             return;
         }
         Player p = (Player) e.getWhoClicked();
+        if (e.getView().getTitle().equals(plugin.getLang().get("menus.buffItems.title"))) {
+            e.setCancelled(true);
+            if (e.getCurrentItem() == null || e.getCurrentItem().getType().equals(Material.AIR)) {
+                return;
+            }
+            if (!item.hasItemMeta()) {
+                return;
+            }
+            if (!item.getItemMeta().hasDisplayName()) {
+                return;
+            }
+            String key = NBTEditor.getString(item, "BUFF", "FLAG", "MENU");
+            if (key == null || !plugin.getUm().getShops().containsKey(key)) return;
+            Shop shop = plugin.getUm().getShops().get(key);
+            if (!shop.getItems().containsKey(key)) return;
+            ShopItem si = shop.getItems().get(key);
+            GameFlag gf = plugin.getGm().getGameFlagByPlayer(p);
+            GamePlayer gp = gf.getGamePlayer(p);
+            if (si.getPrice() > gp.getCoins()){
+                p.sendMessage(plugin.getLang().get("messages.noCoins"));
+                return;
+            }
+            si.execute(gf, gf.getTeamPlayer(p));
+            p.sendMessage(plugin.getLang().get("messages.buyed").replace("<enchant>", si.getName()));
+        }
+        if (e.getView().getTitle().equals(plugin.getLang().get("menus.buffDebuff.title"))) {
+            e.setCancelled(true);
+            if (e.getCurrentItem() == null || e.getCurrentItem().getType().equals(Material.AIR)) {
+                return;
+            }
+            if (!item.hasItemMeta()) {
+                return;
+            }
+            if (!item.getItemMeta().hasDisplayName()) {
+                return;
+            }
+            String key = NBTEditor.getString(item, "BUFF", "FLAG", "MENU");
+            if (key == null || !plugin.getUm().getShops().containsKey(key)) return;
+            plugin.getFgm().createShopItemsMenu(p, plugin.getUm().getShops().get(key));
+        }
         if (e.getView().getTitle().equals(plugin.getLang().get("menus.upgrades.title"))) {
             e.setCancelled(true);
             if (e.getCurrentItem() == null || e.getCurrentItem().getType().equals(Material.AIR)) {
@@ -70,19 +111,19 @@ public class MenuListener implements Listener {
             GamePlayer gp = gf.getGamePlayer(p);
             UpgradeLevel next;
             FlagTeam ft = gf.getTeamPlayer(p);
-            if (key.equalsIgnoreCase("youpickaxe")){
+            if (key.equalsIgnoreCase("youpickaxe")) {
                 next = upgrade.getNextLevel(gp.getPiUpgrade());
             } else {
                 next = upgrade.getNextLevel(ft.getUpgradeHaste());
             }
-            if (next == null){
+            if (next == null) {
                 p.sendMessage(plugin.getLang().get("messages.maxImprovement"));
                 return;
             }
-            if (next.getPrice() < gp.getCoins()){
+            if (next.getPrice() < gp.getCoins()) {
                 gp.removeCoins(next.getPrice());
                 upgrade.apply(p, ft, next);
-                if (key.equalsIgnoreCase("youpickaxe")){
+                if (key.equalsIgnoreCase("youpickaxe")) {
                     gp.setPiUpgrade(gp.getPiUpgrade() + 1);
                 } else if (key.equalsIgnoreCase("teampickaxe")) {
                     ft.setUpgradeHaste(ft.getUpgradeHaste() + 1);
@@ -107,7 +148,7 @@ public class MenuListener implements Listener {
                 return;
             }
             int id = NBTEditor.getInt(item, "SHOP", "ID", "BUY");
-            ShopItem si = plugin.getShm().getItems().get(id);
+            io.github.Leonardo0013YT.UltraCTW.objects.ShopItem si = plugin.getShm().getItems().get(id);
             if (si == null) return;
             plugin.getShm().buy(p, si, si.getItem().getItemMeta().getDisplayName());
         }
@@ -293,9 +334,14 @@ public class MenuListener implements Listener {
                 return;
             }
             Game game = plugin.getGm().getGameByPlayer(p);
+            GameFlag gamef = plugin.getGm().getGameFlagByPlayer(p);
             String d = item.getItemMeta().getDisplayName();
             if (d.equals(plugin.getLang().get("menus.teams.random.nameItem"))) {
-                game.addPlayerRandomTeam(p);
+                if (game != null) {
+                    game.addPlayerRandomTeam(p);
+                } else {
+                    gamef.addPlayerRandomTeam(p);
+                }
                 p.closeInventory();
                 return;
             }
@@ -306,14 +352,25 @@ public class MenuListener implements Listener {
                 return;
             }
             ChatColor c = ChatColor.valueOf(co);
-            Team team = game.getTeams().get(c);
-            Team mayo = Utils.getMajorPlayersTeam(game);
-            if (team.getTeamSize() > mayo.getTeamSize()) {
-                p.sendMessage(plugin.getLang().get("messages.teamMajorPlayers"));
-                return;
+            if (game != null) {
+                Team team = game.getTeams().get(c);
+                Team mayo = Utils.getMajorPlayersTeam(game);
+                if (team.getTeamSize() > mayo.getTeamSize()) {
+                    p.sendMessage(plugin.getLang().get("messages.teamMajorPlayers"));
+                    return;
+                }
+                game.addPlayerTeam(p, team);
+                p.sendMessage(plugin.getLang().get("messages.joinTeam").replaceAll("<team>", team.getName()));
+            } else {
+                FlagTeam team = gamef.getTeams().get(c);
+                FlagTeam mayo = Utils.getMajorPlayersTeam(gamef);
+                if (team.getTeamSize() > mayo.getTeamSize()) {
+                    p.sendMessage(plugin.getLang().get("messages.teamMajorPlayers"));
+                    return;
+                }
+                gamef.addPlayerTeam(p, team);
+                p.sendMessage(plugin.getLang().get("messages.joinTeam").replaceAll("<team>", team.getName()));
             }
-            game.addPlayerTeam(p, team);
-            p.sendMessage(plugin.getLang().get("messages.joinTeam").replaceAll("<team>", team.getName()));
             p.closeInventory();
         }
         if (e.getView().getTitle().equals(plugin.getLang().get(p, "menus.lobby.title"))) {

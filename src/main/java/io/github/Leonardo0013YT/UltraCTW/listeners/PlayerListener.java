@@ -97,9 +97,12 @@ public class PlayerListener implements Listener {
                 plugin.getGem().createShopMenu(p);
             }
         }
-        if (gf != null){
+        if (gf != null) {
             if (npc.getNpcType().equals(NPCType.UPGRADES)) {
                 plugin.getFgm().createMainUpgradeMenu(p);
+            }
+            if (npc.getNpcType().equals(NPCType.BUFF)) {
+                plugin.getFgm().createMainBuffDebuffMenu(p);
             }
         }
     }
@@ -568,8 +571,12 @@ public class PlayerListener implements Listener {
         ItemStack item = p.getItemInHand();
         if (item.equals(plugin.getIm().getTeams())) {
             Game game = plugin.getGm().getGameByPlayer(p);
-            if (game == null) return;
-            plugin.getGem().createTeamsMenu(p, game);
+            GameFlag gamef = plugin.getGm().getGameFlagByPlayer(p);
+            if (game != null) {
+                plugin.getGem().createTeamsMenu(p, game);
+            } else {
+                plugin.getGem().createTeamsMenu(p, gamef);
+            }
         }
         if (item.equals(plugin.getIm().getLobby())) {
             p.chat(plugin.getCm().getItemLobbyCMD());
