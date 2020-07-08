@@ -4,6 +4,8 @@ import io.github.Leonardo0013YT.UltraCTW.Main;
 import io.github.Leonardo0013YT.UltraCTW.enums.State;
 import io.github.Leonardo0013YT.UltraCTW.flag.Mine;
 import io.github.Leonardo0013YT.UltraCTW.game.GameFlag;
+import io.github.Leonardo0013YT.UltraCTW.game.GamePlayer;
+import io.github.Leonardo0013YT.UltraCTW.interfaces.CTWPlayer;
 import io.github.Leonardo0013YT.UltraCTW.objects.MineCountdown;
 import io.github.Leonardo0013YT.UltraCTW.team.FlagTeam;
 import io.github.Leonardo0013YT.UltraCTW.utils.Utils;
@@ -19,10 +21,12 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class FlagListener implements Listener {
@@ -84,8 +88,55 @@ public class FlagListener implements Listener {
         if (g == null) return;
         FlagTeam team = g.getTeamPlayer(p);
         if (team == null) return;
+        e.setDeathMessage(null);
         team.removeLife();
+        p.spigot().respawn();
         g.checkWin();
+        CTWPlayer sw = plugin.getDb().getCTWPlayer(p);
+        if (plugin.getTgm().hasTag(p)) {
+            Player k = plugin.getTgm().getTagged(p).getLast();
+            if (k != null) {
+                CTWPlayer sk = plugin.getDb().getCTWPlayer(k);
+                GamePlayer gp = g.getGamePlayer().get(k);
+                if (gp != null) {
+                    gp.addCoins(plugin.getCm().getCoinsKill());
+                }
+                if (sk != null) {
+                    plugin.getKem().execute(g, k, p, p.getLocation(), sk.getKillEffect());
+                    plugin.getKsm().execute(k, p, sk.getKillSound());
+                }
+                if (p.getLastDamageCause() == null || p.getLastDamageCause().getCause() == null) {
+                    EntityDamageEvent.DamageCause cause = EntityDamageEvent.DamageCause.CONTACT;
+                    if (sk != null) {
+                        plugin.getTm().execute(p, cause, g, sk.getTaunt());
+                    } else {
+                        plugin.getTm().execute(p, cause, g, 0);
+                    }
+                } else {
+                    EntityDamageEvent.DamageCause cause = p.getLastDamageCause().getCause();
+                    if (sk != null) {
+                        plugin.getTm().execute(p, cause, g, sk.getTaunt());
+                    } else {
+                        plugin.getTm().execute(p, cause, g, 0);
+                    }
+                }
+                plugin.getTgm().executeRewards(p, p.getMaxHealth());
+                return;
+            }
+        }
+        if (sw != null) {
+            plugin.getTm().execute(p, g, sw.getTaunt());
+        }
+        if (!g.isState(State.FINISH)){
+            new BukkitRunnable(){
+                @Override
+                public void run() {
+                    p.teleport(team.getSpawn());
+                    GamePlayer gp = g.getGamePlayer(p);
+                    gp.setDeaths(gp.getDeaths() + 1);
+                }
+            }.runTaskLater(plugin, 3L);
+        }
     }
 
     @EventHandler
@@ -96,7 +147,7 @@ public class FlagListener implements Listener {
         FlagTeam team = g.getTeamPlayer(p);
         if (team == null) return;
         if (!team.getFlag().getWorld().getName().equals(p.getLocation().getWorld().getName())) return;
-        if (team.getFlag().distance(p.getLocation()) < 3) {
+        if (team.getFlag().distance(p.getLocation()) < 2) {
             if (team.isCapturing(p)) {
                 p.getInventory().setHelmet(null);
                 ChatColor color = team.getCapturing(p);
@@ -119,8 +170,14 @@ public class FlagListener implements Listener {
 
     @EventHandler
     public void onClick(InventoryClickEvent e) {
+        Player p = (Player) e.getWhoClicked();
+        GameFlag g = plugin.getGm().getGameFlagByPlayer(p);
+        if (g == null) return;
         if (e.getSlotType().equals(InventoryType.SlotType.ARMOR) && e.getSlot() == 39) {
-            e.setCancelled(true);
+            if (e.getCurrentItem() == null) return;
+            if (e.getCurrentItem().getType().name().endsWith("BANNER")){
+                e.setCancelled(true);
+            }
         }
     }
 

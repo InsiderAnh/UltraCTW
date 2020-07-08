@@ -1,6 +1,9 @@
 package io.github.Leonardo0013YT.UltraCTW.game;
 
+import com.nametagedit.plugin.NametagEdit;
 import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.cosmetics.kits.Kit;
+import io.github.Leonardo0013YT.UltraCTW.cosmetics.kits.KitLevel;
 import io.github.Leonardo0013YT.UltraCTW.enums.NPCType;
 import io.github.Leonardo0013YT.UltraCTW.enums.State;
 import io.github.Leonardo0013YT.UltraCTW.flag.Mine;
@@ -96,7 +99,6 @@ public class GameFlag {
     }
 
     public void removePlayer(Player p) {
-        plugin.getNpc().removePlayer(p);
         Utils.setCleanPlayer(p);
         removePlayerAllTeam(p);
         cached.remove(p);
@@ -169,9 +171,21 @@ public class GameFlag {
                     sendGameMessage(s);
                 }
                 for (Player on : players) {
+                    Utils.setCleanPlayer(on);
                     if (getTeamPlayer(on) == null) {
                         joinRandomTeam(on);
                     }
+                    FlagTeam ft = getTeamPlayer(on);
+                    CTWPlayer ctw = plugin.getDb().getCTWPlayer(on);
+                    Kit kit = plugin.getKm().getKits().get(ctw.getKit());
+                    if (kit != null){
+                        KitLevel kitLevel = kit.getLevels().get(ctw.getKitLevel());
+                        if (kitLevel != null){
+                            kitLevel.giveKitLevel(on, ft);
+                        }
+                    }
+                    on.teleport(ft.getSpawn());
+                    NametagEdit.getApi().setNametag(on, ft.getColor() + "", "");
                 }
                 for (FlagTeam ft : teams.values()) {
                     ft.fillLifes();
@@ -256,14 +270,27 @@ public class GameFlag {
     }
 
     public void addPlayerTeam(Player p, FlagTeam team) {
+        removePlayerAllTeam(p);
         team.addMember(p);
-        p.teleport(team.getSpawn());
         CTWPlayer ctw = plugin.getDb().getCTWPlayer(p);
         for (Location s : npcUpgrades) {
             plugin.getSkm().spawnShopKeeper(p, s, ctw.getShopKeeper(), NPCType.UPGRADES);
         }
         for (Location s : npcBuff) {
             plugin.getSkm().spawnShopKeeper(p, s, ctw.getShopKeeper(), NPCType.BUFF);
+        }
+    }
+
+    public void addKill(Player p) {
+        if (gamePlayer.containsKey(p)) {
+            GamePlayer gp = gamePlayer.get(p);
+            gp.setKills(gp.getKills() + 1);
+            gp.addCoins(plugin.getCm().getCoinsKill());
+            CTWPlayer ctw = plugin.getDb().getCTWPlayer(p);
+            ctw.addCoins(plugin.getCm().getGCoinsKills());
+            ctw.setXp(ctw.getXp() + plugin.getCm().getXpKill());
+            ctw.setKills(ctw.getKills() + 1);
+            plugin.getLvl().checkUpgrade(p);
         }
     }
 
@@ -289,6 +316,7 @@ public class GameFlag {
     }
 
     public void removePlayerAllTeam(Player p) {
+        plugin.getNpc().removePlayer(p);
         for (FlagTeam team : teams.values()) {
             if (team.getMembers().contains(p)) {
                 removePlayerTeam(p, team);

@@ -38,10 +38,10 @@ public class FlagMenu {
         p.openInventory(inv);
     }
 
-    public void createShopItemsMenu(Player p, Shop shop) {
+    public void createShopItemsMenu(Player p, Shop shop, GamePlayer gp) {
         Inventory inv = Bukkit.createInventory(null, 36, plugin.getLang().get("menus.buffItems.title"));
         for (ShopItem upgrade : shop.getItems().values()) {
-            inv.setItem(upgrade.getSlot(), upgrade.getIcon());
+            inv.setItem(upgrade.getSlot(), upgrade.getIcon(gp));
         }
         p.openInventory(inv);
     }

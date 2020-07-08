@@ -297,7 +297,8 @@ public class ScoreboardManager {
     public String flag(Player p, String s, GameFlag game) {
         FlagTeam team = game.getTeamPlayer(p);
         GamePlayer gp = game.getGamePlayer(p);
-        return s.replace("<totalLifes>", team.getMaxLifes() + "")
+        return s.replace("<flagStatus>", (team.isStolen()) ? plugin.getLang().get("flagStatus.stolen") : plugin.getLang().get("flagStatus.saved"))
+                .replace("<totalLifes>", team.getMaxLifes() + "")
                 .replace("<lifesRemaining>", team.getLifes() + "")
                 .replace("<team>", team.getName())
                 .replace("<kills>", String.valueOf(gp.getKills()))

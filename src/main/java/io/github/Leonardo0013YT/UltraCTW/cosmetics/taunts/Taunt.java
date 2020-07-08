@@ -1,10 +1,12 @@
 package io.github.Leonardo0013YT.UltraCTW.cosmetics.taunts;
 
 import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.game.GameFlag;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.CTWPlayer;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.Game;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.Purchasable;
 import io.github.Leonardo0013YT.UltraCTW.streak.Streak;
+import io.github.Leonardo0013YT.UltraCTW.team.FlagTeam;
 import io.github.Leonardo0013YT.UltraCTW.team.Team;
 import io.github.Leonardo0013YT.UltraCTW.utils.ItemBuilder;
 import io.github.Leonardo0013YT.UltraCTW.utils.Utils;
@@ -49,7 +51,7 @@ public class Taunt implements Purchasable {
         plugin.getTm().setLastPage(page);
     }
 
-    public void execute(Player d, int id, Game game) {
+    public void execute(Player d, Game game) {
         String msg = taunts.get("CONTACT").getRandomMessage();
         String death = d.getName();
         msg = msg.replaceAll("<death>", death);
@@ -61,7 +63,19 @@ public class Taunt implements Purchasable {
         }
     }
 
-    public void execute(Player d, EntityDamageEvent.DamageCause cause, int id, Game game) {
+    public void execute(Player d, GameFlag game) {
+        String msg = taunts.get("CONTACT").getRandomMessage();
+        String death = d.getName();
+        msg = msg.replaceAll("<death>", death);
+        for (Player p : game.getPlayers()) {
+            p.sendMessage(msg + none);
+        }
+        for (Player p : game.getSpectators()) {
+            p.sendMessage(msg + none);
+        }
+    }
+
+    public void execute(Player d, EntityDamageEvent.DamageCause cause, Game game) {
         Player k = null;
         if (Main.get().getTgm().hasTag(d)) {
             k = Main.get().getTgm().getTagged(d).getLast();
@@ -101,6 +115,64 @@ public class Taunt implements Purchasable {
         } else {
             Team tk = game.getTeamPlayer(k);
             Team td = game.getTeamPlayer(d);
+            String ck = "";
+            String cd = "";
+            if (tk != null) {
+                ck = tk.getColor() + "";
+            }
+            if (td != null) {
+                cd = td.getColor() + "";
+            }
+            String msg = taunts.get(cause.name()).getRandomMessage();
+            String killer = player.replaceAll("<killer>", ck + k.getName());
+            String death = d.getName();
+            msg = msg.replaceAll("<killer>", ck + killer).replaceAll("<death>", cd + death);
+            for (Player p : game.getCached()) {
+                p.sendMessage(msg + killer);
+            }
+        }
+    }
+
+    public void execute(Player d, EntityDamageEvent.DamageCause cause, GameFlag game) {
+        Player k = null;
+        if (Main.get().getTgm().hasTag(d)) {
+            k = Main.get().getTgm().getTagged(d).getLast();
+            game.addKill(k);
+            Main.get().getStm().addKill(k, game);
+            k.sendMessage(Main.get().getLang().get("messages.kill").replaceAll("<xp>", String.valueOf(Main.get().getCm().getXpKill())).replaceAll("<coins>", String.valueOf(Main.get().getCm().getCoinsKill())).replaceAll("<streak>", Main.get().getStm().getPrefix(k)));
+            Streak st = Main.get().getStm().get(d);
+            if (st.isBounty()) {
+                game.sendGameMessage(Main.get().getLang().get("messages.bountyClaimed").replaceAll("<coins>", Utils.format(st.getPrice())).replaceAll("<death>", d.getName()).replaceAll("<killer>", k.getName()));
+                Main.get().getDb().getCTWPlayer(k).addCoins(st.getPrice());
+                st.setBounty(false);
+                st.setPrice(0);
+            }
+        }
+        Main.get().getTgm().removeTag(d);
+        Main.get().getStm().resetStreak(d);
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                if (d != null) {
+                    Main.get().getVc().getNMS().sendTitle(d, title, subtitle, 0, 60, 0);
+                }
+            }
+        }.runTaskLater(Main.get(), 5L);
+        if (k == null) {
+            FlagTeam td = game.getTeamPlayer(d);
+            String cd = "";
+            if (td != null) {
+                cd = td.getColor() + "";
+            }
+            String msg = taunts.get(cause.name()).getRandomMessage();
+            String death = d.getName();
+            msg = msg.replaceAll("<death>", cd + death);
+            for (Player p : game.getCached()) {
+                p.sendMessage(msg + none);
+            }
+        } else {
+            FlagTeam tk = game.getTeamPlayer(k);
+            FlagTeam td = game.getTeamPlayer(d);
             String ck = "";
             String cd = "";
             if (tk != null) {

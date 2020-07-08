@@ -3,6 +3,7 @@ package io.github.Leonardo0013YT.UltraCTW.cosmetics.kits;
 import io.github.Leonardo0013YT.UltraCTW.Main;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.CTWPlayer;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.Purchasable;
+import io.github.Leonardo0013YT.UltraCTW.team.FlagTeam;
 import io.github.Leonardo0013YT.UltraCTW.team.Team;
 import io.github.Leonardo0013YT.UltraCTW.utils.Utils;
 import lombok.Getter;
@@ -65,6 +66,24 @@ public class KitLevel implements Purchasable {
         p.getInventory().setContents(inv);
     }
 
+    public void giveKitLevel(Player p, FlagTeam team) {
+        ItemStack[] nowArmor = new ItemStack[armors.length];
+        for (int it = 0; it < armors.length; it++) {
+            ItemStack i = armors.clone()[it];
+            if (i == null || i.getType().equals(Material.AIR)) {
+                nowArmor[it] = null;
+                continue;
+            }
+            if (i.getType().equals(Material.LEATHER_HELMET) || i.getType().equals(Material.LEATHER_CHESTPLATE) || i.getType().equals(Material.LEATHER_LEGGINGS) || i.getType().equals(Material.LEATHER_BOOTS)) {
+                LeatherArmorMeta armr = (LeatherArmorMeta) i.getItemMeta();
+                armr.setColor(Utils.getColorByChatColor(team.getColor()));
+                i.setItemMeta(armr);
+            }
+            nowArmor[it] = i;
+        }
+        p.getInventory().setArmorContents(nowArmor);
+        p.getInventory().setContents(inv);
+    }
 
     public ItemStack getIcon(Player p) {
         if (!icon.hasItemMeta()) {

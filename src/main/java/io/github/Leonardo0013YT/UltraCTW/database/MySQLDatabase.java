@@ -5,7 +5,7 @@ import io.github.Leonardo0013YT.UltraCTW.Main;
 import io.github.Leonardo0013YT.UltraCTW.api.events.PlayerLoadEvent;
 import io.github.Leonardo0013YT.UltraCTW.enums.TopType;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.CTWPlayer;
-import io.github.Leonardo0013YT.UltraCTW.interfaces.DataBaseRequest;
+import io.github.Leonardo0013YT.UltraCTW.interfaces.Request;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.IDatabase;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -77,7 +77,7 @@ public class MySQLDatabase implements IDatabase {
     }
 
     @Override
-    public void loadMultipliers(DataBaseRequest request) {
+    public void loadMultipliers(Request request) {
         plugin.getMm().clear();
         new BukkitRunnable() {
             @Override
@@ -104,7 +104,7 @@ public class MySQLDatabase implements IDatabase {
     }
 
     @Override
-    public void createMultiplier(String type, String name, double amount, long ending, DataBaseRequest request) {
+    public void createMultiplier(String type, String name, double amount, long ending, Request request) {
         Date date = new Date(ending);
         new BukkitRunnable() {
             @Override

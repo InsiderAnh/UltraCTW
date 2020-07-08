@@ -2,6 +2,7 @@ package io.github.Leonardo0013YT.UltraCTW.shop;
 
 import io.github.Leonardo0013YT.UltraCTW.Main;
 import io.github.Leonardo0013YT.UltraCTW.game.GameFlag;
+import io.github.Leonardo0013YT.UltraCTW.game.GamePlayer;
 import io.github.Leonardo0013YT.UltraCTW.objects.ObjectPotion;
 import io.github.Leonardo0013YT.UltraCTW.team.FlagTeam;
 import io.github.Leonardo0013YT.UltraCTW.utils.ItemUtils;
@@ -59,6 +60,7 @@ public class ShopItem {
             }
         } else {
             for (FlagTeam t : gf.getTeams().values()){
+                if (ft.equals(t)) continue;
                 for (ObjectPotion op : potions) {
                     t.getMembers().forEach(m -> m.addPotionEffect(new PotionEffect(op.getPotion().parsePotionEffectType(), op.getDuration(), op.getLevel())));
                 }
@@ -66,8 +68,8 @@ public class ShopItem {
         }
     }
 
-    public ItemStack getIcon() {
-        ItemStack icon = new ItemUtils(XMaterial.matchXMaterial(material)).setDisplayName(name).setLore(lore).applyAttributes().build();
+    public ItemStack getIcon(GamePlayer gp) {
+        ItemStack icon = new ItemUtils(material, 1, data).setDisplayName(name).setLore(lore.replace("<status>", (gp.getCoins() < price) ? plugin.getUpgrades().get("noMoney") : plugin.getUpgrades().get("buy"))).applyAttributes().build();
         icon = NBTEditor.set(icon, key, "SHOP", "FLAG", "MENU");
         return NBTEditor.set(icon, shop, "BUFF", "FLAG", "MENU");
     }

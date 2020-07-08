@@ -1,6 +1,7 @@
 package io.github.Leonardo0013YT.UltraCTW.cmds;
 
 import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.enums.State;
 import io.github.Leonardo0013YT.UltraCTW.game.GameFlag;
 import io.github.Leonardo0013YT.UltraCTW.game.GamePlayer;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.CTWPlayer;
@@ -246,6 +247,10 @@ public class CTWCMD implements CommandExecutor {
                     GameFlag found2 = plugin.getGm().getGameFlagByName(arena2);
                     if (found2 == null) {
                         p.sendMessage(plugin.getLang().get("messages.gameNotExists"));
+                        return true;
+                    }
+                    if (found2.isState(State.WAITING) || found2.isState(State.STARTING) || found2.isState(State.FINISH) || found2.isState(State.RESTARTING)){
+                        p.sendMessage(plugin.getLang().get("messages.alreadyStart"));
                         return true;
                     }
                     plugin.getGm().addPlayerGameFlag(p, found2.getId());

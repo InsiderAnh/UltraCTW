@@ -7,9 +7,9 @@ import java.util.UUID;
 
 public interface IDatabase {
 
-    void loadMultipliers(DataBaseRequest request);
+    void loadMultipliers(Request request);
 
-    void createMultiplier(String type, String name, double amount, long ending, DataBaseRequest request);
+    void createMultiplier(String type, String name, double amount, long ending, Request request);
 
     boolean removeMultiplier(int id);
 

@@ -34,6 +34,8 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 public class MenuListener implements Listener {
 
     private Main plugin;
@@ -66,17 +68,24 @@ public class MenuListener implements Listener {
             }
             String key = NBTEditor.getString(item, "BUFF", "FLAG", "MENU");
             if (key == null || !plugin.getUm().getShops().containsKey(key)) return;
+            String sKey = NBTEditor.getString(item, "SHOP", "FLAG", "MENU");
             Shop shop = plugin.getUm().getShops().get(key);
-            if (!shop.getItems().containsKey(key)) return;
-            ShopItem si = shop.getItems().get(key);
+            if (!shop.getItems().containsKey(sKey)) return;
+            ShopItem si = shop.getItems().get(sKey);
             GameFlag gf = plugin.getGm().getGameFlagByPlayer(p);
             GamePlayer gp = gf.getGamePlayer(p);
             if (si.getPrice() > gp.getCoins()){
                 p.sendMessage(plugin.getLang().get("messages.noCoins"));
                 return;
             }
-            si.execute(gf, gf.getTeamPlayer(p));
-            p.sendMessage(plugin.getLang().get("messages.buyed").replace("<enchant>", si.getName()));
+            FlagTeam ft = gf.getTeamPlayer(p);
+            if (ft == null) return;
+            si.execute(gf, ft);
+            if (si.isYourTeam()){
+                ft.sendMessage(plugin.getLang().get("messages.buyedTeam").replace("<player>", p.getName()).replace("<enchant>", si.getName()));
+            } else {
+                ft.sendMessage(plugin.getLang().get("messages.buyedOtherTeam").replace("<player>", p.getName()).replace("<enchant>", si.getName()));
+            }
         }
         if (e.getView().getTitle().equals(plugin.getLang().get("menus.buffDebuff.title"))) {
             e.setCancelled(true);
@@ -91,7 +100,9 @@ public class MenuListener implements Listener {
             }
             String key = NBTEditor.getString(item, "BUFF", "FLAG", "MENU");
             if (key == null || !plugin.getUm().getShops().containsKey(key)) return;
-            plugin.getFgm().createShopItemsMenu(p, plugin.getUm().getShops().get(key));
+            GameFlag gf = plugin.getGm().getGameFlagByPlayer(p);
+            GamePlayer gp = gf.getGamePlayer(p);
+            plugin.getFgm().createShopItemsMenu(p, plugin.getUm().getShops().get(key), gp);
         }
         if (e.getView().getTitle().equals(plugin.getLang().get("menus.upgrades.title"))) {
             e.setCancelled(true);
@@ -121,8 +132,15 @@ public class MenuListener implements Listener {
                 return;
             }
             if (next.getPrice() < gp.getCoins()) {
+                AtomicBoolean hand = new AtomicBoolean(true);
+                upgrade.apply(r -> {
+                    if (!r){
+                        p.sendMessage(plugin.getLang().get("messages.needItemHand"));
+                        hand.set(false);
+                    }
+                }, p, ft, next);
+                if (!hand.get()) return;
                 gp.removeCoins(next.getPrice());
-                upgrade.apply(p, ft, next);
                 if (key.equalsIgnoreCase("youpickaxe")) {
                     gp.setPiUpgrade(gp.getPiUpgrade() + 1);
                 } else if (key.equalsIgnoreCase("teampickaxe")) {

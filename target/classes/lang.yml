@@ -32,7 +32,13 @@ streaks:
   three: "&e&lTRIPLE "
   quarter: "&b&lQUADRUPLE "
   penta: "&6&lPENTA "
+flagStatus:
+  saved: "&aSafe"
+  stolen: "&4Stolen"
 messages:
+  needItemHand: "&cYou must have the item in your hand."
+  buyedTeam: "&7<player> &6purchased &e<enchant>&6 for your team."
+  buyedOtherTeam: "&7<player>&c purchased &e<enchant>&c for other team."
   buyed: "&6You have purchased &e<enchant>&6 correctly."
   maxImprovement: "&cYou've reached the maximum of this improvement"
   buyLastLevel: "&cYou must buy the previous level."
@@ -148,7 +154,7 @@ holograms:
     - "&b(Right-Click to open)"
   buff:
     - "&e&lCAPTURE THE FLAG"
-    - "&7Buff & DeBuff Shop"
+    - "&7Buff DeBuff Shop"
     - "&b(Right-Click to open)"
   tops:
     kills:
@@ -421,9 +427,9 @@ menus:
   upgrades:
     title: "&eUpgrade NPC"
   buffDebuff:
-    title: "&eBuff & DeBuff NPC"
+    title: "&eBuff DeBuff NPC"
   buffItems:
-    title: "&eBuff '&' DeBuff Items"
+    title: "&eBuff DeBuff Items"
   shop:
     title: "&eShop Items"
   shopkeeperselector:

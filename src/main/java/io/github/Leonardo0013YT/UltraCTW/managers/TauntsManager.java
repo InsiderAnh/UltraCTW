@@ -2,6 +2,7 @@ package io.github.Leonardo0013YT.UltraCTW.managers;
 
 import io.github.Leonardo0013YT.UltraCTW.Main;
 import io.github.Leonardo0013YT.UltraCTW.cosmetics.taunts.Taunt;
+import io.github.Leonardo0013YT.UltraCTW.game.GameFlag;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.CTWPlayer;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.Game;
 import org.bukkit.configuration.ConfigurationSection;
@@ -43,19 +44,36 @@ public class TauntsManager {
 
     public void execute(Player p, EntityDamageEvent.DamageCause cause, Game game, int id) {
         if (taunts.get(id) == null) {
-            taunts.get(0).execute(p, cause, 0, game);
+            taunts.get(0).execute(p, cause, game);
         } else {
-            taunts.get(id).execute(p, cause, id, game);
+            taunts.get(id).execute(p, cause, game);
+        }
+    }
+
+    public void execute(Player p, EntityDamageEvent.DamageCause cause, GameFlag game, int id) {
+        if (taunts.get(id) == null) {
+            taunts.get(0).execute(p, cause, game);
+        } else {
+            taunts.get(id).execute(p, cause, game);
         }
     }
 
     public void execute(Player p, Game game, int id) {
         if (taunts.get(id) == null) {
-            taunts.get(0).execute(p, 0, game);
+            taunts.get(0).execute(p, game);
         } else {
-            taunts.get(id).execute(p, id, game);
+            taunts.get(id).execute(p, game);
         }
     }
+
+    public void execute(Player p, GameFlag game, int id) {
+        if (taunts.get(id) == null) {
+            taunts.get(0).execute(p, game);
+        } else {
+            taunts.get(id).execute(p, game);
+        }
+    }
+
 
     public Taunt getTauntByItem(Player p, ItemStack item) {
         for (Taunt k : taunts.values()) {

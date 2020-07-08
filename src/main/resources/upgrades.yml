@@ -3,7 +3,7 @@ noMoney: "&cYou don't have enough coins!"
 max: "&cMaximum improvement!"
 shop:
   debuff:
-    slot: 15
+    slot: 14
     material: COAL
     name: "&aTeam DeBuffs Shop"
     lore: |-

@@ -2,6 +2,7 @@ package io.github.Leonardo0013YT.UltraCTW.managers;
 
 import io.github.Leonardo0013YT.UltraCTW.Main;
 import io.github.Leonardo0013YT.UltraCTW.cosmetics.killeffects.*;
+import io.github.Leonardo0013YT.UltraCTW.game.GameFlag;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.CTWPlayer;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.Game;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.KillEffect;
@@ -34,6 +35,53 @@ public class KillEffectsManager {
     }
 
     public void execute(Game game, Player p, Player death, Location loc, int id) {
+        UltraKillEffect uwe = killEffect.get(id);
+        if (uwe == null || uwe.getType().equals("none")) {
+            return;
+        }
+        KillEffect we;
+        switch (uwe.getType().toLowerCase()) {
+            case "blood":
+                we = new KillEffectBlood();
+                we.start(p, death, loc);
+                break;
+            case "diamondexplode":
+                we = new KillEffectDiamondExplode();
+                we.start(p, death, loc);
+                break;
+            case "firework":
+                we = new KillEffectFirework();
+                we.start(p, death, loc);
+                break;
+            case "flower":
+                we = new KillEffectFlowerPower();
+                we.start(p, death, loc);
+                break;
+            case "squid":
+                we = new KillEffectSquid();
+                we.start(p, death, loc);
+                break;
+            case "thunder":
+                we = new KillEffectThunder();
+                we.start(p, death, loc);
+                break;
+            case "head":
+                we = new KillEffectHead();
+                we.start(p, death, loc);
+                break;
+            case "snow":
+                we = new KillEffectSnowExplosion();
+                we.start(p, death, loc);
+                break;
+            default:
+                we = new KillEffectTNT();
+                we.start(p, death, loc);
+                break;
+        }
+        game.addKillEffects(we);
+    }
+
+    public void execute(GameFlag game, Player p, Player death, Location loc, int id) {
         UltraKillEffect uwe = killEffect.get(id);
         if (uwe == null || uwe.getType().equals("none")) {
             return;

@@ -348,6 +348,7 @@ public class GameNoState implements Game {
 
     @Override
     public void addPlayerTeam(Player p, Team team) {
+        removePlayerAllTeam(p);
         p.getInventory().clear();
         team.addMember(p);
         if (isState(State.GAME)) {

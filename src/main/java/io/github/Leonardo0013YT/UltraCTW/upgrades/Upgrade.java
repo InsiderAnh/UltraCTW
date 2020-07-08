@@ -2,6 +2,7 @@ package io.github.Leonardo0013YT.UltraCTW.upgrades;
 
 import io.github.Leonardo0013YT.UltraCTW.Main;
 import io.github.Leonardo0013YT.UltraCTW.game.GamePlayer;
+import io.github.Leonardo0013YT.UltraCTW.interfaces.Request;
 import io.github.Leonardo0013YT.UltraCTW.objects.ObjectPotion;
 import io.github.Leonardo0013YT.UltraCTW.team.FlagTeam;
 import io.github.Leonardo0013YT.UltraCTW.utils.ItemUtils;
@@ -42,7 +43,7 @@ public class Upgrade {
         }
     }
 
-    public void apply(Player p, FlagTeam team, UpgradeLevel upgrade) {
+    public void apply(Request r, Player p, FlagTeam team, UpgradeLevel upgrade) {
         for (ObjectPotion up : upgrade.getTeamEffects()) {
             team.getMembers().forEach(m -> m.addPotionEffect(new PotionEffect(up.getPotion().parsePotionEffectType(), up.getDuration(), up.getLevel())));
         }
@@ -50,15 +51,19 @@ public class Upgrade {
             p.addPotionEffect(new PotionEffect(up.getPotion().parsePotionEffectType(), up.getDuration(), up.getLevel()));
         }
         if (upgrade.getEnchantments().isEmpty()) return;
-        for (ItemStack item : p.getInventory().getContents()) {
-            if (item == null || item.getType().equals(Material.AIR)) continue;
-            if (materials.contains(item.getType().name())) {
-                for (UpgradeEnchantment ue : upgrade.getEnchantments()) {
-                    ItemMeta im = item.getItemMeta();
-                    im.addEnchant(ue.getEnchantment().parseEnchantment(), ue.getLevel(), ue.isIgnore());
-                    item.setItemMeta(im);
-                }
+        if (p.getItemInHand() == null || p.getItemInHand().getType().equals(Material.AIR)){
+            return;
+        }
+        ItemStack item = p.getItemInHand();
+        if (materials.contains(item.getType().name())) {
+            for (UpgradeEnchantment ue : upgrade.getEnchantments()) {
+                ItemMeta im = item.getItemMeta();
+                im.addEnchant(ue.getEnchantment().parseEnchantment(), ue.getLevel(), ue.isIgnore());
+                item.setItemMeta(im);
             }
+            r.request(true);
+        } else {
+            r.request(false);
         }
     }
 
