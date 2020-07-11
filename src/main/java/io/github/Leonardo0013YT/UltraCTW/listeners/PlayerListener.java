@@ -605,6 +605,7 @@ public class PlayerListener implements Listener {
     }
 
     private void respawn(Team team, Game g, Player p) {
+        p.closeInventory();
         p.setNoDamageTicks(40);
         p.setFallDistance(0);
         p.setLevel(0);

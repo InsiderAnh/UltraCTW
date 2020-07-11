@@ -85,6 +85,7 @@ public class GameNoState implements Game {
 
     @Override
     public void addPlayer(Player p) {
+        cached.forEach(o -> o.hidePlayer(p));
         gamePlayer.put(p, new GamePlayer(p));
         p.teleport(lobby);
         Utils.setCleanPlayer(p);
@@ -176,6 +177,8 @@ public class GameNoState implements Game {
                     sendGameMessage(s);
                 }
                 for (Player on : cached) {
+                    on.setFlying(false);
+                    on.setAllowFlight(false);
                     CTWPlayer ctw = plugin.getDb().getCTWPlayer(on);
                     ctw.setPlayed(ctw.getPlayed() + 1);
                     Team t = getTeamPlayer(on);
@@ -195,6 +198,10 @@ public class GameNoState implements Game {
                             plugin.getSkm().spawnShopKeeper(on, s, ctw.getShopKeeper(), NPCType.SHOP);
                         }
                         NametagEdit.getApi().setNametag(on, t.getColor() + "", "");
+                        for (Player c : cached) {
+                            c.showPlayer(on);
+                            on.showPlayer(c);
+                        }
                     }
                 }
             }
@@ -366,6 +373,7 @@ public class GameNoState implements Game {
                 plugin.getSkm().spawnShopKeeper(p, s, ctw.getShopKeeper(), NPCType.SHOP);
             }
             NametagEdit.getApi().setNametag(p, team.getColor() + "", "");
+            cached.forEach(o -> o.showPlayer(p));
         }
     }
 
