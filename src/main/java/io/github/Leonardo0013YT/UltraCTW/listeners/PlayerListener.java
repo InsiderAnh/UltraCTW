@@ -20,6 +20,7 @@ import io.github.Leonardo0013YT.UltraCTW.utils.Utils;
 import io.github.Leonardo0013YT.UltraCTW.xseries.XMaterial;
 import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
@@ -339,6 +340,10 @@ public class PlayerListener implements Listener {
     public void onDrop(PlayerDropItemEvent e) {
         Player p = e.getPlayer();
         ItemStack item = e.getItemDrop().getItemStack();
+        if (NBTEditor.contains(item,"FLAG", "PICKAXE", "DEFAULT")){
+            e.setCancelled(true);
+            return;
+        }
         if (plugin.getCm().getNoDrop().contains(item.getType().name())) {
             e.setCancelled(true);
             return;

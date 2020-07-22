@@ -35,6 +35,14 @@ public class GamePlayer {
         coins += amount;
     }
 
+    public void addKill() {
+        ++coins;
+    }
+
+    public void addDeath() {
+        ++coins;
+    }
+
     public void removeCoins(double amount) {
         coins -= amount;
     }

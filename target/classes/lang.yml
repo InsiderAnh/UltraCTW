@@ -35,7 +35,14 @@ streaks:
 flagStatus:
   saved: "&aSafe"
   stolen: "&4Stolen"
+phases:
+  PHASE_I: "&aPhase I"
+  PHASE_II: "&aPhase II"
+  PHASE_III: "&aPhase III"
+  PHASE_IV: "&aPhase IV"
+  none: "&aNone"
 messages:
+  alreadyStart: "&cThe game has already started."
   needItemHand: "&cYou must have the item in your hand."
   buyedTeam: "&7<player> &6purchased &e<enchant>&6 for your team."
   buyedOtherTeam: "&7<player>&c purchased &e<enchant>&c for other team."

@@ -26,7 +26,6 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class FlagListener implements Listener {
@@ -100,10 +99,12 @@ public class FlagListener implements Listener {
                 GamePlayer gp = g.getGamePlayer().get(k);
                 if (gp != null) {
                     gp.addCoins(plugin.getCm().getCoinsKill());
+                    gp.addKill();
                 }
                 if (sk != null) {
                     plugin.getKem().execute(g, k, p, p.getLocation(), sk.getKillEffect());
                     plugin.getKsm().execute(k, p, sk.getKillSound());
+                    sk.setKills(sk.getKills() + 1);
                 }
                 if (p.getLastDamageCause() == null || p.getLastDamageCause().getCause() == null) {
                     EntityDamageEvent.DamageCause cause = EntityDamageEvent.DamageCause.CONTACT;
@@ -133,7 +134,7 @@ public class FlagListener implements Listener {
                 public void run() {
                     p.teleport(team.getSpawn());
                     GamePlayer gp = g.getGamePlayer(p);
-                    gp.setDeaths(gp.getDeaths() + 1);
+                    gp.addDeath();
                 }
             }.runTaskLater(plugin, 3L);
         }

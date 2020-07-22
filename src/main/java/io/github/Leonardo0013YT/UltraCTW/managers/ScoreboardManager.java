@@ -2,6 +2,7 @@ package io.github.Leonardo0013YT.UltraCTW.managers;
 
 import io.github.Leonardo0013YT.UltraCTW.Main;
 import io.github.Leonardo0013YT.UltraCTW.enums.State;
+import io.github.Leonardo0013YT.UltraCTW.game.GameEvent;
 import io.github.Leonardo0013YT.UltraCTW.game.GameFlag;
 import io.github.Leonardo0013YT.UltraCTW.game.GamePlayer;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.CTWPlayer;
@@ -297,12 +298,21 @@ public class ScoreboardManager {
     public String flag(Player p, String s, GameFlag game) {
         FlagTeam team = game.getTeamPlayer(p);
         GamePlayer gp = game.getGamePlayer(p);
-        return s.replace("<flagStatus>", (team.isStolen()) ? plugin.getLang().get("flagStatus.stolen") : plugin.getLang().get("flagStatus.saved"))
+        return s.replace("<nextPhase>", getEvent(game))
+                .replace("<flagStatus>", (team.isStolen()) ? plugin.getLang().get("flagStatus.stolen") : plugin.getLang().get("flagStatus.saved"))
                 .replace("<totalLifes>", team.getMaxLifes() + "")
                 .replace("<lifesRemaining>", team.getLifes() + "")
                 .replace("<team>", team.getName())
                 .replace("<kills>", String.valueOf(gp.getKills()))
                 .replace("<deaths>", String.valueOf(gp.getDeaths()));
+    }
+
+    public String getEvent(GameFlag fg){
+        GameEvent ge = fg.getNowEvent();
+        if (ge != null){
+            return plugin.getLang().get("phases." + ge.getType().name()) + " " + Utils.convertTime(ge.getTime());
+        }
+        return plugin.getLang().get("phases.none");
     }
 
     public String main(Player p, String s) {

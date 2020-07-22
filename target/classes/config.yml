@@ -13,6 +13,35 @@ redPanel:
   data: 14
 flagDefaults:
   gracePeriod: 60
+  phases:
+    PHASE_I:
+      type: PHASE_I
+      time: 60
+      pickaxe: WOOD_PICKAXE
+      enchants:
+        - DIG_SPEED:1:true
+        - DURABILITY:1:true
+    PHASE_II:
+      type: PHASE_II
+      time: 120
+      pickaxe: STONE_PICKAXE
+      enchants:
+        - DIG_SPEED:1:true
+        - DURABILITY:1:true
+    PHASE_III:
+      type: PHASE_III
+      time: 180
+      pickaxe: IRON_PICKAXE
+      enchants:
+        - DIG_SPEED:1:true
+        - DURABILITY:1:true
+    PHASE_IV:
+      type: PHASE_IV
+      time: 240
+      pickaxe: DIAMOND_PICKAXE
+      enchants:
+        - DIG_SPEED:1:true
+        - DURABILITY:1:true
 gameDefaults:
   maxMultiplier: 5
   starting: 30

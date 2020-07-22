@@ -35,7 +35,8 @@ import java.util.List;
 public class GameFlag {
 
     private Main plugin;
-    private int id, teamSize, starting, min, max, pool, time = 0;
+    private int id, teamSize, starting, min, max, pool, time = 0, nowEvent = 0;
+    private HashMap<Integer, GameEvent> events = new HashMap<>();
     private ArrayList<Player> cached = new ArrayList<>(), players = new ArrayList<>(), spectators = new ArrayList<>();
     private String name, schematic;
     private Location lobby, spectator;
@@ -78,6 +79,9 @@ public class GameFlag {
             ChatColor color = ChatColor.valueOf(c);
             teams.put(color, new FlagTeam(plugin, this, path + ".teams." + c, tid));
             teamsID.put(tid, color);
+        }
+        for (String s : plugin.getConfig().getConfigurationSection("flagDefaults.phases").getKeys(false)){
+            events.put(events.size(), new GameEvent(plugin, "flagDefaults.phases." + s));
         }
         this.starting = plugin.getCm().getStarting();
         this.min = plugin.getArenas().getInt(path + ".min");
@@ -146,12 +150,14 @@ public class GameFlag {
         cached.clear();
         players.clear();
         teams.values().forEach(FlagTeam::reset);
+        events.values().forEach(GameEvent::reset);
         plugin.getWc().resetMap(new Location(lobby.getWorld(), 0, 75, 0), schematic);
         lobby.getWorld().setTime(500);
         lobby.getWorld().getEntities().stream().filter(e -> !e.getType().equals(EntityType.PLAYER)).forEach(Entity::remove);
         starting = plugin.getCm().getStarting();
         setState(State.WAITING);
         time = 0;
+        nowEvent = 0;
     }
 
     public void update() {
@@ -184,6 +190,7 @@ public class GameFlag {
                             kitLevel.giveKitLevel(on, ft);
                         }
                     }
+                    on.getInventory().addItem(plugin.getIm().getPickaxe());
                     on.teleport(ft.getSpawn());
                     NametagEdit.getApi().setNametag(on, ft.getColor() + "", "");
                 }
@@ -195,6 +202,14 @@ public class GameFlag {
         }
         if (isState(State.GAME)) {
             time++;
+            for (GameEvent e : events.values()) {
+                if (e.getTime() < 0) continue;
+                e.reduce();
+                if (e.getTime() == 0){
+                    e.start(this);
+                    nowEvent++;
+                }
+            }
             countdowns.values().forEach(MineCountdown::reduce);
             Iterator<Location> cools = countdowns.keySet().iterator();
             while (cools.hasNext()) {
@@ -292,6 +307,13 @@ public class GameFlag {
             ctw.setKills(ctw.getKills() + 1);
             plugin.getLvl().checkUpgrade(p);
         }
+    }
+
+    public GameEvent getNowEvent(){
+        if (events.containsKey(nowEvent)){
+            return events.get(nowEvent);
+        }
+        return null;
     }
 
     public GamePlayer getGamePlayer(Player p) {

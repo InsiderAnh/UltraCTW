@@ -249,7 +249,7 @@ public class CTWCMD implements CommandExecutor {
                         p.sendMessage(plugin.getLang().get("messages.gameNotExists"));
                         return true;
                     }
-                    if (found2.isState(State.WAITING) || found2.isState(State.STARTING) || found2.isState(State.FINISH) || found2.isState(State.RESTARTING)){
+                    if (found2.isState(State.GAME)){
                         p.sendMessage(plugin.getLang().get("messages.alreadyStart"));
                         return true;
                     }
