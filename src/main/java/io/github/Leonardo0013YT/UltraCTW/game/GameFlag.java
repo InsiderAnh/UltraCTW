@@ -316,6 +316,13 @@ public class GameFlag {
         return null;
     }
 
+    public GameEvent getLastEvent(){
+        if (events.containsKey(nowEvent - 1)){
+            return events.get(nowEvent - 1);
+        }
+        return null;
+    }
+
     public GamePlayer getGamePlayer(Player p) {
         return gamePlayer.get(p);
     }

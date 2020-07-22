@@ -1,6 +1,7 @@
 package io.github.Leonardo0013YT.UltraCTW.managers;
 
 import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.game.GameFlag;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.Game;
 import io.github.Leonardo0013YT.UltraCTW.utils.Tagged;
 import org.bukkit.entity.Player;
@@ -20,9 +21,9 @@ public class TaggedManager {
         tagged.clear();
     }
 
-    public void setTag(Player damager, Player damaged, double damage, Game game) {
+    public void setTag(Player damager, Player damaged, double damage) {
         if (!tagged.containsKey(damaged)) {
-            tagged.put(damaged, new Tagged(damaged, game));
+            tagged.put(damaged, new Tagged(damaged));
         }
         Tagged tag = tagged.get(damaged);
         tag.addPlayerDamage(damager, damage);

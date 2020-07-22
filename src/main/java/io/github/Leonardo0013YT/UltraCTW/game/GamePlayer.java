@@ -1,5 +1,6 @@
 package io.github.Leonardo0013YT.UltraCTW.game;
 
+import com.nametagedit.plugin.NametagEdit;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.entity.Player;
@@ -14,6 +15,7 @@ public class GamePlayer {
     private double coins = 0;
     private ItemStack[] inv, armor;
     private boolean reset;
+    private String pickaxeKey, teamHaste;
 
     public GamePlayer(Player p) {
         this.p = p;
@@ -28,6 +30,8 @@ public class GamePlayer {
         }
         p.getInventory().setContents(inv);
         p.getInventory().setArmorContents(armor);
+        NametagEdit.getApi().clearNametag(p);
+        NametagEdit.getApi().reloadNametag(p);
         reset = true;
     }
 

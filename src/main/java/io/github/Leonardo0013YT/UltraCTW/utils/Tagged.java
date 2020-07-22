@@ -16,12 +16,10 @@ public class Tagged {
     private HashMap<Player, Long> timer = new HashMap<>();
     private Player last;
     private Player damaged;
-    private Game game;
     private DecimalFormat f = new DecimalFormat("##.#");
 
-    public Tagged(Player damaged, Game game) {
+    public Tagged(Player damaged) {
         this.damaged = damaged;
-        this.game = game;
     }
 
     public void addPlayerDamage(Player p, double damage) {

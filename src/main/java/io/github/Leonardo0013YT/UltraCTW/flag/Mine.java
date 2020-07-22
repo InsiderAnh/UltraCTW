@@ -8,13 +8,14 @@ import org.bukkit.Material;
 public class Mine {
 
     private Material material;
-    private int regenerate;
+    private int regenerate, coins;
     private String key;
 
     public Mine(Main plugin, String path, String key) {
         this.key = key;
         this.material = Material.valueOf(plugin.getMines().get(path + ".material"));
         this.regenerate = plugin.getMines().getInt(path + ".regenerate");
+        this.coins = plugin.getMines().getIntOrDefault(path + ".coins", 4);
     }
 
 }

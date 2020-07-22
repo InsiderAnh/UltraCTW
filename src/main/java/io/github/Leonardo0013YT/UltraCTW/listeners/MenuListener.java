@@ -124,8 +124,10 @@ public class MenuListener implements Listener {
             FlagTeam ft = gf.getTeamPlayer(p);
             if (key.equalsIgnoreCase("youpickaxe")) {
                 next = upgrade.getNextLevel(gp.getPiUpgrade());
+                gp.setPickaxeKey(key);
             } else {
                 next = upgrade.getNextLevel(ft.getUpgradeHaste());
+                gp.setTeamHaste(key);
             }
             if (next == null) {
                 p.sendMessage(plugin.getLang().get("messages.maxImprovement"));

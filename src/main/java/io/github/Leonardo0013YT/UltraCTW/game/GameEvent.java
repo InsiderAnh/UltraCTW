@@ -70,6 +70,26 @@ public class GameEvent {
         }
     }
 
+    public void apply(Player on){
+        for (ItemStack item : on.getInventory().getContents()) {
+            if (item == null || item.getType().equals(Material.AIR) || !item.getType().name().endsWith("PICKAXE")) continue;
+            boolean nbt = NBTEditor.contains(item, "FLAG", "PICKAXE", "DEFAULT");
+            if (!nbt){
+                continue;
+            }
+            ItemStack newPickaxe = new ItemStack(item);
+            newPickaxe.setType(material);
+            ItemMeta newPickaxeM = newPickaxe.getItemMeta();
+            for (UpgradeEnchantment ue : getEnchantments()) {
+                newPickaxeM.addEnchant(ue.getEnchantment().parseEnchantment(), ue.getLevel(), ue.isIgnore());
+            }
+            newPickaxe.setItemMeta(newPickaxeM);
+            on.getInventory().remove(item);
+            NBTEditor.set(newPickaxe, "PICKAXE", "FLAG", "PICKAXE", "DEFAULT");
+            on.getInventory().addItem(newPickaxe);
+        }
+    }
+
     public void reset(){
         this.time = reset;
     }

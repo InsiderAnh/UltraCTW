@@ -3,11 +3,14 @@ package io.github.Leonardo0013YT.UltraCTW.listeners;
 import io.github.Leonardo0013YT.UltraCTW.Main;
 import io.github.Leonardo0013YT.UltraCTW.enums.State;
 import io.github.Leonardo0013YT.UltraCTW.flag.Mine;
+import io.github.Leonardo0013YT.UltraCTW.game.GameEvent;
 import io.github.Leonardo0013YT.UltraCTW.game.GameFlag;
 import io.github.Leonardo0013YT.UltraCTW.game.GamePlayer;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.CTWPlayer;
 import io.github.Leonardo0013YT.UltraCTW.objects.MineCountdown;
 import io.github.Leonardo0013YT.UltraCTW.team.FlagTeam;
+import io.github.Leonardo0013YT.UltraCTW.upgrades.Upgrade;
+import io.github.Leonardo0013YT.UltraCTW.upgrades.UpgradeLevel;
 import io.github.Leonardo0013YT.UltraCTW.utils.Utils;
 import io.github.Leonardo0013YT.UltraCTW.xseries.XMaterial;
 import io.github.Leonardo0013YT.UltraCTW.xseries.XSound;
@@ -17,10 +20,12 @@ import org.bukkit.Material;
 import org.bukkit.block.Banner;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -53,6 +58,8 @@ public class FlagListener implements Listener {
             if (g.getCountdowns().containsKey(loc)) {
                 e.setCancelled(true);
             } else {
+                GamePlayer gp = g.getGamePlayer(p);
+                gp.addCoins(mine.getCoins());
                 g.getCountdowns().put(loc, new MineCountdown(mine.getKey(), loc, mine.getRegenerate()));
                 new BukkitRunnable() {
                     @Override
@@ -78,6 +85,47 @@ public class FlagListener implements Listener {
         yt.sendMessage(plugin.getLang().get("messages.stealFlag").replace("<team>", ft.getName()).replace("<color>", ft.getColor() + "").replace("<player>", p.getName()));
         ft.playSound(XSound.ENTITY_WITHER_HURT, 1.0f, 1.0f);
         yt.playSound(XSound.ENTITY_FIREWORK_ROCKET_BLAST, 1.0f, 1.0f);
+    }
+
+    @EventHandler
+    public void onDamageByEntity(EntityDamageByEntityEvent e) {
+        if (e.getEntity() instanceof Player) {
+            Player p = (Player) e.getEntity();
+            if (e.getDamager() instanceof Player) {
+                Player d = (Player) e.getDamager();
+                GameFlag g = plugin.getGm().getGameFlagByPlayer(p);
+                if (g == null) return;
+                FlagTeam tp = g.getTeamPlayer(p);
+                FlagTeam td = g.getTeamPlayer(d);
+                if (tp == null || td == null) {
+                    e.setCancelled(true);
+                    return;
+                }
+                if (tp.getId() == td.getId()) {
+                    e.setCancelled(true);
+                    return;
+                }
+                double damage = e.getFinalDamage();
+                plugin.getTgm().setTag(d, p, damage);
+            }
+            if (e.getDamager() instanceof Projectile && ((Projectile) e.getDamager()).getShooter() instanceof Player) {
+                Player d = (Player) ((Projectile) e.getDamager()).getShooter();
+                GameFlag g = plugin.getGm().getGameFlagByPlayer(p);
+                if (g == null) return;
+                FlagTeam tp = g.getTeamPlayer(p);
+                FlagTeam td = g.getTeamPlayer(d);
+                if (tp == null || td == null) {
+                    e.setCancelled(true);
+                    return;
+                }
+                if (tp.getId() == td.getId()) {
+                    e.setCancelled(true);
+                    return;
+                }
+                double damage = e.getFinalDamage();
+                plugin.getTgm().setTag(d, p, damage);
+            }
+        }
     }
 
     @EventHandler
@@ -134,6 +182,7 @@ public class FlagListener implements Listener {
                 public void run() {
                     p.teleport(team.getSpawn());
                     GamePlayer gp = g.getGamePlayer(p);
+                    respawn(p, g, team, gp);
                     gp.addDeath();
                 }
             }.runTaskLater(plugin, 3L);
@@ -154,7 +203,7 @@ public class FlagListener implements Listener {
                 ChatColor color = team.getCapturing(p);
                 team.removeCapturing(p);
                 FlagTeam ft = g.getTeamByColor(color);
-                ft.removeLife();
+                ft.setLifes(0);
                 Block b = ft.getFlag().getBlock();
                 b.setType(XMaterial.WHITE_BANNER.parseMaterial());
                 Banner banner = (Banner) b.getState();
@@ -198,6 +247,22 @@ public class FlagListener implements Listener {
             if (isVoid) {
                 p.sendMessage(plugin.getLang().get("messages.noPlaceInGrace"));
             }
+        }
+    }
+
+    public void respawn(Player p, GameFlag gf, FlagTeam ft, GamePlayer gp){
+        Upgrade upgrade1 = plugin.getUm().getUpgrade(gp.getPickaxeKey());
+        Upgrade upgrade2 = plugin.getUm().getUpgrade(gp.getTeamHaste());
+        UpgradeLevel u1 = upgrade1.getLevel(gp.getPiUpgrade());
+        UpgradeLevel u2 = upgrade2.getLevel(ft.getUpgradeHaste());
+        GameEvent ge = gf.getLastEvent();
+        p.getInventory().addItem(plugin.getIm().getPickaxe());
+        if (ge != null) {
+            ge.apply(p);
+            upgrade1.apply(r -> {
+            }, p, ft, u1);
+            upgrade2.apply(r -> {
+            }, p, ft, u2);
         }
     }
 

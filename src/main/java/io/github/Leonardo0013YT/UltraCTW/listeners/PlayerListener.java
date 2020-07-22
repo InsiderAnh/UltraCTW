@@ -20,7 +20,6 @@ import io.github.Leonardo0013YT.UltraCTW.utils.Utils;
 import io.github.Leonardo0013YT.UltraCTW.xseries.XMaterial;
 import org.bukkit.*;
 import org.bukkit.block.Block;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
@@ -490,7 +489,7 @@ public class PlayerListener implements Listener {
                     g.addDeath(p);
                 }
                 double damage = e.getFinalDamage();
-                plugin.getTgm().setTag(d, p, damage, g);
+                plugin.getTgm().setTag(d, p, damage);
             }
             if (e.getDamager() instanceof Projectile && ((Projectile) e.getDamager()).getShooter() instanceof Player) {
                 Player d = (Player) ((Projectile) e.getDamager()).getShooter();
@@ -530,7 +529,7 @@ public class PlayerListener implements Listener {
                     g.addDeath(p);
                 }
                 double damage = e.getFinalDamage();
-                plugin.getTgm().setTag(d, p, damage, g);
+                plugin.getTgm().setTag(d, p, damage);
                 CTWPlayer ctw = plugin.getDb().getCTWPlayer(d);
                 ctw.setsShots(ctw.getsShots() + 1);
             }

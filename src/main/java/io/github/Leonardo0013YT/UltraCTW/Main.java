@@ -178,6 +178,7 @@ public class Main extends JavaPlugin {
             }
             db.savePlayer(on.getUniqueId(), true);
         }
+        db.close();
         try {
             Thread.sleep(3000);
         } catch (InterruptedException e) {
