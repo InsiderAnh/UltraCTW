@@ -67,6 +67,7 @@ public class GameEvent {
                 NBTEditor.set(newPickaxe, "PICKAXE", "FLAG", "PICKAXE", "DEFAULT");
                 on.getInventory().addItem(newPickaxe);
             }
+            on.sendMessage(Main.get().getLang().get("messages.startPhase").replace("<phase>", Main.get().getLang().get("phases." + type.name())));
         }
     }
 

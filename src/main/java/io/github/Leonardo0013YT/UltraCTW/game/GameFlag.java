@@ -49,6 +49,7 @@ public class GameFlag {
     private HashMap<Player, GamePlayer> gamePlayer = new HashMap<>();
     private HashMap<Location, Material> mines = new HashMap<>();
     private HashMap<Location, MineCountdown> countdowns = new HashMap<>();
+    private ArrayList<Location> placed = new ArrayList<>();
     private State state;
 
     public GameFlag(Main plugin, String path, int id) {

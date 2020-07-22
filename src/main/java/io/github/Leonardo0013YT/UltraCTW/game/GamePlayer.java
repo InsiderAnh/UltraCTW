@@ -40,11 +40,11 @@ public class GamePlayer {
     }
 
     public void addKill() {
-        ++coins;
+        kills++;
     }
 
     public void addDeath() {
-        ++coins;
+        deaths++;
     }
 
     public void removeCoins(double amount) {

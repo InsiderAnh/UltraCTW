@@ -7,8 +7,10 @@ import io.github.Leonardo0013YT.UltraCTW.game.GameEvent;
 import io.github.Leonardo0013YT.UltraCTW.game.GameFlag;
 import io.github.Leonardo0013YT.UltraCTW.game.GamePlayer;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.CTWPlayer;
+import io.github.Leonardo0013YT.UltraCTW.interfaces.Game;
 import io.github.Leonardo0013YT.UltraCTW.objects.MineCountdown;
 import io.github.Leonardo0013YT.UltraCTW.team.FlagTeam;
+import io.github.Leonardo0013YT.UltraCTW.team.Team;
 import io.github.Leonardo0013YT.UltraCTW.upgrades.Upgrade;
 import io.github.Leonardo0013YT.UltraCTW.upgrades.UpgradeLevel;
 import io.github.Leonardo0013YT.UltraCTW.utils.Utils;
@@ -17,6 +19,7 @@ import io.github.Leonardo0013YT.UltraCTW.xseries.XSound;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.block.Banner;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -30,6 +33,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -39,6 +43,48 @@ public class FlagListener implements Listener {
 
     public FlagListener(Main plugin) {
         this.plugin = plugin;
+    }
+
+    @EventHandler
+    public void onChat(AsyncPlayerChatEvent e) {
+        Player p = e.getPlayer();
+        GameFlag g = plugin.getGm().getGameFlagByPlayer(p);
+        if (g == null) return;
+        e.getRecipients().clear();
+        String msg;
+        if (g.isState(State.WAITING) || g.isState(State.STARTING)) {
+            msg = formatLobby(p, e.getMessage());
+            e.getRecipients().addAll(g.getCached());
+        } else {
+            FlagTeam t = g.getTeamPlayer(p);
+            if (e.getMessage().startsWith("!")) {
+                msg = formatGame(p, t, e.getMessage());
+                e.getRecipients().addAll(g.getCached());
+            } else {
+                msg = formatTeam(p, t, e.getMessage());
+                e.getRecipients().addAll(t.getMembers());
+            }
+        }
+        msg = msg.replaceAll("%", "%%");
+        e.setFormat(msg);
+    }
+
+    private String formatLobby(Player p, String msg) {
+        return plugin.getLang().get(p, "chat.lobby").replaceAll("<player>", p.getName()).replaceAll("<msg>", msg);
+    }
+
+    private String formatTeam(Player p, FlagTeam team, String msg) {
+        if (team == null) {
+            return plugin.getLang().get(p, "chat.team").replaceAll("<team>", "").replaceAll("<player>", p.getName()).replaceAll("<msg>", msg);
+        }
+        return plugin.getLang().get(p, "chat.team").replaceAll("<team>", team.getName()).replaceAll("<player>", p.getName()).replaceAll("<msg>", msg);
+    }
+
+    private String formatGame(Player p, FlagTeam team, String msg) {
+        if (team == null) {
+            return plugin.getLang().get(p, "chat.team").replaceAll("<team>", "").replaceAll("<player>", p.getName()).replaceAll("<msg>", msg);
+        }
+        return plugin.getLang().get(p, "chat.global").replaceAll("<team>", team.getName()).replaceAll("<player>", p.getName()).replaceAll("<msg>", msg.replaceFirst("!", ""));
     }
 
     @EventHandler
@@ -60,6 +106,7 @@ public class FlagListener implements Listener {
             } else {
                 GamePlayer gp = g.getGamePlayer(p);
                 gp.addCoins(mine.getCoins());
+                p.sendMessage(plugin.getLang().get("messages.winCoins").replace("<coins>", String.valueOf(mine.getCoins())));
                 g.getCountdowns().put(loc, new MineCountdown(mine.getKey(), loc, mine.getRegenerate()));
                 new BukkitRunnable() {
                     @Override
@@ -68,10 +115,19 @@ public class FlagListener implements Listener {
                     }
                 }.runTaskLater(plugin, 1L);
             }
+            return;
         }
         FlagTeam ft = g.getTeamByLoc(loc);
         FlagTeam yt = g.getTeamPlayer(p);
-        if (ft == null) return;
+        if (ft == null) {
+            if (!g.getPlaced().contains(loc)){
+                p.sendMessage(plugin.getLang().get("messages.onlyBreakPlaced"));
+                e.setCancelled(true);
+            } else {
+                g.getPlaced().remove(loc);
+            }
+            return;
+        }
         if (ft.equals(yt)) {
             e.setCancelled(true);
             p.sendMessage(plugin.getLang().get("messages.noBreakFlag"));
@@ -240,29 +296,33 @@ public class FlagListener implements Listener {
             e.setCancelled(true);
             return;
         }
+        Block b = e.getBlock();
         if (g.isGracePeriod()) {
-            Block b = e.getBlock();
             boolean isVoid = isVoidBlock(b.getLocation().clone());
             e.setCancelled(isVoid);
             if (isVoid) {
                 p.sendMessage(plugin.getLang().get("messages.noPlaceInGrace"));
+                return;
             }
         }
+        g.getPlaced().add(b.getLocation());
     }
 
     public void respawn(Player p, GameFlag gf, FlagTeam ft, GamePlayer gp){
-        Upgrade upgrade1 = plugin.getUm().getUpgrade(gp.getPickaxeKey());
-        Upgrade upgrade2 = plugin.getUm().getUpgrade(gp.getTeamHaste());
-        UpgradeLevel u1 = upgrade1.getLevel(gp.getPiUpgrade());
-        UpgradeLevel u2 = upgrade2.getLevel(ft.getUpgradeHaste());
-        GameEvent ge = gf.getLastEvent();
         p.getInventory().addItem(plugin.getIm().getPickaxe());
+        GameEvent ge = gf.getLastEvent();
         if (ge != null) {
             ge.apply(p);
-            upgrade1.apply(r -> {
-            }, p, ft, u1);
-            upgrade2.apply(r -> {
-            }, p, ft, u2);
+        }
+        if (gp.getPickaxeKey() != null) {
+            Upgrade upgrade1 = plugin.getUm().getUpgrade(gp.getPickaxeKey());
+            UpgradeLevel u1 = upgrade1.getLevel(gp.getPiUpgrade());
+            upgrade1.apply(r -> { }, p, ft, u1);
+        }
+        if (gp.getTeamHaste() != null){
+            Upgrade upgrade2 = plugin.getUm().getUpgrade(gp.getTeamHaste());
+            UpgradeLevel u2 = upgrade2.getLevel(ft.getUpgradeHaste());
+            upgrade2.apply(r -> { }, p, ft, u2);
         }
     }
 
