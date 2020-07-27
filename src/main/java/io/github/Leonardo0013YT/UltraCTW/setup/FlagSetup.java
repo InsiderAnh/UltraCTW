@@ -23,7 +23,7 @@ public class FlagSetup {
     private Location lobby, spectator;
     private HashMap<Location, Material> mines = new HashMap<>();
     private ArrayList<FlagTeamSetup> teams = new ArrayList<>();
-    private ArrayList<String> upgradeShops = new ArrayList<>();
+    private ArrayList<String> npcUpgrades = new ArrayList<>(), npcBuff = new ArrayList<>(), npcShop = new ArrayList<>(), npcKits = new ArrayList<>();
     private ArrayList<PhaseType> phases = new ArrayList<>();
     private FlagTeamSetup actual;
     private int pool = 10, min, teamSize;
@@ -66,7 +66,10 @@ public class FlagSetup {
         plugin.getArenas().set(path + ".teamSize", teamSize);
         plugin.getArenas().set(path + ".min", min);
         plugin.getArenas().set(path + ".pool", pool);
-        plugin.getArenas().set(path + ".npcUpgrade", upgradeShops);
+        plugin.getArenas().set(path + ".npcUpgrade", npcUpgrades);
+        plugin.getArenas().set(path + ".npcBuff", npcBuff);
+        plugin.getArenas().set(path + ".npcShop", npcShop);
+        plugin.getArenas().set(path + ".npcKits", npcKits);
         int id = 0;
         for (Location l : mines.keySet()) {
             String tpath = "arenas." + name + ".mines." + id;

@@ -8,10 +8,17 @@ redPanelInLocked: true
 progressBarAmount: 10
 excluideDefKits: true
 kitLevelsOrder: true
+lobbyScoreboard: true
 redPanel:
   material: STAINED_GLASS_PANE
   data: 14
+breakMap:
+  enabled: true
+  bypass:
+    - GRASS
+    - STONE
 flagDefaults:
+  hunger: true
   gracePeriod: 60
   phases:
     PHASE_I:
@@ -43,6 +50,7 @@ flagDefaults:
         - DIG_SPEED:1:true
         - DURABILITY:1:true
 gameDefaults:
+  hunger: true
   maxMultiplier: 5
   starting: 30
   timeToKill: 30

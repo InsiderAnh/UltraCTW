@@ -54,6 +54,8 @@ public interface Game {
 
     void addPlayerTeam(Player p, Team team);
 
+    ArrayList<Location> getPlaced();
+
     void addWinEffects(WinEffect e);
 
     void addWinDance(WinDance e);

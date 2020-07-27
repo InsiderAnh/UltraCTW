@@ -618,13 +618,31 @@ menus:
           meta-type: FIREWORK_EFFECT
           display-name: '{TEAMSIZE}'
           repair-cost: 1
-      '11':
+      '10':
         ==: org.bukkit.inventory.ItemStack
         type: PAPER
         meta:
           ==: ItemMeta
           meta-type: UNSPECIFIC
           display-name: '{NAME}'
+          repair-cost: 1
+      '11':
+        ==: org.bukkit.inventory.ItemStack
+        type: MONSTER_EGG
+        damage: 120
+        meta:
+          ==: ItemMeta
+          meta-type: UNSPECIFIC
+          display-name: '{NPCSHOP}'
+          repair-cost: 1
+      '12':
+        ==: org.bukkit.inventory.ItemStack
+        type: MONSTER_EGG
+        damage: 120
+        meta:
+          ==: ItemMeta
+          meta-type: UNSPECIFIC
+          display-name: '{NPCKITS}'
           repair-cost: 1
       '13':
         ==: org.bukkit.inventory.ItemStack
@@ -634,6 +652,15 @@ menus:
           ==: ItemMeta
           meta-type: UNSPECIFIC
           display-name: '{NPCUPGRADE}'
+          repair-cost: 1
+      '14':
+        ==: org.bukkit.inventory.ItemStack
+        type: MONSTER_EGG
+        damage: 120
+        meta:
+          ==: ItemMeta
+          meta-type: UNSPECIFIC
+          display-name: '{NPCBUFF}'
           repair-cost: 1
       '15':
         ==: org.bukkit.inventory.ItemStack

@@ -38,6 +38,7 @@ public class GameNoState implements Game {
     private ArrayList<KillEffect> killEffects = new ArrayList<>();
     private HashMap<Location, ItemStack> wools = new HashMap<>();
     private ArrayList<Location> npcShop = new ArrayList<>(), npcKits = new ArrayList<>();
+    private ArrayList<Location> placed = new ArrayList<>();
     private Squared lobbyProtection;
     private Location lobby, spectator;
     private int teamSize, woolSize, min, starting, defKit, time = 0, max;
@@ -131,6 +132,7 @@ public class GameNoState implements Game {
         winEffects.forEach(WinEffect::stop);
         killEffects.forEach(KillEffect::stop);
         wools.clear();
+        placed.clear();
         inGame.clear();
         inLobby.clear();
         gamePlayer.clear();
@@ -375,6 +377,11 @@ public class GameNoState implements Game {
             NametagEdit.getApi().setNametag(p, team.getColor() + "", "");
             cached.forEach(o -> o.showPlayer(p));
         }
+    }
+
+    @Override
+    public ArrayList<Location> getPlaced() {
+        return placed;
     }
 
     @Override

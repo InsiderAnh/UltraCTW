@@ -1920,6 +1920,22 @@ public class SetupListener implements Listener {
             FlagSetup as = plugin.getSm().getSetupFlag(p);
             ItemMeta im = e.getCurrentItem().getItemMeta();
             String display = im.getDisplayName();
+            if (display.equals(plugin.getLang().get(p, "menus.flag.npcKits.nameItem"))) {
+                as.getNpcKits().add(Utils.getLocationString(p.getLocation()));
+                p.sendMessage(plugin.getLang().get("setup.arena.setNPCKits"));
+            }
+            if (display.equals(plugin.getLang().get(p, "menus.flag.npcShop.nameItem"))) {
+                as.getNpcShop().add(Utils.getLocationString(p.getLocation()));
+                p.sendMessage(plugin.getLang().get("setup.arena.setNPCShop"));
+            }
+            if (display.equals(plugin.getLang().get(p, "menus.flag.npcUpgrade.nameItem"))) {
+                as.getNpcUpgrades().add(Utils.getLocationString(p.getLocation()));
+                p.sendMessage(plugin.getLang().get("setup.arena.setNPCUpgrade"));
+            }
+            if (display.equals(plugin.getLang().get(p, "menus.flag.npcBuff.nameItem"))) {
+                as.getNpcBuff().add(Utils.getLocationString(p.getLocation()));
+                p.sendMessage(plugin.getLang().get("setup.arena.setNPCBuff"));
+            }
             if (display.equals(plugin.getLang().get(p, "menus.flag.lobby.nameItem"))) {
                 as.setLobby(p.getLocation());
                 plugin.getUim().openInventory(p, plugin.getUim().getMenus("flag"),
@@ -1951,10 +1967,6 @@ public class SetupListener implements Listener {
                 plugin.getSm().setSetupName(p, "teamsize");
                 p.closeInventory();
                 p.sendMessage(plugin.getLang().get(p, "setup.arena.setTeamSize"));
-            }
-            if (display.equals(plugin.getLang().get(p, "menus.flag.npcUpgrade.nameItem"))) {
-                as.getUpgradeShops().add(Utils.getLocationString(p.getLocation()));
-                p.sendMessage(plugin.getLang().get("setup.arena.setNPCUpgrade"));
             }
             if (display.equals(plugin.getLang().get(p, "menus.flag.teams.nameItem"))) {
                 if (!plugin.getSm().isTeamFlagSetup(p)) {

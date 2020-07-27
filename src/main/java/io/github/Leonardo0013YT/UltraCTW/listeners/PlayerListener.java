@@ -98,10 +98,14 @@ public class PlayerListener implements Listener {
             }
         }
         if (gf != null) {
-            if (npc.getNpcType().equals(NPCType.UPGRADES)) {
+            if (npc.getNpcType().equals(NPCType.KITS)) {
+                plugin.getUim().getPages().put(p, 1);
+                plugin.getUim().createKitSelectorMenu(p);
+            } else if (npc.getNpcType().equals(NPCType.SHOP)) {
+                plugin.getGem().createShopMenu(p);
+            } else if (npc.getNpcType().equals(NPCType.UPGRADES)) {
                 plugin.getFgm().createMainUpgradeMenu(p);
-            }
-            if (npc.getNpcType().equals(NPCType.BUFF)) {
+            } else if (npc.getNpcType().equals(NPCType.BUFF)) {
                 plugin.getFgm().createMainBuffDebuffMenu(p);
             }
         }
@@ -196,6 +200,13 @@ public class PlayerListener implements Listener {
             p.sendMessage(plugin.getLang().get("messages.noBreak"));
             return;
         }
+        if (!g.getPlaced().contains(l) && !plugin.getCm().getBreakBypass().contains(l.getBlock().getType().name())){
+            p.sendMessage(plugin.getLang().get("messages.onlyBreakPlaced"));
+            e.setCancelled(true);
+            return;
+        } else {
+            g.getPlaced().remove(l);
+        }
         CTWPlayer ctw = plugin.getDb().getCTWPlayer(p);
         ctw.setBroken(ctw.getBroken() + 1);
     }
@@ -206,13 +217,21 @@ public class PlayerListener implements Listener {
             Player p = (Player) e.getEntity();
             Game g = plugin.getGm().getGameByPlayer(p);
             if (g != null) {
-                if (g.isState(State.WAITING) || g.isState(State.STARTING) || g.isState(State.FINISH) || g.isState(State.RESTARTING)) {
+                if (plugin.getCm().isHungerCTW()){
+                    if (g.isState(State.WAITING) || g.isState(State.STARTING) || g.isState(State.FINISH) || g.isState(State.RESTARTING)) {
+                        e.setCancelled(true);
+                    }
+                } else {
                     e.setCancelled(true);
                 }
             }
             GameFlag gf = plugin.getGm().getGameFlagByPlayer(p);
             if (gf != null) {
-                if (gf.isState(State.WAITING) || gf.isState(State.STARTING) || gf.isState(State.FINISH) || gf.isState(State.RESTARTING)) {
+                if (plugin.getCm().isHungerFlag()) {
+                    if (gf.isState(State.WAITING) || gf.isState(State.STARTING) || gf.isState(State.FINISH) || gf.isState(State.RESTARTING)) {
+                        e.setCancelled(true);
+                    }
+                } else {
                     e.setCancelled(true);
                 }
             }
@@ -291,6 +310,9 @@ public class PlayerListener implements Listener {
             e.setCancelled(s2.isNoBreak());
             p.sendMessage(plugin.getLang().get("messages.noPlace"));
             return;
+        }
+        if (!plugin.getCm().getBreakBypass().contains(l.getBlock().getType().name())){
+            g.getPlaced().add(l);
         }
         CTWPlayer ctw = plugin.getDb().getCTWPlayer(p);
         ctw.setPlaced(ctw.getPlaced() + 1);

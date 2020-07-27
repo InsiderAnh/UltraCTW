@@ -171,7 +171,7 @@ public class ScoreboardManager {
         if (p == null || !p.isOnline()) {
             return;
         }
-        if (!plugin.getGm().isPlayerInGame(p)) {
+        if (!plugin.getGm().isPlayerInGame(p) && plugin.getCm().isLobbyScoreboard()) {
             if (score.containsKey(p)) {
                 ScoreboardUtil scoreboardUtil = score.get(p);
                 if (sb.get(p).equals("main")) {

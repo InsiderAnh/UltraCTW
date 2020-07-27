@@ -14,7 +14,7 @@ import java.util.List;
 public class ConfigManager {
 
     private Main plugin;
-    private boolean kitLevelsOrder, excluideDefKits, itemLobbyEnabled, placeholdersAPI, redPanelInLocked, holograms, holographicdisplays;
+    private boolean lobbyScoreboard, hungerFlag, hungerCTW, breakMap, kitLevelsOrder, excluideDefKits, itemLobbyEnabled, placeholdersAPI, redPanelInLocked, holograms, holographicdisplays;
     private Location mainLobby, topKills, topWins, topCaptured, topBounty;
     private short redPanelData;
     private Material back, redPanelMaterial;
@@ -23,7 +23,7 @@ public class ConfigManager {
     private int gracePeriod, limitOfYSpawn, itemLobbySlot, maxMultiplier, gCoinsKills, gCoinsWins, gCoinsAssists, coinsKill, coinsWin, coinsAssists, xpKill, xpWin, xpAssists, starting, progressBarAmount, timeToKill;
     private double bountyMin, bountyMax, bountyPerKill;
     private String itemLobbyCMD;
-    private List<String> noDrop;
+    private List<String> noDrop, breakBypass;
 
     public ConfigManager(Main plugin) {
         this.plugin = plugin;
@@ -31,6 +31,11 @@ public class ConfigManager {
     }
 
     public void reload() {
+        this.lobbyScoreboard = plugin.getConfig().getBoolean("lobbyScoreboard");
+        this.hungerFlag = plugin.getConfig().getBoolean("flagDefaults.hunger");
+        this.hungerCTW = plugin.getConfig().getBoolean("gameDefaults.hunger");
+        this.breakMap = plugin.getConfig().getBoolean("breakMap.enabled");
+        this.breakBypass = plugin.getConfig().getStringList("breakMap.bypass");
         this.kitLevelsOrder = plugin.getConfig().getBoolean("kitLevelsOrder");
         this.gracePeriod = plugin.getConfig().getInt("flagDefaults.gracePeriod");
         this.excluideDefKits = plugin.getConfig().getBoolean("excluideDefKits");

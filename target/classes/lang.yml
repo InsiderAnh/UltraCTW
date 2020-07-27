@@ -218,6 +218,7 @@ setup:
     saveKit: "&aThe kit has been saved."
   arena:
     addMine: "&aA &e<type> &atype mine was added."
+    setNPCBuff: "&aThe location of the buff NPC has been added."
     setNPCUpgrade: "&aThe location of the upgrade NPC has been added."
     setNPCShop: "&aThe location of the shop NPC has been added."
     setNPCKits: "&aThe location of the selector NPC has been added."
@@ -1412,12 +1413,30 @@ menus:
         &eClick to save!
   flag:
     title: "&aFlag Arena"
+    npcKits:
+      nameItem: "&eNPC Kits"
+      loreItem: |-
+        &7Add kits npc.
+        &7
+        &eClick to add NPC Kits.
+    npcShop:
+      nameItem: "&eNPC Shop"
+      loreItem: |-
+        &7Add Shop npc.
+        &7
+        &eClick to add NPC Shop.
     npcUpgrade:
       nameItem: "&eNPC Upgrades"
       loreItem: |-
         &7Add upgrades npc.
         &7
         &eClick to add NPC upgrades.
+    npcBuff:
+      nameItem: "&eNPC Buff"
+      loreItem: |-
+        &7Add buff npc.
+        &7
+        &eClick to add NPC Buff.
     name:
       nameItem: "&eName of Arena"
       loreItem: |-

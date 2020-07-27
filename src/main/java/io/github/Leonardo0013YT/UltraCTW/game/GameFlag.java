@@ -40,7 +40,7 @@ public class GameFlag {
     private ArrayList<Player> cached = new ArrayList<>(), players = new ArrayList<>(), spectators = new ArrayList<>();
     private String name, schematic;
     private Location lobby, spectator;
-    private ArrayList<Location> npcUpgrades = new ArrayList<>(), npcBuff = new ArrayList<>();
+    private ArrayList<Location> npcUpgrades = new ArrayList<>(), npcBuff = new ArrayList<>(), npcShop = new ArrayList<>(), npcKits = new ArrayList<>();
     private ArrayList<WinEffect> winEffects = new ArrayList<>();
     private ArrayList<WinDance> winDances = new ArrayList<>();
     private ArrayList<KillEffect> killEffects = new ArrayList<>();
@@ -67,6 +67,12 @@ public class GameFlag {
         }
         for (String s : plugin.getArenas().getListOrDefault(path + ".npcBuff", new ArrayList<>())) {
             npcBuff.add(Utils.getStringLocation(s));
+        }
+        for (String s : plugin.getArenas().getListOrDefault(path + ".npcShop", new ArrayList<>())) {
+            npcShop.add(Utils.getStringLocation(s));
+        }
+        for (String s : plugin.getArenas().getListOrDefault(path + ".npcKits", new ArrayList<>())) {
+            npcKits.add(Utils.getStringLocation(s));
         }
         if (plugin.getArenas().isSet(path + ".mines")) {
             for (String c : plugin.getArenas().getConfig().getConfigurationSection(path + ".mines").getKeys(false)) {
@@ -147,6 +153,7 @@ public class GameFlag {
         winEffects.forEach(WinEffect::stop);
         killEffects.forEach(KillEffect::stop);
         gamePlayer.clear();
+        placed.clear();
         spectators.clear();
         cached.clear();
         players.clear();
@@ -294,6 +301,12 @@ public class GameFlag {
         }
         for (Location s : npcBuff) {
             plugin.getSkm().spawnShopKeeper(p, s, ctw.getShopKeeper(), NPCType.BUFF);
+        }
+        for (Location k : npcKits) {
+            plugin.getSkm().spawnShopKeeper(p, k, ctw.getShopKeeper(), NPCType.KITS);
+        }
+        for (Location s : npcShop) {
+            plugin.getSkm().spawnShopKeeper(p, s, ctw.getShopKeeper(), NPCType.SHOP);
         }
     }
 
