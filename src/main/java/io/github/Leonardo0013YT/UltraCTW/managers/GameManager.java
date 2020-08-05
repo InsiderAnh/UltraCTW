@@ -22,6 +22,8 @@ public class GameManager {
     private HashMap<UUID, Integer> playerGame = new HashMap<>();
     private HashMap<Integer, GameFlag> flagGames = new HashMap<>();
     private HashMap<String, Integer> flagGameNames = new HashMap<>();
+    private HashMap<String, Integer> players = new HashMap<>();
+    private long lastUpdatePlayers;
     private Game selectedGame;
     private Main plugin;
 
@@ -68,6 +70,28 @@ public class GameManager {
         Game selectedGame = new ArrayList<>(back).get(ThreadLocalRandom.current().nextInt(0, back.size()));
         setSelectedGame(selectedGame);
     }
+
+    public int getGameSize(String type) {
+        if (lastUpdatePlayers + plugin.getCm().getUpdatePlayersPlaceholder() < System.currentTimeMillis()) {
+            updatePlayersPlaceholder();
+        }
+        return players.getOrDefault(type, 0);
+    }
+
+    public void updatePlayersPlaceholder() {
+        if (getSelectedGame() != null){
+            players.put("wool", getSelectedGame().getPlayers().size());
+        } else {
+            players.put("wool", 0);
+        }
+        int count = 0;
+        for (GameFlag gf : flagGames.values()){
+            count += gf.getPlayers().size();
+        }
+        players.put("flag", count);
+        lastUpdatePlayers = System.currentTimeMillis();
+    }
+
 
     public Game getSelectedGame() {
         return selectedGame;

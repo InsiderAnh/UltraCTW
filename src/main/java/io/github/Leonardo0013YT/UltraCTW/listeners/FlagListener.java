@@ -8,6 +8,7 @@ import io.github.Leonardo0013YT.UltraCTW.game.GameFlag;
 import io.github.Leonardo0013YT.UltraCTW.game.GamePlayer;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.CTWPlayer;
 import io.github.Leonardo0013YT.UltraCTW.objects.MineCountdown;
+import io.github.Leonardo0013YT.UltraCTW.objects.ObjectPotion;
 import io.github.Leonardo0013YT.UltraCTW.team.FlagTeam;
 import io.github.Leonardo0013YT.UltraCTW.upgrades.Upgrade;
 import io.github.Leonardo0013YT.UltraCTW.upgrades.UpgradeLevel;
@@ -32,6 +33,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.potion.PotionEffect;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class FlagListener implements Listener {
@@ -197,6 +199,9 @@ public class FlagListener implements Listener {
             Player k = plugin.getTgm().getTagged(p).getLast();
             if (k != null) {
                 CTWPlayer sk = plugin.getDb().getCTWPlayer(k);
+                for (ObjectPotion op : plugin.getCm().getEffectsOnKill()){
+                    k.addPotionEffect(new PotionEffect(op.getPotion().parsePotionEffectType(), op.getDuration(), op.getLevel()));
+                }
                 GamePlayer gp = g.getGamePlayer().get(k);
                 if (gp != null) {
                     gp.addCoins(plugin.getCm().getCoinsKill());

@@ -9,6 +9,9 @@ progressBarAmount: 10
 excluideDefKits: true
 kitLevelsOrder: true
 lobbyScoreboard: true
+updatePlayersPlaceholder: 5
+effectsOnKill:
+  - "REGENERATION:2:5"
 redPanel:
   material: STAINED_GLASS_PANE
   data: 14

@@ -66,6 +66,7 @@ public class Utils {
     }
 
     public static String getWoolsString(Team team) {
+        if (team == null) return "";
         StringBuilder wools = new StringBuilder();
         for (ChatColor c : team.getColors()) {
             boolean inInProgress = team.isInProgress(c);

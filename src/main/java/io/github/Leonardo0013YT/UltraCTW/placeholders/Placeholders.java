@@ -42,6 +42,12 @@ public class Placeholders extends PlaceholderExpansion {
         if (sw == null) {
             return "";
         }
+        if (id.equals("players_wool")){
+            return "" + plugin.getGm().getGameSize("wool");
+        }
+        if (id.equals("players_flag")){
+            return "" + plugin.getGm().getGameSize("flag");
+        }
         if (id.equals("selected_trail")) {
             return plugin.getTlm().getSelected(sw);
         }

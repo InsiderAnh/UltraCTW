@@ -11,6 +11,7 @@ import io.github.Leonardo0013YT.UltraCTW.game.GameFlag;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.CTWPlayer;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.Game;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.NPC;
+import io.github.Leonardo0013YT.UltraCTW.objects.ObjectPotion;
 import io.github.Leonardo0013YT.UltraCTW.objects.Squared;
 import io.github.Leonardo0013YT.UltraCTW.team.FlagTeam;
 import io.github.Leonardo0013YT.UltraCTW.team.Team;
@@ -489,6 +490,9 @@ public class PlayerListener implements Listener {
                 }
                 if (e.getFinalDamage() >= p.getHealth()) {
                     CTWPlayer sk = plugin.getDb().getCTWPlayer(d);
+                    for (ObjectPotion op : plugin.getCm().getEffectsOnKill()){
+                        p.addPotionEffect(new PotionEffect(op.getPotion().parsePotionEffectType(), op.getDuration(), op.getLevel()));
+                    }
                     if (p.getLastDamageCause() == null || p.getLastDamageCause().getCause() == null) {
                         EntityDamageEvent.DamageCause cause = EntityDamageEvent.DamageCause.CONTACT;
                         if (sk != null) {
@@ -529,6 +533,9 @@ public class PlayerListener implements Listener {
                 }
                 if (e.getFinalDamage() >= p.getHealth()) {
                     CTWPlayer sk = plugin.getDb().getCTWPlayer(d);
+                    for (ObjectPotion op : plugin.getCm().getEffectsOnKill()){
+                        p.addPotionEffect(new PotionEffect(op.getPotion().parsePotionEffectType(), op.getDuration(), op.getLevel()));
+                    }
                     if (p.getLastDamageCause() == null || p.getLastDamageCause().getCause() == null) {
                         EntityDamageEvent.DamageCause cause = EntityDamageEvent.DamageCause.CONTACT;
                         if (sk != null) {

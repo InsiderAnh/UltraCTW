@@ -1,13 +1,17 @@
 package io.github.Leonardo0013YT.UltraCTW.managers;
 
 import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.objects.ObjectPotion;
 import io.github.Leonardo0013YT.UltraCTW.utils.Utils;
+import io.github.Leonardo0013YT.UltraCTW.xseries.XPotion;
 import io.github.Leonardo0013YT.UltraCTW.xseries.XSound;
 import lombok.Getter;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.potion.PotionEffectType;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -20,10 +24,11 @@ public class ConfigManager {
     private Material back, redPanelMaterial;
     private Sound streak2, streak3, streak4, streak5, upgradeSound, cancelStartSound, wineffectschicken, wineffectsvulcanfire, wineffectvulcanwool, wineffectnotes, killEffectTNT, killEffectSquid;
     private XSound pickUpTeam, pickUpOthers, captured;
-    private int gracePeriod, limitOfYSpawn, itemLobbySlot, maxMultiplier, gCoinsKills, gCoinsWins, gCoinsAssists, coinsKill, coinsWin, coinsAssists, xpKill, xpWin, xpAssists, starting, progressBarAmount, timeToKill;
+    private int updatePlayersPlaceholder, gracePeriod, limitOfYSpawn, itemLobbySlot, maxMultiplier, gCoinsKills, gCoinsWins, gCoinsAssists, coinsKill, coinsWin, coinsAssists, xpKill, xpWin, xpAssists, starting, progressBarAmount, timeToKill;
     private double bountyMin, bountyMax, bountyPerKill;
     private String itemLobbyCMD;
     private List<String> noDrop, breakBypass;
+    private List<ObjectPotion> effectsOnKill = new ArrayList<>();
 
     public ConfigManager(Main plugin) {
         this.plugin = plugin;
@@ -31,6 +36,14 @@ public class ConfigManager {
     }
 
     public void reload() {
+        for (String s : plugin.getConfig().getStringList("effectsOnKill")){
+            String[] st = s.split(":");
+            XPotion potion = XPotion.matchXPotion(st[0]).orElse(XPotion.REGENERATION);
+            int level = Integer.parseInt(st[1]);
+            int duration = Integer.parseInt(st[2]);
+            effectsOnKill.add(new ObjectPotion(potion, level, duration));
+        }
+        this.updatePlayersPlaceholder = plugin.getConfig().getInt("updatePlayersPlaceholder");
         this.lobbyScoreboard = plugin.getConfig().getBoolean("lobbyScoreboard");
         this.hungerFlag = plugin.getConfig().getBoolean("flagDefaults.hunger");
         this.hungerCTW = plugin.getConfig().getBoolean("gameDefaults.hunger");
