@@ -13,7 +13,17 @@ import org.bukkit.scheduler.BukkitTask;
 public class KillEffectSquid implements KillEffect, Cloneable {
 
     private BukkitTask task;
-    private int pased = 0;
+    private int pased = 0, lavaAmount, explosionAmount;
+    private boolean loaded = false;
+
+    @Override
+    public void loadCustoms(Main plugin, String path) {
+        if (!loaded) {
+            lavaAmount = plugin.getKilleffect().getIntOrDefault(path + ".lavaAmount", 1);
+            explosionAmount = plugin.getKilleffect().getIntOrDefault(path + ".explosionAmount", 1);
+            loaded = true;
+        }
+    }
 
     @Override
     public void start(Player p, Player death, Location loc) {
@@ -21,7 +31,7 @@ public class KillEffectSquid implements KillEffect, Cloneable {
             return;
         }
         Squid squid = loc.getWorld().spawn(loc, Squid.class);
-        squid.setNoDamageTicks(999999999);
+        squid.setNoDamageTicks(Integer.MAX_VALUE);
         squid.setMetadata("KILLEFFECT", new FixedMetadataValue(Main.get(), "KILLEFFECT"));
         task = new BukkitRunnable() {
             @Override
@@ -34,8 +44,8 @@ public class KillEffectSquid implements KillEffect, Cloneable {
                 }
                 Location loc = squid.getLocation().clone().add(0, 0.3 * pased, 0);
                 squid.teleport(loc);
-                loc.getWorld().playEffect(loc, Effect.EXPLOSION, 1);
-                loc.getWorld().playEffect(loc, Effect.LAVADRIP, 1);
+                loc.getWorld().playEffect(loc, Effect.EXPLOSION, explosionAmount);
+                loc.getWorld().playEffect(loc, Effect.LAVADRIP, lavaAmount);
                 p.playSound(loc, Main.get().getCm().getKillEffectSquid(), 1.0f, 1.0f);
             }
         }.runTaskTimer(Main.get(), 0, 2);

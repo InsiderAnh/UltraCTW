@@ -1,6 +1,8 @@
 package io.github.Leonardo0013YT.UltraCTW.cosmetics.windances;
 
 import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.game.GameFlag;
+import io.github.Leonardo0013YT.UltraCTW.interfaces.Game;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.WinDance;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
@@ -16,36 +18,41 @@ import java.util.Random;
 
 public class WinDanceFireworks implements WinDance, Cloneable {
 
+    private boolean loaded = false;
     private BukkitTask task;
     private Random random;
+    private int minOfCenter, maxOfCenter, firstUp, taskTick;
 
     public WinDanceFireworks() {
         this.random = new Random();
     }
 
     @Override
-    public void start(Player p) {
-        if (p == null || !p.isOnline()) {
-            return;
+    public void loadCustoms(Main plugin, String path) {
+        if (!loaded) {
+            minOfCenter = plugin.getWindance().getIntOrDefault(path + ".minOfCenter", 10);
+            maxOfCenter = plugin.getWindance().getIntOrDefault(path + ".maxOfCenter", 10);
+            firstUp = plugin.getWindance().getIntOrDefault(path + ".firstUp", 90);
+            taskTick = plugin.getWindance().getIntOrDefault(path + ".taskTick", 20);
+            loaded = true;
         }
-        World world = p.getWorld();
-        Location loc1 = new Location(world, 10, 90, 10);
-        Location loc2 = new Location(world, -10, 90, 10);
-        Location loc3 = new Location(world, 10, 90, -10);
-        Location loc4 = new Location(world, -10, 90, -10);
-        Location loc5 = new Location(world, 15, 90, 15);
-        Location loc6 = new Location(world, -15, 90, 15);
-        Location loc7 = new Location(world, 15, 90, -15);
-        Location loc8 = new Location(world, -15, 90, -15);
+    }
+
+    @Override
+    public void start(Player p, Game game) {
+        World world = game.getSpectator().getWorld();
+        Location loc1 = new Location(world, minOfCenter, firstUp, minOfCenter);
+        Location loc2 = new Location(world, -minOfCenter, firstUp, minOfCenter);
+        Location loc3 = new Location(world, minOfCenter, firstUp, -minOfCenter);
+        Location loc4 = new Location(world, -minOfCenter, firstUp, -minOfCenter);
+        Location loc5 = new Location(world, maxOfCenter, firstUp, maxOfCenter);
+        Location loc6 = new Location(world, -maxOfCenter, firstUp, maxOfCenter);
+        Location loc7 = new Location(world, maxOfCenter, firstUp, -maxOfCenter);
+        Location loc8 = new Location(world, -maxOfCenter, firstUp, -maxOfCenter);
         task = new BukkitRunnable() {
-            @Override
             public void run() {
-                if (!p.getWorld().getName().equals(world.getName())) {
-                    cancel();
-                    return;
-                }
-                if (!p.isOnline()) {
-                    cancel();
+                if (p == null || !p.isOnline() || !world.getName().equals(p.getWorld().getName())) {
+                    stop();
                     return;
                 }
                 firework(loc1);
@@ -57,8 +64,38 @@ public class WinDanceFireworks implements WinDance, Cloneable {
                 firework(loc7);
                 firework(loc8);
             }
-        }.runTaskTimer(Main.get(), 0, 20);
+        }.runTaskTimer(Main.get(), 0, taskTick);
     }
+
+    @Override
+    public void start(Player p, GameFlag game) {
+        World world = game.getSpectator().getWorld();
+        Location loc1 = new Location(world, minOfCenter, firstUp, minOfCenter);
+        Location loc2 = new Location(world, -minOfCenter, firstUp, minOfCenter);
+        Location loc3 = new Location(world, minOfCenter, firstUp, -minOfCenter);
+        Location loc4 = new Location(world, -minOfCenter, firstUp, -minOfCenter);
+        Location loc5 = new Location(world, maxOfCenter, firstUp, maxOfCenter);
+        Location loc6 = new Location(world, -maxOfCenter, firstUp, maxOfCenter);
+        Location loc7 = new Location(world, maxOfCenter, firstUp, -maxOfCenter);
+        Location loc8 = new Location(world, -maxOfCenter, firstUp, -maxOfCenter);
+        task = new BukkitRunnable() {
+            public void run() {
+                if (p == null || !p.isOnline() || !world.getName().equals(p.getWorld().getName())) {
+                    stop();
+                    return;
+                }
+                firework(loc1);
+                firework(loc2);
+                firework(loc3);
+                firework(loc4);
+                firework(loc5);
+                firework(loc6);
+                firework(loc7);
+                firework(loc8);
+            }
+        }.runTaskTimer(Main.get(), 0, taskTick);
+    }
+
 
     @Override
     public void stop() {

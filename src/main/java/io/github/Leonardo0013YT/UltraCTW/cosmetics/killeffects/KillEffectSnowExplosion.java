@@ -14,14 +14,30 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class KillEffectSnowExplosion implements KillEffect, Cloneable {
 
+    private boolean loaded = false;
+    private double xRandom, yRandom, zRandom, snowsAmount;
+    private int delayDelete;
+
+    @Override
+    public void loadCustoms(Main plugin, String path) {
+        if (!loaded) {
+            xRandom = plugin.getKilleffect().getDoubleOrDefault(path + ".xRandom", 0.35);
+            yRandom = plugin.getKilleffect().getDoubleOrDefault(path + ".yRandom", 0.5);
+            zRandom = plugin.getKilleffect().getDoubleOrDefault(path + ".xRandom", 0.35);
+            snowsAmount = plugin.getKilleffect().getIntOrDefault(path + ".snowsAmount", 20);
+            delayDelete = plugin.getKilleffect().getIntOrDefault(path + ".delayDelete", 40);
+            loaded = true;
+        }
+    }
+
     @Override
     public void start(Player p, Player death, Location loc) {
         if (death == null || !death.isOnline()) {
             return;
         }
         ArrayList<Snowball> it = new ArrayList<>();
-        for (int i = 0; i < 20; i++) {
-            it.add(spawnSnow(loc, random(-0.35, 0.35), random(-0.35, 0.35)));
+        for (int i = 0; i < snowsAmount; i++) {
+            it.add(spawnSnow(loc, random(-xRandom, xRandom), yRandom, random(-zRandom, zRandom)));
         }
         new BukkitRunnable() {
             @Override
@@ -30,7 +46,7 @@ public class KillEffectSnowExplosion implements KillEffect, Cloneable {
                     snow.remove();
                 }
             }
-        }.runTaskLater(Main.get(), 40);
+        }.runTaskLater(Main.get(), delayDelete);
     }
 
     @Override
@@ -46,9 +62,9 @@ public class KillEffectSnowExplosion implements KillEffect, Cloneable {
         return d + ThreadLocalRandom.current().nextDouble() * (d2 - d);
     }
 
-    private Snowball spawnSnow(Location location, double d, double d3) {
+    private Snowball spawnSnow(Location location, double d, double d2, double d3) {
         Snowball item = location.getWorld().spawn(location, Snowball.class);
-        item.setVelocity(new Vector(d, 0.5, d3));
+        item.setVelocity(new Vector(d, d2, d3));
         item.setMetadata("SNOWBALL", new FixedMetadataValue(Main.get(), "SNOWBALL"));
         return item;
     }

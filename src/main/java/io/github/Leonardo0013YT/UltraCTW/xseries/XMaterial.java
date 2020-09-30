@@ -1131,7 +1131,7 @@ public enum XMaterial {
     }
 
     @Nonnull
-    private static Optional<XMaterial> matchDefinedXMaterial(@Nonnull String name, byte data) {
+    public static Optional<XMaterial> matchDefinedXMaterial(@Nonnull String name, byte data) {
         boolean duplicated = isDuplicated(name);
 
         // Do basic number and boolean checks before accessing more complex enum stuff.

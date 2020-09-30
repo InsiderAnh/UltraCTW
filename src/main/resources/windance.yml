@@ -15,7 +15,7 @@ windances:
     price: 0
     isBuy: false
     slot: 10
-    permission: ultractw.windances.fireworks
+    permission: ultraskywars.windances.fireworks
     page: 1
   fireworks:
     id: 1
@@ -38,7 +38,7 @@ windances:
     isBuy: false
     slot: 11
     page: 1
-    permission: ultractw.windances.fireworks
+    permission: ultraskywars.windances.fireworks
   thunder:
     id: 2
     icon:
@@ -60,7 +60,7 @@ windances:
     isBuy: false
     slot: 12
     page: 1
-    permission: ultractw.windances.thunder
+    permission: ultraskywars.windances.thunder
   explode:
     id: 3
     icon:
@@ -82,7 +82,7 @@ windances:
     isBuy: false
     slot: 13
     page: 1
-    permission: ultractw.windances.explode
+    permission: ultraskywars.windances.explode
   daynight:
     id: 4
     icon:
@@ -104,7 +104,7 @@ windances:
     isBuy: false
     slot: 14
     page: 1
-    permission: ultractw.windances.daynight
+    permission: ultraskywars.windances.daynight
   anvilland:
     id: 5
     icon:
@@ -126,7 +126,7 @@ windances:
     isBuy: false
     slot: 15
     page: 1
-    permission: ultractw.windances.anvilland
+    permission: ultraskywars.windances.anvilland
   icewalker:
     id: 6
     icon:
@@ -148,4 +148,68 @@ windances:
     isBuy: false
     slot: 16
     page: 1
-    permission: ultractw.windances.icewalker
+    permission: ultraskywars.windances.icewalker
+  meteors:
+    id: 7
+    icon:
+      ==: org.bukkit.inventory.ItemStack
+      type: FIREBALL
+      meta:
+        ==: ItemMeta
+        meta-type: UNSPECIFIC
+        display-name: §aMeteors
+        lore:
+          - '§eDescription:'
+          - §7Summon a meteor shower on the map.
+          - §7
+          - <status>
+    type: meteors
+    name: Meteors
+    price: 0
+    isBuy: false
+    slot: 19
+    page: 1
+    permission: ultraskywars.windances.meteors
+  pigland:
+    id: 8
+    icon:
+      ==: org.bukkit.inventory.ItemStack
+      type: PORK
+      meta:
+        ==: ItemMeta
+        meta-type: UNSPECIFIC
+        display-name: §aPig Land
+        lore:
+          - '§eDescription:'
+          - §7Summon a shower of pigs.
+          - §7
+          - <status>
+    type: pigland
+    name: Pig Land
+    price: 0
+    isBuy: false
+    slot: 20
+    page: 1
+    permission: ultraskywars.windances.pigland
+  wolfs:
+    id: 9
+    icon:
+      ==: org.bukkit.inventory.ItemStack
+      type: BONE
+      meta:
+        ==: ItemMeta
+        meta-type: UNSPECIFIC
+        display-name: §aThe Frozen Elsa
+        lore:
+          - '§eDescription:'
+          - §7A pack of wolves that will
+          - &7be your friends.
+          - §7
+          - <status>
+    type: wolfs
+    name: Wolfs
+    price: 0
+    isBuy: false
+    slot: 21
+    page: 1
+    permission: ultraskywars.windances.wolfs

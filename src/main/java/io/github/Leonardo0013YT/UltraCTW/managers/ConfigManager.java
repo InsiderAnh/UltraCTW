@@ -18,7 +18,7 @@ import java.util.List;
 public class ConfigManager {
 
     private Main plugin;
-    private boolean lobbyScoreboard, hungerFlag, hungerCTW, breakMap, kitLevelsOrder, excluideDefKits, itemLobbyEnabled, placeholdersAPI, redPanelInLocked, holograms, holographicdisplays;
+    private boolean instaKillOnVoidFlag, instaKillOnVoidCTW, lobbyScoreboard, hungerFlag, hungerCTW, breakMap, kitLevelsOrder, excluideDefKits, itemLobbyEnabled, placeholdersAPI, redPanelInLocked, holograms, holographicdisplays;
     private Location mainLobby, topKills, topWins, topCaptured, topBounty;
     private short redPanelData;
     private Material back, redPanelMaterial;
@@ -47,6 +47,8 @@ public class ConfigManager {
         this.lobbyScoreboard = plugin.getConfig().getBoolean("lobbyScoreboard");
         this.hungerFlag = plugin.getConfig().getBoolean("flagDefaults.hunger");
         this.hungerCTW = plugin.getConfig().getBoolean("gameDefaults.hunger");
+        this.instaKillOnVoidFlag = plugin.getConfig().getBoolean("flagDefaults.instaKillOnVoid");
+        this.instaKillOnVoidCTW = plugin.getConfig().getBoolean("gameDefaults.instaKillOnVoid");
         this.breakMap = plugin.getConfig().getBoolean("breakMap.enabled");
         this.breakBypass = plugin.getConfig().getStringList("breakMap.bypass");
         this.kitLevelsOrder = plugin.getConfig().getBoolean("kitLevelsOrder");

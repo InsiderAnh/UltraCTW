@@ -1,6 +1,8 @@
 package io.github.Leonardo0013YT.UltraCTW.cosmetics.wineffects;
 
 import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.game.GameFlag;
+import io.github.Leonardo0013YT.UltraCTW.interfaces.Game;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.WinEffect;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -18,8 +20,29 @@ public class WinEffectIceWalker implements WinEffect, Cloneable {
     private BukkitTask task;
 
     @Override
-    public void start(Player p) {
-        World world = p.getWorld();
+    public void start(Player p, Game game) {
+        World world = game.getSpectator().getWorld();
+        task = new BukkitRunnable() {
+            @Override
+            public void run() {
+                if (!p.getWorld().getName().equals(world.getName())) {
+                    cancel();
+                    return;
+                }
+                if (!p.isOnline()) {
+                    cancel();
+                    return;
+                }
+                for (Block b : getNearbyBlocks(p.getLocation())) {
+                    b.setType(Material.ICE);
+                }
+            }
+        }.runTaskTimer(Main.get(), 0, 5);
+    }
+
+    @Override
+    public void start(Player p, GameFlag game) {
+        World world = game.getSpectator().getWorld();
         task = new BukkitRunnable() {
             @Override
             public void run() {

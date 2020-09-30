@@ -1,5 +1,6 @@
 package io.github.Leonardo0013YT.UltraCTW.cosmetics.killeffects;
 
+import io.github.Leonardo0013YT.UltraCTW.Main;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.KillEffect;
 import org.bukkit.Effect;
 import org.bukkit.Location;
@@ -7,6 +8,15 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
 public class KillEffectBlood implements KillEffect, Cloneable {
+
+    private boolean loaded = false;
+
+    @Override
+    public void loadCustoms(Main plugin, String path) {
+        if (!loaded) {
+            loaded = true;
+        }
+    }
 
     @Override
     public void start(Player p, Player death, Location loc) {

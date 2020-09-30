@@ -1,6 +1,9 @@
 package io.github.Leonardo0013YT.UltraCTW.cosmetics.wineffects;
 
 import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.game.GameFlag;
+import io.github.Leonardo0013YT.UltraCTW.interfaces.Game;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.WinEffect;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -20,11 +23,13 @@ public class WinEffectVulcanFire implements WinEffect, Cloneable {
     private BukkitTask task;
 
     @Override
-    public void start(Player p) {
+    public void start(Player p, Game game) {
         task = new BukkitRunnable() {
+            String name = game.getSpectator().getWorld().getName();
             @Override
             public void run() {
-                if (p == null || !p.isOnline()) {
+                if (p == null || !p.isOnline() || !name.equals(p.getWorld().getName())) {
+                    stop();
                     return;
                 }
                 p.playSound(p.getLocation(), Main.get().getCm().getWineffectsvulcanfire(), 1.0f, 1.0f);
@@ -32,7 +37,25 @@ public class WinEffectVulcanFire implements WinEffect, Cloneable {
                 fallingBlock.setDropItem(false);
                 fires.add(fallingBlock);
             }
-        }.runTaskTimer(Main.get(), 0, 5);
+        }.runTaskTimer(Main.get(), 0, 2);
+    }
+
+    @Override
+    public void start(Player p, GameFlag game) {
+        task = new BukkitRunnable() {
+            String name = game.getSpectator().getWorld().getName();
+            @Override
+            public void run() {
+                if (p == null || !p.isOnline() || !name.equals(p.getWorld().getName())) {
+                    stop();
+                    return;
+                }
+                p.playSound(p.getLocation(), Main.get().getCm().getWineffectsvulcanfire(), 1.0f, 1.0f);
+                FallingBlock fallingBlock = spawnFire(p.getLocation(), random(-0.5, 0.5), random(-0.5, 0.5));
+                fallingBlock.setDropItem(false);
+                fires.add(fallingBlock);
+            }
+        }.runTaskTimer(Main.get(), 0, 2);
     }
 
     @Override

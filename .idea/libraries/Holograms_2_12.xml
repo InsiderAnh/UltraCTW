@@ -1,5 +1,5 @@
 <component name="libraryTable">
-  <library name="Holograms">
+  <library name="Holograms-2.12">
     <CLASSES>
       <root url="jar://$PROJECT_DIR$/../../APIS/Holograms-2.12.jar!/" />
       <root url="jar://$PROJECT_DIR$/../../APIS/HolographicDisplays.jar!/" />

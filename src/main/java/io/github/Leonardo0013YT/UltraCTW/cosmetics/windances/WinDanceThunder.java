@@ -1,6 +1,8 @@
 package io.github.Leonardo0013YT.UltraCTW.cosmetics.windances;
 
 import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.game.GameFlag;
+import io.github.Leonardo0013YT.UltraCTW.interfaces.Game;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.WinDance;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -8,36 +10,40 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
-import java.util.Random;
-
 public class WinDanceThunder implements WinDance, Cloneable {
 
+    private boolean loaded = false;
     private BukkitTask task;
-    private Random random;
+    private int xOfCenter, zOfCenter, minOfCenter, maxOfCenter, taskTick;
 
-    public WinDanceThunder() {
-        this.random = new Random();
+    @Override
+    public void loadCustoms(Main plugin, String path) {
+        if (!loaded) {
+            xOfCenter = plugin.getWindance().getIntOrDefault(path + ".xOfCenter", 10);
+            zOfCenter = plugin.getWindance().getIntOrDefault(path + ".zOfCenter", 10);
+            minOfCenter = plugin.getWindance().getIntOrDefault(path + ".minOfCenter", 10);
+            maxOfCenter = plugin.getWindance().getIntOrDefault(path + ".maxOfCenter", 15);
+            taskTick = plugin.getWindance().getIntOrDefault(path + ".taskTick", 20);
+            loaded = true;
+        }
     }
 
     @Override
-    public void start(Player p) {
-        if (p == null || !p.isOnline()) {
-            return;
-        }
-        World w = p.getWorld();
-        Location loc1 = new Location(w, 10, w.getHighestBlockYAt(10, 10), 10);
-        Location loc2 = new Location(w, -10, w.getHighestBlockYAt(10, 10), 10);
-        Location loc3 = new Location(w, 10, w.getHighestBlockYAt(10, 10), -10);
-        Location loc4 = new Location(w, -10, w.getHighestBlockYAt(10, 10), -10);
-        Location loc5 = new Location(w, 15, w.getHighestBlockYAt(10, 10), 15);
-        Location loc6 = new Location(w, -15, w.getHighestBlockYAt(10, 10), 15);
-        Location loc7 = new Location(w, 15, w.getHighestBlockYAt(10, 10), -15);
-        Location loc8 = new Location(w, -15, w.getHighestBlockYAt(10, 10), -15);
+    public void start(Player p, Game game) {
+        World w = game.getSpectator().getWorld();
+        Location loc1 = new Location(w, minOfCenter, w.getHighestBlockYAt(xOfCenter, zOfCenter), minOfCenter);
+        Location loc2 = new Location(w, -minOfCenter, w.getHighestBlockYAt(xOfCenter, zOfCenter), minOfCenter);
+        Location loc3 = new Location(w, minOfCenter, w.getHighestBlockYAt(xOfCenter, zOfCenter), -minOfCenter);
+        Location loc4 = new Location(w, -minOfCenter, w.getHighestBlockYAt(xOfCenter, zOfCenter), -10);
+        Location loc5 = new Location(w, maxOfCenter, w.getHighestBlockYAt(xOfCenter, zOfCenter), maxOfCenter);
+        Location loc6 = new Location(w, -maxOfCenter, w.getHighestBlockYAt(xOfCenter, zOfCenter), maxOfCenter);
+        Location loc7 = new Location(w, maxOfCenter, w.getHighestBlockYAt(xOfCenter, zOfCenter), -maxOfCenter);
+        Location loc8 = new Location(w, -maxOfCenter, w.getHighestBlockYAt(xOfCenter, zOfCenter), -maxOfCenter);
         task = new BukkitRunnable() {
             @Override
             public void run() {
-                if (!p.isOnline()) {
-                    cancel();
+                if (p == null || !p.isOnline() || !w.getName().equals(p.getWorld().getName())) {
+                    stop();
                     return;
                 }
                 thunder(loc1);
@@ -49,7 +55,37 @@ public class WinDanceThunder implements WinDance, Cloneable {
                 thunder(loc7);
                 thunder(loc8);
             }
-        }.runTaskTimer(Main.get(), 0, 20);
+        }.runTaskTimer(Main.get(), 0, taskTick);
+    }
+
+    @Override
+    public void start(Player p, GameFlag game) {
+        World w = game.getSpectator().getWorld();
+        Location loc1 = new Location(w, minOfCenter, w.getHighestBlockYAt(xOfCenter, zOfCenter), minOfCenter);
+        Location loc2 = new Location(w, -minOfCenter, w.getHighestBlockYAt(xOfCenter, zOfCenter), minOfCenter);
+        Location loc3 = new Location(w, minOfCenter, w.getHighestBlockYAt(xOfCenter, zOfCenter), -minOfCenter);
+        Location loc4 = new Location(w, -minOfCenter, w.getHighestBlockYAt(xOfCenter, zOfCenter), -10);
+        Location loc5 = new Location(w, maxOfCenter, w.getHighestBlockYAt(xOfCenter, zOfCenter), maxOfCenter);
+        Location loc6 = new Location(w, -maxOfCenter, w.getHighestBlockYAt(xOfCenter, zOfCenter), maxOfCenter);
+        Location loc7 = new Location(w, maxOfCenter, w.getHighestBlockYAt(xOfCenter, zOfCenter), -maxOfCenter);
+        Location loc8 = new Location(w, -maxOfCenter, w.getHighestBlockYAt(xOfCenter, zOfCenter), -maxOfCenter);
+        task = new BukkitRunnable() {
+            @Override
+            public void run() {
+                if (p == null || !p.isOnline() || !w.getName().equals(p.getWorld().getName())) {
+                    stop();
+                    return;
+                }
+                thunder(loc1);
+                thunder(loc2);
+                thunder(loc3);
+                thunder(loc4);
+                thunder(loc5);
+                thunder(loc6);
+                thunder(loc7);
+                thunder(loc8);
+            }
+        }.runTaskTimer(Main.get(), 0, taskTick);
     }
 
     private void thunder(Location loc) {

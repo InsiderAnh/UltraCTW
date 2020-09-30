@@ -1,10 +1,13 @@
 package io.github.Leonardo0013YT.UltraCTW.cosmetics.wineffects;
 
 import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.game.GameFlag;
+import io.github.Leonardo0013YT.UltraCTW.interfaces.Game;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.WinEffect;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.meta.FireworkMeta;
@@ -25,17 +28,33 @@ public class WinEffectFireworks implements WinEffect, Cloneable {
     }
 
     @Override
-    public void start(Player p) {
+    public void start(Player p, Game game) {
         task = new BukkitRunnable() {
+            String name = game.getSpectator().getWorld().getName();
             @Override
             public void run() {
-                if (p == null || !p.isOnline()) {
-                    cancel();
+                if (p == null || !p.isOnline() || !name.equals(p.getWorld().getName())) {
+                    stop();
                     return;
                 }
                 firework(p.getLocation());
             }
-        }.runTaskTimer(Main.get(), 0, 20);
+        }.runTaskTimer(Main.get(), 0, 6);
+    }
+
+    @Override
+    public void start(Player p, GameFlag game) {
+        task = new BukkitRunnable() {
+            String name = game.getSpectator().getWorld().getName();
+            @Override
+            public void run() {
+                if (p == null || !p.isOnline() || !name.equals(p.getWorld().getName())) {
+                    stop();
+                    return;
+                }
+                firework(p.getLocation());
+            }
+        }.runTaskTimer(Main.get(), 0, 6);
     }
 
     @Override

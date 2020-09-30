@@ -1,6 +1,8 @@
 package io.github.Leonardo0013YT.UltraCTW.cosmetics.windances;
 
 import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.game.GameFlag;
+import io.github.Leonardo0013YT.UltraCTW.interfaces.Game;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.WinDance;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -15,32 +17,53 @@ import java.util.List;
 
 public class WinDanceIceWalker implements WinDance, Cloneable {
 
+    private boolean loaded = false;
     private BukkitTask task;
-    private int round;
+    private int round = 1, rangePerRound, taskTick;
 
-    public WinDanceIceWalker() {
-        this.round = 1;
+    @Override
+    public void loadCustoms(Main plugin, String path) {
+        if (!loaded) {
+            rangePerRound = plugin.getWindance().getIntOrDefault(path + ".rangePerRound", 5);
+            taskTick = plugin.getWindance().getIntOrDefault(path + ".taskTick", 20);
+            loaded = true;
+        }
     }
 
     @Override
-    public void start(Player p) {
-        if (p == null || !p.isOnline()) {
-            return;
-        }
-        World world = p.getWorld();
+    public void start(Player p, Game game) {
+        World world = game.getSpectator().getWorld();
         task = new BukkitRunnable() {
             @Override
             public void run() {
-                if (!p.getWorld().getName().equals(world.getName())) {
-                    cancel();
+                if (p == null || !p.isOnline() || !world.getName().equals(p.getWorld().getName())) {
+                    stop();
                     return;
                 }
-                for (Block block : getNearbyBlocks(p.getLocation(), 5 * round)) {
+                for (Block block : getNearbyBlocks(p.getLocation(), rangePerRound * round)) {
                     block.setType(Material.ICE);
                 }
                 round++;
             }
-        }.runTaskTimer(Main.get(), 0, 20);
+        }.runTaskTimer(Main.get(), 0, taskTick);
+    }
+
+    @Override
+    public void start(Player p, GameFlag game) {
+        World world = game.getSpectator().getWorld();
+        task = new BukkitRunnable() {
+            @Override
+            public void run() {
+                if (p == null || !p.isOnline() || !world.getName().equals(p.getWorld().getName())) {
+                    stop();
+                    return;
+                }
+                for (Block block : getNearbyBlocks(p.getLocation(), rangePerRound * round)) {
+                    block.setType(Material.ICE);
+                }
+                round++;
+            }
+        }.runTaskTimer(Main.get(), 0, taskTick);
     }
 
     public BukkitTask getTask() {

@@ -1,26 +1,55 @@
 package io.github.Leonardo0013YT.UltraCTW.cosmetics.windances;
 
 import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.game.GameFlag;
+import io.github.Leonardo0013YT.UltraCTW.interfaces.Game;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.WinDance;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
 public class WinDanceDayNight implements WinDance, Cloneable {
 
+    private boolean loaded = false;
     private BukkitTask task;
+    private int perTickTime, taskTick;
 
     @Override
-    public void start(Player p) {
-        if (p == null || !p.isOnline()) {
-            return;
+    public void loadCustoms(Main plugin, String path) {
+        if (!loaded) {
+            perTickTime = plugin.getWindance().getIntOrDefault(path + ".perTickTime", 700);
+            taskTick = plugin.getWindance().getIntOrDefault(path + ".taskTick", 1);
+            loaded = true;
         }
+    }
+
+    @Override
+    public void start(Player p, Game game) {
+        World world = game.getSpectator().getWorld();
         task = new BukkitRunnable() {
-            @Override
             public void run() {
-                p.getWorld().setTime(p.getWorld().getTime() + 700);
+                if (p == null || !p.isOnline() || !world.getName().equals(p.getWorld().getName())) {
+                    stop();
+                    return;
+                }
+                p.getWorld().setTime(p.getWorld().getTime() + perTickTime);
             }
-        }.runTaskTimer(Main.get(), 0, 1);
+        }.runTaskTimer(Main.get(), 0, taskTick);
+    }
+
+    @Override
+    public void start(Player p, GameFlag game) {
+        World world = game.getSpectator().getWorld();
+        task = new BukkitRunnable() {
+            public void run() {
+                if (p == null || !p.isOnline() || !world.getName().equals(p.getWorld().getName())) {
+                    stop();
+                    return;
+                }
+                p.getWorld().setTime(p.getWorld().getTime() + perTickTime);
+            }
+        }.runTaskTimer(Main.get(), 0, taskTick);
     }
 
     @Override

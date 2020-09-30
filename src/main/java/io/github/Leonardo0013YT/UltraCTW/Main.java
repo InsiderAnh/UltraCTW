@@ -230,7 +230,7 @@ public class Main extends JavaPlugin {
             getConfig().addDefault("sounds.streak5", "UI_BUTTON_CLICK");
             getConfig().addDefault("sounds.wineffects.vulcanwool", "ENTITY_CHICKEN_EGG");
             getConfig().addDefault("sounds.wineffects.vulcanfire", "ENTITY_CREEPER_HURT");
-            if (vc.is1_13to15()) {
+            if (vc.is1_13to16()) {
                 getConfig().addDefault("sounds.cancelStart", "BLOCK_NOTE_BLOCK_BASS");
                 getConfig().addDefault("sounds.wineffects.notes", "ENTITY_FIREWORK_ROCKET_LAUNCH");
                 getConfig().addDefault("sounds.wineffects.chicken", "ENTITY_FIREWORK_ROCKET_LAUNCH");

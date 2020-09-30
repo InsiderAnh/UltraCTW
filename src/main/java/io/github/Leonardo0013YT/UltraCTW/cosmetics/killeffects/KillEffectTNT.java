@@ -10,6 +10,17 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class KillEffectTNT implements KillEffect, Cloneable {
 
+    private boolean loaded = false;
+    private int fuseTicks;
+
+    @Override
+    public void loadCustoms(Main plugin, String path) {
+        if (!loaded) {
+            fuseTicks = plugin.getKilleffect().getIntOrDefault(path + ".fuseTicks", 4);
+            loaded = true;
+        }
+    }
+
     @Override
     public void start(Player p, Player death, Location loc) {
         if (p == null || !p.isOnline()) {
@@ -19,7 +30,7 @@ public class KillEffectTNT implements KillEffect, Cloneable {
             return;
         }
         TNTPrimed primed = loc.getWorld().spawn(loc, TNTPrimed.class);
-        primed.setFuseTicks(4);
+        primed.setFuseTicks(fuseTicks);
         new BukkitRunnable() {
             @Override
             public void run() {

@@ -42,31 +42,35 @@ public class WinEffectsManager {
         switch (uwe.getType()) {
             case "fireworks":
                 we = new WinEffectFireworks();
-                we.start(p);
+                we.start(p, game);
                 break;
             case "vulcanfire":
                 we = new WinEffectVulcanFire();
-                we.start(p);
+                we.start(p, game);
                 break;
             case "icewalker":
                 we = new WinEffectIceWalker();
-                we.start(p);
+                we.start(p, game);
                 break;
             case "notes":
                 we = new WinEffectNotes();
-                we.start(p);
+                we.start(p, game);
                 break;
             case "chickens":
                 we = new WinEffectChicken();
-                we.start(p);
+                we.start(p, game);
                 break;
             case "guardian":
                 we = new WinEffectGuardians();
-                we.start(p);
+                we.start(p, game);
+                break;
+            case "dragon":
+                we = new WinEffectDragonRider();
+                we.start(p, game);
                 break;
             default:
                 we = new WinEffectVulcanWool();
-                we.start(p);
+                we.start(p, game);
                 break;
         }
         game.addWinEffects(we);
@@ -81,31 +85,35 @@ public class WinEffectsManager {
         switch (uwe.getType()) {
             case "fireworks":
                 we = new WinEffectFireworks();
-                we.start(p);
+                we.start(p, game);
                 break;
             case "vulcanfire":
                 we = new WinEffectVulcanFire();
-                we.start(p);
+                we.start(p, game);
                 break;
             case "icewalker":
                 we = new WinEffectIceWalker();
-                we.start(p);
+                we.start(p, game);
                 break;
             case "notes":
                 we = new WinEffectNotes();
-                we.start(p);
+                we.start(p, game);
                 break;
             case "chickens":
                 we = new WinEffectChicken();
-                we.start(p);
+                we.start(p, game);
                 break;
             case "guardian":
                 we = new WinEffectGuardians();
-                we.start(p);
+                we.start(p, game);
+                break;
+            case "dragon":
+                we = new WinEffectDragonRider();
+                we.start(p, game);
                 break;
             default:
                 we = new WinEffectVulcanWool();
-                we.start(p);
+                we.start(p, game);
                 break;
         }
         game.addWinEffects(we);

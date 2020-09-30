@@ -181,6 +181,19 @@ public class Settings {
         return def;
     }
 
+    public double getDouble(String s) {
+        return this.config.getDouble(s);
+    }
+
+    public double getDoubleOrDefault(String s, double def) {
+        if (config.isSet(s)) {
+            return getDouble(s);
+        }
+        set(s, def);
+        save();
+        return def;
+    }
+
     public List<String> getList(String s) {
         List<String> now = new ArrayList<>();
         for (String st : this.config.getStringList(s)) {

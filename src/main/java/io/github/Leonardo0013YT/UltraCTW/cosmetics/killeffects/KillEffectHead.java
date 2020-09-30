@@ -10,25 +10,37 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
 public class KillEffectHead implements KillEffect, Cloneable {
 
+    private boolean loaded = false;
+    private XSound punchSound;
     private BukkitTask task;
     private int pased = 0;
+
+    @Override
+    public void loadCustoms(Main plugin, String path) {
+        if (!loaded) {
+            punchSound = XSound.matchXSound(plugin.getKilleffect().getOrDefault(path + ".punchSound", XSound.ENTITY_FIREWORK_ROCKET_BLAST.parseSound().name())).orElse(XSound.ENTITY_FIREWORK_ROCKET_BLAST);
+            loaded = true;
+        }
+    }
 
     @Override
     public void start(Player p, Player death, Location loc) {
         if (death == null || !death.isOnline()) {
             return;
         }
+        ItemStack head = ItemBuilder.skull(XMaterial.PLAYER_HEAD, 1, "§e", "§e", death.getName());
         ArmorStand armor = loc.getWorld().spawn(loc, ArmorStand.class);
         armor.setVisible(false);
         armor.setCustomName(death.getName());
         armor.setCustomNameVisible(true);
-        armor.setHelmet(ItemBuilder.skull(XMaterial.PLAYER_HEAD, 1, "§e", "§e", death.getName()));
+        armor.setHelmet(head);
         armor.setNoDamageTicks(999999999);
         armor.setMetadata("KILLEFFECT", new FixedMetadataValue(Main.get(), "KILLEFFECT"));
         task = new BukkitRunnable() {
@@ -37,7 +49,7 @@ public class KillEffectHead implements KillEffect, Cloneable {
                 pased++;
                 if (pased >= 20) {
                     armor.getWorld().playEffect(armor.getLocation(), Effect.STEP_SOUND, Material.COAL_BLOCK);
-                    p.playSound(p.getLocation(), XSound.ENTITY_FIREWORK_ROCKET_BLAST.parseSound(), 1.0f, 1.0f);
+                    p.playSound(p.getLocation(), punchSound.parseSound(), 1.0f, 1.0f);
                     armor.remove();
                     cancel();
                     return;

@@ -14,6 +14,7 @@ import org.bukkit.inventory.meta.SkullMeta;
 import javax.annotation.Nonnull;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -234,15 +235,36 @@ public class NBTEditor {
         if (skinURL == null || skinURL.isEmpty()) {
             return head;
         }
-        SkullMeta headMeta = (SkullMeta) head.getItemMeta();
-        GameProfile profile = new GameProfile(UUID.randomUUID(), null);
-        profile.getProperties().put("textures", new Property("textures", skinURL));
+        ItemMeta headMeta = head.getItemMeta();
+        Object profile = null;
         try {
-            Field profileField = headMeta.getClass().getDeclaredField("profile");
+            profile = getConstructor(getNMSClass("GameProfile")).newInstance(UUID.randomUUID(), null);
+            Object propertyMap = getMethod("getProperties").invoke(profile);
+            Object textureProperty = getConstructor(getNMSClass("Property")).newInstance("textures", skinURL);
+            getMethod("put").invoke(propertyMap, "textures", textureProperty);
+        } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | InstantiationException e1) {
+            e1.printStackTrace();
+        }
+
+        if (methodCache.containsKey("setProfile")) {
+            try {
+                getMethod("setProfile").invoke(headMeta, profile);
+            } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+                e.printStackTrace();
+            }
+        } else {
+            Field profileField = null;
+            try {
+                profileField = headMeta.getClass().getDeclaredField("profile");
+            } catch (NoSuchFieldException | SecurityException e) {
+                e.printStackTrace();
+            }
             profileField.setAccessible(true);
-            profileField.set(headMeta, profile);
-        } catch (IllegalArgumentException | NoSuchFieldException | SecurityException | IllegalAccessException error) {
-            error.printStackTrace();
+            try {
+                profileField.set(headMeta, profile);
+            } catch (IllegalArgumentException | IllegalAccessException e) {
+                e.printStackTrace();
+            }
         }
         head.setItemMeta(headMeta);
         return head;

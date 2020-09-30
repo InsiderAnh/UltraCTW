@@ -9,6 +9,9 @@ progressBarAmount: 10
 excluideDefKits: true
 kitLevelsOrder: true
 lobbyScoreboard: true
+updatePlayersPlaceholder: 5
+effectsOnKill:
+  - "REGENERATION:2:5"
 redPanel:
   material: STAINED_GLASS_PANE
   data: 14
@@ -19,6 +22,7 @@ breakMap:
     - STONE
 flagDefaults:
   hunger: true
+  instaKillOnVoid: true
   gracePeriod: 60
   phases:
     PHASE_I:
@@ -51,6 +55,7 @@ flagDefaults:
         - DURABILITY:1:true
 gameDefaults:
   hunger: true
+  instaKillOnVoid: true
   maxMultiplier: 5
   starting: 30
   timeToKill: 30

@@ -36,6 +36,7 @@ public class ShopKeepersManager {
 
     public void spawnShopKeeper(Player p, Location loc, int id, NPCType npcType) {
         ShopKeeper sk = getShopKeeper(id);
+        if (sk == null) return;
         EntityType type = EntityType.valueOf(sk.getEntityType());
         NPC npc = plugin.getVc().createNewNPC();
         npc.create(p, loc, type, npcType);

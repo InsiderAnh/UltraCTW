@@ -1,5 +1,6 @@
 package io.github.Leonardo0013YT.UltraCTW.cosmetics.killeffects;
 
+import io.github.Leonardo0013YT.UltraCTW.Main;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.KillEffect;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
@@ -16,6 +17,10 @@ public class KillEffectFirework implements KillEffect, Cloneable {
 
     public KillEffectFirework() {
         this.random = new Random();
+    }
+
+    @Override
+    public void loadCustoms(Main plugin, String path) {
     }
 
     @Override

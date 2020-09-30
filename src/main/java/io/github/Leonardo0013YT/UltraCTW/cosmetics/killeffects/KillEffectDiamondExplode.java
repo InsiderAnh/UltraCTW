@@ -15,14 +15,30 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class KillEffectDiamondExplode implements KillEffect, Cloneable {
 
+    private boolean loaded = false;
+    private double xRandom, yRandom, zRandom, diamondsAmount;
+    private int delayDelete;
+
+    @Override
+    public void loadCustoms(Main plugin, String path) {
+        if (!loaded) {
+            xRandom = plugin.getKilleffect().getDoubleOrDefault(path + ".xRandom", 0.35);
+            yRandom = plugin.getKilleffect().getDoubleOrDefault(path + ".yRandom", 0.5);
+            zRandom = plugin.getKilleffect().getDoubleOrDefault(path + ".xRandom", 0.35);
+            diamondsAmount = plugin.getKilleffect().getIntOrDefault(path + ".diamondsAmount", 10);
+            delayDelete = plugin.getKilleffect().getIntOrDefault(path + ".delayDelete", 40);
+            loaded = true;
+        }
+    }
+
     @Override
     public void start(Player p, Player death, Location loc) {
         if (death == null || !death.isOnline()) {
             return;
         }
         ArrayList<Item> it = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            it.add(spawnDiamond(loc, random(-0.35, 0.35), random(-0.35, 0.35)));
+        for (int i = 0; i < diamondsAmount; i++) {
+            it.add(spawnDiamond(loc, random(-xRandom, xRandom), yRandom, random(-zRandom, zRandom)));
         }
         new BukkitRunnable() {
             @Override
@@ -31,7 +47,7 @@ public class KillEffectDiamondExplode implements KillEffect, Cloneable {
                     itemStack.remove();
                 }
             }
-        }.runTaskLater(Main.get(), 40);
+        }.runTaskLater(Main.get(), delayDelete);
     }
 
     @Override
@@ -47,9 +63,9 @@ public class KillEffectDiamondExplode implements KillEffect, Cloneable {
         return d + ThreadLocalRandom.current().nextDouble() * (d2 - d);
     }
 
-    private Item spawnDiamond(Location location, double d, double d3) {
+    private Item spawnDiamond(Location location, double d, double d2, double d3) {
         Item item = location.getWorld().dropItem(location, new ItemStack(Material.DIAMOND));
-        item.setVelocity(new Vector(d, 0.5, d3));
+        item.setVelocity(new Vector(d, d2, d3));
         item.setPickupDelay(Integer.MAX_VALUE);
         return item;
     }

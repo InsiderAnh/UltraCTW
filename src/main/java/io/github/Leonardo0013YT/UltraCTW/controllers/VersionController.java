@@ -133,7 +133,7 @@ public class VersionController {
         return is1_9to15;
     }
 
-    public boolean is1_13to15() {
+    public boolean is1_13to16() {
         return is1_13to15;
     }
 }

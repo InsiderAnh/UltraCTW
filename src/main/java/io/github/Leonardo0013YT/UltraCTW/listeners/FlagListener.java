@@ -255,6 +255,12 @@ public class FlagListener implements Listener {
         FlagTeam team = g.getTeamPlayer(p);
         if (team == null) return;
         if (!team.getFlag().getWorld().getName().equals(p.getLocation().getWorld().getName())) return;
+        Location to = e.getTo();
+        Location from = e.getFrom();
+        if (to.getBlockX() != from.getBlockX() || to.getBlockY() != from.getBlockY() || to.getBlockZ() != from.getBlockZ()) {
+            CTWPlayer ctw = plugin.getDb().getCTWPlayer(p);
+            ctw.setWalked(ctw.getWalked() + 1);
+        }
         if (team.getFlag().distance(p.getLocation()) < 2) {
             if (team.isCapturing(p)) {
                 p.getInventory().setHelmet(null);
@@ -272,6 +278,11 @@ public class FlagListener implements Listener {
                 ft.sendTitle(plugin.getLang().get("titles.otherCapturedFlag.title").replace("<player>", p.getName()).replace("<name>", team.getName()).replace("<flag>", Utils.getFlagIcon(ft.getColor())).replace("<player>", p.getName()).replace("<color>", team.getColor() + ""), plugin.getLang().get("titles.otherCapturedFlag.subtitle").replace("<player>", p.getName()).replace("<flag>", Utils.getFlagIcon(ft.getColor())).replace("<player>", p.getName()).replace("<name>", team.getName()).replace("<color>", team.getColor() + ""), 0, 30, 0);
                 ft.playSound(XSound.ENTITY_WITHER_HURT, 1.0f, 1.0f);
                 g.checkWin();
+            }
+        }
+        if (to.getBlockY() < 10){
+            if (plugin.getCm().isInstaKillOnVoidFlag()) {
+                p.damage(10000);
             }
         }
     }

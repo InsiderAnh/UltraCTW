@@ -191,6 +191,11 @@ public class PlayerListener implements Listener {
             g.getWools().remove(l);
             return;
         }
+        if (plugin.getCm().getBreakBypass().contains(l.getBlock().getType().name())){
+            CTWPlayer ctw = plugin.getDb().getCTWPlayer(p);
+            ctw.setBroken(ctw.getBroken() + 1);
+            return;
+        }
         if (s1 != null) {
             e.setCancelled(s1.isNoBreak());
             p.sendMessage(plugin.getLang().get("messages.noBreak"));
@@ -201,7 +206,7 @@ public class PlayerListener implements Listener {
             p.sendMessage(plugin.getLang().get("messages.noBreak"));
             return;
         }
-        if (!g.getPlaced().contains(l) && !plugin.getCm().getBreakBypass().contains(l.getBlock().getType().name())){
+        if (!g.getPlaced().contains(l)){
             p.sendMessage(plugin.getLang().get("messages.onlyBreakPlaced"));
             e.setCancelled(true);
             return;
@@ -348,6 +353,11 @@ public class PlayerListener implements Listener {
             CTWPlayer ctw = plugin.getDb().getCTWPlayer(p);
             ctw.setWalked(ctw.getWalked() + 1);
         }
+        if (to.getBlockY() < 10) {
+            if (plugin.getCm().isInstaKillOnVoidCTW()){
+                respawn(team, g, p);
+            }
+        }
     }
 
     @EventHandler
@@ -488,10 +498,12 @@ public class PlayerListener implements Listener {
                     e.setCancelled(true);
                     return;
                 }
+                double damage = e.getFinalDamage();
+                plugin.getTgm().setTag(d, p, damage);
                 if (e.getFinalDamage() >= p.getHealth()) {
                     CTWPlayer sk = plugin.getDb().getCTWPlayer(d);
                     for (ObjectPotion op : plugin.getCm().getEffectsOnKill()){
-                        p.addPotionEffect(new PotionEffect(op.getPotion().parsePotionEffectType(), op.getDuration(), op.getLevel()));
+                        d.addPotionEffect(new PotionEffect(op.getPotion().parsePotionEffectType(), op.getDuration(), op.getLevel()));
                     }
                     if (p.getLastDamageCause() == null || p.getLastDamageCause().getCause() == null) {
                         EntityDamageEvent.DamageCause cause = EntityDamageEvent.DamageCause.CONTACT;
@@ -514,8 +526,6 @@ public class PlayerListener implements Listener {
                     respawn(tp, g, p);
                     g.addDeath(p);
                 }
-                double damage = e.getFinalDamage();
-                plugin.getTgm().setTag(d, p, damage);
             }
             if (e.getDamager() instanceof Projectile && ((Projectile) e.getDamager()).getShooter() instanceof Player) {
                 Player d = (Player) ((Projectile) e.getDamager()).getShooter();
@@ -531,6 +541,8 @@ public class PlayerListener implements Listener {
                     e.setCancelled(true);
                     return;
                 }
+                double damage = e.getFinalDamage();
+                plugin.getTgm().setTag(d, p, damage);
                 if (e.getFinalDamage() >= p.getHealth()) {
                     CTWPlayer sk = plugin.getDb().getCTWPlayer(d);
                     for (ObjectPotion op : plugin.getCm().getEffectsOnKill()){
@@ -557,8 +569,6 @@ public class PlayerListener implements Listener {
                     respawn(tp, g, p);
                     g.addDeath(p);
                 }
-                double damage = e.getFinalDamage();
-                plugin.getTgm().setTag(d, p, damage);
                 CTWPlayer ctw = plugin.getDb().getCTWPlayer(d);
                 ctw.setsShots(ctw.getsShots() + 1);
             }

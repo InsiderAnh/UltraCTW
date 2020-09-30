@@ -4,6 +4,7 @@ import io.github.Leonardo0013YT.UltraCTW.Main;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.CTWPlayer;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.Purchasable;
 import io.github.Leonardo0013YT.UltraCTW.utils.ItemBuilder;
+import io.github.Leonardo0013YT.UltraCTW.utils.NBTEditor;
 import io.github.Leonardo0013YT.UltraCTW.xseries.XMaterial;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -75,7 +76,7 @@ public class UltraWinDance implements Purchasable {
             if (price > 0) {
                 if (Main.get().getCm().isRedPanelInLocked()) {
                     if (!sw.getWindances().contains(id)) {
-                        icon = ItemBuilder.item(XMaterial.matchXMaterial(Main.get().getCm().getRedPanelMaterial().name(), (byte) Main.get().getCm().getRedPanelData()).orElse(XMaterial.RED_STAINED_GLASS_PANE), 1, icon.getItemMeta().getDisplayName(), icon.getItemMeta().getLore());
+                        icon = ItemBuilder.item(XMaterial.matchDefinedXMaterial(Main.get().getCm().getRedPanelMaterial().name(), (byte) Main.get().getCm().getRedPanelData()).orElse(XMaterial.RED_STAINED_GLASS_PANE), 1, icon.getItemMeta().getDisplayName(), icon.getItemMeta().getLore());
                     }
                 }
             }
@@ -129,7 +130,7 @@ public class UltraWinDance implements Purchasable {
         }
         iconM.setLore(lore);
         icon.setItemMeta(iconM);
-        return icon;
+        return NBTEditor.set(icon, id, "ULTRASKYWARS", "WINDANCE");
     }
 
     public String getName() {

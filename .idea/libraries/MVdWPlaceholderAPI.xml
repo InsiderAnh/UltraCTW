@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="MVdWPlaceholderAPI">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../../APIS/MVdWPlaceholderAPI.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>

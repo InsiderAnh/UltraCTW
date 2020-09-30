@@ -40,29 +40,50 @@ public class WinDancesManager {
         }
         WinDance we;
         switch (uwe.getType()) {
+            case "meteors":
+                we = new WinDanceMeteors();
+                we.loadCustoms(plugin, "windances.meteors");
+                we.start(p, game);
+                break;
+            case "pigland":
+                we = new WinDancePigLand();
+                we.loadCustoms(plugin, "windances.pigland");
+                we.start(p, game);
+                break;
+            case "wolfs":
+                we = new WinDanceWolfs();
+                we.loadCustoms(plugin, "windances.wolfs");
+                we.start(p, game);
+                break;
             case "anvilland":
                 we = new WinDanceAnvilLand();
-                we.start(p);
+                we.loadCustoms(plugin, "windances.anvilland");
+                we.start(p, game);
                 break;
             case "daynight":
                 we = new WinDanceDayNight();
-                we.start(p);
+                we.loadCustoms(plugin, "windances.daynight");
+                we.start(p, game);
                 break;
             case "explode":
                 we = new WinDanceDestroyIsland();
-                we.start(p);
+                we.loadCustoms(plugin, "windances.explode");
+                we.start(p, game);
                 break;
             case "fireworks":
                 we = new WinDanceFireworks();
-                we.start(p);
+                we.loadCustoms(plugin, "windances.fireworks");
+                we.start(p, game);
                 break;
             case "icewalker":
                 we = new WinDanceIceWalker();
-                we.start(p);
+                we.loadCustoms(plugin, "windances.icewalker");
+                we.start(p, game);
                 break;
             default:
                 we = new WinDanceThunder();
-                we.start(p);
+                we.loadCustoms(plugin, "windances.thunder");
+                we.start(p, game);
                 break;
         }
         game.addWinDance(we);
@@ -75,29 +96,50 @@ public class WinDancesManager {
         }
         WinDance we;
         switch (uwe.getType()) {
+            case "meteors":
+                we = new WinDanceMeteors();
+                we.loadCustoms(plugin, "windances.meteors");
+                we.start(p, game);
+                break;
+            case "pigland":
+                we = new WinDancePigLand();
+                we.loadCustoms(plugin, "windances.pigland");
+                we.start(p, game);
+                break;
+            case "wolfs":
+                we = new WinDanceWolfs();
+                we.loadCustoms(plugin, "windances.wolfs");
+                we.start(p, game);
+                break;
             case "anvilland":
                 we = new WinDanceAnvilLand();
-                we.start(p);
+                we.loadCustoms(plugin, "windances.anvilland");
+                we.start(p, game);
                 break;
             case "daynight":
                 we = new WinDanceDayNight();
-                we.start(p);
+                we.loadCustoms(plugin, "windances.daynight");
+                we.start(p, game);
                 break;
             case "explode":
                 we = new WinDanceDestroyIsland();
-                we.start(p);
+                we.loadCustoms(plugin, "windances.explode");
+                we.start(p, game);
                 break;
             case "fireworks":
                 we = new WinDanceFireworks();
-                we.start(p);
+                we.loadCustoms(plugin, "windances.fireworks");
+                we.start(p, game);
                 break;
             case "icewalker":
                 we = new WinDanceIceWalker();
-                we.start(p);
+                we.loadCustoms(plugin, "windances.icewalker");
+                we.start(p, game);
                 break;
             default:
                 we = new WinDanceThunder();
-                we.start(p);
+                we.loadCustoms(plugin, "windances.thunder");
+                we.start(p, game);
                 break;
         }
         game.addWinDance(we);
