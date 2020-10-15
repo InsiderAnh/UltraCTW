@@ -2,6 +2,7 @@ package io.github.Leonardo0013YT.UltraCTW.managers;
 
 import com.nametagedit.plugin.NametagEdit;
 import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.enums.State;
 import io.github.Leonardo0013YT.UltraCTW.game.GameFlag;
 import io.github.Leonardo0013YT.UltraCTW.game.GameNoState;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.Game;
@@ -92,6 +93,19 @@ public class GameManager {
         lastUpdatePlayers = System.currentTimeMillis();
     }
 
+    public GameFlag getRandomGameFlag(){
+        GameFlag fg = null;
+        int amount = 0;
+        for (GameFlag gf : flagGames.values()) {
+            if (gf.isState(State.GAME) || gf.isState(State.FINISH) || gf.isState(State.RESTARTING)) continue;
+            if (gf.getPlayers().size() >= gf.getMax()) continue;
+            if (amount <= gf.getPlayers().size()){
+                fg = gf;
+                amount = gf.getPlayers().size();
+            }
+        }
+        return fg;
+    }
 
     public Game getSelectedGame() {
         return selectedGame;

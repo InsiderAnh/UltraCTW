@@ -143,6 +143,14 @@ public class MVdWPlaceholders {
             Player p = e.getPlayer();
             CTWPlayer sw = plugin.getDb().getCTWPlayer(p);
             if (sw != null) {
+                return "" + Utils.getProgressBar(sw.getTaunts().size(), plugin.getTm().getTauntsSize());
+            }
+            return "";
+        });
+        PlaceholderAPI.registerPlaceholder(plugin, "ctw_bar_taunts", e -> {
+            Player p = e.getPlayer();
+            CTWPlayer sw = plugin.getDb().getCTWPlayer(p);
+            if (sw != null) {
                 return "" + Utils.getProgressBar(sw.getTaunts().size(), plugin.getTm().getTauntsSize(), plugin.getCm().getProgressBarAmount());
             }
             return "";
@@ -164,6 +172,14 @@ public class MVdWPlaceholders {
             return "";
         });
         PlaceholderAPI.registerPlaceholder(plugin, "ctw_percentage_killsounds", e -> {
+            Player p = e.getPlayer();
+            CTWPlayer sw = plugin.getDb().getCTWPlayer(p);
+            if (sw != null) {
+                return "" + Utils.getProgressBar(sw.getKillsounds().size(), plugin.getKsm().getKillSoundsSize());
+            }
+            return "";
+        });
+        PlaceholderAPI.registerPlaceholder(plugin, "ctw_bar_killsounds", e -> {
             Player p = e.getPlayer();
             CTWPlayer sw = plugin.getDb().getCTWPlayer(p);
             if (sw != null) {
@@ -191,6 +207,14 @@ public class MVdWPlaceholders {
             Player p = e.getPlayer();
             CTWPlayer sw = plugin.getDb().getCTWPlayer(p);
             if (sw != null) {
+                return "" + Utils.getProgressBar(sw.getKilleffects().size(), plugin.getKem().getKillEffectSize());
+            }
+            return "";
+        });
+        PlaceholderAPI.registerPlaceholder(plugin, "ctw_bar_killeffects", e -> {
+            Player p = e.getPlayer();
+            CTWPlayer sw = plugin.getDb().getCTWPlayer(p);
+            if (sw != null) {
                 return "" + Utils.getProgressBar(sw.getKilleffects().size(), plugin.getKem().getKillEffectSize(), plugin.getCm().getProgressBarAmount());
             }
             return "";
@@ -204,6 +228,14 @@ public class MVdWPlaceholders {
             return "";
         });
         PlaceholderAPI.registerPlaceholder(plugin, "ctw_percentage_windances", e -> {
+            Player p = e.getPlayer();
+            CTWPlayer sw = plugin.getDb().getCTWPlayer(p);
+            if (sw != null) {
+                return "" + Utils.getProgressBar(sw.getWindances().size(), plugin.getWdm().getWinDancesSize());
+            }
+            return "";
+        });
+        PlaceholderAPI.registerPlaceholder(plugin, "ctw_bar_windances", e -> {
             Player p = e.getPlayer();
             CTWPlayer sw = plugin.getDb().getCTWPlayer(p);
             if (sw != null) {
@@ -228,6 +260,14 @@ public class MVdWPlaceholders {
             return "";
         });
         PlaceholderAPI.registerPlaceholder(plugin, "ctw_percentage_wineffects", e -> {
+            Player p = e.getPlayer();
+            CTWPlayer sw = plugin.getDb().getCTWPlayer(p);
+            if (sw != null) {
+                return "" + Utils.getProgressBar(sw.getWineffects().size(), plugin.getWem().getWinEffectsSize());
+            }
+            return "";
+        });
+        PlaceholderAPI.registerPlaceholder(plugin, "ctw_bar_wineffects", e -> {
             Player p = e.getPlayer();
             CTWPlayer sw = plugin.getDb().getCTWPlayer(p);
             if (sw != null) {

@@ -24,7 +24,7 @@ public class ConfigManager {
     private Material back, redPanelMaterial;
     private Sound streak2, streak3, streak4, streak5, upgradeSound, cancelStartSound, wineffectschicken, wineffectsvulcanfire, wineffectvulcanwool, wineffectnotes, killEffectTNT, killEffectSquid;
     private XSound pickUpTeam, pickUpOthers, captured;
-    private int updatePlayersPlaceholder, gracePeriod, limitOfYSpawn, itemLobbySlot, maxMultiplier, gCoinsKills, gCoinsWins, gCoinsAssists, coinsKill, coinsWin, coinsAssists, xpKill, xpWin, xpAssists, starting, progressBarAmount, timeToKill;
+    private int ironGenerating, updatePlayersPlaceholder, gracePeriod, limitOfYSpawn, itemLobbySlot, maxMultiplier, gCoinsKills, gCoinsWins, gCoinsAssists, coinsKill, coinsWin, coinsAssists, xpKill, xpWin, xpAssists, starting, progressBarAmount, timeToKill;
     private double bountyMin, bountyMax, bountyPerKill;
     private String itemLobbyCMD;
     private List<String> noDrop, breakBypass;
@@ -43,6 +43,7 @@ public class ConfigManager {
             int duration = Integer.parseInt(st[2]);
             effectsOnKill.add(new ObjectPotion(potion, level, duration));
         }
+        this.ironGenerating = plugin.getConfig().getInt("gameDefaults.ironGenerating");
         this.updatePlayersPlaceholder = plugin.getConfig().getInt("updatePlayersPlaceholder");
         this.lobbyScoreboard = plugin.getConfig().getBoolean("lobbyScoreboard");
         this.hungerFlag = plugin.getConfig().getBoolean("flagDefaults.hunger");

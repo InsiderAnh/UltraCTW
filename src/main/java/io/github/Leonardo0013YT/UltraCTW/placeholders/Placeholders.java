@@ -73,6 +73,9 @@ public class Placeholders extends PlaceholderExpansion {
             return "" + plugin.getTlm().getTrailsSize();
         }
         if (id.equals("percentage_trails")) {
+            return "" + Utils.getProgressBar(sw.getTrails().size(), plugin.getTlm().getTrailsSize());
+        }
+        if (id.equals("bar_trails")) {
             return "" + Utils.getProgressBar(sw.getTrails().size(), plugin.getTlm().getTrailsSize(), plugin.getCm().getProgressBarAmount());
         }
         if (id.equals("unlocked_windances")) {
@@ -82,6 +85,9 @@ public class Placeholders extends PlaceholderExpansion {
             return "" + plugin.getWdm().getWinDancesSize();
         }
         if (id.equals("percentage_windances")) {
+            return "" + Utils.getProgressBar(sw.getWindances().size(), plugin.getWdm().getWinDancesSize());
+        }
+        if (id.equals("bar_windances")) {
             return "" + Utils.getProgressBar(sw.getWindances().size(), plugin.getWdm().getWinDancesSize(), plugin.getCm().getProgressBarAmount());
         }
         if (id.equals("unlocked_wineffects")) {
@@ -91,6 +97,9 @@ public class Placeholders extends PlaceholderExpansion {
             return "" + plugin.getWem().getWinEffectsSize();
         }
         if (id.equals("percentage_wineffects")) {
+            return "" + Utils.getProgressBar(sw.getWineffects().size(), plugin.getWem().getWinEffectsSize());
+        }
+        if (id.equals("bar_wineffects")) {
             return "" + Utils.getProgressBar(sw.getWineffects().size(), plugin.getWem().getWinEffectsSize(), plugin.getCm().getProgressBarAmount());
         }
         if (id.equals("unlocked_taunts")) {
@@ -100,6 +109,9 @@ public class Placeholders extends PlaceholderExpansion {
             return "" + plugin.getTm().getTauntsSize();
         }
         if (id.equals("percentage_taunts")) {
+            return "" + Utils.getProgressBar(sw.getTaunts().size(), plugin.getTm().getTauntsSize());
+        }
+        if (id.equals("bar_taunts")) {
             return "" + Utils.getProgressBar(sw.getTaunts().size(), plugin.getTm().getTauntsSize(), plugin.getCm().getProgressBarAmount());
         }
         if (id.equals("unlocked_killsounds")) {
@@ -109,6 +121,9 @@ public class Placeholders extends PlaceholderExpansion {
             return "" + plugin.getKsm().getKillSoundsSize();
         }
         if (id.equals("percentage_killsounds")) {
+            return "" + Utils.getProgressBar(sw.getKillsounds().size(), plugin.getKsm().getKillSoundsSize());
+        }
+        if (id.equals("bar_killsounds")) {
             return "" + Utils.getProgressBar(sw.getKillsounds().size(), plugin.getKsm().getKillSoundsSize(), plugin.getCm().getProgressBarAmount());
         }
         if (id.equals("unlocked_killeffects")) {
@@ -118,6 +133,9 @@ public class Placeholders extends PlaceholderExpansion {
             return "" + plugin.getKem().getKillEffectSize();
         }
         if (id.equals("percentage_killeffects")) {
+            return "" + Utils.getProgressBar(sw.getKilleffects().size(), plugin.getKem().getKillEffectSize());
+        }
+        if (id.equals("bar_killeffects")) {
             return "" + Utils.getProgressBar(sw.getKilleffects().size(), plugin.getKem().getKillEffectSize(), plugin.getCm().getProgressBarAmount());
         }
         if (id.equals("level_progress")) {

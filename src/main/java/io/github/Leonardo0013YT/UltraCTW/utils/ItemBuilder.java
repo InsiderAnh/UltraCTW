@@ -29,46 +29,54 @@ public class ItemBuilder {
                 break;
             }
         }
-        addItemFlags(im);
+        if (im != null) {
+            addItemFlags(im);
+        }
+        i.setItemMeta(im);
+        return i;
+    }
+
+    public static ItemStack parseVariables(Player p, ItemStack i){
+        if (!i.hasItemMeta() || !i.getItemMeta().hasDisplayName()) {
+            return i;
+        }
+        ItemMeta im = i.getItemMeta();
+        List<String> lore = (i.hasItemMeta() && i.getItemMeta().hasLore()) ? i.getItemMeta().getLore() : Collections.emptyList();
+        for (int k = 0; k < lore.size(); k++) {
+            String value = lore.get(k);
+            lore.set(k, Main.get().getAdm().parsePlaceholders(p, value));
+
+        }
+        im.setLore(lore);
         i.setItemMeta(im);
         return i;
     }
 
     public static ItemStack parseVariables(Player p, ItemStack i, String[]... t) {
-        String d = (i.hasItemMeta() && i.getItemMeta().hasDisplayName()) ? i.getItemMeta().getDisplayName() : "";
+        if (!i.hasItemMeta() || !i.getItemMeta().hasDisplayName()) {
+            return i;
+        }
+        String d = i.getItemMeta().getDisplayName();
         List<String> lore = (i.hasItemMeta() && i.getItemMeta().hasLore()) ? i.getItemMeta().getLore() : Collections.emptyList();
-        List<String> newLore = new ArrayList<>();
-        boolean anyVariable = true;
-        for (String[] s : t) {
-            String s1 = s[0];
-            String s2 = s[1];
-            if (!preCheck(lore, s1)) {
-                continue;
-            }
-            anyVariable = false;
-            for (String value : lore) {
-                if (value.contains(s1)) {
-                    if (s2.contains("<newLine>")) {
-                        for (String l : s2.split("<newLine>")) {
-                            String newValue = value.replace(s1, l);
-                            newLore.add(Main.get().getAdm().parsePlaceholders(p, newValue));
-                        }
-                    } else {
+        if (!lore.isEmpty()) {
+            for (String[] s : t) {
+                String s1 = s[0];
+                String s2 = s[1];
+                for (int k = 0; k < lore.size(); k++) {
+                    String value = lore.get(k);
+                    if (value.contains(s1)) {
                         String newValue = value.replace(s1, s2);
-                        newLore.add(Main.get().getAdm().parsePlaceholders(p, newValue));
+                        lore.set(k, Main.get().getAdm().parsePlaceholders(p, newValue));
+                    } else {
+                        lore.set(k, Main.get().getAdm().parsePlaceholders(p, value));
                     }
-                } else {
-                    newLore.add(Main.get().getAdm().parsePlaceholders(p, value));
                 }
+                d = d.replaceAll(s1, s2);
             }
-            d = d.replaceAll(s1, s2);
         }
         ItemMeta im = i.getItemMeta();
         im.setDisplayName(d);
-        if (!anyVariable) {
-            im.setLore(null);
-            im.setLore(newLore);
-        }
+        im.setLore(lore);
         i.setItemMeta(im);
         return i;
     }

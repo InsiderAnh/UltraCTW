@@ -509,11 +509,15 @@ public class PlayerListener implements Listener {
                         EntityDamageEvent.DamageCause cause = EntityDamageEvent.DamageCause.CONTACT;
                         if (sk != null) {
                             plugin.getTm().execute(p, cause, g, sk.getTaunt());
+                        } else {
+                            plugin.getTm().execute(p, cause, g, 0);
                         }
                     } else {
                         EntityDamageEvent.DamageCause cause = p.getLastDamageCause().getCause();
                         if (sk != null) {
                             plugin.getTm().execute(p, cause, g, sk.getTaunt());
+                        } else {
+                            plugin.getTm().execute(p, cause, g, 0);
                         }
                     }
                     if (sk != null) {

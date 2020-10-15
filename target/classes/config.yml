@@ -60,6 +60,7 @@ gameDefaults:
   starting: 30
   timeToKill: 30
   limitOfYSpawn: 30
+  ironGenerating: 10
   gcoins:
     kill: 3
     win: 10
@@ -71,6 +72,10 @@ gameDefaults:
   xp:
     kill: 5
     win: 10
+    assists: 2
+  capture:
+    kill: 5
+    win: 20
     assists: 2
   noDrop:
     - IRON_HELMET

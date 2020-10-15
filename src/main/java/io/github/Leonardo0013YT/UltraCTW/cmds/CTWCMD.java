@@ -203,13 +203,34 @@ public class CTWCMD implements CommandExecutor {
                     p.sendMessage(plugin.getLang().get("messages.leaveGame"));
                     break;
                 case "randomjoin":
-                    if (plugin.getGm().isPlayerInGame(p)) {
-                        p.sendMessage(plugin.getLang().get("messages.alreadyIngame"));
+                    if (args.length < 2) {
+                        sendHelp(sender);
                         return true;
                     }
-                    Game selected2 = plugin.getGm().getSelectedGame();
-                    if (selected2 == null) return true;
-                    plugin.getGm().addPlayerGame(p, selected2.getId());
+                    String type = args[1];
+                    switch (type){
+                        case "wool":
+                            if (plugin.getGm().isPlayerInGame(p)) {
+                                p.sendMessage(plugin.getLang().get("messages.alreadyIngame"));
+                                return true;
+                            }
+                            Game selected2 = plugin.getGm().getSelectedGame();
+                            if (selected2 == null) return true;
+                            plugin.getGm().addPlayerGame(p, selected2.getId());
+                            break;
+                        case "flag":
+                            if (plugin.getGm().isPlayerInGame(p)) {
+                                p.sendMessage(plugin.getLang().get("messages.alreadyIngame"));
+                                return true;
+                            }
+                            GameFlag selected3 = plugin.getGm().getRandomGameFlag();
+                            if (selected3 == null) return true;
+                            plugin.getGm().addPlayerGameFlag(p, selected3.getId());
+                            break;
+                        default:
+                            sendHelp(sender);
+                            break;
+                    }
                     break;
                 case "join":
                     if (args.length < 2) {
@@ -376,7 +397,7 @@ public class CTWCMD implements CommandExecutor {
         s.sendMessage("§e/ctw lobby §a- §bOpen the lobby menu.");
         s.sendMessage("§e/ctw join <name> §a- §bJoin to arena with name.");
         s.sendMessage("§e/ctw joinflag <name> §a- §bJoin to flag arena with name.");
-        s.sendMessage("§e/ctw randomjoin §a- §bRandom Join to arena.");
+        s.sendMessage("§e/ctw randomjoin <wool/flag>§a- §bRandom Join to arena.");
         s.sendMessage("§e/ctw leave §a- §bLeave the game.");
         s.sendMessage("§e/ctw coins add/remove/set <player> <coins> §7- §aHandles the addition, removal and set of coins.");
         s.sendMessage("§e/ctw gcoins add/remove/set <player> <coins> §7- §aHandles the addition, removal and set of coins.");

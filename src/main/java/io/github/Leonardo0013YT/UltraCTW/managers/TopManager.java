@@ -29,6 +29,7 @@ public class TopManager {
             return;
         }
         remove();
+        holograms.clear();
         if (plugin.getCm().getTopBounty() != null) {
             List<String> l = plugin.getLang().getList("holograms.tops.bounty");
             ArrayList<String> lines = new ArrayList<>();

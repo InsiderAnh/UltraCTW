@@ -31,6 +31,12 @@ public class Utils {
         return df.format(value);
     }
 
+    public static String getProgressBar(int current, int max){
+        float percent = (float) current / max;
+        double por = percent * 100;
+        return new DecimalFormat("####.#").format(por);
+    }
+
     public static String getProgressBar(int current, int max, int totalBars) {
         Main plugin = Main.get();
         float percent = (float) current / max;
@@ -149,9 +155,9 @@ public class Utils {
     }
 
     public static Location getStringLocation(String location) {
-        if (location == null || location.equals("")) return null;
+        if (location == null) return null;
         String[] l = location.split(";");
-        if (l.length < 5) return null;
+        if (l.length < 6) return null;
         World world = Bukkit.getWorld(l[0]);
         double x = Double.parseDouble(l[1]);
         double y = Double.parseDouble(l[2]);

@@ -83,7 +83,7 @@ public class UltraInventoryMenu {
         for (Map.Entry<Integer, ItemStack> entry : i.getContents().entrySet()) {
             Integer s = entry.getKey();
             ItemStack it = entry.getValue();
-            inv.setItem(s, it);
+            inv.setItem(s, ItemBuilder.parseVariables(p, it));
         }
         p.openInventory(inv);
         return inv;

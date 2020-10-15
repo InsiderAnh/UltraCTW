@@ -203,7 +203,7 @@ windances:
         lore:
           - '§eDescription:'
           - §7A pack of wolves that will
-          - &7be your friends.
+          - §7be your friends.
           - §7
           - <status>
     type: wolfs
