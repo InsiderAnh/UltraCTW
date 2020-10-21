@@ -39,14 +39,38 @@ public class Placeholders extends PlaceholderExpansion {
     @Override
     public String onPlaceholderRequest(Player p, String id) {
         CTWPlayer sw = plugin.getDb().getCTWPlayer(p);
-        if (sw == null) {
-            return "";
-        }
         if (id.equals("players_wool")){
             return "" + plugin.getGm().getGameSize("wool");
         }
         if (id.equals("players_flag")){
             return "" + plugin.getGm().getGameSize("flag");
+        }
+        if (id.equals("total_trails")) {
+            return "" + plugin.getTlm().getTrailsSize();
+        }
+        if (id.equals("total_windances")) {
+            return "" + plugin.getWdm().getWinDancesSize();
+        }
+        if (id.equals("total_wineffects")) {
+            return "" + plugin.getWem().getWinEffectsSize();
+        }
+        if (id.equals("total_killsounds")) {
+            return "" + plugin.getKsm().getKillSoundsSize();
+        }
+        if (id.equals("total_killeffects")) {
+            return "" + plugin.getKem().getKillEffectSize();
+        }
+        if (id.equals("total_taunts")) {
+            return "" + plugin.getTm().getTauntsSize();
+        }
+        if (sw == null) {
+            return "";
+        }
+        if (id.equals("level_progress")) {
+            Level l = plugin.getLvl().getLevel(p);
+            int xp = sw.getXp() - l.getXp();
+            int max = l.getLevelUp() - l.getXp();
+            return Utils.getProgressBar(xp, max, plugin.getCm().getProgressBarAmount());
         }
         if (id.equals("selected_trail")) {
             return plugin.getTlm().getSelected(sw);
@@ -69,9 +93,6 @@ public class Placeholders extends PlaceholderExpansion {
         if (id.equals("unlocked_trails")) {
             return "" + sw.getTrails().size();
         }
-        if (id.equals("total_trails")) {
-            return "" + plugin.getTlm().getTrailsSize();
-        }
         if (id.equals("percentage_trails")) {
             return "" + Utils.getProgressBar(sw.getTrails().size(), plugin.getTlm().getTrailsSize());
         }
@@ -80,9 +101,6 @@ public class Placeholders extends PlaceholderExpansion {
         }
         if (id.equals("unlocked_windances")) {
             return "" + sw.getWindances().size();
-        }
-        if (id.equals("total_windances")) {
-            return "" + plugin.getWdm().getWinDancesSize();
         }
         if (id.equals("percentage_windances")) {
             return "" + Utils.getProgressBar(sw.getWindances().size(), plugin.getWdm().getWinDancesSize());
@@ -93,9 +111,6 @@ public class Placeholders extends PlaceholderExpansion {
         if (id.equals("unlocked_wineffects")) {
             return "" + sw.getWineffects().size();
         }
-        if (id.equals("total_wineffects")) {
-            return "" + plugin.getWem().getWinEffectsSize();
-        }
         if (id.equals("percentage_wineffects")) {
             return "" + Utils.getProgressBar(sw.getWineffects().size(), plugin.getWem().getWinEffectsSize());
         }
@@ -104,9 +119,6 @@ public class Placeholders extends PlaceholderExpansion {
         }
         if (id.equals("unlocked_taunts")) {
             return "" + sw.getTaunts().size();
-        }
-        if (id.equals("total_taunts")) {
-            return "" + plugin.getTm().getTauntsSize();
         }
         if (id.equals("percentage_taunts")) {
             return "" + Utils.getProgressBar(sw.getTaunts().size(), plugin.getTm().getTauntsSize());
@@ -117,9 +129,6 @@ public class Placeholders extends PlaceholderExpansion {
         if (id.equals("unlocked_killsounds")) {
             return "" + sw.getKillsounds().size();
         }
-        if (id.equals("total_killsounds")) {
-            return "" + plugin.getKsm().getKillSoundsSize();
-        }
         if (id.equals("percentage_killsounds")) {
             return "" + Utils.getProgressBar(sw.getKillsounds().size(), plugin.getKsm().getKillSoundsSize());
         }
@@ -129,20 +138,11 @@ public class Placeholders extends PlaceholderExpansion {
         if (id.equals("unlocked_killeffects")) {
             return "" + sw.getKilleffects().size();
         }
-        if (id.equals("total_killeffects")) {
-            return "" + plugin.getKem().getKillEffectSize();
-        }
         if (id.equals("percentage_killeffects")) {
             return "" + Utils.getProgressBar(sw.getKilleffects().size(), plugin.getKem().getKillEffectSize());
         }
         if (id.equals("bar_killeffects")) {
             return "" + Utils.getProgressBar(sw.getKilleffects().size(), plugin.getKem().getKillEffectSize(), plugin.getCm().getProgressBarAmount());
-        }
-        if (id.equals("level_progress")) {
-            Level l = plugin.getLvl().getLevel(p);
-            int xp = sw.getXp() - l.getXp();
-            int max = l.getLevelUp() - l.getXp();
-            return Utils.getProgressBar(xp, max, plugin.getCm().getProgressBarAmount());
         }
         if (id.equals("level_prefix")) {
             return plugin.getLvl().getLevelPrefix(p);

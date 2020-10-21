@@ -1804,7 +1804,7 @@ public class SetupListener implements Listener {
                     return;
                 }
                 if (ts.getWools().size() < as.getWoolSize()) {
-                    p.sendMessage(plugin.getLang().get("setup.arena.team.noWools"));
+                    p.sendMessage(plugin.getLang().get("setup.team.noWools"));
                     return;
                 }
                 if (ts.getColors().size() < as.getWoolSize()) {
@@ -1815,7 +1815,6 @@ public class SetupListener implements Listener {
                     p.sendMessage(plugin.getLang().get("setup.arena.noSet.noSpawner"));
                     return;
                 }
-                plugin.getSm().removeTeam(p);
                 as.saveTeam();
                 p.sendMessage(plugin.getLang().get("setup.arena.teamSaved"));
                 ArrayList<String> sq = new ArrayList<>();
@@ -1834,6 +1833,7 @@ public class SetupListener implements Listener {
                         new String[]{"<teamAmount>", "" + as.getAmountTeams()},
                         new String[]{"<lobby>", Utils.getFormatedLocation(as.getLobby())},
                         new String[]{"<spect>", Utils.getFormatedLocation(as.getSpectator())});
+                plugin.getSm().removeTeam(p);
             }
         }
         if (e.getView().getTitle().equals(plugin.getLang().get("menus.teamsColor.title"))) {

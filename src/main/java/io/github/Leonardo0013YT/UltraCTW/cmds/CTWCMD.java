@@ -216,6 +216,10 @@ public class CTWCMD implements CommandExecutor {
                             }
                             Game selected2 = plugin.getGm().getSelectedGame();
                             if (selected2 == null) return true;
+                            if (selected2.getPlayers().size() >= selected2.getMax()){
+                                p.sendMessage(plugin.getLang().get("messages.maxPlayers"));
+                                return true;
+                            }
                             plugin.getGm().addPlayerGame(p, selected2.getId());
                             break;
                         case "flag":
@@ -243,6 +247,10 @@ public class CTWCMD implements CommandExecutor {
                     }
                     if (plugin.getGm().getSelectedGame() != null) {
                         Game selected = plugin.getGm().getSelectedGame();
+                        if (selected.getPlayers().size() >= selected.getMax()){
+                            p.sendMessage(plugin.getLang().get("messages.maxPlayers"));
+                            return true;
+                        }
                         plugin.getGm().addPlayerGame(p, selected.getId());
                         p.sendMessage(plugin.getLang().get("messages.noOther"));
                         return true;

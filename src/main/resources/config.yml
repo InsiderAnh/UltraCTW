@@ -3,6 +3,11 @@ addons:
   placeholdersAPI: true
   holograms: false
   holographicdisplays: true
+bungeeMode:
+  enabled: false
+  autoJoin: true
+  kickOnFinish: false
+  lobbyServer: LobbyCTW-1
 mainLobby: null
 redPanelInLocked: true
 progressBarAmount: 10

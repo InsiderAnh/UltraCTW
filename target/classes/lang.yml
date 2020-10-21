@@ -42,6 +42,7 @@ phases:
   PHASE_IV: "Phase IV"
   none: "None"
 messages:
+  maxPlayers: "&aThe maximum number of people has been reached."
   startPhase: "&eThe &a<phase> &ehas been applied."
   winCoins: "&8+&b<coins> &6Coins"
   onlyBreakPlaced: "&cYou can only break blocks put in the game."

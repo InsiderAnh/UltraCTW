@@ -283,10 +283,16 @@ public class GameNoState implements Game {
             @Override
             public void run() {
                 ArrayList<Player> back = new ArrayList<>(cached);
-                for (Player on : back) {
-                    plugin.getGm().removePlayerGame(on, false);
-                    Game g = plugin.getGm().getSelectedGame();
-                    plugin.getGm().addPlayerGame(on, g.getId());
+                if (plugin.getCm().isBungeeModeEnabled() && plugin.getCm().isBungeeModeKickOnFinish()){
+                    for (Player on : back) {
+                        plugin.sendToServer(on, plugin.getCm().getBungeeModeLobbyServer());
+                    }
+                } else {
+                    for (Player on : back) {
+                        plugin.getGm().removePlayerGame(on, false);
+                        Game g = plugin.getGm().getSelectedGame();
+                        plugin.getGm().addPlayerGame(on, g.getId());
+                    }
                 }
                 reset();
             }

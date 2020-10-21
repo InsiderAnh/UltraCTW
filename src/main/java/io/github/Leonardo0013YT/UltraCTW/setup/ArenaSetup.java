@@ -90,7 +90,7 @@ public class ArenaSetup {
 
     public void saveTeam() {
         teams.put(teams.size(), actual);
-        setActual(null);
+        actual = null;
     }
 
     public void save(Player p) {

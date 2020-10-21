@@ -59,6 +59,7 @@ public class NPC_v1_8_r3 implements NPC {
         ev.setCustomNameVisible(false);
         PlayerConnection connection = ((CraftPlayer) p).getHandle().playerConnection;
         connection.sendPacket(new PacketPlayOutSpawnEntityLiving(ev));
+        connection.sendPacket(new PacketPlayOutEntityHeadRotation(ev, newDirection(loc.getYaw())));
         entity = ev;
         spawnHologram();
     }
@@ -144,8 +145,8 @@ public class NPC_v1_8_r3 implements NPC {
         return new EntityZombie(nmsWorld);
     }
 
-    private float newDirection(float loc) {
-        return loc * 256.0F / 360.0F;
+    private byte newDirection(float loc) {
+        return (byte) ((int)(loc * 256.0F / 360.0F));
     }
 
 }

@@ -18,7 +18,7 @@ import java.util.List;
 public class ConfigManager {
 
     private Main plugin;
-    private boolean instaKillOnVoidFlag, instaKillOnVoidCTW, lobbyScoreboard, hungerFlag, hungerCTW, breakMap, kitLevelsOrder, excluideDefKits, itemLobbyEnabled, placeholdersAPI, redPanelInLocked, holograms, holographicdisplays;
+    private boolean bungeeModeEnabled, bungeeModeAutoJoin, bungeeModeKickOnFinish, instaKillOnVoidFlag, instaKillOnVoidCTW, lobbyScoreboard, hungerFlag, hungerCTW, breakMap, kitLevelsOrder, excluideDefKits, itemLobbyEnabled, placeholdersAPI, redPanelInLocked, holograms, holographicdisplays;
     private Location mainLobby, topKills, topWins, topCaptured, topBounty;
     private short redPanelData;
     private Material back, redPanelMaterial;
@@ -26,7 +26,7 @@ public class ConfigManager {
     private XSound pickUpTeam, pickUpOthers, captured;
     private int ironGenerating, updatePlayersPlaceholder, gracePeriod, limitOfYSpawn, itemLobbySlot, maxMultiplier, gCoinsKills, gCoinsWins, gCoinsAssists, coinsKill, coinsWin, coinsAssists, xpKill, xpWin, xpAssists, starting, progressBarAmount, timeToKill;
     private double bountyMin, bountyMax, bountyPerKill;
-    private String itemLobbyCMD;
+    private String bungeeModeLobbyServer, itemLobbyCMD;
     private List<String> noDrop, breakBypass;
     private List<ObjectPotion> effectsOnKill = new ArrayList<>();
 
@@ -36,6 +36,10 @@ public class ConfigManager {
     }
 
     public void reload() {
+        this.bungeeModeEnabled = plugin.getConfig().getBoolean("bungeeMode.enabled");
+        this.bungeeModeAutoJoin = plugin.getConfig().getBoolean("bungeeMode.autoJoin");
+        this.bungeeModeKickOnFinish = plugin.getConfig().getBoolean("bungeeMode.kickOnFinish");
+        this.bungeeModeLobbyServer = plugin.getConfig().getString("bungeeMode.lobbyServer");
         for (String s : plugin.getConfig().getStringList("effectsOnKill")){
             String[] st = s.split(":");
             XPotion potion = XPotion.matchXPotion(st[0]).orElse(XPotion.REGENERATION);

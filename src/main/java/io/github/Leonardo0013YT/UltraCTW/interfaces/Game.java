@@ -15,7 +15,6 @@ import java.util.HashMap;
 
 public interface Game {
 
-
     void addPlayer(Player p);
 
     void removePlayer(Player p);

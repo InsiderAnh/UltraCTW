@@ -111,7 +111,7 @@ public class Taunt implements Purchasable {
             if (td != null) {
                 cd = td.getColor() + "";
             }
-            String msg = taunts.get(cause.name()).getRandomMessage();
+            String msg = taunts.getOrDefault(cause.name(), taunts.get("CONTACT")).getRandomMessage();
             String death = d.getName();
             msg = msg.replaceAll("<death>", cd + death);
             for (Player p : game.getCached()) {
@@ -128,7 +128,7 @@ public class Taunt implements Purchasable {
             if (td != null) {
                 cd = td.getColor() + "";
             }
-            String msg = taunts.get(cause.name()).getRandomMessage();
+            String msg = taunts.getOrDefault(cause.name(), taunts.get("CONTACT")).getRandomMessage();
             String killer = player.replaceAll("<killer>", ck + k.getName());
             String death = d.getName();
             msg = msg.replaceAll("<killer>", ck + killer).replaceAll("<death>", cd + death);
@@ -174,7 +174,7 @@ public class Taunt implements Purchasable {
             if (td != null) {
                 cd = td.getColor() + "";
             }
-            String msg = taunts.get(cause.name()).getRandomMessage();
+            String msg = taunts.getOrDefault(cause.name(), taunts.get("CONTACT")).getRandomMessage();
             String death = d.getName();
             msg = msg.replaceAll("<death>", cd + death);
             for (Player p : game.getCached()) {
@@ -191,7 +191,7 @@ public class Taunt implements Purchasable {
             if (td != null) {
                 cd = td.getColor() + "";
             }
-            String msg = taunts.get(cause.name()).getRandomMessage();
+            String msg = taunts.getOrDefault(cause.name(), taunts.get("CONTACT")).getRandomMessage();
             String killer = player.replaceAll("<killer>", ck + k.getName());
             String death = d.getName();
             msg = msg.replaceAll("<killer>", ck + killer).replaceAll("<death>", cd + death);

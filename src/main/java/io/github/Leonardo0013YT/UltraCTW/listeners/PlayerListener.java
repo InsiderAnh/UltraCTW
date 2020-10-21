@@ -63,6 +63,10 @@ public class PlayerListener implements Listener {
         Player p = e.getPlayer();
         plugin.getLvl().checkUpgrade(p);
         Utils.updateSB(p);
+        if (plugin.getCm().isBungeeModeEnabled() && plugin.getCm().isBungeeModeAutoJoin() && plugin.getGm().getSelectedGame() != null){
+            Game game = plugin.getGm().getSelectedGame();
+            plugin.getGm().addPlayerGame(p, game.getId());
+        }
     }
 
     @EventHandler
@@ -469,6 +473,7 @@ public class PlayerListener implements Listener {
                     respawn(team, g, p);
                     g.addDeath(p);
                 }
+                return;
             }
             GameFlag gf = plugin.getGm().getGameFlagByPlayer(p);
             if (gf != null) {

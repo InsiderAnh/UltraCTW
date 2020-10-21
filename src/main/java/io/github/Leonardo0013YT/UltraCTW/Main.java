@@ -1,5 +1,7 @@
 package io.github.Leonardo0013YT.UltraCTW;
 
+import com.google.common.io.ByteArrayDataOutput;
+import com.google.common.io.ByteStreams;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import io.github.Leonardo0013YT.UltraCTW.adapters.ICTWPlayerAdapter;
@@ -100,6 +102,9 @@ public class Main extends JavaPlugin {
         wc = new WorldController(this);
         db = new MySQLDatabase(this);
         cm = new ConfigManager(this);
+        if (getCm().isBungeeModeEnabled()) {
+            getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
+        }
         adm = new AddonManager(this);
         im = new ItemManager(this);
         sm = new SetupManager(this);
@@ -179,11 +184,13 @@ public class Main extends JavaPlugin {
             db.savePlayer(on.getUniqueId(), true);
         }
         db.close();
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            Bukkit.getConsoleSender().sendMessage("§cError in save data.");
-        }
+    }
+
+    public void sendToServer(Player p, String server) {
+        ByteArrayDataOutput out = ByteStreams.newDataOutput();
+        out.writeUTF("Connect");
+        out.writeUTF(server);
+        p.sendPluginMessage(this, "BungeeCord", out.toByteArray());
     }
 
     public void reload() {

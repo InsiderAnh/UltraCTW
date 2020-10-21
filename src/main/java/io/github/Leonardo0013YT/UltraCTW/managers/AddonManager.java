@@ -34,6 +34,12 @@ public class AddonManager {
                 plugin.getCm().reload();
             }
         }
+        if (h != null){
+            h.remove();
+        }
+        if (hd != null){
+            hd.remove();
+        }
         new BukkitRunnable() {
             @Override
             public void run() {
