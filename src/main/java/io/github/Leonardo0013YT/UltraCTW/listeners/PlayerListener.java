@@ -470,8 +470,8 @@ public class PlayerListener implements Listener {
                         plugin.getTm().execute(p, e.getCause(), g, 0);
                     }
                     e.setCancelled(true);
-                    respawn(team, g, p);
                     g.addDeath(p);
+                    respawn(team, g, p);
                 }
                 return;
             }
@@ -499,7 +499,7 @@ public class PlayerListener implements Listener {
                     e.setCancelled(true);
                     return;
                 }
-                if (tp.getId() == td.getId()) {
+                if (tp.equals(td)) {
                     e.setCancelled(true);
                     return;
                 }
@@ -531,9 +531,10 @@ public class PlayerListener implements Listener {
                     } else {
                         plugin.getTm().execute(p, e.getCause(), g, 0);
                     }
+                    plugin.getTgm().executeRewards(p, p.getMaxHealth());
                     e.setCancelled(true);
-                    respawn(tp, g, p);
                     g.addDeath(p);
+                    respawn(tp, g, p);
                 }
             }
             if (e.getDamager() instanceof Projectile && ((Projectile) e.getDamager()).getShooter() instanceof Player) {
@@ -546,7 +547,7 @@ public class PlayerListener implements Listener {
                     e.setCancelled(true);
                     return;
                 }
-                if (tp.getId() == td.getId()) {
+                if (tp.equals(td)) {
                     e.setCancelled(true);
                     return;
                 }
@@ -574,9 +575,10 @@ public class PlayerListener implements Listener {
                     } else {
                         plugin.getTm().execute(p, e.getCause(), g, 0);
                     }
+                    plugin.getTgm().executeRewards(p, p.getMaxHealth());
                     e.setCancelled(true);
-                    respawn(tp, g, p);
                     g.addDeath(p);
+                    respawn(tp, g, p);
                 }
                 CTWPlayer ctw = plugin.getDb().getCTWPlayer(d);
                 ctw.setsShots(ctw.getsShots() + 1);

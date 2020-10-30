@@ -147,4 +147,12 @@ public class Team {
         return null;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Team team = (Team) o;
+        return id == team.id && kills == team.kills && color == team.color;
+    }
+
 }
