@@ -147,6 +147,30 @@ public class NPC_v1_14_r1 implements NPC {
             return new EntityCaveSpider(EntityTypes.CAVE_SPIDER, nmsWorld);
         } else if (type.equals(EntityType.COW)) {
             return new EntityCow(EntityTypes.COW, nmsWorld);
+        } else if (type.equals(EntityType.HORSE)) {
+            return new EntityHorse(EntityTypes.HORSE, nmsWorld);
+        } else if (type.equals(EntityType.IRON_GOLEM)) {
+            return new EntityIronGolem(EntityTypes.IRON_GOLEM, nmsWorld);
+        } else if (type.equals(EntityType.MAGMA_CUBE)) {
+            return new EntityMagmaCube(EntityTypes.MAGMA_CUBE, nmsWorld);
+        } else if (type.equals(EntityType.SLIME)) {
+            return new EntitySlime(EntityTypes.SLIME, nmsWorld);
+        } else if (type.equals(EntityType.PIG_ZOMBIE)) {
+            return new EntityPigZombie(EntityTypes.ZOMBIE_PIGMAN, nmsWorld);
+        } else if (type.equals(EntityType.SKELETON)) {
+            return new EntitySkeleton(EntityTypes.SKELETON, nmsWorld);
+        } else if (type.equals(EntityType.SNOWMAN)) {
+            return new EntitySnowman(EntityTypes.SNOW_GOLEM, nmsWorld);
+        } else if (type.equals(EntityType.WITCH)) {
+            return new EntityWitch(EntityTypes.WITCH, nmsWorld);
+        } else if (type.equals(EntityType.SHEEP)) {
+            return new EntitySheep(EntityTypes.SHEEP, nmsWorld);
+        } else if (type.equals(EntityType.WITHER)) {
+            return new EntityWither(EntityTypes.WITHER, nmsWorld);
+        } else if (type.equals(EntityType.PIG)) {
+            return new EntityPig(EntityTypes.PIG, nmsWorld);
+        } else if (type.equals(EntityType.WOLF)) {
+            return new EntityWolf(EntityTypes.WOLF, nmsWorld);
         }
         return new EntityZombie(nmsWorld);
     }

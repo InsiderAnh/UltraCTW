@@ -59,11 +59,17 @@ public class GameManager {
     }
 
     public void reset() {
+        if (games.isEmpty()){
+            return;
+        }
         Game selectedGame = new ArrayList<>(games.values()).get(ThreadLocalRandom.current().nextInt(0, games.values().size()));
         setSelectedGame(selectedGame);
     }
 
     public void reset(Game game) {
+        if (games.isEmpty()){
+            return;
+        }
         ArrayList<Game> back = new ArrayList<>(games.values());
         if (games.size() != 1){
             back.remove(game);

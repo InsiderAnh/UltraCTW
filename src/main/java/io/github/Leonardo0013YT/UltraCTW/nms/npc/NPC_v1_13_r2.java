@@ -147,6 +147,30 @@ public class NPC_v1_13_r2 implements NPC {
             return new EntityCaveSpider(nmsWorld);
         } else if (type.equals(EntityType.COW)) {
             return new EntityCow(nmsWorld);
+        } else if (type.equals(EntityType.HORSE)) {
+            return new EntityHorse(nmsWorld);
+        } else if (type.equals(EntityType.IRON_GOLEM)) {
+            return new EntityIronGolem(nmsWorld);
+        } else if (type.equals(EntityType.MAGMA_CUBE)) {
+            return new EntityMagmaCube(nmsWorld);
+        } else if (type.equals(EntityType.SLIME)) {
+            return new EntitySlime(nmsWorld);
+        } else if (type.equals(EntityType.PIG_ZOMBIE)) {
+            return new EntityPigZombie(nmsWorld);
+        } else if (type.equals(EntityType.SKELETON)) {
+            return new EntitySkeleton(nmsWorld);
+        } else if (type.equals(EntityType.SNOWMAN)) {
+            return new EntitySnowman(nmsWorld);
+        } else if (type.equals(EntityType.WITCH)) {
+            return new EntityWitch(nmsWorld);
+        } else if (type.equals(EntityType.SHEEP)) {
+            return new EntitySheep(nmsWorld);
+        } else if (type.equals(EntityType.WITHER)) {
+            return new EntityWither(nmsWorld);
+        } else if (type.equals(EntityType.PIG)) {
+            return new EntityPig(nmsWorld);
+        } else if (type.equals(EntityType.WOLF)) {
+            return new EntityWolf(nmsWorld);
         }
         return new EntityZombie(nmsWorld);
     }

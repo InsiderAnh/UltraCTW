@@ -201,6 +201,9 @@ public class CTWCMD implements CommandExecutor {
                 case "leave":
                     plugin.getGm().removePlayerGame(p, true);
                     p.sendMessage(plugin.getLang().get("messages.leaveGame"));
+                    if (plugin.getCm().isBungeeModeEnabled() && plugin.getCm().isSendLobbyOnQuit()){
+                        plugin.sendToServer(p, plugin.getCm().getBungeeModeLobbyServer());
+                    }
                     break;
                 case "randomjoin":
                     if (args.length < 2) {
