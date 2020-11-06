@@ -38,6 +38,9 @@ public class NPC_v1_8_r3 implements NPC {
         this.showing = false;
         this.npcType = npcType;
         this.nmsWorld = ((CraftWorld) loc.getWorld()).getHandle();
+        if (type.equals(EntityType.IRON_GOLEM) || type.equals(EntityType.WITHER)){
+            up += 0.75;
+        }
     }
 
     @Override

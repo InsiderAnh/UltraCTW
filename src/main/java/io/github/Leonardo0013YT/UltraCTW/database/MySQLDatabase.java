@@ -304,7 +304,6 @@ public class MySQLDatabase implements IDatabase {
                 ResultSet result = select.executeQuery();
                 if (result.next()) {
                     loadPlayerData(p, plugin.fromStringCTWPlayer(result.getString("Data")));
-                    plugin.sendLogMessage("§aJugador §e" + p.getName() + " §adetectado cargado.");
                 } else {
                     CTWPlayer ctw = new PlayerCTW();
                     insert.setString(1, uuid);
@@ -321,7 +320,6 @@ public class MySQLDatabase implements IDatabase {
                         insert.executeUpdate();
                     }
                     loadPlayerData(p, ctw);
-                    plugin.sendLogMessage("§aJugador §e" + p.getName() + " §anuevo cargado.");
                 }
                 close(connection, insert, result);
                 close(null, select, null);

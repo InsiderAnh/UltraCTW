@@ -6,6 +6,7 @@ addons:
 bungeeMode:
   enabled: false
   autoJoin: true
+  sendLobbyOnQuit: true
   kickOnFinish: false
   lobbyServer: LobbyCTW-1
 mainLobby: null

@@ -51,8 +51,11 @@ public class ShopKeeper implements Purchasable {
             }
         }
         ItemMeta iconM = icon.getItemMeta();
+        iconM.setDisplayName(iconM.getDisplayName().replaceAll("&", "§"));
         List<String> lore = icon.getItemMeta().getLore();
         for (int i = 0; i < lore.size(); i++) {
+            String r = lore.get(i);
+            lore.set(i, r.replaceAll("&", "§"));
             String s = lore.get(i);
             switch (s) {
                 case "<price>":
