@@ -73,7 +73,7 @@ public class GameNoState implements Game {
         }
         this.max = teamSize * teams.size();
         setState(State.WAITING);
-        lobby.getWorld().getEntities().stream().filter(e -> !e.getType().equals(EntityType.PLAYER)).forEach(Entity::remove);
+        lobby.getWorld().getEntities().stream().filter(e -> !e.getType().equals(EntityType.PLAYER)).filter(e -> !e.getType().equals(EntityType.ARMOR_STAND)).forEach(Entity::remove);
         if (!plugin.getArenas().isSet(path + ".squareds")) return;
         for (String c : plugin.getArenas().getConfig().getConfigurationSection(path + ".squareds").getKeys(false)) {
             String nowPath = path + ".squareds." + c;
