@@ -22,22 +22,22 @@ import java.util.List;
 
 public class GameNoState implements Game {
 
-    private Main plugin;
-    private int id;
-    private String name, schematic;
-    private ArrayList<Player> cached = new ArrayList<>(), players = new ArrayList<>(), spectators = new ArrayList<>(), inLobby = new ArrayList<>(), inGame = new ArrayList<>();
-    private HashMap<ChatColor, Team> teams = new HashMap<>();
-    private HashMap<Integer, ChatColor> teamsID = new HashMap<>();
-    private HashMap<Player, GamePlayer> gamePlayer = new HashMap<>();
-    private ArrayList<Squared> protection = new ArrayList<>();
-    private ArrayList<WinEffect> winEffects = new ArrayList<>();
-    private ArrayList<WinDance> winDances = new ArrayList<>();
-    private ArrayList<KillEffect> killEffects = new ArrayList<>();
-    private HashMap<Location, ItemStack> wools = new HashMap<>();
-    private ArrayList<Location> npcShop = new ArrayList<>(), npcKits = new ArrayList<>();
-    private ArrayList<Location> placed = new ArrayList<>();
+    private final Main plugin;
+    private final int id;
+    private final String name, schematic;
+    private final ArrayList<Player> cached = new ArrayList<>(), players = new ArrayList<>(), spectators = new ArrayList<>(), inLobby = new ArrayList<>(), inGame = new ArrayList<>();
+    private final HashMap<ChatColor, Team> teams = new HashMap<>();
+    private final HashMap<Integer, ChatColor> teamsID = new HashMap<>();
+    private final HashMap<Player, GamePlayer> gamePlayer = new HashMap<>();
+    private final ArrayList<Squared> protection = new ArrayList<>();
+    private final ArrayList<WinEffect> winEffects = new ArrayList<>();
+    private final ArrayList<WinDance> winDances = new ArrayList<>();
+    private final ArrayList<KillEffect> killEffects = new ArrayList<>();
+    private final HashMap<Location, ItemStack> wools = new HashMap<>();
+    private final ArrayList<Location> npcShop = new ArrayList<>(), npcKits = new ArrayList<>();
+    private final ArrayList<Location> placed = new ArrayList<>();
     private Squared lobbyProtection;
-    private Location lobby, spectator;
+    private final Location lobby, spectator;
     private int teamSize, woolSize, min, starting, defKit, time = 0, max;
     private State state;
 
