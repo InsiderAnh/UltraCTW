@@ -280,6 +280,7 @@ public class ScoreboardManager {
 
     public String waitingFlag(Player p, String s, GameFlag game) {
         CTWPlayer ctw = plugin.getDb().getCTWPlayer(p);
+        if (ctw == null) return s;
         Level level = plugin.getLvl().getLevel(p);
         return s.replace("<leveUp>", String.valueOf(level.getLevelUp()))
                 .replace("<now>", String.valueOf(ctw.getXp()))
@@ -290,6 +291,7 @@ public class ScoreboardManager {
 
     public String startingFlag(Player p, String s, GameFlag game) {
         CTWPlayer ctw = plugin.getDb().getCTWPlayer(p);
+        if (ctw == null) return s;
         Level level = plugin.getLvl().getLevel(p);
         return s.replace("<leveUp>", String.valueOf(level.getLevelUp()))
                 .replace("<now>", String.valueOf(ctw.getXp()))
@@ -321,6 +323,7 @@ public class ScoreboardManager {
 
     public String main(Player p, String s) {
         CTWPlayer ctw = plugin.getDb().getCTWPlayer(p);
+        if (ctw == null) return s;
         Level level = plugin.getLvl().getLevel(p);
         return s.replace("<leveUp>", String.valueOf(level.getLevelUp()))
                 .replace("<gcoins>", Utils.format(ctw.getCoins()))
@@ -333,6 +336,7 @@ public class ScoreboardManager {
 
     public String waiting(Player p, String s, Game game) {
         CTWPlayer ctw = plugin.getDb().getCTWPlayer(p);
+        if (ctw == null) return s;
         Level level = plugin.getLvl().getLevel(p);
         return s.replace("<leveUp>", String.valueOf(level.getLevelUp()))
                 .replace("<now>", String.valueOf(ctw.getXp()))
@@ -343,6 +347,7 @@ public class ScoreboardManager {
 
     public String starting(Player p, String s, Game game) {
         CTWPlayer ctw = plugin.getDb().getCTWPlayer(p);
+        if (ctw == null) return s;
         Level level = plugin.getLvl().getLevel(p);
         return s.replace("<leveUp>", String.valueOf(level.getLevelUp()))
                 .replace("<now>", String.valueOf(ctw.getXp()))
@@ -354,6 +359,7 @@ public class ScoreboardManager {
 
     public String simple(Player p, String s, Game game, Team team, GamePlayer gp, Team t1, Team t2) {
         CTWPlayer ctw = plugin.getDb().getCTWPlayer(p);
+        if (ctw == null) return s;
         Level level = plugin.getLvl().getLevel(p);
         return s.replace("<leveUp>", String.valueOf(level.getLevelUp()))
                 .replace("<now>", String.valueOf(ctw.getXp()))

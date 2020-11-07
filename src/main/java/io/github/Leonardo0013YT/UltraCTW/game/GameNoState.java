@@ -9,10 +9,7 @@ import io.github.Leonardo0013YT.UltraCTW.objects.Squared;
 import io.github.Leonardo0013YT.UltraCTW.team.Team;
 import io.github.Leonardo0013YT.UltraCTW.utils.Utils;
 import io.github.Leonardo0013YT.UltraCTW.xseries.XSound;
-import org.bukkit.ChatColor;
-import org.bukkit.GameMode;
-import org.bukkit.Location;
-import org.bukkit.Sound;
+import org.bukkit.*;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -294,9 +291,9 @@ public class GameNoState implements Game {
                         plugin.getGm().removePlayerGame(on, true);
                     }
                 }
-                reset();
             }
         }.runTaskLater(plugin, 20 * 10);
+        Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, this::reset, 20 * 11);
         new BukkitRunnable() {
             @Override
             public void run() {
