@@ -637,6 +637,9 @@ public class PlayerListener implements Listener {
         }
         if (item.equals(plugin.getIm().getLeave())) {
             plugin.getGm().removePlayerGame(p, true);
+            if (plugin.getCm().isBungeeModeEnabled() && plugin.getCm().isSendLobbyOnQuit()){
+                plugin.sendToServer(p, plugin.getCm().getBungeeModeLobbyServer());
+            }
         }
     }
 

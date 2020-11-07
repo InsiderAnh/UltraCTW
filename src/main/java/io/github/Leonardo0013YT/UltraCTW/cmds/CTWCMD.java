@@ -210,7 +210,7 @@ public class CTWCMD implements CommandExecutor {
                         sendHelp(sender);
                         return true;
                     }
-                    String type = args[1];
+                    String type = args[1].toLowerCase();
                     switch (type){
                         case "wool":
                             if (plugin.getGm().isPlayerInGame(p)) {

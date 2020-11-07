@@ -8,6 +8,7 @@ import io.github.Leonardo0013YT.UltraCTW.adapters.ICTWPlayerAdapter;
 import io.github.Leonardo0013YT.UltraCTW.cmds.CTWCMD;
 import io.github.Leonardo0013YT.UltraCTW.cmds.SetupCMD;
 import io.github.Leonardo0013YT.UltraCTW.config.Settings;
+import io.github.Leonardo0013YT.UltraCTW.controllers.ChestController;
 import io.github.Leonardo0013YT.UltraCTW.controllers.VersionController;
 import io.github.Leonardo0013YT.UltraCTW.controllers.WorldController;
 import io.github.Leonardo0013YT.UltraCTW.database.MySQLDatabase;
@@ -69,6 +70,7 @@ public class Main extends JavaPlugin {
     private FlagManager fm;
     private UpgradeManager um;
     private FlagMenu fgm;
+    private ChestController cc;
 
     public static Main get() {
         return instance;
@@ -99,6 +101,16 @@ public class Main extends JavaPlugin {
         shop = new Settings(this, "shop", false, false);
         upgrades = new Settings(this, "upgrades", false, false);
         debugMode = getConfig().getBoolean("debugMode");
+        cc = new ChestController(this);
+        new BukkitRunnable(){
+            @Override
+            public void run() {
+                try {
+                    cc.chests((n) -> {});
+                } catch (Exception ignored) {
+                }
+            }
+        }.runTaskAsynchronously(this);
         wc = new WorldController(this);
         db = new MySQLDatabase(this);
         cm = new ConfigManager(this);

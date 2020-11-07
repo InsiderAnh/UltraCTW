@@ -279,22 +279,32 @@ public class GameNoState implements Game {
             plugin.getWem().execute(this, w, ctw.getWinEffect());
             plugin.getWdm().execute(this, w, ctw.getWinDance());
         }
+        ArrayList<Player> back = new ArrayList<>(cached);
         new BukkitRunnable() {
             @Override
             public void run() {
-                ArrayList<Player> back = new ArrayList<>(cached);
                 if (plugin.getCm().isBungeeModeEnabled() && plugin.getCm().isBungeeModeKickOnFinish()){
                     for (Player on : back) {
+                        if (on == null || !on.isOp()) continue;
                         plugin.sendToServer(on, plugin.getCm().getBungeeModeLobbyServer());
                     }
                 } else {
                     for (Player on : back) {
-                        plugin.getGm().removePlayerGame(on, false);
-                        Game g = plugin.getGm().getSelectedGame();
-                        plugin.getGm().addPlayerGame(on, g.getId());
+                        if (on == null || !on.isOp()) continue;
+                        plugin.getGm().removePlayerGame(on, true);
                     }
                 }
                 reset();
+            }
+        }.runTaskLater(plugin, 20 * 10);
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                for (Player on : back) {
+                    if (on == null || !on.isOp()) continue;
+                    Game g = plugin.getGm().getSelectedGame();
+                    plugin.getGm().addPlayerGame(on, g.getId());
+                }
             }
         }.runTaskLater(plugin, 20 * 15);
     }

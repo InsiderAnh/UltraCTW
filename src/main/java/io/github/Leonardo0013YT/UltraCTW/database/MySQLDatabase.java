@@ -331,6 +331,7 @@ public class MySQLDatabase implements IDatabase {
     @Override
     public void savePlayer(UUID uuid, boolean sync) {
         CTWPlayer ipd = players.get(uuid);
+        if (ipd == null) return;
         if (sync) {
             try {
                 Connection connection = getConnection();

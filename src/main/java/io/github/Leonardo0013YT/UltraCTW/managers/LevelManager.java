@@ -51,7 +51,9 @@ public class LevelManager {
     }
 
     public Level getLevel(Player p) {
-        int elo = plugin.getDb().getCTWPlayer(p).getXp();
+        CTWPlayer ctw = plugin.getDb().getCTWPlayer(p);
+        if (ctw == null) return levels.get(0);
+        int elo = ctw.getXp();
         for (Level lvl : levels.values()) {
             if (elo >= lvl.getXp() && elo < lvl.getLevelUp()) {
                 playerLevel.put(p, lvl);
