@@ -16,17 +16,14 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class GameNoState implements Game {
 
     private final Main plugin;
     private final int id;
     private final String name, schematic;
-    private final ArrayList<Player> cached = new ArrayList<>(), players = new ArrayList<>(), spectators = new ArrayList<>(), inLobby = new ArrayList<>(), inGame = new ArrayList<>();
+    private final HashSet<Player> cached = new HashSet<>(), players = new HashSet<>(), spectators = new HashSet<>(), inLobby = new HashSet<>(), inGame = new HashSet<>();
     private final HashMap<ChatColor, Team> teams = new HashMap<>();
     private HashMap<UUID, ChatColor> playerTeam = new HashMap<>();
     private final HashMap<Integer, ChatColor> teamsID = new HashMap<>();
@@ -283,12 +280,12 @@ public class GameNoState implements Game {
             public void run() {
                 if (plugin.getCm().isBungeeModeEnabled() && plugin.getCm().isBungeeModeKickOnFinish()){
                     for (Player on : back) {
-                        if (on == null || !on.isOp()) continue;
+                        if (on == null || !on.isOnline()) continue;
                         plugin.sendToServer(on, plugin.getCm().getBungeeModeLobbyServer());
                     }
                 } else {
                     for (Player on : back) {
-                        if (on == null || !on.isOp()) continue;
+                        if (on == null || !on.isOnline()) continue;
                         plugin.getGm().removePlayerGame(on, true);
                     }
                 }
@@ -299,7 +296,7 @@ public class GameNoState implements Game {
             @Override
             public void run() {
                 for (Player on : back) {
-                    if (on == null || !on.isOp()) continue;
+                    if (on == null || !on.isOnline()) continue;
                     Game g = plugin.getGm().getSelectedGame();
                     plugin.getGm().addPlayerGame(on, g.getId());
                 }
@@ -559,17 +556,17 @@ public class GameNoState implements Game {
     }
 
     @Override
-    public ArrayList<Player> getCached() {
+    public HashSet<Player> getCached() {
         return cached;
     }
 
     @Override
-    public ArrayList<Player> getPlayers() {
+    public HashSet<Player> getPlayers() {
         return players;
     }
 
     @Override
-    public ArrayList<Player> getSpectators() {
+    public HashSet<Player> getSpectators() {
         return spectators;
     }
 
@@ -659,12 +656,12 @@ public class GameNoState implements Game {
     }
 
     @Override
-    public ArrayList<Player> getInLobby() {
+    public HashSet<Player> getInLobby() {
         return inLobby;
     }
 
     @Override
-    public ArrayList<Player> getInGame() {
+    public HashSet<Player> getInGame() {
         return inGame;
     }
 

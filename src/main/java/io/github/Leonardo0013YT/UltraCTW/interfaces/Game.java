@@ -12,6 +12,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 
 public interface Game {
 
@@ -97,11 +98,11 @@ public interface Game {
 
     String getSchematic();
 
-    ArrayList<Player> getCached();
+    HashSet<Player> getCached();
 
-    ArrayList<Player> getPlayers();
+    HashSet<Player> getPlayers();
 
-    ArrayList<Player> getSpectators();
+    HashSet<Player> getSpectators();
 
     HashMap<ChatColor, Team> getTeams();
 
@@ -137,9 +138,9 @@ public interface Game {
 
     HashMap<Location, ItemStack> getWools();
 
-    ArrayList<Player> getInLobby();
+    HashSet<Player> getInLobby();
 
-    ArrayList<Player> getInGame();
+    HashSet<Player> getInGame();
 
     Squared getLobbyProtection();
 
