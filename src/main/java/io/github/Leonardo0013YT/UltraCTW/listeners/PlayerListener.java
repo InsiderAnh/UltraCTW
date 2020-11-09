@@ -139,6 +139,7 @@ public class PlayerListener implements Listener {
             e.getRecipients().addAll(g.getInLobby());
         } else {
             Team t = g.getTeamPlayer(p);
+            if (t == null) return;
             if (e.getMessage().startsWith("!")) {
                 msg = formatGame(p, t, e.getMessage());
                 e.getRecipients().addAll(g.getCached());

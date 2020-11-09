@@ -19,6 +19,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 public class GameNoState implements Game {
 
@@ -27,6 +28,7 @@ public class GameNoState implements Game {
     private final String name, schematic;
     private final ArrayList<Player> cached = new ArrayList<>(), players = new ArrayList<>(), spectators = new ArrayList<>(), inLobby = new ArrayList<>(), inGame = new ArrayList<>();
     private final HashMap<ChatColor, Team> teams = new HashMap<>();
+    private HashMap<UUID, ChatColor> playerTeam = new HashMap<>();
     private final HashMap<Integer, ChatColor> teamsID = new HashMap<>();
     private final HashMap<Player, GamePlayer> gamePlayer = new HashMap<>();
     private final ArrayList<Squared> protection = new ArrayList<>();
@@ -257,12 +259,11 @@ public class GameNoState implements Game {
         String[] s3 = top.get(2).split(":");
         for (Player on : cached) {
             setSpect(on);
-            if (!team.getMembers().contains(on)) {
-                plugin.getVc().getNMS().sendTitle(on, plugin.getLang().get("titles.lose.title"), plugin.getLang().get("titles.lose.subtitle"), 0, 40, 0);
-                continue;
-            }
             for (String s : plugin.getLang().getList("messages.win")) {
                 on.sendMessage(s.replaceAll("&", "§").replaceAll("<winner>", gw.getWinner()).replaceAll("<number1>", s1[1]).replaceAll("<top1>", s1[0]).replaceAll("<color1>", "" + ChatColor.valueOf(s1[2])).replaceAll("<number2>", s2[1]).replaceAll("<top2>", s2[0]).replaceAll("<color2>", "" + ChatColor.valueOf(s2[2])).replaceAll("<number3>", s3[1]).replaceAll("<top3>", s3[0]).replaceAll("<color3>", "" + ChatColor.valueOf(s3[2])));
+            }
+            if (!team.getMembers().contains(on)) {
+                plugin.getVc().getNMS().sendTitle(on, plugin.getLang().get("titles.lose.title"), plugin.getLang().get("titles.lose.subtitle"), 0, 40, 0);
             }
         }
         for (Player w : team.getMembers()) {
