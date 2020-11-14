@@ -6,6 +6,7 @@ import io.github.Leonardo0013YT.UltraCTW.setup.*;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
+import java.util.UUID;
 
 public class SetupManager {
 
@@ -20,6 +21,23 @@ public class SetupManager {
     private HashMap<Player, TrailSetup> setupTrail = new HashMap<>();
     private HashMap<Player, FlagSetup> setupFlag = new HashMap<>();
     private HashMap<Player, FlagTeamSetup> setupTeamFlag = new HashMap<>();
+    private HashMap<UUID, String> delete = new HashMap<>();
+
+    public void setDelete(Player p, String name) {
+        delete.put(p.getUniqueId(), name);
+    }
+
+    public boolean isDelete(Player p) {
+        return delete.containsKey(p.getUniqueId());
+    }
+
+    public void removeDelete(Player p) {
+        delete.remove(p.getUniqueId());
+    }
+
+    public String getDelete(Player p) {
+        return delete.get(p.getUniqueId());
+    }
 
     public SetupManager(Main plugin) {
         this.plugin = plugin;

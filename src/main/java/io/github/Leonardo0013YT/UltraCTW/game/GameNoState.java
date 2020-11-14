@@ -41,9 +41,10 @@ public class GameNoState implements Game {
     private State state;
 
     public GameNoState(Main plugin, String path, int id) {
+        this.name = plugin.getArenas().get(path + ".name");
+        plugin.getWc().deleteWorld(name);
         this.plugin = plugin;
         this.id = id;
-        this.name = plugin.getArenas().get(path + ".name");
         plugin.getWc().createEmptyWorld(name);
         this.schematic = plugin.getArenas().get(path + ".schematic");
         this.lobby = Utils.getStringLocation(plugin.getArenas().get(path + ".lobby"));
@@ -124,6 +125,7 @@ public class GameNoState implements Game {
 
     @Override
     public void reset() {
+        plugin.getWc().deleteWorld(name);
         winDances.forEach(WinDance::stop);
         winEffects.forEach(WinEffect::stop);
         killEffects.forEach(KillEffect::stop);
@@ -135,6 +137,8 @@ public class GameNoState implements Game {
         spectators.clear();
         cached.clear();
         players.clear();
+        World w = plugin.getWc().createEmptyWorld(name);
+        updateWorld(w);
         teams.values().forEach(Team::reset);
         plugin.getWc().resetMap(new Location(lobby.getWorld(), 0, 75, 0), schematic);
         lobby.getWorld().setTime(500);
@@ -142,6 +146,23 @@ public class GameNoState implements Game {
         starting = plugin.getCm().getStarting();
         time = 0;
         setState(State.WAITING);
+    }
+
+    public void updateWorld(World w){
+        teams.values().forEach(t -> t.updateWorld(w));
+        lobby.setWorld(w);
+        spectator.setWorld(w);
+        for (Location l : npcShop){
+            l.setWorld(w);
+        }
+        for (Location l : npcKits){
+            l.setWorld(w);
+        }
+        wools.keySet().forEach(l -> l.setWorld(w));
+        for (Squared s : protection){
+            s.getMin().setWorld(w);
+            s.getMax().setWorld(w);
+        }
     }
 
     @Override
@@ -291,7 +312,7 @@ public class GameNoState implements Game {
                 }
             }
         }.runTaskLater(plugin, 20 * 10);
-        Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, this::reset, 20 * 11);
+        Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, this::reset, 20 * 12);
         new BukkitRunnable() {
             @Override
             public void run() {

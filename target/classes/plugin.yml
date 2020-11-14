@@ -7,3 +7,4 @@ depend: [NametagEdit, ProtocolLib, WorldEdit, FastAsyncWorldEdit]
 commands:
   ctws:
   ctw:
+    aliases: [ultractw]

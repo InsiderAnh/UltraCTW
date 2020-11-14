@@ -24,6 +24,14 @@ public class Squared {
         this.zMax = Math.max(min.getBlockZ(), max.getBlockZ());
     }
 
+    public Location getMin() {
+        return min;
+    }
+
+    public Location getMax() {
+        return max;
+    }
+
     public boolean isInCuboid(Location loc) {
         return loc.getWorld() == this.max.getWorld() && loc.getBlockX() >= this.xMin && loc.getBlockX() <= this.xMax && loc.getBlockY() >= this.yMin && loc.getBlockY() <= this.yMax && loc.getBlockZ() >= this.zMin && loc.getBlockZ() <= this.zMax;
     }

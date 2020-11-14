@@ -1,6 +1,7 @@
 package io.github.Leonardo0013YT.UltraCTW.managers;
 
 import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.customs.CustomScoreboard;
 import io.github.Leonardo0013YT.UltraCTW.enums.State;
 import io.github.Leonardo0013YT.UltraCTW.game.GameEvent;
 import io.github.Leonardo0013YT.UltraCTW.game.GameFlag;
@@ -20,151 +21,10 @@ import java.util.HashMap;
 public class ScoreboardManager {
 
     Main plugin;
-    private HashMap<Player, String> sb = new HashMap<>();
-    private HashMap<Player, ScoreboardUtil> score = new HashMap<>();
+    private CustomScoreboard scoreboard = CustomScoreboard.instance();
 
     public ScoreboardManager(Main plugin) {
         this.plugin = plugin;
-    }
-
-    private void createMainBoard(Player p) {
-        if (p == null || !p.isOnline()) {
-            return;
-        }
-        sb.put(p, "main");
-        p.getScoreboard().clearSlot(DisplaySlot.SIDEBAR);
-        ScoreboardUtil scoreboardUtil = new ScoreboardUtil("main", "main");
-        scoreboardUtil.setName(plugin.getLang().get(p, "scoreboards.main.title"));
-        String titulo = main(p, plugin.getLang().get(p, "scoreboards.main.lines"));
-        String[] title = titulo.split("\\n");
-        for (int n = 1, n2 = title.length - 1; n < title.length + 1; ++n, --n2) {
-            scoreboardUtil.lines(n, title[n2]);
-        }
-        scoreboardUtil.build(p);
-        score.put(p, scoreboardUtil);
-    }
-
-    private void createWaitingBoard(Player p, Game game) {
-        if (p == null || !p.isOnline()) {
-            return;
-        }
-        sb.put(p, "waiting");
-        p.getScoreboard().clearSlot(DisplaySlot.SIDEBAR);
-        ScoreboardUtil scoreboardUtil = new ScoreboardUtil("waiting", "waiting");
-        scoreboardUtil.setName(plugin.getLang().get(p, "scoreboards.waiting.title"));
-        String titulo = waiting(p, plugin.getLang().get(p, "scoreboards.waiting.lines"), game);
-        String[] title = titulo.split("\\n");
-        for (int n = 1, n2 = title.length - 1; n < title.length + 1; ++n, --n2) {
-            scoreboardUtil.lines(n, title[n2]);
-        }
-        scoreboardUtil.build(p);
-        score.put(p, scoreboardUtil);
-    }
-
-    private void createWaitingFlagBoard(Player p, GameFlag game) {
-        if (p == null || !p.isOnline()) {
-            return;
-        }
-        sb.put(p, "waitingFlag");
-        p.getScoreboard().clearSlot(DisplaySlot.SIDEBAR);
-        ScoreboardUtil scoreboardUtil = new ScoreboardUtil("waitingFlag", "waitingFlag");
-        scoreboardUtil.setName(plugin.getLang().get(p, "scoreboards.waitingFlag.title"));
-        String titulo = waitingFlag(p, plugin.getLang().get(p, "scoreboards.waitingFlag.lines"), game);
-        String[] title = titulo.split("\\n");
-        for (int n = 1, n2 = title.length - 1; n < title.length + 1; ++n, --n2) {
-            scoreboardUtil.lines(n, title[n2]);
-        }
-        scoreboardUtil.build(p);
-        score.put(p, scoreboardUtil);
-    }
-
-    private void createStartingBoard(Player p, Game game) {
-        if (p == null || !p.isOnline()) {
-            return;
-        }
-        sb.put(p, "starting");
-        p.getScoreboard().clearSlot(DisplaySlot.SIDEBAR);
-        ScoreboardUtil scoreboardUtil = new ScoreboardUtil("starting", "starting");
-        scoreboardUtil.setName(plugin.getLang().get(p, "scoreboards.starting.title"));
-        String titulo = starting(p, plugin.getLang().get(p, "scoreboards.starting.lines"), game);
-        String[] title = titulo.split("\\n");
-        for (int n = 1, n2 = title.length - 1; n < title.length + 1; ++n, --n2) {
-            scoreboardUtil.lines(n, title[n2]);
-        }
-        scoreboardUtil.build(p);
-        score.put(p, scoreboardUtil);
-    }
-
-    private void createStartingFlagBoard(Player p, GameFlag game) {
-        if (p == null || !p.isOnline()) {
-            return;
-        }
-        sb.put(p, "startingFlag");
-        p.getScoreboard().clearSlot(DisplaySlot.SIDEBAR);
-        ScoreboardUtil scoreboardUtil = new ScoreboardUtil("startingFlag", "startingFlag");
-        scoreboardUtil.setName(plugin.getLang().get(p, "scoreboards.startingFlag.title"));
-        String titulo = startingFlag(p, plugin.getLang().get(p, "scoreboards.startingFlag.lines"), game);
-        String[] title = titulo.split("\\n");
-        for (int n = 1, n2 = title.length - 1; n < title.length + 1; ++n, --n2) {
-            scoreboardUtil.lines(n, title[n2]);
-        }
-        scoreboardUtil.build(p);
-        score.put(p, scoreboardUtil);
-    }
-
-    private void createSimpleGameBoard(Player p, Game game) {
-        if (p == null || !p.isOnline()) {
-            return;
-        }
-        sb.put(p, "simple");
-        p.getScoreboard().clearSlot(DisplaySlot.SIDEBAR);
-        Team team = game.getTeamPlayer(p);
-        GamePlayer gp = game.getGamePlayer(p);
-        Team t1 = game.getTeamByID(0);
-        Team t2 = game.getTeamByID(1);
-        ScoreboardUtil scoreboardUtil = new ScoreboardUtil("simple", "simple");
-        scoreboardUtil.setName(plugin.getLang().get(p, "scoreboards.simple-game.title"));
-        String titulo = simple(p, plugin.getLang().get(p, "scoreboards.simple-game.lines"), game, team, gp, t1, t2);
-        String[] title = titulo.split("\\n");
-        for (int n = 1, n2 = title.length - 1; n < title.length + 1; ++n, --n2) {
-            scoreboardUtil.lines(n, title[n2]);
-        }
-        scoreboardUtil.build(p);
-        score.put(p, scoreboardUtil);
-    }
-
-    private void createFlagGameBoard(Player p, GameFlag game) {
-        if (p == null || !p.isOnline()) {
-            return;
-        }
-        sb.put(p, "flag");
-        p.getScoreboard().clearSlot(DisplaySlot.SIDEBAR);
-        ScoreboardUtil scoreboardUtil = new ScoreboardUtil("flag", "flag");
-        scoreboardUtil.setName(plugin.getLang().get(p, "scoreboards.flag-game.title"));
-        String titulo = flag(p, plugin.getLang().get(p, "scoreboards.flag-game.lines"), game);
-        String[] title = titulo.split("\\n");
-        for (int n = 1, n2 = title.length - 1; n < title.length + 1; ++n, --n2) {
-            scoreboardUtil.lines(n, title[n2]);
-        }
-        scoreboardUtil.build(p);
-        score.put(p, scoreboardUtil);
-    }
-
-    private void createBigGameBoard(Player p) {
-        if (p == null || !p.isOnline()) {
-            return;
-        }
-        sb.put(p, "big");
-        p.getScoreboard().clearSlot(DisplaySlot.SIDEBAR);
-        ScoreboardUtil scoreboardUtil = new ScoreboardUtil("big", "big");
-        scoreboardUtil.setName(plugin.getLang().get(p, "scoreboards.big-game.title"));
-        String titulo = plugin.getLang().get(p, "scoreboards.big-game.lines");
-        String[] title = titulo.split("\\n");
-        for (int n = 1, n2 = title.length - 1; n < title.length + 1; ++n, --n2) {
-            scoreboardUtil.lines(n, title[n2]);
-        }
-        scoreboardUtil.build(p);
-        score.put(p, scoreboardUtil);
     }
 
     public void update(Player p) {
@@ -172,20 +32,10 @@ public class ScoreboardManager {
             return;
         }
         if (!plugin.getGm().isPlayerInGame(p) && plugin.getCm().isLobbyScoreboard()) {
-            if (score.containsKey(p)) {
-                ScoreboardUtil scoreboardUtil = score.get(p);
-                if (sb.get(p).equals("main")) {
-                    String titulo = main(p, plugin.getLang().get(p, "scoreboards.main.lines"));
-                    String[] title = titulo.split("\\n");
-                    for (int n = 1, n2 = title.length - 1; n < title.length + 1; ++n, --n2) {
-                        scoreboardUtil.lines(n, title[n2]);
-                    }
-                } else {
-                    createMainBoard(p);
-                }
-            } else {
-                createMainBoard(p);
+            if (!scoreboard.hasBoard(p)){
+                scoreboard.createBoard(p, main(p, plugin.getLang().get(p, "scoreboards.main.title")));
             }
+            scoreboard.getBoard(p).setAll(main(p, plugin.getLang().get(p, "scoreboards.main.lines")).split("\\n"));
             return;
         }
         if (!plugin.getGm().isPlayerInGame(p)) {
@@ -194,86 +44,46 @@ public class ScoreboardManager {
         Game game = plugin.getGm().getGameByPlayer(p);
         if (game != null) {
             Team team = game.getTeamPlayer(p);
-            if (score.containsKey(p)) {
-                ScoreboardUtil scoreboardUtil = score.get(p);
-                if (game.isState(State.WAITING)) {
-                    if (sb.get(p).equals("waiting")) {
-                        String titulo = waiting(p, plugin.getLang().get(p, "scoreboards.waiting.lines"), game);
-                        String[] title = titulo.split("\\n");
-                        for (int n = 1, n2 = title.length - 1; n < title.length + 1; ++n, --n2) {
-                            scoreboardUtil.lines(n, title[n2]);
-                        }
-                    } else {
-                        createWaitingBoard(p, game);
-                    }
-                } else if (game.isState(State.STARTING)) {
-                    if (sb.get(p).equals("starting")) {
-                        String titulo = starting(p, plugin.getLang().get(p, "scoreboards.starting.lines"), game);
-                        String[] title = titulo.split("\\n");
-                        for (int n = 1, n2 = title.length - 1; n < title.length + 1; ++n, --n2) {
-                            scoreboardUtil.lines(n, title[n2]);
-                        }
-                    } else {
-                        createStartingBoard(p, game);
-                    }
-                } else {
-                    if (team == null) {
-                        return;
-                    }
-                    if (sb.get(p).equals("simple")) {
-                        GamePlayer gp = game.getGamePlayer(p);
-                        Team t1 = game.getTeamByID(0);
-                        Team t2 = game.getTeamByID(1);
-                        String titulo = simple(p, plugin.getLang().get(p, "scoreboards.simple-game.lines"), game, team, gp, t1, t2);
-                        String[] title = titulo.split("\\n");
-                        for (int n = 1, n2 = title.length - 1; n < title.length + 1; ++n, --n2) {
-                            scoreboardUtil.lines(n, title[n2]);
-                        }
-                    } else {
-                        createSimpleGameBoard(p, game);
-                    }
+            if (game.isState(State.WAITING)) {
+                if (!scoreboard.hasBoard(p)){
+                    scoreboard.createBoard(p, waiting(p, plugin.getLang().get(p, "scoreboards.waiting.title"), game));
                 }
+                scoreboard.getBoard(p).setAll(waiting(p, plugin.getLang().get(p, "scoreboards.waiting.lines"), game).split("\\n"));
+            } else if (game.isState(State.STARTING)) {
+                if (!scoreboard.hasBoard(p)){
+                    scoreboard.createBoard(p, starting(p, plugin.getLang().get(p, "scoreboards.starting.title"), game));
+                }
+                scoreboard.getBoard(p).setAll(starting(p, plugin.getLang().get(p, "scoreboards.starting.lines"), game).split("\\n"));
             } else {
-                createWaitingBoard(p, game);
+                if (team == null) {
+                    return;
+                }
+                GamePlayer gp = game.getGamePlayer(p);
+                Team t1 = game.getTeamByID(0);
+                Team t2 = game.getTeamByID(1);
+                if (!scoreboard.hasBoard(p)){
+                    scoreboard.createBoard(p, simple(p, plugin.getLang().get(p, "scoreboards.simple-game.title"), game, team, gp, t1, t2));
+                }
+                scoreboard.getBoard(p).setAll(simple(p, plugin.getLang().get(p, "scoreboards.simple-game.lines"), game, team, gp, t1, t2).split("\\n"));
             }
         }
         GameFlag gameFlag = plugin.getGm().getGameFlagByPlayer(p);
         if (gameFlag != null) {
-            if (score.containsKey(p)) {
-                ScoreboardUtil scoreboardUtil = score.get(p);
-                if (gameFlag.isState(State.WAITING)) {
-                    if (sb.get(p).equals("waitingFlag")) {
-                        String titulo = waitingFlag(p, plugin.getLang().get(p, "scoreboards.waitingFlag.lines"), gameFlag);
-                        String[] title = titulo.split("\\n");
-                        for (int n = 1, n2 = title.length - 1; n < title.length + 1; ++n, --n2) {
-                            scoreboardUtil.lines(n, title[n2]);
-                        }
-                    } else {
-                        createWaitingFlagBoard(p, gameFlag);
-                    }
-                } else if (gameFlag.isState(State.STARTING)) {
-                    if (sb.get(p).equals("startingFlag")) {
-                        String titulo = startingFlag(p, plugin.getLang().get(p, "scoreboards.startingFlag.lines"), gameFlag);
-                        String[] title = titulo.split("\\n");
-                        for (int n = 1, n2 = title.length - 1; n < title.length + 1; ++n, --n2) {
-                            scoreboardUtil.lines(n, title[n2]);
-                        }
-                    } else {
-                        createStartingFlagBoard(p, gameFlag);
-                    }
-                } else {
-                    if (sb.get(p).equals("flag")) {
-                        String titulo = flag(p, plugin.getLang().get(p, "scoreboards.flag-game.lines"), gameFlag);
-                        String[] title = titulo.split("\\n");
-                        for (int n = 1, n2 = title.length - 1; n < title.length + 1; ++n, --n2) {
-                            scoreboardUtil.lines(n, title[n2]);
-                        }
-                    } else {
-                        createFlagGameBoard(p, gameFlag);
-                    }
+            if (gameFlag.isState(State.WAITING)) {
+                if (!scoreboard.hasBoard(p)){
+                    scoreboard.createBoard(p, waitingFlag(p, plugin.getLang().get(p, "scoreboards.waitingFlag.title"), gameFlag));
                 }
+                scoreboard.getBoard(p).setAll(waitingFlag(p, plugin.getLang().get(p, "scoreboards.waitingFlag.lines"), gameFlag).split("\\n"));
+            } else if (gameFlag.isState(State.STARTING)) {
+                if (!scoreboard.hasBoard(p)){
+                    scoreboard.createBoard(p, startingFlag(p, plugin.getLang().get(p, "scoreboards.startingFlag.title"), gameFlag));
+                }
+                scoreboard.getBoard(p).setAll(startingFlag(p, plugin.getLang().get(p, "scoreboards.startingFlag.lines"), gameFlag).split("\\n"));
             } else {
-                createWaitingFlagBoard(p, gameFlag);
+                if (!scoreboard.hasBoard(p)){
+                    scoreboard.createBoard(p, flag(p, plugin.getLang().get(p, "scoreboards.flag-game.title"), gameFlag));
+                }
+                scoreboard.getBoard(p).setAll(flag(p, plugin.getLang().get(p, "scoreboards.flag-game.lines"), gameFlag).split("\\n"));
             }
         }
     }
@@ -376,9 +186,8 @@ public class ScoreboardManager {
                 .replace("<deaths>", String.valueOf(gp.getDeaths()));
     }
 
-    public void remove(Player p) {
-        sb.remove(p);
-        score.remove(p);
+    public void remove(Player p){
+        scoreboard.removeBoard(p);
     }
 
 }

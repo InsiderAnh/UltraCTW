@@ -23,6 +23,7 @@ redPanel:
   data: 14
 breakMap:
   enabled: true
+  totalBreak: false
   bypass:
     - GRASS
     - STONE

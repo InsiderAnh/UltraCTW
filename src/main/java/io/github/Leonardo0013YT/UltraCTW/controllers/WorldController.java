@@ -12,9 +12,7 @@ import org.bukkit.generator.ChunkGenerator;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class WorldController {
 
@@ -22,6 +20,29 @@ public class WorldController {
 
     public WorldController(Main plugin) {
         clear = plugin.getConfig().getString("schemaToClearLobby");
+    }
+
+    public void deleteWorld(String name) {
+        World w = Bukkit.getWorld(name);
+        if (w != null){
+            Bukkit.unloadWorld(w, false);
+        }
+        File path = new File(Bukkit.getWorldContainer(), name);
+        deleteDirectory(path);
+    }
+
+    public void deleteDirectory(File source) {
+        ArrayList<String> ignore = new ArrayList<>(Arrays.asList("uid.dat", "session.lock", "Village.dat", "villages.dat"));
+        if (!source.exists()) return;
+        for (File f : source.listFiles()) {
+            if (!ignore.contains(f.getName())) {
+                if (f.isDirectory()) {
+                    deleteDirectory(f);
+                } else {
+                    f.delete();
+                }
+            }
+        }
     }
 
     public World createEmptyWorld(String name) {

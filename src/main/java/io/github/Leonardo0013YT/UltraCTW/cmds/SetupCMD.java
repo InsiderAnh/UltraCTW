@@ -32,6 +32,26 @@ public class SetupCMD implements CommandExecutor {
                 return true;
             }
             switch (args[0].toLowerCase()) {
+                case "delete":
+                    if (args.length < 2) {
+                        sendHelp(p);
+                        return true;
+                    }
+                    String delete = args[1];
+                    if (plugin.getGm().getGameByName(delete) == null && plugin.getGm().getGameFlagByName(delete) == null) {
+                        p.sendMessage("§cThis game not exists.");
+                        return true;
+                    }
+                    if (plugin.getSm().isDelete(p)) {
+                        plugin.getArenas().set("arenas." + delete, null);
+                        plugin.getArenas().save();
+                        plugin.getSm().removeDelete(p);
+                        p.sendMessage("§aYou've removed the map §e" + delete + "§a.");
+                        return true;
+                    }
+                    plugin.getSm().setDelete(p, delete);
+                    p.sendMessage("§cPlease config your delete executing §e/sws delete " + delete + "§c.");
+                    break;
                 case "killsounds":
                     if (plugin.getSm().isSetupKillSound(p)) {
                         KillSoundSetup kss = plugin.getSm().getSetupKillSound(p);
@@ -340,6 +360,7 @@ public class SetupCMD implements CommandExecutor {
         s.sendMessage("§e/ctws setmainlobby §7- §aSet main lobby.");
         s.sendMessage("§e/ctws create <name> <schematic> §7- §aCreate a new arena.");
         s.sendMessage("§e/ctws createflag <name> <schematic> §7- §aCreate a new flag arena.");
+        s.sendMessage("§e/ctws delete <name> §7- §aDelete one arena.");
         s.sendMessage("§e/ctws addshop §7- §aSet NPC Shop. §c(You need stay creating arena)");
         s.sendMessage("§e/ctws addkits §7- §aSet NPC Kits. §c(You need stay creating arena)");
         s.sendMessage("§e/ctw addshopitem <price> §7- §aYou must have the item in your hand.");

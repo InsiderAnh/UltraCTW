@@ -9,6 +9,7 @@ import io.github.Leonardo0013YT.UltraCTW.xseries.XSound;
 import lombok.Getter;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.metadata.FixedMetadataValue;
@@ -57,6 +58,14 @@ public class Team {
         for (String c : plugin.getArenas().getConfig().getConfigurationSection(path + ".squareds").getKeys(false)) {
             String nowPath = path + ".squareds." + c;
             squareds.add(new Squared(Utils.getStringLocation(plugin.getArenas().get(nowPath + ".min")), Utils.getStringLocation(plugin.getArenas().get(nowPath + ".max")), true, true));
+        }
+    }
+
+    public void updateWorld(World w){
+        spawn.setWorld(w);
+        for (Squared s : squareds){
+            s.getMax().setWorld(w);
+            s.getMin().setWorld(w);
         }
     }
 

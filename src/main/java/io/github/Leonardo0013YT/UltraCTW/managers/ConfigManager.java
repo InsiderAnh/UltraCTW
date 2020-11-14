@@ -18,7 +18,7 @@ import java.util.List;
 public class ConfigManager {
 
     private Main plugin;
-    private boolean sendLobbyOnQuit, bungeeModeEnabled, bungeeModeAutoJoin, bungeeModeKickOnFinish, instaKillOnVoidFlag, instaKillOnVoidCTW, lobbyScoreboard, hungerFlag, hungerCTW, breakMap, kitLevelsOrder, excluideDefKits, itemLobbyEnabled, placeholdersAPI, redPanelInLocked, holograms, holographicdisplays;
+    private boolean totalBreak, sendLobbyOnQuit, bungeeModeEnabled, bungeeModeAutoJoin, bungeeModeKickOnFinish, instaKillOnVoidFlag, instaKillOnVoidCTW, lobbyScoreboard, hungerFlag, hungerCTW, breakMap, kitLevelsOrder, excluideDefKits, itemLobbyEnabled, placeholdersAPI, redPanelInLocked, holograms, holographicdisplays;
     private Location mainLobby, topKills, topWins, topCaptured, topBounty;
     private short redPanelData;
     private Material back, redPanelMaterial;
@@ -36,6 +36,7 @@ public class ConfigManager {
     }
 
     public void reload() {
+        this.totalBreak = plugin.getConfig().getBoolean("breakMap.totalBreak");
         this.sendLobbyOnQuit = plugin.getConfig().getBoolean("bungeeMode.sendLobbyOnQuit");
         this.bungeeModeEnabled = plugin.getConfig().getBoolean("bungeeMode.enabled");
         this.bungeeModeAutoJoin = plugin.getConfig().getBoolean("bungeeMode.autoJoin");

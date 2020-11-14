@@ -212,9 +212,11 @@ public class PlayerListener implements Listener {
             return;
         }
         if (!g.getPlaced().contains(l)){
-            p.sendMessage(plugin.getLang().get("messages.onlyBreakPlaced"));
-            e.setCancelled(true);
-            return;
+            if (!plugin.getCm().isTotalBreak()){
+                p.sendMessage(plugin.getLang().get("messages.onlyBreakPlaced"));
+                e.setCancelled(true);
+                return;
+            }
         } else {
             g.getPlaced().remove(l);
         }
@@ -322,7 +324,7 @@ public class PlayerListener implements Listener {
             p.sendMessage(plugin.getLang().get("messages.noPlace"));
             return;
         }
-        if (!plugin.getCm().getBreakBypass().contains(l.getBlock().getType().name())){
+        if (!plugin.getCm().getBreakBypass().contains(l.getBlock().getType().name()) && !plugin.getCm().isTotalBreak()){
             g.getPlaced().add(l);
         }
         CTWPlayer ctw = plugin.getDb().getCTWPlayer(p);

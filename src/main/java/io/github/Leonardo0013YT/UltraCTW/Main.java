@@ -174,6 +174,12 @@ public class Main extends JavaPlugin {
                 getGm().getFlagGames().values().forEach(GameFlag::update);
             }
         }.runTaskTimer(this, 20, 20);
+        new BukkitRunnable(){
+            @Override
+            public void run() {
+                Utils.updateSB();
+            }
+        }.runTaskTimer(this, 100, 100);
         new BukkitRunnable() {
             @Override
             public void run() {
