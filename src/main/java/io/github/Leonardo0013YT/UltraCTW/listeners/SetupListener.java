@@ -1752,14 +1752,23 @@ public class SetupListener implements Listener {
             }
             if (display.equals(plugin.getLang().get(p, "menus.teamsetup.squared.nameItem"))) {
                 Selection s = as.getSelection();
-                if (s.getPos1() == null || s.getPos2() == null) {
-                    p.sendMessage(plugin.getLang().get("setup.arena.needPositions"));
-                    return;
+                if (e.getClick().equals(ClickType.RIGHT)){
+                    if (ts.getSquareds().isEmpty()){
+                        p.sendMessage(plugin.getLang().get("setup.arena.noLast"));
+                        return;
+                    }
+                    ts.getSquareds().remove(ts.getSquareds().size() - 1);
+                    p.sendMessage(plugin.getLang().get("setup.arena.removed"));
+                } else {
+                    if (s.getPos1() == null || s.getPos2() == null) {
+                        p.sendMessage(plugin.getLang().get("setup.arena.needPositions"));
+                        return;
+                    }
+                    ts.addSquared(s);
+                    p.sendMessage(plugin.getLang().get("setup.arena.setProteccion"));
+                    s.setPos1(null);
+                    s.setPos2(null);
                 }
-                ts.addSquared(s);
-                p.sendMessage(plugin.getLang().get("setup.arena.setProteccion"));
-                s.setPos1(null);
-                s.setPos2(null);
                 ArrayList<String> sp = new ArrayList<>();
                 ts.getSpawners().values().forEach(l -> sp.add(Utils.getFormatedLocation(l)));
                 ArrayList<String> sq = new ArrayList<>();
@@ -1785,8 +1794,21 @@ public class SetupListener implements Listener {
                         return;
                     }
                     TreeMap<ChatColor, Location> tm = new TreeMap<>(ts.getSpawners());
-                    tm.remove(tm.lastKey());
+                    ts.getSpawners().remove(tm.lastKey());
                     p.sendMessage(plugin.getLang().get("setup.team.removed"));
+                    ArrayList<String> sp = new ArrayList<>();
+                    ts.getSpawners().values().forEach(l -> sp.add(Utils.getFormatedLocation(l)));
+                    ArrayList<String> sq = new ArrayList<>();
+                    for (Squared ss : ts.getSquareds()) {
+                        sq.add("§bMax: §e" + Utils.getFormatedLocation(ss.getMax()));
+                        sq.add("§bMin: §e" + Utils.getFormatedLocation(ss.getMin()));
+                        sq.add("§7");
+                    }
+                    plugin.getUim().openInventory(p, plugin.getUim().getMenus("teamsetup"),
+                            new String[]{"<color>", ts.getColor().name()},
+                            new String[]{"<generators>", getString(sp)},
+                            new String[]{"<squareds>", getString(sq)},
+                            new String[]{"<spawn>", "" + Utils.getFormatedLocation(ts.getSpawn())});
                 } else {
                     plugin.getSem().createSetupSpawnerColor(p, ts);
                 }
@@ -2020,15 +2042,24 @@ public class SetupListener implements Listener {
                 }
             }
             if (display.equals(plugin.getLang().get(p, "menus.setup.squared.nameItem"))) {
-                Selection s = as.getSelection();
-                if (s.getPos1() == null || s.getPos2() == null) {
-                    p.sendMessage(plugin.getLang().get("setup.arena.needPositions"));
-                    return;
+                if (e.getClick().equals(ClickType.RIGHT)){
+                    if (as.getSquareds().isEmpty()){
+                        p.sendMessage(plugin.getLang().get("setup.arena.noLast"));
+                        return;
+                    }
+                    as.getSquareds().remove(as.getSquareds().size() - 1);
+                    p.sendMessage(plugin.getLang().get("setup.arena.removed"));
+                } else {
+                    Selection s = as.getSelection();
+                    if (s.getPos1() == null || s.getPos2() == null) {
+                        p.sendMessage(plugin.getLang().get("setup.arena.needPositions"));
+                        return;
+                    }
+                    as.addSquared(s);
+                    p.sendMessage(plugin.getLang().get("setup.arena.setProteccion"));
+                    s.setPos1(null);
+                    s.setPos2(null);
                 }
-                as.addSquared(s);
-                p.sendMessage(plugin.getLang().get("setup.arena.setProteccion"));
-                s.setPos1(null);
-                s.setPos2(null);
                 ArrayList<String> sq = new ArrayList<>();
                 for (Squared ss : as.getSquareds()) {
                     sq.add("§bMax: §e" + Utils.getFormatedLocation(ss.getMax()));

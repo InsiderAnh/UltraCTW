@@ -218,6 +218,8 @@ setup:
     saveLevel: "&aThe kit level has been saved."
     saveKit: "&aThe kit has been saved."
   arena:
+    noLast: "&cSquareds are no longer available."
+    removed: "&cThe last Squared has been removed."
     addMine: "&aA &e<type> &atype mine was added."
     setNPCBuff: "&aThe location of the buff NPC has been added."
     setNPCUpgrade: "&aThe location of the upgrade NPC has been added."
