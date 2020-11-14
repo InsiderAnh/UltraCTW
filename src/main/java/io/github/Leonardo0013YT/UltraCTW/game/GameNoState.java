@@ -149,6 +149,8 @@ public class GameNoState implements Game {
     }
 
     public void updateWorld(World w){
+        lobbyProtection.getMax().setWorld(w);
+        lobbyProtection.getMin().setWorld(w);
         teams.values().forEach(t -> t.updateWorld(w));
         lobby.setWorld(w);
         spectator.setWorld(w);
@@ -311,8 +313,8 @@ public class GameNoState implements Game {
                     }
                 }
             }
-        }.runTaskLater(plugin, 20 * 10);
-        Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, this::reset, 20 * 12);
+        }.runTaskLater(plugin, 20 * 8);
+        Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, this::reset, 20 * 11);
         new BukkitRunnable() {
             @Override
             public void run() {

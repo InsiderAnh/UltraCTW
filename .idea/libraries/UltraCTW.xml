@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="UltraCTW">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../../APIS/UltraCTW.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

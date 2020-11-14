@@ -12,6 +12,8 @@ import org.bukkit.plugin.PluginDescriptionFile;
 import javax.net.ssl.HttpsURLConnection;
 import java.io.*;
 import java.net.HttpURLConnection;
+import java.net.Inet4Address;
+import java.net.InetAddress;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.zip.GZIPOutputStream;
@@ -34,7 +36,11 @@ public class ChestController {
         this.name = "%%__USER__%%";
         this.plugin = "UltraCTW";
         this.version = descriptionFile.getVersion();
-        this.address = this.getLocalAddress();
+        try {
+            this.address = this.getLocalAddress();
+        } catch (IOException e) {
+            this.address = InetAddress.getLocalHost().getHostAddress();
+        }
     }
 
     public void chests(Validation<Boolean> validate) throws Exception {
@@ -44,10 +50,8 @@ public class ChestController {
         Validate.notNull(this.version, "Version cannot be null.");
         Validate.notNull(this.address, "Address cannot be null.");
 
-        /*HttpsURLConnection connection = (HttpsURLConnection) new URL(URL).openConnection();*/
         HttpsURLConnection connection = (HttpsURLConnection) new URL(URL).openConnection();
 
-        // Inserting data into a JsonObject
         JsonObject data = new JsonObject();
 
         data.addProperty("name", this.name);
@@ -58,16 +62,13 @@ public class ChestController {
         byte[] compressedData = compress(data.toString());
 
 
-        // Add headers
         connection.setRequestMethod("POST");
         connection.addRequestProperty("Accept", "application/json");
         connection.setRequestProperty("Content-Type", "application/json"); // We send our data in JSON format
         connection.setRequestProperty("User-Agent", "MC-Server/" + this.version);
 
-        // Send data
         connection.setDoOutput(true);
 
-        // Inserting data
         OutputStream os = connection.getOutputStream();
         OutputStreamWriter osw = new OutputStreamWriter(os, StandardCharsets.UTF_8);
         osw.write(data.toString());
