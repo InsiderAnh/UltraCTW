@@ -1,8 +1,7 @@
 package io.github.Leonardo0013YT.UltraCTW.utils;
 
-import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.UltraCTW;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.CTWPlayer;
-import io.github.Leonardo0013YT.UltraCTW.interfaces.Game;
 import org.bukkit.entity.Player;
 
 import java.text.DecimalFormat;
@@ -66,10 +65,10 @@ public class Tagged {
             }
             double damage = damagers.get(on);
             double percent = (damage * 100) / maxHealth;
-            on.sendMessage(Main.get().getLang().get(on, "assists").replaceAll("<percent>", f.format(percent)).replaceAll("<name>", damaged.getName()));
-            CTWPlayer up = Main.get().getDb().getCTWPlayer(on);
-            up.addCoins(Main.get().getCm().getGCoinsAssists());
-            up.setXp(up.getXp() + Main.get().getCm().getXpAssists());
+            on.sendMessage(UltraCTW.get().getLang().get(on, "assists").replaceAll("<percent>", f.format(percent)).replaceAll("<name>", damaged.getName()));
+            CTWPlayer up = UltraCTW.get().getDb().getCTWPlayer(on);
+            up.addCoins(UltraCTW.get().getCm().getGCoinsAssists());
+            up.setXp(up.getXp() + UltraCTW.get().getCm().getXpAssists());
             up.addAssists(1);
         }
         for (Player on : to) {
@@ -85,7 +84,7 @@ public class Tagged {
                 return;
             }
             if (damagers.size() == 1) {
-                CTWPlayer up = Main.get().getDb().getCTWPlayer(last);
+                CTWPlayer up = UltraCTW.get().getDb().getCTWPlayer(last);
                 if (up == null) return;
                 double percent = (last.getHealth() * 100) / last.getMaxHealth();
                 if (percent <= 50 && percent > 25) {

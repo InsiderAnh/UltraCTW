@@ -1,6 +1,6 @@
 package io.github.Leonardo0013YT.UltraCTW.setup;
 
-import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.UltraCTW;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -37,7 +37,7 @@ public class TrailSetup {
     }
 
     public void saveTrail(Player p) {
-        Main plugin = Main.get();
+        UltraCTW plugin = UltraCTW.get();
         plugin.getTrail().set("trails." + name + ".id", plugin.getTlm().getNextId());
         plugin.getTrail().set("trails." + name + ".name", name);
         ItemStack icon = this.icon.clone();

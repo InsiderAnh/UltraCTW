@@ -1,6 +1,6 @@
 package io.github.Leonardo0013YT.UltraCTW.utils;
 
-import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.UltraCTW;
 import io.github.Leonardo0013YT.UltraCTW.game.GameFlag;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.Game;
 import io.github.Leonardo0013YT.UltraCTW.team.FlagTeam;
@@ -17,7 +17,7 @@ import java.text.DecimalFormat;
 public class Utils {
 
     private static DecimalFormat df = new DecimalFormat("##.#");
-    private static Main plugin = Main.get();
+    private static UltraCTW plugin = UltraCTW.get();
     private static ItemStack[] gifs = {NBTEditor.getHead("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNmNlZjlhYTE0ZTg4NDc3M2VhYzEzNGE0ZWU4OTcyMDYzZjQ2NmRlNjc4MzYzY2Y3YjFhMjFhODViNyJ9fX0="),
             NBTEditor.getHead("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMWI2NzMwZGU3ZTViOTQxZWZjNmU4Y2JhZjU3NTVmOTQyMWEyMGRlODcxNzU5NjgyY2Q4ODhjYzRhODEyODIifX19"),
             NBTEditor.getHead("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDA4Y2U3ZGViYTU2YjcyNmE4MzJiNjExMTVjYTE2MzM2MTM1OWMzMDQzNGY3ZDVlM2MzZmFhNmZlNDA1MiJ9fX0="),
@@ -38,7 +38,7 @@ public class Utils {
     }
 
     public static String getProgressBar(int current, int max, int totalBars) {
-        Main plugin = Main.get();
+        UltraCTW plugin = UltraCTW.get();
         float percent = (float) current / max;
         int progressBars = (int) (totalBars * percent);
         int leftOver = (totalBars - progressBars);

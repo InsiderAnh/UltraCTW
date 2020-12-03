@@ -1,6 +1,6 @@
 package io.github.Leonardo0013YT.UltraCTW.upgrades;
 
-import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.UltraCTW;
 import io.github.Leonardo0013YT.UltraCTW.objects.ObjectPotion;
 import io.github.Leonardo0013YT.UltraCTW.xseries.XEnchantment;
 import io.github.Leonardo0013YT.UltraCTW.xseries.XPotion;
@@ -17,7 +17,7 @@ public class UpgradeLevel {
     private ArrayList<UpgradeEnchantment> enchantments = new ArrayList<>();
     private ArrayList<ObjectPotion> selfEffects = new ArrayList<>(), teamEffects = new ArrayList<>();
 
-    public UpgradeLevel(Main plugin, String path) {
+    public UpgradeLevel(UltraCTW plugin, String path) {
         this.price = plugin.getUpgrades().getConfig().getDouble(path + ".price");
         this.level = plugin.getUpgrades().getInt(path + ".level");
         this.name = plugin.getUpgrades().get(path + ".name");

@@ -1,7 +1,7 @@
 package io.github.Leonardo0013YT.UltraCTW.listeners;
 
 import com.nametagedit.plugin.NametagEdit;
-import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.UltraCTW;
 import io.github.Leonardo0013YT.UltraCTW.api.events.CTWNPCInteractEvent;
 import io.github.Leonardo0013YT.UltraCTW.api.events.PlayerLoadEvent;
 import io.github.Leonardo0013YT.UltraCTW.cosmetics.trails.Trail;
@@ -19,6 +19,7 @@ import io.github.Leonardo0013YT.UltraCTW.utils.NBTEditor;
 import io.github.Leonardo0013YT.UltraCTW.utils.Tagged;
 import io.github.Leonardo0013YT.UltraCTW.utils.Utils;
 import io.github.Leonardo0013YT.UltraCTW.xseries.XMaterial;
+import io.github.Leonardo0013YT.UltraCTW.xseries.XSound;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Item;
@@ -39,9 +40,9 @@ import java.util.stream.Collectors;
 
 public class PlayerListener implements Listener {
 
-    private Main plugin;
+    private UltraCTW plugin;
 
-    public PlayerListener(Main plugin) {
+    public PlayerListener(UltraCTW plugin) {
         this.plugin = plugin;
     }
 
@@ -285,10 +286,13 @@ public class PlayerListener implements Listener {
             }
             CTWPlayer ctw = plugin.getDb().getCTWPlayer(p);
             ctw.addWoolCaptured();
-            p.sendMessage(plugin.getLang().get("messages.placeTeam").replaceAll("<place>", c + plugin.getLang().get("scoreboards.wools.captured")));
+            team.sendMessage(plugin.getLang().get("messages.placeTeam").replaceAll("<place>", c + plugin.getLang().get("scoreboards.wools.captured")));
             team.getCaptured().add(c);
             team.sendTitle(plugin.getLang().get("titles.captured.title").replaceAll("<color>", c + "").replace("<player>", p.getName()), plugin.getLang().get("titles.captured.subtitle").replaceAll("<color>", c + "").replace("<player>", p.getName()).replaceAll("<wool>", c + plugin.getLang().get("scoreboards.wools.captured")), 0, 30, 10);
-            g.getTeams().values().stream().filter(t -> t.getId() != team.getId()).forEach(t -> t.sendTitle(plugin.getLang().get("titles.otherCaptured.title").replaceAll("<color>", c + "").replace("<player>", p.getName()).replaceAll("<name>", team.getName()).replaceAll("<color>", team.getColor() + ""), plugin.getLang().get("titles.otherCaptured.subtitle").replaceAll("<color>", c + "").replace("<player>", p.getName()).replaceAll("<wool>", c + plugin.getLang().get("scoreboards.wools.captured")), 0, 30, 10));
+            g.getTeams().values().stream().filter(t -> t.getId() != team.getId()).forEach(t -> {
+                t.sendMessage(plugin.getLang().get("messages.capturedWool").replaceAll("<wool>", c + plugin.getLang().get("scoreboards.wools.captured")));
+                t.sendTitle(plugin.getLang().get("titles.otherCaptured.title").replaceAll("<color>", c + "").replace("<player>", p.getName()).replaceAll("<name>", team.getName()).replaceAll("<color>", team.getColor() + ""), plugin.getLang().get("titles.otherCaptured.subtitle").replaceAll("<color>", c + "").replace("<player>", p.getName()).replaceAll("<wool>", c + plugin.getLang().get("scoreboards.wools.captured")), 0, 30, 10);
+            });
             team.playSound(plugin.getCm().getCaptured(), 1.0f, 1.0f);
             if (team.checkWools()) {
                 g.win(team);
@@ -397,7 +401,7 @@ public class PlayerListener implements Listener {
         if (g == null) return;
         Team team = g.getTeamPlayer(p);
         if (team == null) return;
-        e.getItemDrop().setMetadata("DROPPED", new FixedMetadataValue(Main.get(), co));
+        e.getItemDrop().setMetadata("DROPPED", new FixedMetadataValue(UltraCTW.get(), co));
         Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () -> {
             if (!p.getInventory().containsAtLeast(item, 1)) {
                 ChatColor c = Utils.getColorByXMaterial(XMaterial.matchXMaterial(item));
@@ -537,6 +541,7 @@ public class PlayerListener implements Listener {
                     plugin.getTgm().executeRewards(p, p.getMaxHealth());
                     e.setCancelled(true);
                     g.addDeath(p);
+                    d.getWorld().playSound(d.getLocation(), XSound.ENTITY_PLAYER_HURT.parseSound(), 1.0F, 1.0F);
                     respawn(tp, g, p);
                 }
             }
@@ -581,6 +586,7 @@ public class PlayerListener implements Listener {
                     plugin.getTgm().executeRewards(p, p.getMaxHealth());
                     e.setCancelled(true);
                     g.addDeath(p);
+                    d.getWorld().playSound(d.getLocation(), XSound.ENTITY_PLAYER_ATTACK_STRONG.parseSound(), 1.0F, 1.0F);
                     respawn(tp, g, p);
                 }
                 CTWPlayer ctw = plugin.getDb().getCTWPlayer(d);
@@ -626,6 +632,16 @@ public class PlayerListener implements Listener {
             return;
         }
         ItemStack item = p.getItemInHand();
+        if ((item.getType().equals(Material.LAVA_BUCKET) || item.getType().equals(Material.WATER_BUCKET))){
+            Game game = plugin.getGm().getGameByPlayer(p);
+            if (game != null){
+                Squared s = game.getPlayerSquared(p);
+                if (s != null && s.isNoBreak()) {
+                    e.setCancelled(true);
+                    return;
+                }
+            }
+        }
         if (item.equals(plugin.getIm().getTeams())) {
             Game game = plugin.getGm().getGameByPlayer(p);
             GameFlag gamef = plugin.getGm().getGameFlagByPlayer(p);
@@ -665,6 +681,8 @@ public class PlayerListener implements Listener {
     }
 
     private void respawn(Team team, Game g, Player p) {
+        p.playEffect(EntityEffect.HURT);
+        p.getWorld().playSound(p.getLocation(), XSound.ENTITY_PLAYER_HURT.parseSound(), 1.0F, 1.0F);
         p.closeInventory();
         p.setNoDamageTicks(40);
         p.setFallDistance(0);

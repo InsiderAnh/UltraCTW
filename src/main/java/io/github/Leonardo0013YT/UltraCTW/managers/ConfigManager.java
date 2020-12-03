@@ -1,6 +1,6 @@
 package io.github.Leonardo0013YT.UltraCTW.managers;
 
-import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.UltraCTW;
 import io.github.Leonardo0013YT.UltraCTW.objects.ObjectPotion;
 import io.github.Leonardo0013YT.UltraCTW.utils.Utils;
 import io.github.Leonardo0013YT.UltraCTW.xseries.XPotion;
@@ -9,7 +9,6 @@ import lombok.Getter;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
-import org.bukkit.potion.PotionEffectType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +16,7 @@ import java.util.List;
 @Getter
 public class ConfigManager {
 
-    private Main plugin;
+    private UltraCTW plugin;
     private boolean totalBreak, sendLobbyOnQuit, bungeeModeEnabled, bungeeModeAutoJoin, bungeeModeKickOnFinish, instaKillOnVoidFlag, instaKillOnVoidCTW, lobbyScoreboard, hungerFlag, hungerCTW, breakMap, kitLevelsOrder, excluideDefKits, itemLobbyEnabled, placeholdersAPI, redPanelInLocked, holograms, holographicdisplays;
     private Location mainLobby, topKills, topWins, topCaptured, topBounty;
     private short redPanelData;
@@ -30,7 +29,7 @@ public class ConfigManager {
     private List<String> noDrop, breakBypass;
     private List<ObjectPotion> effectsOnKill = new ArrayList<>();
 
-    public ConfigManager(Main plugin) {
+    public ConfigManager(UltraCTW plugin) {
         this.plugin = plugin;
         reload();
     }

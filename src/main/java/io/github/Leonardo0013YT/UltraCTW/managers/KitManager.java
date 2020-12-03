@@ -1,6 +1,6 @@
 package io.github.Leonardo0013YT.UltraCTW.managers;
 
-import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.UltraCTW;
 import io.github.Leonardo0013YT.UltraCTW.cosmetics.kits.Kit;
 import io.github.Leonardo0013YT.UltraCTW.cosmetics.kits.KitLevel;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.Game;
@@ -18,9 +18,9 @@ public class KitManager {
     private HashMap<Integer, Kit> kits = new HashMap<>();
     private ArrayList<Integer> defaultKits = new ArrayList<>();
     private int lastPage;
-    private Main plugin;
+    private UltraCTW plugin;
 
-    public KitManager(Main plugin) {
+    public KitManager(UltraCTW plugin) {
         this.plugin = plugin;
     }
 

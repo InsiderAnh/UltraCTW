@@ -1,6 +1,6 @@
 package io.github.Leonardo0013YT.UltraCTW.managers;
 
-import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.UltraCTW;
 import io.github.Leonardo0013YT.UltraCTW.addons.HologramsAddon;
 import io.github.Leonardo0013YT.UltraCTW.addons.HolographicDisplaysAddon;
 import io.github.Leonardo0013YT.UltraCTW.addons.PlaceholderAPIAddon;
@@ -13,12 +13,12 @@ import java.util.List;
 
 public class AddonManager {
 
-    private Main plugin;
+    private UltraCTW plugin;
     private PlaceholderAPIAddon placeholder;
     private HologramsAddon h;
     private HolographicDisplaysAddon hd;
 
-    public AddonManager(Main plugin) {
+    public AddonManager(UltraCTW plugin) {
         this.plugin = plugin;
         reload();
     }
@@ -65,7 +65,7 @@ public class AddonManager {
                 plugin.getDb().loadTopCaptured();
                 plugin.getDb().loadTopKills();
                 plugin.getDb().loadTopWins();
-                Bukkit.getScheduler().scheduleSyncDelayedTask(Main.get(), () -> plugin.getTop().createTops());
+                Bukkit.getScheduler().scheduleSyncDelayedTask(UltraCTW.get(), () -> plugin.getTop().createTops());
             }
         }.runTaskLater(plugin, 80);
     }

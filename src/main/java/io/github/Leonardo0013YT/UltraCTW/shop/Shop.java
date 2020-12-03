@@ -1,6 +1,6 @@
 package io.github.Leonardo0013YT.UltraCTW.shop;
 
-import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.UltraCTW;
 import io.github.Leonardo0013YT.UltraCTW.utils.ItemUtils;
 import io.github.Leonardo0013YT.UltraCTW.utils.NBTEditor;
 import lombok.Getter;
@@ -12,13 +12,13 @@ import java.util.HashMap;
 @Getter
 public class Shop {
 
-    private Main plugin;
+    private UltraCTW plugin;
     private int slot;
     private Material material;
     private String key, name, lore;
     private HashMap<String, ShopItem> items = new HashMap<>();
 
-    public Shop(Main plugin, String path, String key) {
+    public Shop(UltraCTW plugin, String path, String key) {
         this.plugin = plugin;
         this.key = key;
         this.slot = plugin.getUpgrades().getInt(path + ".slot");

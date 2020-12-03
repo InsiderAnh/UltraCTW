@@ -1,12 +1,12 @@
 package io.github.Leonardo0013YT.UltraCTW.interfaces;
 
-import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.UltraCTW;
 import io.github.Leonardo0013YT.UltraCTW.game.GameFlag;
 import org.bukkit.entity.Player;
 
 public interface WinDance {
 
-    void loadCustoms(Main plugin, String path);
+    void loadCustoms(UltraCTW plugin, String path);
 
     void start(Player p, Game game);
 

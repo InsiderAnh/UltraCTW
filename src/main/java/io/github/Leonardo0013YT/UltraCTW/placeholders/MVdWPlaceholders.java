@@ -1,7 +1,7 @@
 package io.github.Leonardo0013YT.UltraCTW.placeholders;
 
 import be.maximvdw.placeholderapi.PlaceholderAPI;
-import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.UltraCTW;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.CTWPlayer;
 import io.github.Leonardo0013YT.UltraCTW.objects.Level;
 import io.github.Leonardo0013YT.UltraCTW.utils.Utils;
@@ -9,9 +9,9 @@ import org.bukkit.entity.Player;
 
 public class MVdWPlaceholders {
 
-    private Main plugin;
+    private UltraCTW plugin;
 
-    public MVdWPlaceholders(Main plugin) {
+    public MVdWPlaceholders(UltraCTW plugin) {
         this.plugin = plugin;
     }
 

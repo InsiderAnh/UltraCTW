@@ -1,6 +1,6 @@
 package io.github.Leonardo0013YT.UltraCTW.inventories.setup;
 
-import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.UltraCTW;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.UltraInventory;
 import io.github.Leonardo0013YT.UltraCTW.utils.ItemBuilder;
 import io.github.Leonardo0013YT.UltraCTW.xseries.XMaterial;
@@ -17,9 +17,9 @@ public class SetupTauntMenu implements UltraInventory {
     private Map<Integer, ItemStack> contents = new HashMap<>();
     private int rows = 6;
     private String name;
-    private Main plugin;
+    private UltraCTW plugin;
 
-    public SetupTauntMenu(Main plugin, String name) {
+    public SetupTauntMenu(UltraCTW plugin, String name) {
         this.plugin = plugin;
         this.name = name;
         this.title = plugin.getLang().get(null, "menus." + name + ".title");

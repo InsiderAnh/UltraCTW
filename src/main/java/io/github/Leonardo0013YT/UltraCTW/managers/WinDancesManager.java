@@ -1,6 +1,6 @@
 package io.github.Leonardo0013YT.UltraCTW.managers;
 
-import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.UltraCTW;
 import io.github.Leonardo0013YT.UltraCTW.cosmetics.windances.*;
 import io.github.Leonardo0013YT.UltraCTW.game.GameFlag;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.CTWPlayer;
@@ -15,10 +15,10 @@ import java.util.HashMap;
 public class WinDancesManager {
 
     private HashMap<Integer, UltraWinDance> winDance = new HashMap<>();
-    private Main plugin;
+    private UltraCTW plugin;
     private int lastPage;
 
-    public WinDancesManager(Main plugin) {
+    public WinDancesManager(UltraCTW plugin) {
         this.plugin = plugin;
     }
 

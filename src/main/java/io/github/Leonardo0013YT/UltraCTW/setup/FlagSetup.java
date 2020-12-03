@@ -1,6 +1,6 @@
 package io.github.Leonardo0013YT.UltraCTW.setup;
 
-import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.UltraCTW;
 import io.github.Leonardo0013YT.UltraCTW.enums.PhaseType;
 import io.github.Leonardo0013YT.UltraCTW.utils.Utils;
 import lombok.Getter;
@@ -17,7 +17,7 @@ import java.util.HashMap;
 @Setter
 public class FlagSetup {
 
-    private Main plugin;
+    private UltraCTW plugin;
     private Player p;
     private String name, schematic;
     private Location lobby, spectator;
@@ -28,7 +28,7 @@ public class FlagSetup {
     private FlagTeamSetup actual;
     private int pool = 10, min, teamSize;
 
-    public FlagSetup(Main plugin, Player p, String name, String schematic) {
+    public FlagSetup(UltraCTW plugin, Player p, String name, String schematic) {
         this.plugin = plugin;
         this.p = p;
         this.name = name;

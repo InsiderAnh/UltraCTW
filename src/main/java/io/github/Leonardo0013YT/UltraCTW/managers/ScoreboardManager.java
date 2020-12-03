@@ -1,6 +1,6 @@
 package io.github.Leonardo0013YT.UltraCTW.managers;
 
-import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.UltraCTW;
 import io.github.Leonardo0013YT.UltraCTW.customs.CustomScoreboard;
 import io.github.Leonardo0013YT.UltraCTW.enums.State;
 import io.github.Leonardo0013YT.UltraCTW.game.GameEvent;
@@ -11,19 +11,15 @@ import io.github.Leonardo0013YT.UltraCTW.interfaces.Game;
 import io.github.Leonardo0013YT.UltraCTW.objects.Level;
 import io.github.Leonardo0013YT.UltraCTW.team.FlagTeam;
 import io.github.Leonardo0013YT.UltraCTW.team.Team;
-import io.github.Leonardo0013YT.UltraCTW.utils.ScoreboardUtil;
 import io.github.Leonardo0013YT.UltraCTW.utils.Utils;
 import org.bukkit.entity.Player;
-import org.bukkit.scoreboard.DisplaySlot;
-
-import java.util.HashMap;
 
 public class ScoreboardManager {
 
-    Main plugin;
+    UltraCTW plugin;
     private CustomScoreboard scoreboard = CustomScoreboard.instance();
 
-    public ScoreboardManager(Main plugin) {
+    public ScoreboardManager(UltraCTW plugin) {
         this.plugin = plugin;
     }
 

@@ -1,6 +1,6 @@
 package io.github.Leonardo0013YT.UltraCTW.setup;
 
-import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.UltraCTW;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.inventory.ItemStack;
@@ -14,14 +14,14 @@ import java.util.HashMap;
 @Setter
 public class KitSetup {
 
-    private Main plugin;
+    private UltraCTW plugin;
     private String name, permission;
     private int slot = 10, page = 1;
     private HashMap<Integer, KitLevelSetup> levels = new HashMap<>();
     private KitLevelSetup kls;
     private boolean flag = false;
 
-    public KitSetup(Main plugin, String name) {
+    public KitSetup(UltraCTW plugin, String name) {
         this.plugin = plugin;
         this.name = name;
         this.permission = "ultractw.kits." + name;

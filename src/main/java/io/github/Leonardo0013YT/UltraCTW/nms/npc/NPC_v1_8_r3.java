@@ -1,6 +1,6 @@
 package io.github.Leonardo0013YT.UltraCTW.nms.npc;
 
-import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.UltraCTW;
 import io.github.Leonardo0013YT.UltraCTW.enums.NPCType;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.NPC;
 import net.minecraft.server.v1_8_R3.*;
@@ -20,13 +20,13 @@ public class NPC_v1_8_r3 implements NPC {
     private Player p;
     private Location loc;
     private EntityType type;
-    private Main plugin;
+    private UltraCTW plugin;
     private WorldServer nmsWorld;
     private NPCType npcType;
     private double up = 0.8;
     private boolean showing;
 
-    public NPC_v1_8_r3(Main plugin) {
+    public NPC_v1_8_r3(UltraCTW plugin) {
         this.plugin = plugin;
     }
 

@@ -1,6 +1,6 @@
 package io.github.Leonardo0013YT.UltraCTW.managers;
 
-import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.UltraCTW;
 import io.github.Leonardo0013YT.UltraCTW.shop.Shop;
 import io.github.Leonardo0013YT.UltraCTW.upgrades.Upgrade;
 import lombok.Getter;
@@ -10,11 +10,11 @@ import java.util.HashMap;
 @Getter
 public class UpgradeManager {
 
-    private Main plugin;
+    private UltraCTW plugin;
     private HashMap<String, Upgrade> upgrades = new HashMap<>();
     private HashMap<String, Shop> shops = new HashMap<>();
 
-    public UpgradeManager(Main plugin) {
+    public UpgradeManager(UltraCTW plugin) {
         this.plugin = plugin;
         reload();
     }

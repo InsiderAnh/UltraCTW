@@ -1,6 +1,6 @@
 package io.github.Leonardo0013YT.UltraCTW.listeners;
 
-import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.UltraCTW;
 import io.github.Leonardo0013YT.UltraCTW.cosmetics.killeffects.UltraKillEffect;
 import io.github.Leonardo0013YT.UltraCTW.cosmetics.killsounds.KillSound;
 import io.github.Leonardo0013YT.UltraCTW.cosmetics.kits.Kit;
@@ -38,9 +38,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class MenuListener implements Listener {
 
-    private Main plugin;
+    private UltraCTW plugin;
 
-    public MenuListener(Main plugin) {
+    public MenuListener(UltraCTW plugin) {
         this.plugin = plugin;
     }
 

@@ -2,7 +2,7 @@ package io.github.Leonardo0013YT.UltraCTW.nms.npc;
 
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
-import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.UltraCTW;
 import io.github.Leonardo0013YT.UltraCTW.enums.NPCType;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.NPC;
 import net.minecraft.server.v1_15_R1.*;
@@ -24,13 +24,13 @@ public class NPC_v1_15_r1 implements NPC {
     private Player p;
     private Location loc;
     private EntityType type;
-    private Main plugin;
+    private UltraCTW plugin;
     private NPCType npcType;
     private double up = 0.8;
     private WorldServer nmsWorld;
     private boolean showing;
 
-    public NPC_v1_15_r1(Main plugin) {
+    public NPC_v1_15_r1(UltraCTW plugin) {
         this.plugin = plugin;
     }
 

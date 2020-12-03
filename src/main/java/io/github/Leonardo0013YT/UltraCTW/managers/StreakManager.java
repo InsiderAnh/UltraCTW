@@ -1,7 +1,7 @@
 package io.github.Leonardo0013YT.UltraCTW.managers;
 
 import com.nametagedit.plugin.NametagEdit;
-import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.UltraCTW;
 import io.github.Leonardo0013YT.UltraCTW.game.GameFlag;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.CTWPlayer;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.Game;
@@ -16,10 +16,10 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class StreakManager {
 
-    private Main plugin;
+    private UltraCTW plugin;
     private HashMap<Player, Streak> streaks = new HashMap<>();
 
-    public StreakManager(Main plugin) {
+    public StreakManager(UltraCTW plugin) {
         this.plugin = plugin;
     }
 

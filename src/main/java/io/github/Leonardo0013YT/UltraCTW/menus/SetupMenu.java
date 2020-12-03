@@ -1,6 +1,6 @@
 package io.github.Leonardo0013YT.UltraCTW.menus;
 
-import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.UltraCTW;
 import io.github.Leonardo0013YT.UltraCTW.setup.*;
 import io.github.Leonardo0013YT.UltraCTW.utils.ItemUtils;
 import io.github.Leonardo0013YT.UltraCTW.utils.NBTEditor;
@@ -20,9 +20,9 @@ public class SetupMenu {
     private int[] slots = {10, 11, 12, 13, 14, 15, 16, 19, 20, 21, 22, 23, 24, 25, 31};
     private ArrayList<Integer> whites = new ArrayList<>(Arrays.asList(4, 5, 6, 36, 37, 38, 39, 40, 41, 42, 43, 44));
     private ChatColor[] colors = {ChatColor.RED, ChatColor.BLUE, ChatColor.YELLOW, ChatColor.GOLD, ChatColor.GREEN, ChatColor.GRAY, ChatColor.DARK_GRAY, ChatColor.AQUA, ChatColor.DARK_AQUA, ChatColor.LIGHT_PURPLE, ChatColor.DARK_PURPLE, ChatColor.DARK_AQUA};
-    private Main plugin;
+    private UltraCTW plugin;
 
-    public SetupMenu(Main plugin) {
+    public SetupMenu(UltraCTW plugin) {
         this.plugin = plugin;
     }
 

@@ -1,6 +1,6 @@
 package io.github.Leonardo0013YT.UltraCTW.managers;
 
-import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.UltraCTW;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.UltraInventory;
 import io.github.Leonardo0013YT.UltraCTW.setup.*;
 import org.bukkit.entity.Player;
@@ -10,7 +10,7 @@ import java.util.UUID;
 
 public class SetupManager {
 
-    private Main plugin;
+    private UltraCTW plugin;
     private HashMap<Player, UltraInventory> setupInventory = new HashMap<>();
     private HashMap<Player, String> editName = new HashMap<>();
     private HashMap<Player, ArenaSetup> setup = new HashMap<>();
@@ -39,7 +39,7 @@ public class SetupManager {
         return delete.get(p.getUniqueId());
     }
 
-    public SetupManager(Main plugin) {
+    public SetupManager(UltraCTW plugin) {
         this.plugin = plugin;
     }
 

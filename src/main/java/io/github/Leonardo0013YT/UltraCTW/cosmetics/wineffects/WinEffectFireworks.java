@@ -1,13 +1,12 @@
 package io.github.Leonardo0013YT.UltraCTW.cosmetics.wineffects;
 
-import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.UltraCTW;
 import io.github.Leonardo0013YT.UltraCTW.game.GameFlag;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.Game;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.WinEffect;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
 import org.bukkit.Location;
-import org.bukkit.World;
 import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.meta.FireworkMeta;
@@ -39,7 +38,7 @@ public class WinEffectFireworks implements WinEffect, Cloneable {
                 }
                 firework(p.getLocation());
             }
-        }.runTaskTimer(Main.get(), 0, 6);
+        }.runTaskTimer(UltraCTW.get(), 0, 6);
     }
 
     @Override
@@ -54,7 +53,7 @@ public class WinEffectFireworks implements WinEffect, Cloneable {
                 }
                 firework(p.getLocation());
             }
-        }.runTaskTimer(Main.get(), 0, 6);
+        }.runTaskTimer(UltraCTW.get(), 0, 6);
     }
 
     @Override

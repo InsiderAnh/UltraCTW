@@ -1,6 +1,6 @@
 package io.github.Leonardo0013YT.UltraCTW.managers;
 
-import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.UltraCTW;
 import io.github.Leonardo0013YT.UltraCTW.flag.Mine;
 import lombok.Getter;
 import org.bukkit.Material;
@@ -10,11 +10,11 @@ import java.util.HashMap;
 @Getter
 public class FlagManager {
 
-    private Main plugin;
+    private UltraCTW plugin;
     private HashMap<String, Mine> mines = new HashMap<>();
     private HashMap<Material, String> indexMines = new HashMap<>();
 
-    public FlagManager(Main plugin) {
+    public FlagManager(UltraCTW plugin) {
         this.plugin = plugin;
         if (plugin.getMines().isSet("mines")) {
             for (String s : plugin.getMines().getConfig().getConfigurationSection("mines").getKeys(false)) {

@@ -1,6 +1,6 @@
 package io.github.Leonardo0013YT.UltraCTW.menus;
 
-import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.UltraCTW;
 import io.github.Leonardo0013YT.UltraCTW.game.GameFlag;
 import io.github.Leonardo0013YT.UltraCTW.game.GamePlayer;
 import io.github.Leonardo0013YT.UltraCTW.shop.Shop;
@@ -13,9 +13,9 @@ import org.bukkit.inventory.Inventory;
 
 public class FlagMenu {
 
-    private Main plugin;
+    private UltraCTW plugin;
 
-    public FlagMenu(Main plugin) {
+    public FlagMenu(UltraCTW plugin) {
         this.plugin = plugin;
     }
 

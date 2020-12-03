@@ -1,6 +1,6 @@
 package io.github.Leonardo0013YT.UltraCTW.cosmetics.windances;
 
-import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.UltraCTW;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.CTWPlayer;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.Purchasable;
 import io.github.Leonardo0013YT.UltraCTW.utils.ItemBuilder;
@@ -19,7 +19,7 @@ public class UltraWinDance implements Purchasable {
     private int id, slot, page, price;
     private ItemStack icon;
 
-    public UltraWinDance(Main plugin, String s) {
+    public UltraWinDance(UltraCTW plugin, String s) {
         this.id = plugin.getWindance().getInt(s + ".id");
         this.name = plugin.getWindance().get(null, s + ".name");
         this.type = plugin.getWindance().get(null, s + ".type");
@@ -70,13 +70,13 @@ public class UltraWinDance implements Purchasable {
         if (!icon.hasItemMeta()) {
             return icon;
         }
-        CTWPlayer sw = Main.get().getDb().getCTWPlayer(p);
+        CTWPlayer sw = UltraCTW.get().getDb().getCTWPlayer(p);
         ItemStack icon = this.icon.clone();
         if (!p.hasPermission(autoGivePermission)) {
             if (price > 0) {
-                if (Main.get().getCm().isRedPanelInLocked()) {
+                if (UltraCTW.get().getCm().isRedPanelInLocked()) {
                     if (!sw.getWindances().contains(id)) {
-                        icon = ItemBuilder.item(XMaterial.matchDefinedXMaterial(Main.get().getCm().getRedPanelMaterial().name(), (byte) Main.get().getCm().getRedPanelData()).orElse(XMaterial.RED_STAINED_GLASS_PANE), 1, icon.getItemMeta().getDisplayName(), icon.getItemMeta().getLore());
+                        icon = ItemBuilder.item(XMaterial.matchDefinedXMaterial(UltraCTW.get().getCm().getRedPanelMaterial().name(), (byte) UltraCTW.get().getCm().getRedPanelData()).orElse(XMaterial.RED_STAINED_GLASS_PANE), 1, icon.getItemMeta().getDisplayName(), icon.getItemMeta().getLore());
                     }
                 }
             }
@@ -89,41 +89,41 @@ public class UltraWinDance implements Purchasable {
                 case "<price>":
                     if (!p.hasPermission(autoGivePermission)) {
                         if (isBuy && !sw.getWindances().contains(id)) {
-                            lore.set(i, Main.get().getLang().get(p, "menus.windancesselector.price").replaceAll("<price>", String.valueOf(price)));
+                            lore.set(i, UltraCTW.get().getLang().get(p, "menus.windancesselector.price").replaceAll("<price>", String.valueOf(price)));
                         } else if (!isBuy && !sw.getWindances().contains(id)) {
                             if (needPermToBuy && p.hasPermission(permission)) {
-                                lore.set(i, Main.get().getLang().get(p, "menus.windancesselector.price").replaceAll("<price>", String.valueOf(price)));
+                                lore.set(i, UltraCTW.get().getLang().get(p, "menus.windancesselector.price").replaceAll("<price>", String.valueOf(price)));
                             } else {
-                                lore.set(i, Main.get().getLang().get(p, "menus.windancesselector.noBuyable"));
+                                lore.set(i, UltraCTW.get().getLang().get(p, "menus.windancesselector.noBuyable"));
                             }
                         } else if (sw.getWindances().contains(id) || !needPermToBuy) {
-                            lore.set(i, Main.get().getLang().get(p, "menus.windancesselector.buyed"));
+                            lore.set(i, UltraCTW.get().getLang().get(p, "menus.windancesselector.buyed"));
                         }
                     } else {
-                        lore.set(i, Main.get().getLang().get(p, "menus.windancesselector.buyed"));
+                        lore.set(i, UltraCTW.get().getLang().get(p, "menus.windancesselector.buyed"));
                     }
                     break;
                 case "<status>":
                     if (!p.hasPermission(autoGivePermission)) {
                         if (sw.getWindances().contains(id)) {
-                            lore.set(i, Main.get().getLang().get(p, "menus.windancesselector.hasBuy"));
+                            lore.set(i, UltraCTW.get().getLang().get(p, "menus.windancesselector.hasBuy"));
                         } else if (isBuy) {
-                            if (Main.get().getAdm().getCoins(p) > price) {
-                                lore.set(i, Main.get().getLang().get(p, "menus.windancesselector.buy"));
+                            if (UltraCTW.get().getAdm().getCoins(p) > price) {
+                                lore.set(i, UltraCTW.get().getLang().get(p, "menus.windancesselector.buy"));
                             } else {
-                                lore.set(i, Main.get().getLang().get(p, "menus.windancesselector.noMoney"));
+                                lore.set(i, UltraCTW.get().getLang().get(p, "menus.windancesselector.noMoney"));
                             }
                         } else if (needPermToBuy) {
-                            if (Main.get().getAdm().getCoins(p) > price) {
-                                lore.set(i, Main.get().getLang().get(p, "menus.windancesselector.buy"));
+                            if (UltraCTW.get().getAdm().getCoins(p) > price) {
+                                lore.set(i, UltraCTW.get().getLang().get(p, "menus.windancesselector.buy"));
                             } else {
-                                lore.set(i, Main.get().getLang().get(p, "menus.windancesselector.noMoney"));
+                                lore.set(i, UltraCTW.get().getLang().get(p, "menus.windancesselector.noMoney"));
                             }
                         } else {
-                            lore.set(i, Main.get().getLang().get(p, "menus.windancesselector.noPermission"));
+                            lore.set(i, UltraCTW.get().getLang().get(p, "menus.windancesselector.noPermission"));
                         }
                     } else {
-                        lore.set(i, Main.get().getLang().get(p, "menus.windancesselector.hasBuy"));
+                        lore.set(i, UltraCTW.get().getLang().get(p, "menus.windancesselector.hasBuy"));
                     }
                     break;
             }

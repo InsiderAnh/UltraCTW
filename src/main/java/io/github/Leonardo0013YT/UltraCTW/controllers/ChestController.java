@@ -2,7 +2,7 @@ package io.github.Leonardo0013YT.UltraCTW.controllers;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.UltraCTW;
 import lombok.SneakyThrows;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
@@ -11,8 +11,6 @@ import org.bukkit.plugin.PluginDescriptionFile;
 
 import javax.net.ssl.HttpsURLConnection;
 import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -29,7 +27,7 @@ public class ChestController {
     private String address;
 
     @SneakyThrows
-    public ChestController(Main plugin) {
+    public ChestController(UltraCTW plugin) {
         this.main = plugin;
         PluginDescriptionFile descriptionFile = plugin.getDescription();
         this.URL = "https://licenses.insideranh.com/api/spigot";

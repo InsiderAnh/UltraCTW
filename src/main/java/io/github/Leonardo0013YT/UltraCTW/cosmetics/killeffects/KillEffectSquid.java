@@ -1,6 +1,6 @@
 package io.github.Leonardo0013YT.UltraCTW.cosmetics.killeffects;
 
-import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.UltraCTW;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.KillEffect;
 import org.bukkit.Effect;
 import org.bukkit.Location;
@@ -17,7 +17,7 @@ public class KillEffectSquid implements KillEffect, Cloneable {
     private boolean loaded = false;
 
     @Override
-    public void loadCustoms(Main plugin, String path) {
+    public void loadCustoms(UltraCTW plugin, String path) {
         if (!loaded) {
             lavaAmount = plugin.getKilleffect().getIntOrDefault(path + ".lavaAmount", 1);
             explosionAmount = plugin.getKilleffect().getIntOrDefault(path + ".explosionAmount", 1);
@@ -32,7 +32,7 @@ public class KillEffectSquid implements KillEffect, Cloneable {
         }
         Squid squid = loc.getWorld().spawn(loc, Squid.class);
         squid.setNoDamageTicks(Integer.MAX_VALUE);
-        squid.setMetadata("KILLEFFECT", new FixedMetadataValue(Main.get(), "KILLEFFECT"));
+        squid.setMetadata("KILLEFFECT", new FixedMetadataValue(UltraCTW.get(), "KILLEFFECT"));
         task = new BukkitRunnable() {
             @Override
             public void run() {
@@ -46,9 +46,9 @@ public class KillEffectSquid implements KillEffect, Cloneable {
                 squid.teleport(loc);
                 loc.getWorld().playEffect(loc, Effect.EXPLOSION, explosionAmount);
                 loc.getWorld().playEffect(loc, Effect.LAVADRIP, lavaAmount);
-                p.playSound(loc, Main.get().getCm().getKillEffectSquid(), 1.0f, 1.0f);
+                p.playSound(loc, UltraCTW.get().getCm().getKillEffectSquid(), 1.0f, 1.0f);
             }
-        }.runTaskTimer(Main.get(), 0, 2);
+        }.runTaskTimer(UltraCTW.get(), 0, 2);
     }
 
     @Override

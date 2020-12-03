@@ -2,7 +2,7 @@ package io.github.Leonardo0013YT.UltraCTW.utils;
 
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
-import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.UltraCTW;
 import io.github.Leonardo0013YT.UltraCTW.xseries.XMaterial;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -53,14 +53,14 @@ public class ItemBuilder {
 
                             for (String l : var21) {
                                 String newValue = value.replace(s1, l);
-                                newLore.add(Main.get().getAdm().parsePlaceholders(p, newValue));
+                                newLore.add(UltraCTW.get().getAdm().parsePlaceholders(p, newValue));
                             }
                         } else {
                             String newValue = value.replace(s1, s2);
-                            newLore.add(Main.get().getAdm().parsePlaceholders(p, newValue));
+                            newLore.add(UltraCTW.get().getAdm().parsePlaceholders(p, newValue));
                         }
                     } else {
-                        newLore.add(Main.get().getAdm().parsePlaceholders(p, value));
+                        newLore.add(UltraCTW.get().getAdm().parsePlaceholders(p, value));
                     }
                 }
 

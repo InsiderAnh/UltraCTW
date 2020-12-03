@@ -1,6 +1,6 @@
 package io.github.Leonardo0013YT.UltraCTW.cosmetics.windances;
 
-import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.UltraCTW;
 import io.github.Leonardo0013YT.UltraCTW.game.GameFlag;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.Game;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.WinDance;
@@ -22,7 +22,7 @@ public class WinDanceIceWalker implements WinDance, Cloneable {
     private int round = 1, rangePerRound, taskTick;
 
     @Override
-    public void loadCustoms(Main plugin, String path) {
+    public void loadCustoms(UltraCTW plugin, String path) {
         if (!loaded) {
             rangePerRound = plugin.getWindance().getIntOrDefault(path + ".rangePerRound", 5);
             taskTick = plugin.getWindance().getIntOrDefault(path + ".taskTick", 20);
@@ -45,7 +45,7 @@ public class WinDanceIceWalker implements WinDance, Cloneable {
                 }
                 round++;
             }
-        }.runTaskTimer(Main.get(), 0, taskTick);
+        }.runTaskTimer(UltraCTW.get(), 0, taskTick);
     }
 
     @Override
@@ -63,7 +63,7 @@ public class WinDanceIceWalker implements WinDance, Cloneable {
                 }
                 round++;
             }
-        }.runTaskTimer(Main.get(), 0, taskTick);
+        }.runTaskTimer(UltraCTW.get(), 0, taskTick);
     }
 
     public BukkitTask getTask() {

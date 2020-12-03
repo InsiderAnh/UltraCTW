@@ -1,7 +1,7 @@
 package io.github.Leonardo0013YT.UltraCTW.game;
 
 import com.nametagedit.plugin.NametagEdit;
-import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.UltraCTW;
 import io.github.Leonardo0013YT.UltraCTW.cosmetics.kits.Kit;
 import io.github.Leonardo0013YT.UltraCTW.cosmetics.kits.KitLevel;
 import io.github.Leonardo0013YT.UltraCTW.enums.NPCType;
@@ -34,7 +34,7 @@ import java.util.List;
 @Getter
 public class GameFlag {
 
-    private Main plugin;
+    private UltraCTW plugin;
     private int id, teamSize, starting, min, max, pool, time = 0, nowEvent = 0;
     private HashMap<Integer, GameEvent> events = new HashMap<>();
     private ArrayList<Player> cached = new ArrayList<>(), players = new ArrayList<>(), spectators = new ArrayList<>();
@@ -52,7 +52,7 @@ public class GameFlag {
     private ArrayList<Location> placed = new ArrayList<>();
     private State state;
 
-    public GameFlag(Main plugin, String path, int id) {
+    public GameFlag(UltraCTW plugin, String path, int id) {
         this.plugin = plugin;
         this.id = id;
         this.name = plugin.getArenas().get(path + ".name");

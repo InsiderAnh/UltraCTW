@@ -1,6 +1,6 @@
 package io.github.Leonardo0013YT.UltraCTW.cosmetics.windances;
 
-import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.UltraCTW;
 import io.github.Leonardo0013YT.UltraCTW.game.GameFlag;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.Game;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.WinDance;
@@ -20,7 +20,7 @@ public class WinDanceDestroyIsland implements WinDance, Cloneable {
     private int spawnLaterTick, amountTNT, perFuseAmount;
 
     @Override
-    public void loadCustoms(Main plugin, String path) {
+    public void loadCustoms(UltraCTW plugin, String path) {
         if (!loaded) {
             spawnLaterTick = plugin.getWindance().getIntOrDefault(path + ".spawnLaterTick", 20);
             amountTNT = plugin.getWindance().getIntOrDefault(path + ".amountTNT", 4);
@@ -42,7 +42,7 @@ public class WinDanceDestroyIsland implements WinDance, Cloneable {
                     explode(team.getSpawn().clone());
                 }
             }
-        }.runTaskLater(Main.get(), spawnLaterTick);
+        }.runTaskLater(UltraCTW.get(), spawnLaterTick);
     }
 
     @Override
@@ -58,7 +58,7 @@ public class WinDanceDestroyIsland implements WinDance, Cloneable {
                     explode(team.getSpawn().clone());
                 }
             }
-        }.runTaskLater(Main.get(), spawnLaterTick);
+        }.runTaskLater(UltraCTW.get(), spawnLaterTick);
     }
 
 

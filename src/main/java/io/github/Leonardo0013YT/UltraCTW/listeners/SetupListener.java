@@ -1,6 +1,6 @@
 package io.github.Leonardo0013YT.UltraCTW.listeners;
 
-import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.UltraCTW;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.UltraInventory;
 import io.github.Leonardo0013YT.UltraCTW.objects.Selection;
 import io.github.Leonardo0013YT.UltraCTW.objects.Squared;
@@ -35,9 +35,9 @@ import java.util.TreeMap;
 
 public class SetupListener implements Listener {
 
-    private Main plugin;
+    private UltraCTW plugin;
 
-    public SetupListener(Main plugin) {
+    public SetupListener(UltraCTW plugin) {
         this.plugin = plugin;
     }
 

@@ -1,6 +1,6 @@
 package io.github.Leonardo0013YT.UltraCTW.cosmetics.taunts;
 
-import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.UltraCTW;
 import io.github.Leonardo0013YT.UltraCTW.game.GameFlag;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.CTWPlayer;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.Game;
@@ -29,7 +29,7 @@ public class Taunt implements Purchasable {
     private int id, slot, page, price;
     private ItemStack icon;
 
-    public Taunt(Main plugin, String s) {
+    public Taunt(UltraCTW plugin, String s) {
         this.id = plugin.getTaunt().getInt(s + ".id");
         this.name = plugin.getTaunt().get(null, s + ".name");
         this.permission = plugin.getTaunt().get(null, s + ".permission");
@@ -77,16 +77,16 @@ public class Taunt implements Purchasable {
 
     public void execute(Player d, EntityDamageEvent.DamageCause cause, Game game) {
         Player k = null;
-        if (Main.get().getTgm().hasTag(d)) {
-            k = Main.get().getTgm().getTagged(d).getLast();
+        if (UltraCTW.get().getTgm().hasTag(d)) {
+            k = UltraCTW.get().getTgm().getTagged(d).getLast();
             if (game.getPlayers().contains(k)) {
                 game.addKill(k);
-                Main.get().getStm().addKill(k, game);
-                k.sendMessage(Main.get().getLang().get("messages.kill").replaceAll("<xp>", String.valueOf(Main.get().getCm().getXpKill())).replaceAll("<coins>", String.valueOf(Main.get().getCm().getCoinsKill())).replaceAll("<streak>", Main.get().getStm().getPrefix(k)));
-                Streak st = Main.get().getStm().get(d);
+                UltraCTW.get().getStm().addKill(k, game);
+                k.sendMessage(UltraCTW.get().getLang().get("messages.kill").replaceAll("<xp>", String.valueOf(UltraCTW.get().getCm().getXpKill())).replaceAll("<coins>", String.valueOf(UltraCTW.get().getCm().getCoinsKill())).replaceAll("<streak>", UltraCTW.get().getStm().getPrefix(k)));
+                Streak st = UltraCTW.get().getStm().get(d);
                 if (st.isBounty()) {
-                    game.sendGameMessage(Main.get().getLang().get("messages.bountyClaimed").replaceAll("<coins>", Utils.format(st.getPrice())).replaceAll("<death>", d.getName()).replaceAll("<killer>", k.getName()));
-                    Main.get().getDb().getCTWPlayer(k).addCoins(st.getPrice());
+                    game.sendGameMessage(UltraCTW.get().getLang().get("messages.bountyClaimed").replaceAll("<coins>", Utils.format(st.getPrice())).replaceAll("<death>", d.getName()).replaceAll("<killer>", k.getName()));
+                    UltraCTW.get().getDb().getCTWPlayer(k).addCoins(st.getPrice());
                     st.setBounty(false);
                     st.setPrice(0);
                 }
@@ -95,16 +95,16 @@ public class Taunt implements Purchasable {
         if (!game.getPlayers().contains(k)) {
             k = null;
         }
-        Main.get().getTgm().removeTag(d);
-        Main.get().getStm().resetStreak(d);
+        UltraCTW.get().getTgm().removeTag(d);
+        UltraCTW.get().getStm().resetStreak(d);
         new BukkitRunnable() {
             @Override
             public void run() {
                 if (d != null) {
-                    Main.get().getVc().getNMS().sendTitle(d, title, subtitle, 0, 60, 0);
+                    UltraCTW.get().getVc().getNMS().sendTitle(d, title, subtitle, 0, 60, 0);
                 }
             }
-        }.runTaskLater(Main.get(), 5L);
+        }.runTaskLater(UltraCTW.get(), 5L);
         if (k == null) {
             Team td = game.getTeamPlayer(d);
             String cd = "";
@@ -140,16 +140,16 @@ public class Taunt implements Purchasable {
 
     public void execute(Player d, EntityDamageEvent.DamageCause cause, GameFlag game) {
         Player k = null;
-        if (Main.get().getTgm().hasTag(d)) {
-            k = Main.get().getTgm().getTagged(d).getLast();
+        if (UltraCTW.get().getTgm().hasTag(d)) {
+            k = UltraCTW.get().getTgm().getTagged(d).getLast();
             if (game.getPlayers().contains(k)) {
                 game.addKill(k);
-                Main.get().getStm().addKill(k, game);
-                k.sendMessage(Main.get().getLang().get("messages.kill").replaceAll("<xp>", String.valueOf(Main.get().getCm().getXpKill())).replaceAll("<coins>", String.valueOf(Main.get().getCm().getCoinsKill())).replaceAll("<streak>", Main.get().getStm().getPrefix(k)));
-                Streak st = Main.get().getStm().get(d);
+                UltraCTW.get().getStm().addKill(k, game);
+                k.sendMessage(UltraCTW.get().getLang().get("messages.kill").replaceAll("<xp>", String.valueOf(UltraCTW.get().getCm().getXpKill())).replaceAll("<coins>", String.valueOf(UltraCTW.get().getCm().getCoinsKill())).replaceAll("<streak>", UltraCTW.get().getStm().getPrefix(k)));
+                Streak st = UltraCTW.get().getStm().get(d);
                 if (st.isBounty()) {
-                    game.sendGameMessage(Main.get().getLang().get("messages.bountyClaimed").replaceAll("<coins>", Utils.format(st.getPrice())).replaceAll("<death>", d.getName()).replaceAll("<killer>", k.getName()));
-                    Main.get().getDb().getCTWPlayer(k).addCoins(st.getPrice());
+                    game.sendGameMessage(UltraCTW.get().getLang().get("messages.bountyClaimed").replaceAll("<coins>", Utils.format(st.getPrice())).replaceAll("<death>", d.getName()).replaceAll("<killer>", k.getName()));
+                    UltraCTW.get().getDb().getCTWPlayer(k).addCoins(st.getPrice());
                     st.setBounty(false);
                     st.setPrice(0);
                 }
@@ -158,16 +158,16 @@ public class Taunt implements Purchasable {
         if (!game.getPlayers().contains(k)) {
             k = null;
         }
-        Main.get().getTgm().removeTag(d);
-        Main.get().getStm().resetStreak(d);
+        UltraCTW.get().getTgm().removeTag(d);
+        UltraCTW.get().getStm().resetStreak(d);
         new BukkitRunnable() {
             @Override
             public void run() {
                 if (d != null) {
-                    Main.get().getVc().getNMS().sendTitle(d, title, subtitle, 0, 60, 0);
+                    UltraCTW.get().getVc().getNMS().sendTitle(d, title, subtitle, 0, 60, 0);
                 }
             }
-        }.runTaskLater(Main.get(), 5L);
+        }.runTaskLater(UltraCTW.get(), 5L);
         if (k == null) {
             FlagTeam td = game.getTeamPlayer(d);
             String cd = "";
@@ -224,13 +224,13 @@ public class Taunt implements Purchasable {
         if (!icon.hasItemMeta()) {
             return icon;
         }
-        CTWPlayer sw = Main.get().getDb().getCTWPlayer(p);
+        CTWPlayer sw = UltraCTW.get().getDb().getCTWPlayer(p);
         ItemStack icon = this.icon.clone();
         if (!p.hasPermission(autoGivePermission)) {
             if (price > 0) {
-                if (Main.get().getCm().isRedPanelInLocked()) {
+                if (UltraCTW.get().getCm().isRedPanelInLocked()) {
                     if (!sw.getTaunts().contains(id)) {
-                        icon = ItemBuilder.item(XMaterial.matchXMaterial(Main.get().getCm().getRedPanelMaterial().name(), (byte) Main.get().getCm().getRedPanelData()).orElse(XMaterial.RED_STAINED_GLASS_PANE), 1, icon.getItemMeta().getDisplayName(), icon.getItemMeta().getLore());
+                        icon = ItemBuilder.item(XMaterial.matchXMaterial(UltraCTW.get().getCm().getRedPanelMaterial().name(), (byte) UltraCTW.get().getCm().getRedPanelData()).orElse(XMaterial.RED_STAINED_GLASS_PANE), 1, icon.getItemMeta().getDisplayName(), icon.getItemMeta().getLore());
                     }
                 }
             }
@@ -243,41 +243,41 @@ public class Taunt implements Purchasable {
                 case "<price>":
                     if (!p.hasPermission(autoGivePermission)) {
                         if (isBuy && !sw.getTaunts().contains(id)) {
-                            lore.set(i, Main.get().getLang().get(p, "menus.tauntsselector.price").replaceAll("<price>", String.valueOf(price)));
+                            lore.set(i, UltraCTW.get().getLang().get(p, "menus.tauntsselector.price").replaceAll("<price>", String.valueOf(price)));
                         } else if (!isBuy && !sw.getTaunts().contains(id)) {
                             if (needPermToBuy && p.hasPermission(permission)) {
-                                lore.set(i, Main.get().getLang().get(p, "menus.tauntsselector.price").replaceAll("<price>", String.valueOf(price)));
+                                lore.set(i, UltraCTW.get().getLang().get(p, "menus.tauntsselector.price").replaceAll("<price>", String.valueOf(price)));
                             } else {
-                                lore.set(i, Main.get().getLang().get(p, "menus.tauntsselector.noBuyable"));
+                                lore.set(i, UltraCTW.get().getLang().get(p, "menus.tauntsselector.noBuyable"));
                             }
                         } else if (sw.getTaunts().contains(id) || !needPermToBuy) {
-                            lore.set(i, Main.get().getLang().get(p, "menus.tauntsselector.buyed"));
+                            lore.set(i, UltraCTW.get().getLang().get(p, "menus.tauntsselector.buyed"));
                         }
                     } else {
-                        lore.set(i, Main.get().getLang().get(p, "menus.tauntsselector.buyed"));
+                        lore.set(i, UltraCTW.get().getLang().get(p, "menus.tauntsselector.buyed"));
                     }
                     break;
                 case "<status>":
                     if (!p.hasPermission(autoGivePermission)) {
                         if (sw.getTaunts().contains(id)) {
-                            lore.set(i, Main.get().getLang().get(p, "menus.tauntsselector.hasBuy"));
+                            lore.set(i, UltraCTW.get().getLang().get(p, "menus.tauntsselector.hasBuy"));
                         } else if (isBuy) {
-                            if (Main.get().getAdm().getCoins(p) > price) {
-                                lore.set(i, Main.get().getLang().get(p, "menus.tauntsselector.buy"));
+                            if (UltraCTW.get().getAdm().getCoins(p) > price) {
+                                lore.set(i, UltraCTW.get().getLang().get(p, "menus.tauntsselector.buy"));
                             } else {
-                                lore.set(i, Main.get().getLang().get(p, "menus.tauntsselector.noMoney"));
+                                lore.set(i, UltraCTW.get().getLang().get(p, "menus.tauntsselector.noMoney"));
                             }
                         } else if (needPermToBuy) {
-                            if (Main.get().getAdm().getCoins(p) > price) {
-                                lore.set(i, Main.get().getLang().get(p, "menus.tauntsselector.buy"));
+                            if (UltraCTW.get().getAdm().getCoins(p) > price) {
+                                lore.set(i, UltraCTW.get().getLang().get(p, "menus.tauntsselector.buy"));
                             } else {
-                                lore.set(i, Main.get().getLang().get(p, "menus.tauntsselector.noMoney"));
+                                lore.set(i, UltraCTW.get().getLang().get(p, "menus.tauntsselector.noMoney"));
                             }
                         } else {
-                            lore.set(i, Main.get().getLang().get(p, "menus.tauntsselector.noPermission"));
+                            lore.set(i, UltraCTW.get().getLang().get(p, "menus.tauntsselector.noPermission"));
                         }
                     } else {
-                        lore.set(i, Main.get().getLang().get(p, "menus.tauntsselector.hasBuy"));
+                        lore.set(i, UltraCTW.get().getLang().get(p, "menus.tauntsselector.hasBuy"));
                     }
                     break;
             }

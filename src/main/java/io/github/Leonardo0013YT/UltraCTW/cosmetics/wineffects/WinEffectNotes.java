@@ -1,6 +1,6 @@
 package io.github.Leonardo0013YT.UltraCTW.cosmetics.wineffects;
 
-import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.UltraCTW;
 import io.github.Leonardo0013YT.UltraCTW.game.GameFlag;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.Game;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.WinEffect;
@@ -33,18 +33,18 @@ public class WinEffectNotes implements WinEffect {
                     return;
                 }
                 Item item = spawnDisc(p.getLocation(), random(-0.25, 0.25), 0.8, random(-0.25, 0.25));
-                p.playSound(item.getLocation(), Main.get().getCm().getWineffectnotes(), 1.0f, 1.0f);
-                Main.get().getVc().getNMS().broadcastParticle(p.getLocation(), ThreadLocalRandom.current().nextInt(0, 24), 0, 0, 1, "NOTE", 5, 10);
+                p.playSound(item.getLocation(), UltraCTW.get().getCm().getWineffectnotes(), 1.0f, 1.0f);
+                UltraCTW.get().getVc().getNMS().broadcastParticle(p.getLocation(), ThreadLocalRandom.current().nextInt(0, 24), 0, 0, 1, "NOTE", 5, 10);
                 items.add(item);
                 for (Item c : new ArrayList<>(items)) {
                     if (c.getTicksLived() > 30) {
                         c.remove();
-                        Main.get().getVc().getNMS().broadcastParticle(item.getLocation(), ThreadLocalRandom.current().nextInt(0, 24), 0, 0, 1, "NOTE", 5, 10);
+                        UltraCTW.get().getVc().getNMS().broadcastParticle(item.getLocation(), ThreadLocalRandom.current().nextInt(0, 24), 0, 0, 1, "NOTE", 5, 10);
                         items.remove(c);
                     }
                 }
             }
-        }.runTaskTimer(Main.get(), 0, 6);
+        }.runTaskTimer(UltraCTW.get(), 0, 6);
     }
 
     @Override
@@ -58,18 +58,18 @@ public class WinEffectNotes implements WinEffect {
                     return;
                 }
                 Item item = spawnDisc(p.getLocation(), random(-0.25, 0.25), 0.8, random(-0.25, 0.25));
-                p.playSound(item.getLocation(), Main.get().getCm().getWineffectnotes(), 1.0f, 1.0f);
-                Main.get().getVc().getNMS().broadcastParticle(p.getLocation(), ThreadLocalRandom.current().nextInt(0, 24), 0, 0, 1, "NOTE", 5, 10);
+                p.playSound(item.getLocation(), UltraCTW.get().getCm().getWineffectnotes(), 1.0f, 1.0f);
+                UltraCTW.get().getVc().getNMS().broadcastParticle(p.getLocation(), ThreadLocalRandom.current().nextInt(0, 24), 0, 0, 1, "NOTE", 5, 10);
                 items.add(item);
                 for (Item c : new ArrayList<>(items)) {
                     if (c.getTicksLived() > 30) {
                         c.remove();
-                        Main.get().getVc().getNMS().broadcastParticle(item.getLocation(), ThreadLocalRandom.current().nextInt(0, 24), 0, 0, 1, "NOTE", 5, 10);
+                        UltraCTW.get().getVc().getNMS().broadcastParticle(item.getLocation(), ThreadLocalRandom.current().nextInt(0, 24), 0, 0, 1, "NOTE", 5, 10);
                         items.remove(c);
                     }
                 }
             }
-        }.runTaskTimer(Main.get(), 0, 6);
+        }.runTaskTimer(UltraCTW.get(), 0, 6);
     }
 
     @Override

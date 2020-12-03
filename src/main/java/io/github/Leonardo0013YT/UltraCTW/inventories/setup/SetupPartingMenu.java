@@ -1,6 +1,6 @@
 package io.github.Leonardo0013YT.UltraCTW.inventories.setup;
 
-import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.UltraCTW;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.UltraInventory;
 import io.github.Leonardo0013YT.UltraCTW.utils.ItemBuilder;
 import org.bukkit.configuration.ConfigurationSection;
@@ -16,9 +16,9 @@ public class SetupPartingMenu implements UltraInventory {
     private Map<Integer, ItemStack> contents = new HashMap<>();
     private int rows = 3;
     private String name;
-    private Main plugin;
+    private UltraCTW plugin;
 
-    public SetupPartingMenu(Main plugin, String name) {
+    public SetupPartingMenu(UltraCTW plugin, String name) {
         this.plugin = plugin;
         this.name = name;
         this.title = plugin.getLang().get(null, "menus." + name + ".title");

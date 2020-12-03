@@ -1,13 +1,12 @@
 package io.github.Leonardo0013YT.UltraCTW.shop;
 
-import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.UltraCTW;
 import io.github.Leonardo0013YT.UltraCTW.game.GameFlag;
 import io.github.Leonardo0013YT.UltraCTW.game.GamePlayer;
 import io.github.Leonardo0013YT.UltraCTW.objects.ObjectPotion;
 import io.github.Leonardo0013YT.UltraCTW.team.FlagTeam;
 import io.github.Leonardo0013YT.UltraCTW.utils.ItemUtils;
 import io.github.Leonardo0013YT.UltraCTW.utils.NBTEditor;
-import io.github.Leonardo0013YT.UltraCTW.xseries.XMaterial;
 import io.github.Leonardo0013YT.UltraCTW.xseries.XPotion;
 import lombok.Getter;
 import org.bukkit.Material;
@@ -19,7 +18,7 @@ import java.util.ArrayList;
 @Getter
 public class ShopItem {
 
-    private Main plugin;
+    private UltraCTW plugin;
     private int slot, data;
     private double price;
     private boolean yourTeam;
@@ -30,7 +29,7 @@ public class ShopItem {
     private String key;
     private ArrayList<ObjectPotion> potions = new ArrayList<>();
 
-    public ShopItem(Main plugin, String path, String shop, String key) {
+    public ShopItem(UltraCTW plugin, String path, String shop, String key) {
         this.plugin = plugin;
         this.shop = shop;
         this.key = key;

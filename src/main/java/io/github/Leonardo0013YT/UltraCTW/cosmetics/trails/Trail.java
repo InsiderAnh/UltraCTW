@@ -1,6 +1,6 @@
 package io.github.Leonardo0013YT.UltraCTW.cosmetics.trails;
 
-import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.UltraCTW;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.CTWPlayer;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.Purchasable;
 import io.github.Leonardo0013YT.UltraCTW.utils.ItemBuilder;
@@ -20,7 +20,7 @@ public class Trail implements Purchasable {
     private double range, speed;
     private boolean isBuy, needPermToBuy;
 
-    public Trail(Main plugin, String path) {
+    public Trail(UltraCTW plugin, String path) {
         this.id = plugin.getTrail().getInt(path + ".id");
         this.name = plugin.getTrail().get(null, path + ".name");
         this.particle = plugin.getTrail().get(null, path + ".particle");
@@ -54,13 +54,13 @@ public class Trail implements Purchasable {
         if (!icon.hasItemMeta()) {
             return icon;
         }
-        CTWPlayer sw = Main.get().getDb().getCTWPlayer(p);
+        CTWPlayer sw = UltraCTW.get().getDb().getCTWPlayer(p);
         ItemStack icon = this.icon.clone();
         if (!p.hasPermission(autoGivePermission)) {
             if (price > 0) {
-                if (Main.get().getCm().isRedPanelInLocked()) {
+                if (UltraCTW.get().getCm().isRedPanelInLocked()) {
                     if (!sw.getTrails().contains(id)) {
-                        icon = ItemBuilder.item(XMaterial.matchXMaterial(Main.get().getCm().getRedPanelMaterial().name(), (byte) Main.get().getCm().getRedPanelData()).orElse(XMaterial.RED_STAINED_GLASS_PANE), 1, icon.getItemMeta().getDisplayName(), icon.getItemMeta().getLore());
+                        icon = ItemBuilder.item(XMaterial.matchXMaterial(UltraCTW.get().getCm().getRedPanelMaterial().name(), (byte) UltraCTW.get().getCm().getRedPanelData()).orElse(XMaterial.RED_STAINED_GLASS_PANE), 1, icon.getItemMeta().getDisplayName(), icon.getItemMeta().getLore());
                     }
                 }
             }
@@ -73,41 +73,41 @@ public class Trail implements Purchasable {
                 case "<price>":
                     if (!p.hasPermission(autoGivePermission)) {
                         if (isBuy && !sw.getTrails().contains(id)) {
-                            lore.set(i, Main.get().getLang().get(p, "menus.trailsselector.price").replaceAll("<price>", String.valueOf(price)));
+                            lore.set(i, UltraCTW.get().getLang().get(p, "menus.trailsselector.price").replaceAll("<price>", String.valueOf(price)));
                         } else if (!isBuy && !sw.getTrails().contains(id)) {
                             if (needPermToBuy && p.hasPermission(permission)) {
-                                lore.set(i, Main.get().getLang().get(p, "menus.trailsselector.price").replaceAll("<price>", String.valueOf(price)));
+                                lore.set(i, UltraCTW.get().getLang().get(p, "menus.trailsselector.price").replaceAll("<price>", String.valueOf(price)));
                             } else {
-                                lore.set(i, Main.get().getLang().get(p, "menus.trailsselector.noBuyable"));
+                                lore.set(i, UltraCTW.get().getLang().get(p, "menus.trailsselector.noBuyable"));
                             }
                         } else if (sw.getTrails().contains(id) || !needPermToBuy) {
-                            lore.set(i, Main.get().getLang().get(p, "menus.trailsselector.buyed"));
+                            lore.set(i, UltraCTW.get().getLang().get(p, "menus.trailsselector.buyed"));
                         }
                     } else {
-                        lore.set(i, Main.get().getLang().get(p, "menus.trailsselector.buyed"));
+                        lore.set(i, UltraCTW.get().getLang().get(p, "menus.trailsselector.buyed"));
                     }
                     break;
                 case "<status>":
                     if (!p.hasPermission(autoGivePermission)) {
                         if (sw.getTrails().contains(id)) {
-                            lore.set(i, Main.get().getLang().get(p, "menus.trailsselector.hasBuy"));
+                            lore.set(i, UltraCTW.get().getLang().get(p, "menus.trailsselector.hasBuy"));
                         } else if (isBuy) {
-                            if (Main.get().getAdm().getCoins(p) > price) {
-                                lore.set(i, Main.get().getLang().get(p, "menus.trailsselector.buy"));
+                            if (UltraCTW.get().getAdm().getCoins(p) > price) {
+                                lore.set(i, UltraCTW.get().getLang().get(p, "menus.trailsselector.buy"));
                             } else {
-                                lore.set(i, Main.get().getLang().get(p, "menus.trailsselector.noMoney"));
+                                lore.set(i, UltraCTW.get().getLang().get(p, "menus.trailsselector.noMoney"));
                             }
                         } else if (needPermToBuy) {
-                            if (Main.get().getAdm().getCoins(p) > price) {
-                                lore.set(i, Main.get().getLang().get(p, "menus.trailsselector.buy"));
+                            if (UltraCTW.get().getAdm().getCoins(p) > price) {
+                                lore.set(i, UltraCTW.get().getLang().get(p, "menus.trailsselector.buy"));
                             } else {
-                                lore.set(i, Main.get().getLang().get(p, "menus.trailsselector.noMoney"));
+                                lore.set(i, UltraCTW.get().getLang().get(p, "menus.trailsselector.noMoney"));
                             }
                         } else {
-                            lore.set(i, Main.get().getLang().get(p, "menus.trailsselector.noPermission"));
+                            lore.set(i, UltraCTW.get().getLang().get(p, "menus.trailsselector.noPermission"));
                         }
                     } else {
-                        lore.set(i, Main.get().getLang().get(p, "menus.trailsselector.hasBuy"));
+                        lore.set(i, UltraCTW.get().getLang().get(p, "menus.trailsselector.hasBuy"));
                     }
                     break;
             }

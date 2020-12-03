@@ -1,6 +1,6 @@
 package io.github.Leonardo0013YT.UltraCTW.managers;
 
-import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.UltraCTW;
 import io.github.Leonardo0013YT.UltraCTW.cosmetics.killeffects.UltraKillEffect;
 import io.github.Leonardo0013YT.UltraCTW.cosmetics.killsounds.KillSound;
 import io.github.Leonardo0013YT.UltraCTW.cosmetics.kits.KitLevel;
@@ -26,9 +26,9 @@ import java.util.HashMap;
 public class ShopManager {
 
     private HashMap<Integer, ShopItem> items = new HashMap<>();
-    private Main plugin;
+    private UltraCTW plugin;
 
-    public ShopManager(Main plugin) {
+    public ShopManager(UltraCTW plugin) {
         this.plugin = plugin;
         reload();
     }

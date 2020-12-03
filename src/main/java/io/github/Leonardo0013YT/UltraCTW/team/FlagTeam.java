@@ -1,6 +1,6 @@
 package io.github.Leonardo0013YT.UltraCTW.team;
 
-import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.UltraCTW;
 import io.github.Leonardo0013YT.UltraCTW.game.GameFlag;
 import io.github.Leonardo0013YT.UltraCTW.utils.Utils;
 import io.github.Leonardo0013YT.UltraCTW.xseries.XSound;
@@ -21,7 +21,7 @@ public class FlagTeam {
 
     private ChatColor color;
     private Location spawn, flag;
-    private Main plugin;
+    private UltraCTW plugin;
     private GameFlag gameFlag;
     private ArrayList<Player> members = new ArrayList<>();
     private HashMap<Player, ChatColor> capturing = new HashMap<>();
@@ -30,7 +30,7 @@ public class FlagTeam {
     @Setter
     private int lifes, upgradeHaste = 0;
 
-    public FlagTeam(Main plugin, GameFlag gameFlag, String path, int id) {
+    public FlagTeam(UltraCTW plugin, GameFlag gameFlag, String path, int id) {
         this.plugin = plugin;
         this.gameFlag = gameFlag;
         this.id = id;

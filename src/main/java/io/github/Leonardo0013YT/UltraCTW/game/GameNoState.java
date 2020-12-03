@@ -1,7 +1,7 @@
 package io.github.Leonardo0013YT.UltraCTW.game;
 
 import com.nametagedit.plugin.NametagEdit;
-import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.UltraCTW;
 import io.github.Leonardo0013YT.UltraCTW.enums.NPCType;
 import io.github.Leonardo0013YT.UltraCTW.enums.State;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.*;
@@ -20,7 +20,7 @@ import java.util.*;
 
 public class GameNoState implements Game {
 
-    private final Main plugin;
+    private final UltraCTW plugin;
     private final int id;
     private final String name, schematic;
     private final HashSet<Player> cached = new HashSet<>(), players = new HashSet<>(), spectators = new HashSet<>(), inLobby = new HashSet<>(), inGame = new HashSet<>();
@@ -40,7 +40,7 @@ public class GameNoState implements Game {
     private int teamSize, woolSize, min, starting, defKit, time = 0, max;
     private State state;
 
-    public GameNoState(Main plugin, String path, int id) {
+    public GameNoState(UltraCTW plugin, String path, int id) {
         this.name = plugin.getArenas().get(path + ".name");
         plugin.getWc().deleteWorld(name);
         this.plugin = plugin;

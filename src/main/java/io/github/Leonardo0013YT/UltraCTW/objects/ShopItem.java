@@ -1,6 +1,6 @@
 package io.github.Leonardo0013YT.UltraCTW.objects;
 
-import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.UltraCTW;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.Purchasable;
 import lombok.Getter;
 import org.bukkit.inventory.ItemStack;
@@ -11,7 +11,7 @@ public class ShopItem implements Purchasable {
     private ItemStack item;
     private double price;
 
-    public ShopItem(Main plugin, String path) {
+    public ShopItem(UltraCTW plugin, String path) {
         this.item = plugin.getShop().getConfig().getItemStack(path + ".item");
         this.price = plugin.getShop().getConfig().getDouble(path + ".price");
     }

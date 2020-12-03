@@ -1,11 +1,11 @@
 package io.github.Leonardo0013YT.UltraCTW.api;
 
-import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.UltraCTW;
 import org.bukkit.entity.Player;
 
 public class CTWAPI {
 
-    private static Main plugin = Main.get();
+    private static UltraCTW plugin = UltraCTW.get();
 
     public static boolean isInLobby(Player p) {
         return !plugin.getGm().isPlayerInGame(p);

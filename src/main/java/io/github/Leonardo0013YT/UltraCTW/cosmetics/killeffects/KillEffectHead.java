@@ -1,6 +1,6 @@
 package io.github.Leonardo0013YT.UltraCTW.cosmetics.killeffects;
 
-import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.UltraCTW;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.KillEffect;
 import io.github.Leonardo0013YT.UltraCTW.utils.ItemBuilder;
 import io.github.Leonardo0013YT.UltraCTW.xseries.XMaterial;
@@ -23,7 +23,7 @@ public class KillEffectHead implements KillEffect, Cloneable {
     private int pased = 0;
 
     @Override
-    public void loadCustoms(Main plugin, String path) {
+    public void loadCustoms(UltraCTW plugin, String path) {
         if (!loaded) {
             punchSound = XSound.matchXSound(plugin.getKilleffect().getOrDefault(path + ".punchSound", XSound.ENTITY_FIREWORK_ROCKET_BLAST.parseSound().name())).orElse(XSound.ENTITY_FIREWORK_ROCKET_BLAST);
             loaded = true;
@@ -42,7 +42,7 @@ public class KillEffectHead implements KillEffect, Cloneable {
         armor.setCustomNameVisible(true);
         armor.setHelmet(head);
         armor.setNoDamageTicks(999999999);
-        armor.setMetadata("KILLEFFECT", new FixedMetadataValue(Main.get(), "KILLEFFECT"));
+        armor.setMetadata("KILLEFFECT", new FixedMetadataValue(UltraCTW.get(), "KILLEFFECT"));
         task = new BukkitRunnable() {
             @Override
             public void run() {
@@ -58,9 +58,9 @@ public class KillEffectHead implements KillEffect, Cloneable {
                 armor.teleport(loc);
                 loc.getWorld().playEffect(loc, Effect.SMOKE, 1);
                 loc.getWorld().playEffect(loc, Effect.LAVADRIP, 1);
-                p.playSound(loc, Main.get().getCm().getKillEffectSquid(), 1.0f, 1.0f);
+                p.playSound(loc, UltraCTW.get().getCm().getKillEffectSquid(), 1.0f, 1.0f);
             }
-        }.runTaskTimer(Main.get(), 0, 2);
+        }.runTaskTimer(UltraCTW.get(), 0, 2);
     }
 
     @Override

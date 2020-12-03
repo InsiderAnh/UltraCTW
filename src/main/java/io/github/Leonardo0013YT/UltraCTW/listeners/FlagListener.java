@@ -1,6 +1,6 @@
 package io.github.Leonardo0013YT.UltraCTW.listeners;
 
-import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.UltraCTW;
 import io.github.Leonardo0013YT.UltraCTW.enums.State;
 import io.github.Leonardo0013YT.UltraCTW.flag.Mine;
 import io.github.Leonardo0013YT.UltraCTW.game.GameEvent;
@@ -38,9 +38,9 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class FlagListener implements Listener {
 
-    private Main plugin;
+    private UltraCTW plugin;
 
-    public FlagListener(Main plugin) {
+    public FlagListener(UltraCTW plugin) {
         this.plugin = plugin;
     }
 

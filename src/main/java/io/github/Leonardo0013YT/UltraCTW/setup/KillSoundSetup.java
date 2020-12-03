@@ -1,6 +1,6 @@
 package io.github.Leonardo0013YT.UltraCTW.setup;
 
-import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.UltraCTW;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -29,12 +29,12 @@ public class KillSoundSetup {
         this.price = 500;
         this.vol1 = 1.0f;
         this.vol2 = 1.0f;
-        this.sound = (Main.get().getVc().is1_9to15()) ? Sound.valueOf("ENTITY_PLAYER_LEVELUP") : Sound.valueOf("LEVEL_UP");
+        this.sound = (UltraCTW.get().getVc().is1_9to15()) ? Sound.valueOf("ENTITY_PLAYER_LEVELUP") : Sound.valueOf("LEVEL_UP");
         this.isBuy = true;
     }
 
     public void saveKillSound(Player p) {
-        Main plugin = Main.get();
+        UltraCTW plugin = UltraCTW.get();
         plugin.getKillsound().set("killsounds." + name + ".id", plugin.getKsm().getNextId());
         plugin.getKillsound().set("killsounds." + name + ".name", name);
         plugin.getKillsound().set("killsounds." + name + ".permission", permission);

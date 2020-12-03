@@ -7,7 +7,7 @@ import com.comphenix.protocol.events.ListenerPriority;
 import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
-import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.UltraCTW;
 import io.github.Leonardo0013YT.UltraCTW.api.events.CTWNPCInteractEvent;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.NPC;
 import org.bukkit.Bukkit;
@@ -20,9 +20,9 @@ public class ProtocolLib {
 
     private static ProtocolManager protocolManager;
     private HashMap<UUID, Long> lastClick = new HashMap<>();
-    private Main main;
+    private UltraCTW main;
 
-    public ProtocolLib(Main main) {
+    public ProtocolLib(UltraCTW main) {
         this.main = main;
         protocolManager = ProtocolLibrary.getProtocolManager();
         register();
@@ -43,7 +43,7 @@ public class ProtocolLib {
                         for (NPC npc : main.getNpc().getNpcs().get(p)) {
                             if (npc.getEntityID() == id) {
                                 CTWNPCInteractEvent interactevent = new CTWNPCInteractEvent(p, npc);
-                                Bukkit.getScheduler().scheduleSyncDelayedTask(Main.get(), () -> Bukkit.getPluginManager().callEvent(interactevent));
+                                Bukkit.getScheduler().scheduleSyncDelayedTask(UltraCTW.get(), () -> Bukkit.getPluginManager().callEvent(interactevent));
                                 lastClick.put(p.getUniqueId(), System.currentTimeMillis());
                                 break;
                             }

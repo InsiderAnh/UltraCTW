@@ -1,6 +1,6 @@
 package io.github.Leonardo0013YT.UltraCTW.controllers;
 
-import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.UltraCTW;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.NMS;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.NPC;
 import io.github.Leonardo0013YT.UltraCTW.nms.*;
@@ -9,14 +9,14 @@ import org.bukkit.Bukkit;
 
 public class VersionController {
 
-    private Main plugin;
+    private UltraCTW plugin;
     private String version;
     private NMS nms;
     private boolean is1_13to15 = false;
     private boolean is1_9to15 = false;
     private boolean is1_12 = false;
 
-    public VersionController(Main plugin) {
+    public VersionController(UltraCTW plugin) {
         this.plugin = plugin;
         setupVersion();
     }

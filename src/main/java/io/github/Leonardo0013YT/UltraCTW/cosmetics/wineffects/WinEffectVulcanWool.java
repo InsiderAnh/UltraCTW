@@ -1,6 +1,6 @@
 package io.github.Leonardo0013YT.UltraCTW.cosmetics.wineffects;
 
-import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.UltraCTW;
 import io.github.Leonardo0013YT.UltraCTW.game.GameFlag;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.Game;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.WinEffect;
@@ -31,12 +31,12 @@ public class WinEffectVulcanWool implements WinEffect, Cloneable {
                     stop();
                     return;
                 }
-                p.playSound(p.getLocation(), Main.get().getCm().getWineffectvulcanwool(), 1.0f, 1.0f);
+                p.playSound(p.getLocation(), UltraCTW.get().getCm().getWineffectvulcanwool(), 1.0f, 1.0f);
                 FallingBlock fallingBlock = spawnWool(p.getLocation(), random(-0.5, 0.5), random(-0.5, 0.5));
                 fallingBlock.setDropItem(false);
                 fires.add(fallingBlock);
             }
-        }.runTaskTimer(Main.get(), 0, 2);
+        }.runTaskTimer(UltraCTW.get(), 0, 2);
     }
 
     @Override
@@ -49,12 +49,12 @@ public class WinEffectVulcanWool implements WinEffect, Cloneable {
                     stop();
                     return;
                 }
-                p.playSound(p.getLocation(), Main.get().getCm().getWineffectvulcanwool(), 1.0f, 1.0f);
+                p.playSound(p.getLocation(), UltraCTW.get().getCm().getWineffectvulcanwool(), 1.0f, 1.0f);
                 FallingBlock fallingBlock = spawnWool(p.getLocation(), random(-0.5, 0.5), random(-0.5, 0.5));
                 fallingBlock.setDropItem(false);
                 fires.add(fallingBlock);
             }
-        }.runTaskTimer(Main.get(), 0, 2);
+        }.runTaskTimer(UltraCTW.get(), 0, 2);
     }
 
     @Override
@@ -83,7 +83,7 @@ public class WinEffectVulcanWool implements WinEffect, Cloneable {
 
     private FallingBlock spawnWool(Location location, double d, double d3) {
         @SuppressWarnings("deprecation")
-        FallingBlock fallingBlock = location.getWorld().spawnFallingBlock(location, (Main.get().getVc().is1_13to16()) ? Material.valueOf("WHITE_WOOL") : Material.valueOf("WOOL"), (byte) ThreadLocalRandom.current().nextInt(15));
+        FallingBlock fallingBlock = location.getWorld().spawnFallingBlock(location, (UltraCTW.get().getVc().is1_13to16()) ? Material.valueOf("WHITE_WOOL") : Material.valueOf("WOOL"), (byte) ThreadLocalRandom.current().nextInt(15));
         fallingBlock.setVelocity(new Vector(d, 0.75, d3));
         return fallingBlock;
     }

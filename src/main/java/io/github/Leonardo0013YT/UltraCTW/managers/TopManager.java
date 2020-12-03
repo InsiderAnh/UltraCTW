@@ -1,6 +1,6 @@
 package io.github.Leonardo0013YT.UltraCTW.managers;
 
-import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.UltraCTW;
 import io.github.Leonardo0013YT.UltraCTW.enums.TopType;
 import io.github.Leonardo0013YT.UltraCTW.tops.Top;
 import io.github.Leonardo0013YT.UltraCTW.tops.TopPlayer;
@@ -14,9 +14,9 @@ public class TopManager {
 
     private HashMap<TopType, Top> tops = new HashMap<>();
     private ArrayList<Location> holograms = new ArrayList<>();
-    private Main plugin;
+    private UltraCTW plugin;
 
-    public TopManager(Main plugin) {
+    public TopManager(UltraCTW plugin) {
         this.plugin = plugin;
     }
 

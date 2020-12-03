@@ -1,25 +1,28 @@
 package io.github.Leonardo0013YT.UltraCTW.controllers;
 
-import com.boydti.fawe.object.schematic.Schematic;
-import com.sk89q.worldedit.EditSession;
-import com.sk89q.worldedit.Vector;
-import com.sk89q.worldedit.bukkit.BukkitWorld;
-import com.sk89q.worldedit.extent.clipboard.io.ClipboardFormat;
-import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.UltraCTW;
+import io.github.Leonardo0013YT.UltraCTW.WorldEditUtils_Old;
+import io.github.Leonardo0013YT.UltraCTW.interfaces.WorldEdit;
+import io.github.Leonardo0013YT.UltraSkyWars.WorldEditUtils_New;
 import org.bukkit.*;
 import org.bukkit.generator.BlockPopulator;
 import org.bukkit.generator.ChunkGenerator;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.*;
 
 public class WorldController {
 
     private String clear;
+    private WorldEdit edit;
 
-    public WorldController(Main plugin) {
+    public WorldController(UltraCTW plugin) {
         clear = plugin.getConfig().getString("schemaToClearLobby");
+        if (plugin.getVc().is1_13to16()) {
+            edit = new WorldEditUtils_New(plugin);
+        } else {
+            edit = new WorldEditUtils_Old(plugin);
+        }
     }
 
     public void deleteWorld(String name) {
@@ -69,54 +72,8 @@ public class WorldController {
         return w;
     }
 
-    public Schematic resetMap(Location spawn, String schematic) {
-        Vector to = new Vector(spawn.getBlockX(), spawn.getBlockY(), spawn.getBlockZ());
-        BukkitWorld w = new BukkitWorld(spawn.getWorld());
-        File file = new File(Bukkit.getWorldContainer() + "/plugins/WorldEdit/schematics", schematic);
-        try {
-            ClipboardFormat cf = ClipboardFormat.findByFile(file);
-            if (cf != null) {
-                Schematic sh = cf.load(file);
-                EditSession editSession = sh.paste(w, to, false, true, null);
-                editSession.flushQueue();
-                return sh;
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    public Schematic clearLobby(Location lobby) {
-        Vector to = new Vector(lobby.getBlockX(), lobby.getBlockY(), lobby.getBlockZ());
-        BukkitWorld w = new BukkitWorld(lobby.getWorld());
-        File file = new File(Bukkit.getWorldContainer() + "/plugins/WorldEdit/schematics", clear);
-        try {
-            ClipboardFormat cf = ClipboardFormat.findByFile(file);
-            if (cf != null) {
-                Schematic sh = cf.load(file);
-                EditSession editSession = sh.paste(w, to, false, true, null);
-                editSession.flushQueue();
-                return sh;
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    public void resetMap(Location spawn, Schematic sh) {
-        Vector to = new Vector(spawn.getBlockX(), spawn.getBlockY(), spawn.getBlockZ());
-        BukkitWorld w = new BukkitWorld(spawn.getWorld());
-        EditSession editSession = sh.paste(w, to, false, true, null);
-        editSession.flushQueue();
-    }
-
-    public void clearLobby(Location lobby, Schematic sh) {
-        Vector to = new Vector(lobby.getBlockX(), lobby.getBlockY(), lobby.getBlockZ());
-        BukkitWorld w = new BukkitWorld(lobby.getWorld());
-        EditSession editSession = sh.paste(w, to, false, true, null);
-        editSession.flushQueue();
+    public void resetMap(Location spawn, String schematic) {
+        edit.paste(spawn, schematic, true, (b) -> {});
     }
 
     public ChunkGenerator getChunkGenerator() {

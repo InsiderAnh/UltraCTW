@@ -1,6 +1,6 @@
 package io.github.Leonardo0013YT.UltraCTW.cosmetics.kits;
 
-import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.UltraCTW;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.CTWPlayer;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.Purchasable;
 import io.github.Leonardo0013YT.UltraCTW.team.FlagTeam;
@@ -24,7 +24,7 @@ public class KitLevel implements Purchasable {
     private Kit kit;
     private int kitID;
 
-    public KitLevel(Main plugin, Kit kit, String path, int kitID) {
+    public KitLevel(UltraCTW plugin, Kit kit, String path, int kitID) {
         this.kit = kit;
         this.kitID = kitID;
         this.level = plugin.getKits().getInt(path + ".level");
@@ -89,7 +89,7 @@ public class KitLevel implements Purchasable {
         if (!icon.hasItemMeta()) {
             return icon;
         }
-        CTWPlayer sw = Main.get().getDb().getCTWPlayer(p);
+        CTWPlayer sw = UltraCTW.get().getDb().getCTWPlayer(p);
         ItemStack icon = this.icon.clone();
         return icon;
     }

@@ -33,9 +33,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 @Getter
-public class Main extends JavaPlugin {
+public class UltraCTW extends JavaPlugin {
 
-    private static Main instance;
+    private static UltraCTW instance;
     private Gson ctw;
     private Settings upgrades, mines, arenas, lang, menus, kits, sources, windance, wineffect, killsound, taunt, trail, killeffect, shopkeepers, levels, shop, migration;
     private boolean debugMode, stop = false;
@@ -72,7 +72,7 @@ public class Main extends JavaPlugin {
     private FlagMenu fgm;
     private ChestController cc;
 
-    public static Main get() {
+    public static UltraCTW get() {
         return instance;
     }
 
@@ -111,6 +111,8 @@ public class Main extends JavaPlugin {
                 }
             }
         }.runTaskAsynchronously(this);
+        ijm = new InjectionManager(this);
+        ijm.loadWEInjection();
         wc = new WorldController(this);
         db = new MySQLDatabase(this);
         cm = new ConfigManager(this);
@@ -145,7 +147,6 @@ public class Main extends JavaPlugin {
         skm.loadShopKeepers();
         lvl = new LevelManager(this);
         npc = new NPCManager(this);
-        ijm = new InjectionManager(this);
         ijm.loadInjections();
         stm = new StreakManager(this);
         top = new TopManager(this);
@@ -187,7 +188,7 @@ public class Main extends JavaPlugin {
                 db.loadTopCaptured();
                 db.loadTopKills();
                 db.loadTopWins();
-                Bukkit.getScheduler().scheduleSyncDelayedTask(Main.get(), () -> top.createTops());
+                Bukkit.getScheduler().scheduleSyncDelayedTask(UltraCTW.get(), () -> top.createTops());
             }
         }.runTaskTimer(this, 6000, 6000);
     }

@@ -1,6 +1,6 @@
 package io.github.Leonardo0013YT.UltraCTW.managers;
 
-import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.UltraCTW;
 import io.github.Leonardo0013YT.UltraCTW.cosmetics.taunts.Taunt;
 import io.github.Leonardo0013YT.UltraCTW.game.GameFlag;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.CTWPlayer;
@@ -15,10 +15,10 @@ import java.util.HashMap;
 public class TauntsManager {
 
     private HashMap<Integer, Taunt> taunts = new HashMap<>();
-    private Main plugin;
+    private UltraCTW plugin;
     private int lastPage;
 
-    public TauntsManager(Main plugin) {
+    public TauntsManager(UltraCTW plugin) {
         this.plugin = plugin;
     }
 

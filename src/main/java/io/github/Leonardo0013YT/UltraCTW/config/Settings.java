@@ -1,6 +1,6 @@
 package io.github.Leonardo0013YT.UltraCTW.config;
 
-import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.UltraCTW;
 import io.github.Leonardo0013YT.UltraCTW.utils.CenterMessage;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -15,10 +15,10 @@ public class Settings {
 
     private YamlConfiguration config;
     private File file;
-    private Main u;
+    private UltraCTW u;
     private boolean comments;
 
-    public Settings(Main u, String s, boolean defaults, boolean comments) {
+    public Settings(UltraCTW u, String s, boolean defaults, boolean comments) {
         this.u = u;
         this.comments = comments;
         this.file = new File(u.getDataFolder(), s + ".yml");

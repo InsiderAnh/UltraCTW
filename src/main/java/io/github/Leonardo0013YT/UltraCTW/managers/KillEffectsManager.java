@@ -1,6 +1,6 @@
 package io.github.Leonardo0013YT.UltraCTW.managers;
 
-import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.UltraCTW;
 import io.github.Leonardo0013YT.UltraCTW.cosmetics.killeffects.*;
 import io.github.Leonardo0013YT.UltraCTW.game.GameFlag;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.CTWPlayer;
@@ -16,10 +16,10 @@ import java.util.HashMap;
 public class KillEffectsManager {
 
     private HashMap<Integer, UltraKillEffect> killEffect = new HashMap<>();
-    private Main plugin;
+    private UltraCTW plugin;
     private int lastPage;
 
-    public KillEffectsManager(Main plugin) {
+    public KillEffectsManager(UltraCTW plugin) {
         this.plugin = plugin;
     }
 

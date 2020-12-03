@@ -1,14 +1,11 @@
 package io.github.Leonardo0013YT.UltraCTW.cosmetics.killeffects;
 
-import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.UltraCTW;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.KillEffect;
-import io.github.Leonardo0013YT.UltraCTW.utils.NBTEditor;
 import io.github.Leonardo0013YT.UltraCTW.utils.Utils;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
@@ -22,7 +19,7 @@ public class KillEffectGiftExplosion implements KillEffect, Cloneable {
     private boolean loaded = false;
 
     @Override
-    public void loadCustoms(Main plugin, String path) {
+    public void loadCustoms(UltraCTW plugin, String path) {
         if (!loaded) {
             xRandom = plugin.getKilleffect().getDoubleOrDefault(path + ".xRandom", 0.35);
             yRandom = plugin.getKilleffect().getDoubleOrDefault(path + ".yRandom", 0.5);
@@ -49,7 +46,7 @@ public class KillEffectGiftExplosion implements KillEffect, Cloneable {
                     itemStack.remove();
                 }
             }
-        }.runTaskLater(Main.get(), delayDelete);
+        }.runTaskLater(UltraCTW.get(), delayDelete);
     }
 
     @Override

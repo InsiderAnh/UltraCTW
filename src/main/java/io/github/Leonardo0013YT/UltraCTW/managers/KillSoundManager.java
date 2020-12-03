@@ -1,6 +1,6 @@
 package io.github.Leonardo0013YT.UltraCTW.managers;
 
-import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.UltraCTW;
 import io.github.Leonardo0013YT.UltraCTW.cosmetics.killsounds.KillSound;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.CTWPlayer;
 import org.bukkit.configuration.ConfigurationSection;
@@ -12,10 +12,10 @@ import java.util.HashMap;
 public class KillSoundManager {
 
     private HashMap<Integer, KillSound> killSounds = new HashMap<>();
-    private Main plugin;
+    private UltraCTW plugin;
     private int lastPage;
 
-    public KillSoundManager(Main plugin) {
+    public KillSoundManager(UltraCTW plugin) {
         this.plugin = plugin;
     }
 

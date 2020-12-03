@@ -1,6 +1,6 @@
 package io.github.Leonardo0013YT.UltraCTW.cmds;
 
-import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.UltraCTW;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.UltraInventory;
 import io.github.Leonardo0013YT.UltraCTW.setup.*;
 import io.github.Leonardo0013YT.UltraCTW.utils.Utils;
@@ -13,9 +13,9 @@ import org.bukkit.entity.Player;
 
 public class SetupCMD implements CommandExecutor {
 
-    private Main plugin;
+    private UltraCTW plugin;
 
-    public SetupCMD(Main plugin) {
+    public SetupCMD(UltraCTW plugin) {
         this.plugin = plugin;
     }
 

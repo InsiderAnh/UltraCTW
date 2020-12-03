@@ -1,6 +1,6 @@
 package io.github.Leonardo0013YT.UltraCTW.game;
 
-import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.UltraCTW;
 import io.github.Leonardo0013YT.UltraCTW.enums.PhaseType;
 import io.github.Leonardo0013YT.UltraCTW.upgrades.UpgradeEnchantment;
 import io.github.Leonardo0013YT.UltraCTW.utils.NBTEditor;
@@ -23,7 +23,7 @@ public class GameEvent {
     private PhaseType type;
     private ArrayList<UpgradeEnchantment> enchantments = new ArrayList<>();
 
-    public GameEvent(Main plugin, String path){
+    public GameEvent(UltraCTW plugin, String path){
         this.time = plugin.getConfig().getInt(path + ".time");
         this.type = PhaseType.valueOf(plugin.getConfig().getString(path + ".type"));
         this.reset = time;
@@ -50,28 +50,12 @@ public class GameEvent {
 
     public void start(GameFlag flag){
         for (Player on : flag.getPlayers()){
-            for (ItemStack item : on.getInventory().getContents()) {
-                if (item == null || item.getType().equals(Material.AIR) || !item.getType().name().endsWith("PICKAXE")) continue;
-                boolean nbt = NBTEditor.contains(item, "FLAG", "PICKAXE", "DEFAULT");
-                if (!nbt){
-                    continue;
-                }
-                ItemStack newPickaxe = new ItemStack(item);
-                newPickaxe.setType(material);
-                ItemMeta newPickaxeM = newPickaxe.getItemMeta();
-                for (UpgradeEnchantment ue : getEnchantments()) {
-                    newPickaxeM.addEnchant(ue.getEnchantment().parseEnchantment(), ue.getLevel(), ue.isIgnore());
-                }
-                newPickaxe.setItemMeta(newPickaxeM);
-                on.getInventory().remove(item);
-                NBTEditor.set(newPickaxe, "PICKAXE", "FLAG", "PICKAXE", "DEFAULT");
-                on.getInventory().addItem(newPickaxe);
-            }
-            on.sendMessage(Main.get().getLang().get("messages.startPhase").replace("<phase>", Main.get().getLang().get("phases." + type.name())));
+            applyEnchant(on);
+            on.sendMessage(UltraCTW.get().getLang().get("messages.startPhase").replace("<phase>", UltraCTW.get().getLang().get("phases." + type.name())));
         }
     }
 
-    public void apply(Player on){
+    private void applyEnchant(Player on) {
         for (ItemStack item : on.getInventory().getContents()) {
             if (item == null || item.getType().equals(Material.AIR) || !item.getType().name().endsWith("PICKAXE")) continue;
             boolean nbt = NBTEditor.contains(item, "FLAG", "PICKAXE", "DEFAULT");
@@ -89,6 +73,10 @@ public class GameEvent {
             NBTEditor.set(newPickaxe, "PICKAXE", "FLAG", "PICKAXE", "DEFAULT");
             on.getInventory().addItem(newPickaxe);
         }
+    }
+
+    public void apply(Player on){
+        applyEnchant(on);
     }
 
     public void reset(){

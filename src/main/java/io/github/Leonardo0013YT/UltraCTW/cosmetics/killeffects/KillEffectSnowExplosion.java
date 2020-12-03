@@ -1,6 +1,6 @@
 package io.github.Leonardo0013YT.UltraCTW.cosmetics.killeffects;
 
-import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.UltraCTW;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.KillEffect;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -19,7 +19,7 @@ public class KillEffectSnowExplosion implements KillEffect, Cloneable {
     private int delayDelete;
 
     @Override
-    public void loadCustoms(Main plugin, String path) {
+    public void loadCustoms(UltraCTW plugin, String path) {
         if (!loaded) {
             xRandom = plugin.getKilleffect().getDoubleOrDefault(path + ".xRandom", 0.35);
             yRandom = plugin.getKilleffect().getDoubleOrDefault(path + ".yRandom", 0.5);
@@ -46,7 +46,7 @@ public class KillEffectSnowExplosion implements KillEffect, Cloneable {
                     snow.remove();
                 }
             }
-        }.runTaskLater(Main.get(), delayDelete);
+        }.runTaskLater(UltraCTW.get(), delayDelete);
     }
 
     @Override
@@ -65,7 +65,7 @@ public class KillEffectSnowExplosion implements KillEffect, Cloneable {
     private Snowball spawnSnow(Location location, double d, double d2, double d3) {
         Snowball item = location.getWorld().spawn(location, Snowball.class);
         item.setVelocity(new Vector(d, d2, d3));
-        item.setMetadata("SNOWBALL", new FixedMetadataValue(Main.get(), "SNOWBALL"));
+        item.setMetadata("SNOWBALL", new FixedMetadataValue(UltraCTW.get(), "SNOWBALL"));
         return item;
     }
 

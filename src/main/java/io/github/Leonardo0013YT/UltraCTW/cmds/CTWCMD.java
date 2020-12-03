@@ -1,6 +1,6 @@
 package io.github.Leonardo0013YT.UltraCTW.cmds;
 
-import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.UltraCTW;
 import io.github.Leonardo0013YT.UltraCTW.enums.State;
 import io.github.Leonardo0013YT.UltraCTW.game.GameFlag;
 import io.github.Leonardo0013YT.UltraCTW.game.GamePlayer;
@@ -15,9 +15,9 @@ import org.bukkit.entity.Player;
 
 public class CTWCMD implements CommandExecutor {
 
-    private Main plugin;
+    private UltraCTW plugin;
 
-    public CTWCMD(Main plugin) {
+    public CTWCMD(UltraCTW plugin) {
         this.plugin = plugin;
     }
 

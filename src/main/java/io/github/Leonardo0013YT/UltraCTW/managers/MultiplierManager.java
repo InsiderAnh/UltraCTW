@@ -1,6 +1,6 @@
 package io.github.Leonardo0013YT.UltraCTW.managers;
 
-import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.UltraCTW;
 import io.github.Leonardo0013YT.UltraCTW.objects.Multiplier;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -11,10 +11,10 @@ import java.util.Map;
 
 public class MultiplierManager {
 
-    Main plugin;
+    UltraCTW plugin;
     private Map<String, ArrayList<Multiplier>> multipliers = new HashMap<>();
 
-    public MultiplierManager(Main plugin) {
+    public MultiplierManager(UltraCTW plugin) {
         this.plugin = plugin;
     }
 

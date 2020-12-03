@@ -1,6 +1,6 @@
 package io.github.Leonardo0013YT.UltraCTW.setup;
 
-import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.UltraCTW;
 import io.github.Leonardo0013YT.UltraCTW.objects.Selection;
 import io.github.Leonardo0013YT.UltraCTW.objects.Squared;
 import io.github.Leonardo0013YT.UltraCTW.utils.Utils;
@@ -17,7 +17,7 @@ import java.util.HashMap;
 @Getter
 public class ArenaSetup {
 
-    private Main plugin;
+    private UltraCTW plugin;
     private Player p;
     private String name;
     private String schematic;
@@ -31,7 +31,7 @@ public class ArenaSetup {
     private Selection selection = new Selection();
     private Squared protection;
 
-    public ArenaSetup(Main plugin, Player p, String name, String schematic) {
+    public ArenaSetup(UltraCTW plugin, Player p, String name, String schematic) {
         this.plugin = plugin;
         this.p = p;
         this.name = name;

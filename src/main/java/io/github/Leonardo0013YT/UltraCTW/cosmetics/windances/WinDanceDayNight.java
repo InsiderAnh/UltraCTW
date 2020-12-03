@@ -1,6 +1,6 @@
 package io.github.Leonardo0013YT.UltraCTW.cosmetics.windances;
 
-import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.UltraCTW;
 import io.github.Leonardo0013YT.UltraCTW.game.GameFlag;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.Game;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.WinDance;
@@ -16,7 +16,7 @@ public class WinDanceDayNight implements WinDance, Cloneable {
     private int perTickTime, taskTick;
 
     @Override
-    public void loadCustoms(Main plugin, String path) {
+    public void loadCustoms(UltraCTW plugin, String path) {
         if (!loaded) {
             perTickTime = plugin.getWindance().getIntOrDefault(path + ".perTickTime", 700);
             taskTick = plugin.getWindance().getIntOrDefault(path + ".taskTick", 1);
@@ -35,7 +35,7 @@ public class WinDanceDayNight implements WinDance, Cloneable {
                 }
                 p.getWorld().setTime(p.getWorld().getTime() + perTickTime);
             }
-        }.runTaskTimer(Main.get(), 0, taskTick);
+        }.runTaskTimer(UltraCTW.get(), 0, taskTick);
     }
 
     @Override
@@ -49,7 +49,7 @@ public class WinDanceDayNight implements WinDance, Cloneable {
                 }
                 p.getWorld().setTime(p.getWorld().getTime() + perTickTime);
             }
-        }.runTaskTimer(Main.get(), 0, taskTick);
+        }.runTaskTimer(UltraCTW.get(), 0, taskTick);
     }
 
     @Override

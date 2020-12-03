@@ -1,6 +1,6 @@
 package io.github.Leonardo0013YT.UltraCTW.menus;
 
-import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.UltraCTW;
 import io.github.Leonardo0013YT.UltraCTW.cosmetics.killeffects.UltraKillEffect;
 import io.github.Leonardo0013YT.UltraCTW.cosmetics.killsounds.KillSound;
 import io.github.Leonardo0013YT.UltraCTW.cosmetics.kits.Kit;
@@ -30,9 +30,9 @@ public class UltraInventoryMenu {
 
     private HashMap<String, UltraInventory> menus = new HashMap<>();
     private HashMap<Player, Integer> pages = new HashMap<>();
-    private Main plugin;
+    private UltraCTW plugin;
 
-    public UltraInventoryMenu(Main plugin) {
+    public UltraInventoryMenu(UltraCTW plugin) {
         this.plugin = plugin;
         loadMenus();
     }

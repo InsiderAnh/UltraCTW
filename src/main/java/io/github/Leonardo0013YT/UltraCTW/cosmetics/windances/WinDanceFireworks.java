@@ -1,6 +1,6 @@
 package io.github.Leonardo0013YT.UltraCTW.cosmetics.windances;
 
-import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.UltraCTW;
 import io.github.Leonardo0013YT.UltraCTW.game.GameFlag;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.Game;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.WinDance;
@@ -28,7 +28,7 @@ public class WinDanceFireworks implements WinDance, Cloneable {
     }
 
     @Override
-    public void loadCustoms(Main plugin, String path) {
+    public void loadCustoms(UltraCTW plugin, String path) {
         if (!loaded) {
             minOfCenter = plugin.getWindance().getIntOrDefault(path + ".minOfCenter", 10);
             maxOfCenter = plugin.getWindance().getIntOrDefault(path + ".maxOfCenter", 10);
@@ -64,7 +64,7 @@ public class WinDanceFireworks implements WinDance, Cloneable {
                 firework(loc7);
                 firework(loc8);
             }
-        }.runTaskTimer(Main.get(), 0, taskTick);
+        }.runTaskTimer(UltraCTW.get(), 0, taskTick);
     }
 
     @Override
@@ -93,7 +93,7 @@ public class WinDanceFireworks implements WinDance, Cloneable {
                 firework(loc7);
                 firework(loc8);
             }
-        }.runTaskTimer(Main.get(), 0, taskTick);
+        }.runTaskTimer(UltraCTW.get(), 0, taskTick);
     }
 
 

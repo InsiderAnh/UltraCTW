@@ -1,6 +1,6 @@
 package io.github.Leonardo0013YT.UltraCTW.managers;
 
-import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.UltraCTW;
 import io.github.Leonardo0013YT.UltraCTW.cosmetics.trails.Trail;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.CTWPlayer;
 import org.bukkit.configuration.ConfigurationSection;
@@ -14,10 +14,10 @@ import java.util.HashMap;
 public class TrailsManager {
 
     private HashMap<Integer, Trail> trails = new HashMap<>();
-    private Main plugin;
+    private UltraCTW plugin;
     private int lastPage;
 
-    public TrailsManager(Main plugin) {
+    public TrailsManager(UltraCTW plugin) {
         this.plugin = plugin;
     }
 

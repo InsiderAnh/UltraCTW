@@ -1,6 +1,6 @@
 package io.github.Leonardo0013YT.UltraCTW.listeners;
 
-import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.UltraCTW;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Item;
 import org.bukkit.event.EventHandler;
@@ -9,9 +9,9 @@ import org.bukkit.event.entity.CreatureSpawnEvent;
 
 public class WorldListener implements Listener {
 
-    private Main plugin;
+    private UltraCTW plugin;
 
-    public WorldListener(Main plugin) {
+    public WorldListener(UltraCTW plugin) {
         this.plugin = plugin;
     }
 

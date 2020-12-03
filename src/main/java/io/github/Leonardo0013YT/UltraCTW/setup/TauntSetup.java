@@ -1,6 +1,6 @@
 package io.github.Leonardo0013YT.UltraCTW.setup;
 
-import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.UltraCTW;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -12,7 +12,7 @@ import java.util.HashMap;
 
 public class TauntSetup {
 
-    private Main plugin;
+    private UltraCTW plugin;
     private HashMap<String, TauntTypeSetup> taunts = new HashMap<>();
     private TauntTypeSetup actual;
     private String name, permission, player = "§e by §7<killer>§e.", none = "§e.", title = "§c§lYOU ARE DEATH", subtitle = "§7Now you spectate game!";
@@ -20,7 +20,7 @@ public class TauntSetup {
     private int slot = 10, page = 1, price = 500;
     private ItemStack icon = new ItemStack(Material.ARROW);
 
-    public TauntSetup(Main plugin, Player p, String name) {
+    public TauntSetup(UltraCTW plugin, Player p, String name) {
         this.plugin = plugin;
         this.name = name;
         this.permission = "ultractw.taunt." + name;

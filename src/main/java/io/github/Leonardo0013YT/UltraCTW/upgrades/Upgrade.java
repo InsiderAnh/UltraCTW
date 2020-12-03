@@ -1,6 +1,6 @@
 package io.github.Leonardo0013YT.UltraCTW.upgrades;
 
-import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.UltraCTW;
 import io.github.Leonardo0013YT.UltraCTW.game.GamePlayer;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.Request;
 import io.github.Leonardo0013YT.UltraCTW.objects.ObjectPotion;
@@ -26,10 +26,10 @@ public class Upgrade {
     private XMaterial material;
     private List<String> materials;
     private HashMap<Integer, UpgradeLevel> levels = new HashMap<>();
-    private Main plugin;
+    private UltraCTW plugin;
     private String key;
 
-    public Upgrade(Main plugin, String path, String key) {
+    public Upgrade(UltraCTW plugin, String path, String key) {
         this.plugin = plugin;
         this.key = key;
         this.slot = plugin.getUpgrades().getInt(path + ".slot");

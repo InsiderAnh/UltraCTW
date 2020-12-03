@@ -1,6 +1,6 @@
 package io.github.Leonardo0013YT.UltraCTW.managers;
 
-import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.UltraCTW;
 import io.github.Leonardo0013YT.UltraCTW.cosmetics.shopkeepers.ShopKeeper;
 import io.github.Leonardo0013YT.UltraCTW.enums.NPCType;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.NPC;
@@ -14,10 +14,10 @@ import java.util.HashMap;
 public class ShopKeepersManager {
 
     private HashMap<Integer, ShopKeeper> shopkeepers = new HashMap<>();
-    private Main plugin;
+    private UltraCTW plugin;
     private int lastPage;
 
-    public ShopKeepersManager(Main plugin) {
+    public ShopKeepersManager(UltraCTW plugin) {
         this.plugin = plugin;
     }
 

@@ -1,6 +1,6 @@
 package io.github.Leonardo0013YT.UltraCTW.cosmetics.killeffects;
 
-import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.UltraCTW;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.KillEffect;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -20,7 +20,7 @@ public class KillEffectDiamondExplode implements KillEffect, Cloneable {
     private int delayDelete;
 
     @Override
-    public void loadCustoms(Main plugin, String path) {
+    public void loadCustoms(UltraCTW plugin, String path) {
         if (!loaded) {
             xRandom = plugin.getKilleffect().getDoubleOrDefault(path + ".xRandom", 0.35);
             yRandom = plugin.getKilleffect().getDoubleOrDefault(path + ".yRandom", 0.5);
@@ -47,7 +47,7 @@ public class KillEffectDiamondExplode implements KillEffect, Cloneable {
                     itemStack.remove();
                 }
             }
-        }.runTaskLater(Main.get(), delayDelete);
+        }.runTaskLater(UltraCTW.get(), delayDelete);
     }
 
     @Override

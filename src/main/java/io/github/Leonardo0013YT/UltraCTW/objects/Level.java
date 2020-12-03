@@ -1,6 +1,6 @@
 package io.github.Leonardo0013YT.UltraCTW.objects;
 
-import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.UltraCTW;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -15,7 +15,7 @@ public class Level {
     private String prefix;
     private List<String> rewards;
 
-    public Level(Main plugin, String path, int id) {
+    public Level(UltraCTW plugin, String path, int id) {
         this.id = id;
         this.level = plugin.getLevels().getInt(path + ".level");
         this.xp = plugin.getLevels().getInt(path + ".xp");

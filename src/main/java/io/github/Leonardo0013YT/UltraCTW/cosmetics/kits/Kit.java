@@ -1,6 +1,6 @@
 package io.github.Leonardo0013YT.UltraCTW.cosmetics.kits;
 
-import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.UltraCTW;
 import io.github.Leonardo0013YT.UltraCTW.team.Team;
 import lombok.Getter;
 import org.bukkit.entity.Player;
@@ -16,7 +16,7 @@ public class Kit {
     private String name, permission;
     private boolean flag;
 
-    public Kit(Main plugin, String path) {
+    public Kit(UltraCTW plugin, String path) {
         this.id = plugin.getKits().getInt(path + ".id");
         this.slot = plugin.getKits().getInt(path + ".slot");
         this.page = plugin.getKits().getInt(path + ".page");

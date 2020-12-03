@@ -1,6 +1,6 @@
 package io.github.Leonardo0013YT.UltraCTW.placeholders;
 
-import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.UltraCTW;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.CTWPlayer;
 import io.github.Leonardo0013YT.UltraCTW.objects.Level;
 import io.github.Leonardo0013YT.UltraCTW.utils.Utils;
@@ -9,9 +9,9 @@ import org.bukkit.entity.Player;
 
 public class Placeholders extends PlaceholderExpansion {
 
-    private Main plugin;
+    private UltraCTW plugin;
 
-    public Placeholders(Main plugin) {
+    public Placeholders(UltraCTW plugin) {
         this.plugin = plugin;
     }
 

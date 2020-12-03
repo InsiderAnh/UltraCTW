@@ -1,6 +1,6 @@
 package io.github.Leonardo0013YT.UltraCTW.cosmetics.killsounds;
 
-import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.UltraCTW;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.CTWPlayer;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.Purchasable;
 import io.github.Leonardo0013YT.UltraCTW.utils.ItemBuilder;
@@ -21,7 +21,7 @@ public class KillSound implements Purchasable {
     private int id, slot, page, price;
     private ItemStack icon;
 
-    public KillSound(Main plugin, String s) {
+    public KillSound(UltraCTW plugin, String s) {
         this.id = plugin.getKillsound().getInt(s + ".id");
         this.name = plugin.getKillsound().get(null, s + ".name");
         this.sound = Sound.valueOf(plugin.getKillsound().get(null, s + ".sound"));
@@ -95,13 +95,13 @@ public class KillSound implements Purchasable {
         if (!icon.hasItemMeta()) {
             return icon;
         }
-        CTWPlayer sw = Main.get().getDb().getCTWPlayer(p);
+        CTWPlayer sw = UltraCTW.get().getDb().getCTWPlayer(p);
         ItemStack icon = this.icon.clone();
         if (!p.hasPermission(autoGivePermission)) {
             if (price > 0) {
-                if (Main.get().getCm().isRedPanelInLocked()) {
+                if (UltraCTW.get().getCm().isRedPanelInLocked()) {
                     if (!sw.getKillsounds().contains(id)) {
-                        icon = ItemBuilder.item(XMaterial.matchXMaterial(Main.get().getCm().getRedPanelMaterial().name(), (byte) Main.get().getCm().getRedPanelData()).orElse(XMaterial.RED_STAINED_GLASS_PANE), 1, icon.getItemMeta().getDisplayName(), icon.getItemMeta().getLore());
+                        icon = ItemBuilder.item(XMaterial.matchXMaterial(UltraCTW.get().getCm().getRedPanelMaterial().name(), (byte) UltraCTW.get().getCm().getRedPanelData()).orElse(XMaterial.RED_STAINED_GLASS_PANE), 1, icon.getItemMeta().getDisplayName(), icon.getItemMeta().getLore());
                     }
                 }
             }
@@ -114,41 +114,41 @@ public class KillSound implements Purchasable {
                 case "<price>":
                     if (!p.hasPermission(autoGivePermission)) {
                         if (isBuy && !sw.getKillsounds().contains(id)) {
-                            lore.set(i, Main.get().getLang().get(p, "menus.killsoundsselector.price").replaceAll("<price>", String.valueOf(price)));
+                            lore.set(i, UltraCTW.get().getLang().get(p, "menus.killsoundsselector.price").replaceAll("<price>", String.valueOf(price)));
                         } else if (!isBuy && !sw.getKillsounds().contains(id)) {
                             if (needPermToBuy && p.hasPermission(permission)) {
-                                lore.set(i, Main.get().getLang().get(p, "menus.killsoundsselector.price").replaceAll("<price>", String.valueOf(price)));
+                                lore.set(i, UltraCTW.get().getLang().get(p, "menus.killsoundsselector.price").replaceAll("<price>", String.valueOf(price)));
                             } else {
-                                lore.set(i, Main.get().getLang().get(p, "menus.killsoundsselector.noBuyable"));
+                                lore.set(i, UltraCTW.get().getLang().get(p, "menus.killsoundsselector.noBuyable"));
                             }
                         } else if (sw.getKillsounds().contains(id) || !needPermToBuy) {
-                            lore.set(i, Main.get().getLang().get(p, "menus.killsoundsselector.buyed"));
+                            lore.set(i, UltraCTW.get().getLang().get(p, "menus.killsoundsselector.buyed"));
                         }
                     } else {
-                        lore.set(i, Main.get().getLang().get(p, "menus.killsoundsselector.buyed"));
+                        lore.set(i, UltraCTW.get().getLang().get(p, "menus.killsoundsselector.buyed"));
                     }
                     break;
                 case "<status>":
                     if (!p.hasPermission(autoGivePermission)) {
                         if (sw.getKillsounds().contains(id)) {
-                            lore.set(i, Main.get().getLang().get(p, "menus.killsoundsselector.hasBuy"));
+                            lore.set(i, UltraCTW.get().getLang().get(p, "menus.killsoundsselector.hasBuy"));
                         } else if (isBuy) {
-                            if (Main.get().getAdm().getCoins(p) > price) {
-                                lore.set(i, Main.get().getLang().get(p, "menus.killsoundsselector.buy"));
+                            if (UltraCTW.get().getAdm().getCoins(p) > price) {
+                                lore.set(i, UltraCTW.get().getLang().get(p, "menus.killsoundsselector.buy"));
                             } else {
-                                lore.set(i, Main.get().getLang().get(p, "menus.killsoundsselector.noMoney"));
+                                lore.set(i, UltraCTW.get().getLang().get(p, "menus.killsoundsselector.noMoney"));
                             }
                         } else if (needPermToBuy) {
-                            if (Main.get().getAdm().getCoins(p) > price) {
-                                lore.set(i, Main.get().getLang().get(p, "menus.killsoundsselector.buy"));
+                            if (UltraCTW.get().getAdm().getCoins(p) > price) {
+                                lore.set(i, UltraCTW.get().getLang().get(p, "menus.killsoundsselector.buy"));
                             } else {
-                                lore.set(i, Main.get().getLang().get(p, "menus.killsoundsselector.noMoney"));
+                                lore.set(i, UltraCTW.get().getLang().get(p, "menus.killsoundsselector.noMoney"));
                             }
                         } else {
-                            lore.set(i, Main.get().getLang().get(p, "menus.killsoundsselector.noPermission"));
+                            lore.set(i, UltraCTW.get().getLang().get(p, "menus.killsoundsselector.noPermission"));
                         }
                     } else {
-                        lore.set(i, Main.get().getLang().get(p, "menus.killsoundsselector.hasBuy"));
+                        lore.set(i, UltraCTW.get().getLang().get(p, "menus.killsoundsselector.hasBuy"));
                     }
                     break;
             }

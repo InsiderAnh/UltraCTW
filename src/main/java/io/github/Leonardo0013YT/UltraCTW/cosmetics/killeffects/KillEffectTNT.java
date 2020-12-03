@@ -1,6 +1,6 @@
 package io.github.Leonardo0013YT.UltraCTW.cosmetics.killeffects;
 
-import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.UltraCTW;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.KillEffect;
 import org.bukkit.Effect;
 import org.bukkit.Location;
@@ -14,7 +14,7 @@ public class KillEffectTNT implements KillEffect, Cloneable {
     private int fuseTicks;
 
     @Override
-    public void loadCustoms(Main plugin, String path) {
+    public void loadCustoms(UltraCTW plugin, String path) {
         if (!loaded) {
             fuseTicks = plugin.getKilleffect().getIntOrDefault(path + ".fuseTicks", 4);
             loaded = true;
@@ -35,10 +35,10 @@ public class KillEffectTNT implements KillEffect, Cloneable {
             @Override
             public void run() {
                 loc.getWorld().playEffect(loc, Effect.EXPLOSION_LARGE, 1);
-                p.playSound(p.getLocation(), Main.get().getCm().getKillEffectTNT(), 1.0f, 1.0f);
+                p.playSound(p.getLocation(), UltraCTW.get().getCm().getKillEffectTNT(), 1.0f, 1.0f);
                 primed.remove();
             }
-        }.runTaskLater(Main.get(), 2);
+        }.runTaskLater(UltraCTW.get(), 2);
     }
 
     @Override

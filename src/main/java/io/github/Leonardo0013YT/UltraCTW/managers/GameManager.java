@@ -1,7 +1,7 @@
 package io.github.Leonardo0013YT.UltraCTW.managers;
 
 import com.nametagedit.plugin.NametagEdit;
-import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.UltraCTW;
 import io.github.Leonardo0013YT.UltraCTW.enums.State;
 import io.github.Leonardo0013YT.UltraCTW.game.GameFlag;
 import io.github.Leonardo0013YT.UltraCTW.game.GameNoState;
@@ -26,9 +26,9 @@ public class GameManager {
     private HashMap<String, Integer> players = new HashMap<>();
     private long lastUpdatePlayers;
     private Game selectedGame;
-    private Main plugin;
+    private UltraCTW plugin;
 
-    public GameManager(Main plugin) {
+    public GameManager(UltraCTW plugin) {
         this.plugin = plugin;
         reload();
     }

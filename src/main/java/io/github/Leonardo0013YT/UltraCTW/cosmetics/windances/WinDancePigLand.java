@@ -1,13 +1,11 @@
 package io.github.Leonardo0013YT.UltraCTW.cosmetics.windances;
 
-import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.UltraCTW;
 import io.github.Leonardo0013YT.UltraCTW.game.GameFlag;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.Game;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.WinDance;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.World;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Pig;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -29,7 +27,7 @@ public class WinDancePigLand implements WinDance, Cloneable {
     }
 
     @Override
-    public void loadCustoms(Main plugin, String path) {
+    public void loadCustoms(UltraCTW plugin, String path) {
         if (!loaded) {
             maxOfCenter = plugin.getWindance().getIntOrDefault(path + ".maxOfCenter", 25);
             firstUp = plugin.getWindance().getIntOrDefault(path + ".firstUp", 110);
@@ -85,7 +83,7 @@ public class WinDancePigLand implements WinDance, Cloneable {
                 p11.setNoDamageTicks(Integer.MAX_VALUE);
                 p12.setNoDamageTicks(Integer.MAX_VALUE);
             }
-        }.runTaskTimer(Main.get(), taskTick, taskTick);
+        }.runTaskTimer(UltraCTW.get(), taskTick, taskTick);
     }
 
     @Override
@@ -134,7 +132,7 @@ public class WinDancePigLand implements WinDance, Cloneable {
                 p11.setNoDamageTicks(Integer.MAX_VALUE);
                 p12.setNoDamageTicks(Integer.MAX_VALUE);
             }
-        }.runTaskTimer(Main.get(), taskTick, taskTick);
+        }.runTaskTimer(UltraCTW.get(), taskTick, taskTick);
     }
 
     @Override

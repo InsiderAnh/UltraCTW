@@ -1,6 +1,6 @@
 package io.github.Leonardo0013YT.UltraCTW.managers;
 
-import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.UltraCTW;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.NPC;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -11,9 +11,9 @@ import java.util.HashMap;
 public class NPCManager {
 
     private HashMap<Player, ArrayList<NPC>> npcs = new HashMap<>();
-    private Main plugin;
+    private UltraCTW plugin;
 
-    public NPCManager(Main plugin) {
+    public NPCManager(UltraCTW plugin) {
         this.plugin = plugin;
         startUpdate();
 

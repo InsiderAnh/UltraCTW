@@ -1,6 +1,6 @@
 package io.github.Leonardo0013YT.UltraCTW.team;
 
-import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.UltraCTW;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.Game;
 import io.github.Leonardo0013YT.UltraCTW.objects.Squared;
 import io.github.Leonardo0013YT.UltraCTW.utils.NBTEditor;
@@ -28,7 +28,7 @@ public class Team {
     private Map<ChatColor, ArrayList<UUID>> inProgress = new HashMap<>();
     private ArrayList<ChatColor> captured = new ArrayList<>();
     private ArrayList<Squared> squareds = new ArrayList<>();
-    private Main plugin;
+    private UltraCTW plugin;
     private Game game;
     private ChatColor color;
     private int id;
@@ -36,7 +36,7 @@ public class Team {
     private Location spawn;
     private String name;
 
-    public Team(Main plugin, Game game, String path, int id) {
+    public Team(UltraCTW plugin, Game game, String path, int id) {
         this.plugin = plugin;
         this.game = game;
         this.id = id;
@@ -62,6 +62,8 @@ public class Team {
     }
 
     public void updateWorld(World w){
+        wools.keySet().forEach(o -> o.setWorld(w));
+        spawners.keySet().forEach(o -> o.setWorld(w));
         spawn.setWorld(w);
         for (Squared s : squareds){
             s.getMax().setWorld(w);
@@ -75,7 +77,7 @@ public class Team {
             if (!dropped.containsKey(c)) {
                 Item i = l.getWorld().dropItem(l.clone().add(0, 1, 0), NBTEditor.set(Utils.getXMaterialByColor(c).parseItem(), c.name(), "TEAM", "WOOL", "CAPTURE"));
                 i.setVelocity(new Vector(0, 0, 0));
-                i.setMetadata("DROPPED", new FixedMetadataValue(Main.get(), c.name()));
+                i.setMetadata("DROPPED", new FixedMetadataValue(UltraCTW.get(), c.name()));
                 dropped.put(c, i);
             }
         }

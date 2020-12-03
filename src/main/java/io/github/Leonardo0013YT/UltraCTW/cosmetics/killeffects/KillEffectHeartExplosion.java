@@ -1,16 +1,16 @@
 package io.github.Leonardo0013YT.UltraCTW.cosmetics.killeffects;
 
-import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.UltraCTW;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.KillEffect;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 public class KillEffectHeartExplosion implements KillEffect, Cloneable {
 
-    private Main plugin;
+    private UltraCTW plugin;
 
     @Override
-    public void loadCustoms(Main plugin, String path) {
+    public void loadCustoms(UltraCTW plugin, String path) {
         this.plugin = plugin;
     }
 

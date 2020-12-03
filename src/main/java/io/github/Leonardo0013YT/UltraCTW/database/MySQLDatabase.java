@@ -1,7 +1,7 @@
 package io.github.Leonardo0013YT.UltraCTW.database;
 
 import com.zaxxer.hikari.HikariDataSource;
-import io.github.Leonardo0013YT.UltraCTW.Main;
+import io.github.Leonardo0013YT.UltraCTW.UltraCTW;
 import io.github.Leonardo0013YT.UltraCTW.api.events.PlayerLoadEvent;
 import io.github.Leonardo0013YT.UltraCTW.enums.TopType;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.CTWPlayer;
@@ -22,7 +22,7 @@ import java.util.UUID;
 
 public class MySQLDatabase implements IDatabase {
 
-    private Main plugin;
+    private UltraCTW plugin;
     private boolean enabled;
     private HikariDataSource hikari;
     private Connection connection;
@@ -35,7 +35,7 @@ public class MySQLDatabase implements IDatabase {
     private String RESET = "UPDATE UltraCTW_PD SET Bounty=0;";
     private HashMap<UUID, CTWPlayer> players = new HashMap<>();
 
-    public MySQLDatabase(Main plugin) {
+    public MySQLDatabase(UltraCTW plugin) {
         this.plugin = plugin;
         enabled = plugin.getSources().getBoolean("mysql.enabled");
         if (enabled) {
