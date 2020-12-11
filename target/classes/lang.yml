@@ -83,6 +83,7 @@ messages:
   noPlace: "&cYou can't place here."
   lost: "&cThe <wool>&c wool catch was lost."
   placeTeam: "&eYour team has captured the <place>&e wool."
+  capturedWool: "&eThe player &a<player> &ehas captured the <wool> &eWool."
   incorrectPlace: "&cThis is not the right place for <wool>&c wool."
   alreadyIngame: "&cYou're already in a game."
   leaveGame: "&cYou're out of the game."

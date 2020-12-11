@@ -8,6 +8,7 @@ import io.github.Leonardo0013YT.UltraCTW.cosmetics.trails.Trail;
 import io.github.Leonardo0013YT.UltraCTW.enums.NPCType;
 import io.github.Leonardo0013YT.UltraCTW.enums.State;
 import io.github.Leonardo0013YT.UltraCTW.game.GameFlag;
+import io.github.Leonardo0013YT.UltraCTW.game.GamePlayer;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.CTWPlayer;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.Game;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.NPC;
@@ -34,6 +35,7 @@ import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.potion.PotionEffect;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
 import java.util.stream.Collectors;
@@ -285,6 +287,10 @@ public class PlayerListener implements Listener {
                 return;
             }
             CTWPlayer ctw = plugin.getDb().getCTWPlayer(p);
+            GamePlayer gp = g.getGamePlayer(p);
+            gp.addCoins(plugin.getCm().getCoinsCapture());
+            ctw.addCoins(plugin.getCm().getGCoinsCapture());
+            ctw.setXp(ctw.getXp() + plugin.getCm().getXpCapture());
             ctw.addWoolCaptured();
             team.sendMessage(plugin.getLang().get("messages.placeTeam").replaceAll("<place>", c + plugin.getLang().get("scoreboards.wools.captured")));
             team.getCaptured().add(c);
@@ -366,7 +372,7 @@ public class PlayerListener implements Listener {
         }
         if (to.getBlockY() < 10) {
             if (plugin.getCm().isInstaKillOnVoidCTW()){
-                respawn(team, g, p);
+                p.damage(1000);
             }
         }
     }
@@ -463,7 +469,7 @@ public class PlayerListener implements Listener {
                     e.setCancelled(true);
                     return;
                 }
-                if (e.getFinalDamage() >= p.getHealth()) {
+                /*if (e.getFinalDamage() >= p.getHealth()) {
                     if (plugin.getTgm().hasTag(p)) {
                         Player d = plugin.getTgm().getTagged(p).getLast();
                         CTWPlayer sk = plugin.getDb().getCTWPlayer(d);
@@ -479,7 +485,7 @@ public class PlayerListener implements Listener {
                     e.setCancelled(true);
                     g.addDeath(p);
                     respawn(team, g, p);
-                }
+                }*/
                 return;
             }
             GameFlag gf = plugin.getGm().getGameFlagByPlayer(p);
@@ -512,38 +518,6 @@ public class PlayerListener implements Listener {
                 }
                 double damage = e.getFinalDamage();
                 plugin.getTgm().setTag(d, p, damage);
-                if (e.getFinalDamage() >= p.getHealth()) {
-                    CTWPlayer sk = plugin.getDb().getCTWPlayer(d);
-                    for (ObjectPotion op : plugin.getCm().getEffectsOnKill()){
-                        d.addPotionEffect(new PotionEffect(op.getPotion().parsePotionEffectType(), op.getDuration(), op.getLevel()));
-                    }
-                    if (p.getLastDamageCause() == null || p.getLastDamageCause().getCause() == null) {
-                        EntityDamageEvent.DamageCause cause = EntityDamageEvent.DamageCause.CONTACT;
-                        if (sk != null) {
-                            plugin.getTm().execute(p, cause, g, sk.getTaunt());
-                        } else {
-                            plugin.getTm().execute(p, cause, g, 0);
-                        }
-                    } else {
-                        EntityDamageEvent.DamageCause cause = p.getLastDamageCause().getCause();
-                        if (sk != null) {
-                            plugin.getTm().execute(p, cause, g, sk.getTaunt());
-                        } else {
-                            plugin.getTm().execute(p, cause, g, 0);
-                        }
-                    }
-                    if (sk != null) {
-                        plugin.getKem().execute(g, d, p, p.getLocation(), sk.getKillEffect());
-                        plugin.getKsm().execute(d, p, sk.getKillSound());
-                    } else {
-                        plugin.getTm().execute(p, e.getCause(), g, 0);
-                    }
-                    plugin.getTgm().executeRewards(p, p.getMaxHealth());
-                    e.setCancelled(true);
-                    g.addDeath(p);
-                    d.getWorld().playSound(d.getLocation(), XSound.ENTITY_PLAYER_HURT.parseSound(), 1.0F, 1.0F);
-                    respawn(tp, g, p);
-                }
             }
             if (e.getDamager() instanceof Projectile && ((Projectile) e.getDamager()).getShooter() instanceof Player) {
                 Player d = (Player) ((Projectile) e.getDamager()).getShooter();
@@ -561,37 +535,61 @@ public class PlayerListener implements Listener {
                 }
                 double damage = e.getFinalDamage();
                 plugin.getTgm().setTag(d, p, damage);
-                if (e.getFinalDamage() >= p.getHealth()) {
-                    CTWPlayer sk = plugin.getDb().getCTWPlayer(d);
-                    for (ObjectPotion op : plugin.getCm().getEffectsOnKill()){
-                        p.addPotionEffect(new PotionEffect(op.getPotion().parsePotionEffectType(), op.getDuration(), op.getLevel()));
-                    }
-                    if (p.getLastDamageCause() == null || p.getLastDamageCause().getCause() == null) {
-                        EntityDamageEvent.DamageCause cause = EntityDamageEvent.DamageCause.CONTACT;
-                        if (sk != null) {
-                            plugin.getTm().execute(p, cause, g, sk.getTaunt());
-                        }
-                    } else {
-                        EntityDamageEvent.DamageCause cause = p.getLastDamageCause().getCause();
-                        if (sk != null) {
-                            plugin.getTm().execute(p, cause, g, sk.getTaunt());
-                        }
-                    }
-                    if (sk != null) {
-                        plugin.getKem().execute(g, d, p, p.getLocation(), sk.getKillEffect());
-                        plugin.getKsm().execute(d, p, sk.getKillSound());
-                    } else {
-                        plugin.getTm().execute(p, e.getCause(), g, 0);
-                    }
-                    plugin.getTgm().executeRewards(p, p.getMaxHealth());
-                    e.setCancelled(true);
-                    g.addDeath(p);
-                    d.getWorld().playSound(d.getLocation(), XSound.ENTITY_PLAYER_ATTACK_STRONG.parseSound(), 1.0F, 1.0F);
-                    respawn(tp, g, p);
-                }
                 CTWPlayer ctw = plugin.getDb().getCTWPlayer(d);
                 ctw.setsShots(ctw.getsShots() + 1);
             }
+        }
+    }
+
+    @EventHandler
+    public void onDeath(PlayerDeathEvent e){
+        Player p = e.getEntity();
+        Player d = p.getKiller();
+        Game g = plugin.getGm().getGameByPlayer(p);
+        if (g == null) return;
+        e.getDrops().clear();
+        e.setDroppedExp(0);
+        e.setDeathMessage(null);
+        if (d != null){
+            CTWPlayer sk = plugin.getDb().getCTWPlayer(d);
+            if (sk != null){
+                for (ObjectPotion op : plugin.getCm().getEffectsOnKill()){
+                    d.addPotionEffect(new PotionEffect(op.getPotion().parsePotionEffectType(), op.getDuration(), op.getLevel()));
+                }
+                if (p.getLastDamageCause() == null || p.getLastDamageCause().getCause() == null) {
+                    EntityDamageEvent.DamageCause cause = EntityDamageEvent.DamageCause.CONTACT;
+                    plugin.getTm().execute(p, cause, g, sk.getTaunt());
+                } else {
+                    EntityDamageEvent.DamageCause cause = p.getLastDamageCause().getCause();
+                    plugin.getTm().execute(p, cause, g, sk.getTaunt());
+                }
+                plugin.getKem().execute(g, d, p, p.getLocation(), sk.getKillEffect());
+                plugin.getKsm().execute(d, p, sk.getKillSound());
+            } else {
+                executeTauntDefault(p, g);
+            }
+        } else {
+            executeTauntDefault(p, g);
+        }
+        plugin.getTgm().executeRewards(p, p.getMaxHealth());
+        new BukkitRunnable(){
+            @Override
+            public void run() {
+                p.spigot().respawn();
+                Team tp = g.getTeamPlayer(p);
+                g.addDeath(p);
+                respawn(tp, g, p);
+            }
+        }.runTaskLater(plugin, 3L);
+    }
+
+    private void executeTauntDefault(Player p, Game g) {
+        if (p.getLastDamageCause() == null || p.getLastDamageCause().getCause() == null) {
+            EntityDamageEvent.DamageCause cause = EntityDamageEvent.DamageCause.CONTACT;
+            plugin.getTm().execute(p, cause, g, 0);
+        } else {
+            EntityDamageEvent.DamageCause cause = p.getLastDamageCause().getCause();
+            plugin.getTm().execute(p, cause, g, 0);
         }
     }
 
@@ -684,6 +682,7 @@ public class PlayerListener implements Listener {
         p.playEffect(EntityEffect.HURT);
         p.getWorld().playSound(p.getLocation(), XSound.ENTITY_PLAYER_HURT.parseSound(), 1.0F, 1.0F);
         p.closeInventory();
+        p.getInventory().clear();
         p.setNoDamageTicks(40);
         p.setFallDistance(0);
         p.setLevel(0);
@@ -691,6 +690,7 @@ public class PlayerListener implements Listener {
         p.setHealth(p.getMaxHealth());
         p.teleport(team.getSpawn());
         p.setFoodLevel(20);
+        plugin.getKm().giveDefaultKit(p, g, team);
         for (ChatColor c : team.getColors()) {
             if (team.getInProgress().get(c).isEmpty()) continue;
             team.getInProgress().get(c).remove(p.getUniqueId());
@@ -703,8 +703,6 @@ public class PlayerListener implements Listener {
         for (PotionEffect ef : p.getActivePotionEffects()) {
             p.removePotionEffect(ef.getType());
         }
-        p.getInventory().clear();
-        plugin.getKm().giveDefaultKit(p, g, team);
         p.updateInventory();
     }
 

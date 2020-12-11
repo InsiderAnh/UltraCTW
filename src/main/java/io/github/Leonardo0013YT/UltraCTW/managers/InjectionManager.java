@@ -23,7 +23,6 @@ public class InjectionManager {
         if (!injections.exists()) {
             injections.mkdirs();
         }
-        loadWEInjection();
     }
 
     public void loadWEInjection() {

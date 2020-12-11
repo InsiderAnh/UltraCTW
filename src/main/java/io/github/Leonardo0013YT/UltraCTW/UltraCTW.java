@@ -196,13 +196,15 @@ public class UltraCTW extends JavaPlugin {
     @Override
     public void onDisable() {
         stop = true;
-        for (Player on : Bukkit.getOnlinePlayers()) {
-            if (gm.isPlayerInGame(on)) {
-                gm.removePlayerGame(on, false);
+        if (db != null) {
+            for (Player on : Bukkit.getOnlinePlayers()) {
+                if (gm.isPlayerInGame(on)) {
+                    gm.removePlayerGame(on, false);
+                }
+                db.savePlayer(on.getUniqueId(), true);
             }
-            db.savePlayer(on.getUniqueId(), true);
+            db.close();
         }
-        db.close();
     }
 
     public void sendToServer(Player p, String server) {

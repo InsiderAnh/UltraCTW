@@ -23,7 +23,7 @@ public class ConfigManager {
     private Material back, redPanelMaterial;
     private Sound streak2, streak3, streak4, streak5, upgradeSound, cancelStartSound, wineffectschicken, wineffectsvulcanfire, wineffectvulcanwool, wineffectnotes, killEffectTNT, killEffectSquid;
     private XSound pickUpTeam, pickUpOthers, captured;
-    private int ironGenerating, updatePlayersPlaceholder, gracePeriod, limitOfYSpawn, itemLobbySlot, maxMultiplier, gCoinsKills, gCoinsWins, gCoinsAssists, coinsKill, coinsWin, coinsAssists, xpKill, xpWin, xpAssists, starting, progressBarAmount, timeToKill;
+    private int ironGenerating, updatePlayersPlaceholder, gracePeriod, limitOfYSpawn, itemLobbySlot, maxMultiplier, gCoinsKills, gCoinsWins, gCoinsAssists, gCoinsCapture, coinsKill, coinsWin, coinsAssists, coinsCapture, xpKill, xpWin, xpAssists, xpCapture, starting, progressBarAmount, timeToKill;
     private double bountyMin, bountyMax, bountyPerKill;
     private String bungeeModeLobbyServer, itemLobbyCMD;
     private List<String> noDrop, breakBypass;
@@ -82,12 +82,15 @@ public class ConfigManager {
         this.gCoinsKills = plugin.getConfig().getInt("gameDefaults.gcoins.kill");
         this.gCoinsWins = plugin.getConfig().getInt("gameDefaults.gcoins.win");
         this.gCoinsAssists = plugin.getConfig().getInt("gameDefaults.gcoins.assists");
+        this.gCoinsCapture = plugin.getConfig().getInt("gameDefaults.gcoins.capture");
         this.coinsKill = plugin.getConfig().getInt("gameDefaults.coins.kill");
         this.coinsWin = plugin.getConfig().getInt("gameDefaults.coins.win");
         this.coinsAssists = plugin.getConfig().getInt("gameDefaults.coins.assists");
+        this.coinsCapture = plugin.getConfig().getInt("gameDefaults.coins.capture");
         this.xpKill = plugin.getConfig().getInt("gameDefaults.xp.kill");
         this.xpWin = plugin.getConfig().getInt("gameDefaults.xp.win");
         this.xpAssists = plugin.getConfig().getInt("gameDefaults.xp.assists");
+        this.xpCapture = plugin.getConfig().getInt("gameDefaults.xp.capture");
         this.upgradeSound = Sound.valueOf(plugin.getConfig().getString("sounds.upgrade"));
         this.starting = plugin.getConfig().getInt("gameDefaults.starting");
         this.progressBarAmount = plugin.getConfig().getInt("progressBarAmount");

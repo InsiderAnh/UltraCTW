@@ -50,7 +50,7 @@ public class SetupCMD implements CommandExecutor {
                         return true;
                     }
                     plugin.getSm().setDelete(p, delete);
-                    p.sendMessage("§cPlease config your delete executing §e/sws delete " + delete + "§c.");
+                    p.sendMessage("§cPlease config your delete executing §e/ctws delete " + delete + "§c.");
                     break;
                 case "killsounds":
                     if (plugin.getSm().isSetupKillSound(p)) {
