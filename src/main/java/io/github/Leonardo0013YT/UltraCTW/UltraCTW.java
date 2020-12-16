@@ -25,6 +25,7 @@ import io.github.Leonardo0013YT.UltraCTW.menus.UltraInventoryMenu;
 import io.github.Leonardo0013YT.UltraCTW.objects.ProtocolLib;
 import io.github.Leonardo0013YT.UltraCTW.placeholders.MVdWPlaceholders;
 import io.github.Leonardo0013YT.UltraCTW.placeholders.Placeholders;
+import io.github.Leonardo0013YT.UltraCTW.utils.MetricsLite;
 import io.github.Leonardo0013YT.UltraCTW.utils.Utils;
 import lombok.Getter;
 import org.bukkit.Bukkit;
@@ -191,6 +192,7 @@ public class UltraCTW extends JavaPlugin {
                 Bukkit.getScheduler().scheduleSyncDelayedTask(UltraCTW.get(), () -> top.createTops());
             }
         }.runTaskTimer(this, 6000, 6000);
+        new MetricsLite(this, 9621);
     }
 
     @Override

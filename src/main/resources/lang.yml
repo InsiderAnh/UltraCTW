@@ -42,6 +42,7 @@ phases:
   PHASE_IV: "Phase IV"
   none: "None"
 messages:
+  noYourWool: "&cThis is not a wool of your team, contact admins about this is not configured."
   maxPlayers: "&aThe maximum number of people has been reached."
   startPhase: "&eThe &a<phase> &ehas been applied."
   winCoins: "&8+&b<coins> &6Coins"

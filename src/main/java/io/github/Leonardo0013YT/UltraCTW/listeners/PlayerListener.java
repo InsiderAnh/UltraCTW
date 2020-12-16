@@ -55,9 +55,6 @@ public class PlayerListener implements Listener {
         Bukkit.getOnlinePlayers().stream()
                 .filter(pl -> check(p, pl))
                 .forEach(pl -> pl.hidePlayer(p));
-        Bukkit.getOnlinePlayers().stream()
-                .filter(pl -> check(p, pl))
-                .forEach(p::hidePlayer);
         givePlayerItems(p);
     }
 
@@ -164,17 +161,18 @@ public class PlayerListener implements Listener {
     }
 
     private String formatTeam(Player p, Team team, String msg) {
-        if (team == null) {
-            return plugin.getLang().get(p, "chat.team").replaceAll("<team>", "").replaceAll("<player>", p.getName()).replaceAll("<msg>", msg);
-        }
-        return plugin.getLang().get(p, "chat.team").replaceAll("<team>", team.getName()).replaceAll("<player>", p.getName()).replaceAll("<msg>", msg);
+        return getTeamString(p, (team == null) ? null : team.getName(), msg);
     }
 
     private String formatGame(Player p, Team team, String msg) {
-        if (team == null) {
+        return getTeamString(p, (team == null) ? null : team.getName(), msg);
+    }
+
+    public String getTeamString(Player p, String team, String msg){
+        if (team == null){
             return plugin.getLang().get(p, "chat.team").replaceAll("<team>", "").replaceAll("<player>", p.getName()).replaceAll("<msg>", msg);
         }
-        return plugin.getLang().get(p, "chat.global").replaceAll("<team>", team.getName()).replaceAll("<player>", p.getName()).replaceAll("<msg>", msg.replaceFirst("!", ""));
+        return plugin.getLang().get(p, "chat.global").replaceAll("<team>", team).replaceAll("<player>", p.getName()).replaceAll("<msg>", msg.replaceFirst("!", ""));
     }
 
     @EventHandler
@@ -296,7 +294,7 @@ public class PlayerListener implements Listener {
             team.getCaptured().add(c);
             team.sendTitle(plugin.getLang().get("titles.captured.title").replaceAll("<color>", c + "").replace("<player>", p.getName()), plugin.getLang().get("titles.captured.subtitle").replaceAll("<color>", c + "").replace("<player>", p.getName()).replaceAll("<wool>", c + plugin.getLang().get("scoreboards.wools.captured")), 0, 30, 10);
             g.getTeams().values().stream().filter(t -> t.getId() != team.getId()).forEach(t -> {
-                t.sendMessage(plugin.getLang().get("messages.capturedWool").replaceAll("<wool>", c + plugin.getLang().get("scoreboards.wools.captured")));
+                t.sendMessage(plugin.getLang().get("messages.capturedWool").replaceAll("<player>", p.getName()).replaceAll("<wool>", c + plugin.getLang().get("scoreboards.wools.captured")));
                 t.sendTitle(plugin.getLang().get("titles.otherCaptured.title").replaceAll("<color>", c + "").replace("<player>", p.getName()).replaceAll("<name>", team.getName()).replaceAll("<color>", team.getColor() + ""), plugin.getLang().get("titles.otherCaptured.subtitle").replaceAll("<color>", c + "").replace("<player>", p.getName()).replaceAll("<wool>", c + plugin.getLang().get("scoreboards.wools.captured")), 0, 30, 10);
             });
             team.playSound(plugin.getCm().getCaptured(), 1.0f, 1.0f);
@@ -311,14 +309,7 @@ public class PlayerListener implements Listener {
                     ItemStack i = item.clone();
                     i.setAmount(1);
                     g.getWools().put(e.getBlockPlaced().getLocation(), i);
-                    Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () -> {
-                        if (!p.getInventory().containsAtLeast(item, 1)) {
-                            ChatColor c = Utils.getColorByXMaterial(XMaterial.matchXMaterial(i));
-                            if (team.getInProgress().containsKey(c)) {
-                                team.getInProgress().get(c).remove(p.getUniqueId());
-                            }
-                        }
-                    }, 1L);
+                    removeFromProgress(p, item, team, XMaterial.matchXMaterial(i));
                 }
             }
         }
@@ -408,9 +399,13 @@ public class PlayerListener implements Listener {
         Team team = g.getTeamPlayer(p);
         if (team == null) return;
         e.getItemDrop().setMetadata("DROPPED", new FixedMetadataValue(UltraCTW.get(), co));
+        removeFromProgress(p, item, team, XMaterial.matchXMaterial(item));
+    }
+
+    private void removeFromProgress(Player p, ItemStack item, Team team, XMaterial xMaterial) {
         Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () -> {
             if (!p.getInventory().containsAtLeast(item, 1)) {
-                ChatColor c = Utils.getColorByXMaterial(XMaterial.matchXMaterial(item));
+                ChatColor c = Utils.getColorByXMaterial(xMaterial);
                 if (team.getInProgress().containsKey(c)) {
                     team.getInProgress().get(c).remove(p.getUniqueId());
                 }
@@ -439,6 +434,7 @@ public class PlayerListener implements Listener {
         if (team == null) return;
         if (!team.getColors().contains(c)) {
             e.setCancelled(true);
+            p.sendMessage(plugin.getLang().get("messages.noYourWool"));
             e.getItem().remove();
             return;
         }
@@ -469,23 +465,6 @@ public class PlayerListener implements Listener {
                     e.setCancelled(true);
                     return;
                 }
-                /*if (e.getFinalDamage() >= p.getHealth()) {
-                    if (plugin.getTgm().hasTag(p)) {
-                        Player d = plugin.getTgm().getTagged(p).getLast();
-                        CTWPlayer sk = plugin.getDb().getCTWPlayer(d);
-                        EntityDamageEvent.DamageCause cause = e.getCause();
-                        if (sk != null) {
-                            plugin.getTm().execute(p, cause, g, sk.getTaunt());
-                        } else {
-                            plugin.getTm().execute(p, cause, g, 0);
-                        }
-                    } else {
-                        plugin.getTm().execute(p, e.getCause(), g, 0);
-                    }
-                    e.setCancelled(true);
-                    g.addDeath(p);
-                    respawn(team, g, p);
-                }*/
                 return;
             }
             GameFlag gf = plugin.getGm().getGameFlagByPlayer(p);
@@ -504,41 +483,33 @@ public class PlayerListener implements Listener {
             Player p = (Player) e.getEntity();
             if (e.getDamager() instanceof Player) {
                 Player d = (Player) e.getDamager();
-                Game g = plugin.getGm().getGameByPlayer(p);
-                if (g == null) return;
-                Team tp = g.getTeamPlayer(p);
-                Team td = g.getTeamPlayer(d);
-                if (tp == null || td == null) {
-                    e.setCancelled(true);
-                    return;
-                }
-                if (tp.equals(td)) {
-                    e.setCancelled(true);
-                    return;
-                }
-                double damage = e.getFinalDamage();
-                plugin.getTgm().setTag(d, p, damage);
+                if (checkDamage(e, p, d)) return;
             }
             if (e.getDamager() instanceof Projectile && ((Projectile) e.getDamager()).getShooter() instanceof Player) {
                 Player d = (Player) ((Projectile) e.getDamager()).getShooter();
-                Game g = plugin.getGm().getGameByPlayer(p);
-                if (g == null) return;
-                Team tp = g.getTeamPlayer(p);
-                Team td = g.getTeamPlayer(d);
-                if (tp == null || td == null) {
-                    e.setCancelled(true);
-                    return;
-                }
-                if (tp.equals(td)) {
-                    e.setCancelled(true);
-                    return;
-                }
-                double damage = e.getFinalDamage();
-                plugin.getTgm().setTag(d, p, damage);
+                if (checkDamage(e, p, d)) return;
                 CTWPlayer ctw = plugin.getDb().getCTWPlayer(d);
                 ctw.setsShots(ctw.getsShots() + 1);
             }
         }
+    }
+
+    private boolean checkDamage(EntityDamageByEntityEvent e, Player p, Player d) {
+        Game g = plugin.getGm().getGameByPlayer(p);
+        if (g == null) return true;
+        Team tp = g.getTeamPlayer(p);
+        Team td = g.getTeamPlayer(d);
+        if (tp == null || td == null) {
+            e.setCancelled(true);
+            return true;
+        }
+        if (tp.equals(td)) {
+            e.setCancelled(true);
+            return true;
+        }
+        double damage = e.getFinalDamage();
+        plugin.getTgm().setTag(d, p, damage);
+        return false;
     }
 
     @EventHandler
@@ -645,7 +616,7 @@ public class PlayerListener implements Listener {
             GameFlag gamef = plugin.getGm().getGameFlagByPlayer(p);
             if (game != null) {
                 plugin.getGem().createTeamsMenu(p, game);
-            } else {
+            } else if (gamef != null){
                 plugin.getGem().createTeamsMenu(p, gamef);
             }
         }
