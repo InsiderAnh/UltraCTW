@@ -9,11 +9,12 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
+import java.util.UUID;
 
 public class LevelManager {
 
     private HashMap<Integer, Level> levels = new HashMap<>();
-    private HashMap<Player, Level> playerLevel = new HashMap<>();
+    private HashMap<UUID, Level> playerLevel = new HashMap<>();
     private UltraCTW plugin;
 
     public LevelManager(UltraCTW plugin) {
@@ -28,6 +29,10 @@ public class LevelManager {
         for (String c : conf.getKeys(false)) {
             levels.put(levels.size(), new Level(plugin, "levels." + c, levels.size()));
         }
+    }
+
+    public void remove(Player p){
+        playerLevel.remove(p.getUniqueId());
     }
 
     public void checkUpgrade(Player p) {
@@ -56,7 +61,7 @@ public class LevelManager {
         int elo = ctw.getXp();
         for (Level lvl : levels.values()) {
             if (elo >= lvl.getXp() && elo < lvl.getLevelUp()) {
-                playerLevel.put(p, lvl);
+                playerLevel.put(p.getUniqueId(), lvl);
                 return lvl;
             }
         }
@@ -73,13 +78,13 @@ public class LevelManager {
     }
 
     public String getLevelPrefix(Player p) {
-        if (playerLevel.get(p) == null) {
+        if (playerLevel.get(p.getUniqueId()) == null) {
             return plugin.getLang().get(p, "progressBar.max");
         }
-        return playerLevel.get(p).getPrefix();
+        return playerLevel.get(p.getUniqueId()).getPrefix();
     }
 
-    public HashMap<Player, Level> getPlayerLevel() {
+    public HashMap<UUID, Level> getPlayerLevel() {
         return playerLevel;
     }
 

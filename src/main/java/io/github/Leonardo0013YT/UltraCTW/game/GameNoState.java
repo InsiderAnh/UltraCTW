@@ -110,6 +110,7 @@ public class GameNoState implements Game {
             gp.reset();
             gamePlayer.remove(p);
         }
+        plugin.getTgm().removeTag(p);
         checkCancel();
         checkWin();
     }

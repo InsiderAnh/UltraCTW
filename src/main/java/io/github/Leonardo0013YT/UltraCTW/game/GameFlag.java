@@ -120,6 +120,7 @@ public class GameFlag {
             gp.reset();
             gamePlayer.remove(p);
         }
+        plugin.getTgm().removeTag(p);
         checkCancel();
         checkWin();
     }

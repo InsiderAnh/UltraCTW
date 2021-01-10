@@ -21,6 +21,7 @@ public class KillEffectHead implements KillEffect, Cloneable {
     private XSound punchSound;
     private BukkitTask task;
     private int pased = 0;
+    private ArmorStand armor;
 
     @Override
     public void loadCustoms(UltraCTW plugin, String path) {
@@ -36,7 +37,7 @@ public class KillEffectHead implements KillEffect, Cloneable {
             return;
         }
         ItemStack head = ItemBuilder.skull(XMaterial.PLAYER_HEAD, 1, "§e", "§e", death.getName());
-        ArmorStand armor = loc.getWorld().spawn(loc, ArmorStand.class);
+        armor = loc.getWorld().spawn(loc, ArmorStand.class);
         armor.setVisible(false);
         armor.setCustomName(death.getName());
         armor.setCustomNameVisible(true);
@@ -46,6 +47,10 @@ public class KillEffectHead implements KillEffect, Cloneable {
         task = new BukkitRunnable() {
             @Override
             public void run() {
+                if (!death.isOnline()) {
+                    stop();
+                    return;
+                }
                 pased++;
                 if (pased >= 20) {
                     armor.getWorld().playEffect(armor.getLocation(), Effect.STEP_SOUND, Material.COAL_BLOCK);
@@ -65,6 +70,9 @@ public class KillEffectHead implements KillEffect, Cloneable {
 
     @Override
     public void stop() {
+        if (armor != null){
+            armor.remove();
+        }
         if (task != null) {
             task.cancel();
         }

@@ -71,15 +71,18 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void onQuit(PlayerQuitEvent e) {
-        Player p = e.getPlayer();
-        plugin.getDb().savePlayer(p.getUniqueId(), false);
-        plugin.getGm().removePlayerGame(p, true);
-        NametagEdit.getApi().clearNametag(p);
+        remove(e.getPlayer());
     }
 
     @EventHandler
     public void onKick(PlayerKickEvent e) {
-        Player p = e.getPlayer();
+        remove(e.getPlayer());
+    }
+
+    private void remove(Player p) {
+        plugin.getLvl().remove(p);
+        plugin.getStm().removeStreak(p);
+        plugin.getSb().remove(p);
         plugin.getDb().savePlayer(p.getUniqueId(), false);
         plugin.getGm().removePlayerGame(p, true);
         NametagEdit.getApi().clearNametag(p);
@@ -144,7 +147,7 @@ public class PlayerListener implements Listener {
                 msg = formatGame(p, t, e.getMessage());
                 e.getRecipients().addAll(g.getCached());
             } else {
-                msg = formatTeam(p, t, e.getMessage());
+                msg = formatTeam(p, e.getMessage());
                 e.getRecipients().addAll(t.getMembers());
             }
         }
@@ -160,12 +163,12 @@ public class PlayerListener implements Listener {
         return plugin.getLang().get(p, "chat.lobby").replaceAll("<player>", p.getName()).replaceAll("<msg>", msg);
     }
 
-    private String formatTeam(Player p, Team team, String msg) {
-        return getTeamString(p, (team == null) ? null : team.getName(), msg);
+    private String formatTeam(Player p, String msg) {
+        return getTeamString(p, null, msg);
     }
 
     private String formatGame(Player p, Team team, String msg) {
-        return getTeamString(p, (team == null) ? null : team.getName(), msg);
+        return getTeamString(p, team.getName(), msg);
     }
 
     public String getTeamString(Player p, String team, String msg){

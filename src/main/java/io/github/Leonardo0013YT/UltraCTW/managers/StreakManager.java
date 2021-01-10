@@ -12,19 +12,24 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
+import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class StreakManager {
 
     private UltraCTW plugin;
-    private HashMap<Player, Streak> streaks = new HashMap<>();
+    private HashMap<UUID, Streak> streaks = new HashMap<>();
 
     public StreakManager(UltraCTW plugin) {
         this.plugin = plugin;
     }
 
+    public void removeStreak(Player p){
+        streaks.remove(p.getUniqueId());
+    }
+
     public void resetStreak(Player p) {
-        streaks.put(p, new Streak(0, 0, false, 0, System.currentTimeMillis()));
+        streaks.put(p.getUniqueId(), new Streak(0, 0, false, 0, System.currentTimeMillis()));
         NametagEdit.getApi().setSuffix(p, "");
         Utils.updateSB(p);
     }
@@ -32,7 +37,7 @@ public class StreakManager {
     public void addKill(Player p, Game game) {
         Streak streak = get(p);
         streak.setStreak(streak.getStreak() + 1);
-        if (streak.getLastKill() > System.currentTimeMillis() - (plugin.getCm().getTimeToKill() * 1000)) {
+        if (streak.getLastKill() > System.currentTimeMillis() - (plugin.getCm().getTimeToKill() * 1000L)) {
             streak.setKills(streak.getKills() + 1);
             streak.setLastKill(System.currentTimeMillis());
         } else {
@@ -70,7 +75,7 @@ public class StreakManager {
     public void addKill(Player p, GameFlag game) {
         Streak streak = get(p);
         streak.setStreak(streak.getStreak() + 1);
-        if (streak.getLastKill() > System.currentTimeMillis() - (plugin.getCm().getTimeToKill() * 1000)) {
+        if (streak.getLastKill() > System.currentTimeMillis() - (plugin.getCm().getTimeToKill() * 1000L)) {
             streak.setKills(streak.getKills() + 1);
             streak.setLastKill(System.currentTimeMillis());
         } else {
@@ -141,8 +146,8 @@ public class StreakManager {
     }
 
     public Streak get(Player p) {
-        streaks.putIfAbsent(p, new Streak(0, 0, false, 0, System.currentTimeMillis()));
-        return streaks.get(p);
+        streaks.putIfAbsent(p.getUniqueId(), new Streak(0, 0, false, 0, System.currentTimeMillis()));
+        return streaks.get(p.getUniqueId());
     }
 
 }
