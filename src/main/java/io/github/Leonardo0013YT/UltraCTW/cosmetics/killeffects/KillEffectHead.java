@@ -53,14 +53,18 @@ public class KillEffectHead implements KillEffect, Cloneable {
                 }
                 pased++;
                 if (pased >= 20) {
-                    armor.getWorld().playEffect(armor.getLocation(), Effect.STEP_SOUND, Material.COAL_BLOCK);
                     p.playSound(p.getLocation(), punchSound.parseSound(), 1.0f, 1.0f);
-                    armor.remove();
+                    if (armor != null){
+                        armor.getWorld().playEffect(armor.getLocation(), Effect.STEP_SOUND, Material.COAL_BLOCK);
+                        armor.remove();
+                    }
                     cancel();
                     return;
                 }
-                Location loc = armor.getLocation().clone().add(0, 0.3 * pased, 0);
-                armor.teleport(loc);
+                if (armor != null) {
+                    Location loc = armor.getLocation().clone().add(0, 0.3 * pased, 0);
+                    armor.teleport(loc);
+                }
                 loc.getWorld().playEffect(loc, Effect.SMOKE, 1);
                 loc.getWorld().playEffect(loc, Effect.LAVADRIP, 1);
                 p.playSound(loc, UltraCTW.get().getCm().getKillEffectSquid(), 1.0f, 1.0f);

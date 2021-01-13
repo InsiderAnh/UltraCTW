@@ -16,7 +16,8 @@ import java.util.*;
 
 public class ItemBuilder {
 
-    public static ItemStack parse(ItemStack i, String[]... t) {
+    public static ItemStack parse(ItemStack item, String[]... t) {
+        ItemStack i = item.clone();
         String display = (i.hasItemMeta() && i.getItemMeta().hasDisplayName()) ? i.getItemMeta().getDisplayName() : "";
         ItemMeta im = i.getItemMeta();
         for (String[] s : t) {
@@ -36,7 +37,8 @@ public class ItemBuilder {
         return i;
     }
 
-    public static ItemStack parseVariables(Player p, ItemStack i, String[]... t) {
+    public static ItemStack parseVariables(Player p, ItemStack item, UltraCTW plugin, String[]... t) {
+        ItemStack i = item.clone();
         String d = i.hasItemMeta() && i.getItemMeta().hasDisplayName() ? i.getItemMeta().getDisplayName() : "";
         List<String> lore = i.hasItemMeta() && i.getItemMeta().hasLore() ? i.getItemMeta().getLore() : Collections.emptyList();
         List<String> newLore = new ArrayList<>();
@@ -50,20 +52,18 @@ public class ItemBuilder {
                     if (value.contains(s1)) {
                         if (s2.contains("<newLine>")) {
                             String[] var21 = s2.split("<newLine>");
-
                             for (String l : var21) {
                                 String newValue = value.replace(s1, l);
-                                newLore.add(UltraCTW.get().getAdm().parsePlaceholders(p, newValue));
+                                newLore.add(plugin.getAdm().parsePlaceholders(p, newValue));
                             }
                         } else {
                             String newValue = value.replace(s1, s2);
-                            newLore.add(UltraCTW.get().getAdm().parsePlaceholders(p, newValue));
+                            newLore.add(plugin.getAdm().parsePlaceholders(p, newValue));
                         }
                     } else {
-                        newLore.add(UltraCTW.get().getAdm().parsePlaceholders(p, value));
+                        newLore.add(plugin.getAdm().parsePlaceholders(p, value));
                     }
                 }
-
                 d = d.replaceAll(s1, s2);
             }
         }

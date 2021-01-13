@@ -83,7 +83,7 @@ public class UltraInventoryMenu {
         for (Map.Entry<Integer, ItemStack> entry : i.getContents().entrySet()) {
             Integer s = entry.getKey();
             ItemStack it = entry.getValue();
-            inv.setItem(s, ItemBuilder.parseVariables(p, it));
+            inv.setItem(s, ItemBuilder.parseVariables(p, it, plugin));
         }
         p.openInventory(inv);
         return inv;
@@ -94,7 +94,7 @@ public class UltraInventoryMenu {
         for (Map.Entry<Integer, ItemStack> entry : i.getContents().entrySet()) {
             Integer s = entry.getKey();
             ItemStack it = entry.getValue().clone();
-            inv.setItem(s, ItemBuilder.parseVariables(p, it, t));
+            inv.setItem(s, ItemBuilder.parseVariables(p, it, plugin, t));
         }
         p.openInventory(inv);
     }

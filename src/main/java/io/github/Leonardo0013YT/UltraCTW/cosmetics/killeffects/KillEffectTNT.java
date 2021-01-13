@@ -4,6 +4,7 @@ import io.github.Leonardo0013YT.UltraCTW.UltraCTW;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.KillEffect;
 import org.bukkit.Effect;
 import org.bukkit.Location;
+import org.bukkit.Particle;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.TNTPrimed;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -31,14 +32,19 @@ public class KillEffectTNT implements KillEffect, Cloneable {
         }
         TNTPrimed primed = loc.getWorld().spawn(loc, TNTPrimed.class);
         primed.setFuseTicks(fuseTicks);
+        UltraCTW plugin = UltraCTW.get();
         new BukkitRunnable() {
             @Override
             public void run() {
-                loc.getWorld().playEffect(loc, Effect.EXPLOSION_LARGE, 1);
-                p.playSound(p.getLocation(), UltraCTW.get().getCm().getKillEffectTNT(), 1.0f, 1.0f);
+                if (plugin.getVc().is1_12() || plugin.getVc().is1_13to16()) {
+                    loc.getWorld().spawnParticle(Particle.EXPLOSION_LARGE, loc, 1);
+                } else {
+                    loc.getWorld().playEffect(loc, Effect.EXPLOSION_LARGE, 1);
+                }
+                p.playSound(p.getLocation(), plugin.getCm().getKillEffectTNT(), 1.0f, 1.0f);
                 primed.remove();
             }
-        }.runTaskLater(UltraCTW.get(), 2);
+        }.runTaskLater(plugin, fuseTicks);
     }
 
     @Override
