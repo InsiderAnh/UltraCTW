@@ -17,6 +17,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class GameNoState implements Game {
 
@@ -283,10 +284,8 @@ public class GameNoState implements Game {
             for (String s : plugin.getLang().getList("messages.win")) {
                 on.sendMessage(s.replaceAll("&", "§").replaceAll("<winner>", gw.getWinner()).replaceAll("<number1>", s1[1]).replaceAll("<top1>", s1[0]).replaceAll("<color1>", "" + ChatColor.valueOf(s1[2])).replaceAll("<number2>", s2[1]).replaceAll("<top2>", s2[0]).replaceAll("<color2>", "" + ChatColor.valueOf(s2[2])).replaceAll("<number3>", s3[1]).replaceAll("<top3>", s3[0]).replaceAll("<color3>", "" + ChatColor.valueOf(s3[2])));
             }
-            if (!team.getMembers().contains(on)) {
-                plugin.getVc().getNMS().sendTitle(on, plugin.getLang().get("titles.lose.title"), plugin.getLang().get("titles.lose.subtitle"), 0, 40, 0);
-            }
         }
+        plugin.getVc().getReflection().sendTitle(plugin.getLang().get("titles.lose.title"), plugin.getLang().get("titles.lose.subtitle"), 0, 40, 0, cached.stream().filter(on -> !team.getMembers().contains(on)).collect(Collectors.toList()));
         for (Player w : team.getMembers()) {
             CTWPlayer ctw = plugin.getDb().getCTWPlayer(w);
             if (ctw == null) continue;
@@ -294,10 +293,10 @@ public class GameNoState implements Game {
             ctw.setXp(ctw.getXp() + plugin.getCm().getXpWin());
             ctw.setWins(ctw.getWins() + 1);
             plugin.getLvl().checkUpgrade(w);
-            plugin.getVc().getNMS().sendTitle(w, plugin.getLang().get("titles.win.title").replaceAll("<color>", team.getColor() + ""), plugin.getLang().get("titles.win.subtitle"), 0, 40, 0);
             plugin.getWem().execute(this, w, ctw.getWinEffect());
             plugin.getWdm().execute(this, w, ctw.getWinDance());
         }
+        plugin.getVc().getReflection().sendTitle(plugin.getLang().get("titles.win.title").replaceAll("<color>", team.getColor() + ""), plugin.getLang().get("titles.win.subtitle"), 0, 40, 0, team.getMembers());
         ArrayList<Player> back = new ArrayList<>(cached);
         new BukkitRunnable() {
             @Override
@@ -316,16 +315,18 @@ public class GameNoState implements Game {
             }
         }.runTaskLater(plugin, 20 * 8);
         Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, this::reset, 20 * 11);
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                for (Player on : back) {
-                    if (on == null || !on.isOnline()) continue;
-                    Game g = plugin.getGm().getSelectedGame();
-                    plugin.getGm().addPlayerGame(on, g.getId());
+        if (plugin.getCm().isAutoJoinFinish()){
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    for (Player on : back) {
+                        if (on == null || !on.isOnline()) continue;
+                        Game g = plugin.getGm().getSelectedGame();
+                        plugin.getGm().addPlayerGame(on, g.getId());
+                    }
                 }
-            }
-        }.runTaskLater(plugin, 20 * 15);
+            }.runTaskLater(plugin, 20 * 15);
+        }
     }
 
     @Override
@@ -361,9 +362,7 @@ public class GameNoState implements Game {
 
     @Override
     public void sendGameTitle(String title, String subtitle, int fadeIn, int stay, int fadeOut) {
-        for (Player p : cached) {
-            plugin.getVc().getNMS().sendTitle(p, title, subtitle, fadeIn, stay, fadeOut);
-        }
+        plugin.getVc().getReflection().sendTitle(title, subtitle, fadeIn, stay, fadeOut, cached);
     }
 
     @Override

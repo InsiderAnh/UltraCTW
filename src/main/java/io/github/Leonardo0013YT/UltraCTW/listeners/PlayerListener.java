@@ -81,6 +81,7 @@ public class PlayerListener implements Listener {
 
     private void remove(Player p) {
         plugin.getLvl().remove(p);
+        plugin.getTgm().removeTag(p);
         plugin.getStm().removeStreak(p);
         plugin.getSb().remove(p);
         plugin.getDb().savePlayer(p.getUniqueId(), false);
@@ -142,13 +143,17 @@ public class PlayerListener implements Listener {
             e.getRecipients().addAll(g.getInLobby());
         } else {
             Team t = g.getTeamPlayer(p);
-            if (t == null) return;
-            if (e.getMessage().startsWith("!")) {
-                msg = formatGame(p, t, e.getMessage());
+            if (t == null) {
+                msg = formatLobby(p, e.getMessage());
                 e.getRecipients().addAll(g.getCached());
             } else {
-                msg = formatTeam(p, e.getMessage());
-                e.getRecipients().addAll(t.getMembers());
+                if (e.getMessage().startsWith("!")) {
+                    msg = formatGame(p, t, e.getMessage());
+                    e.getRecipients().addAll(g.getCached());
+                } else {
+                    msg = formatTeam(p, t, e.getMessage());
+                    e.getRecipients().addAll(t.getMembers());
+                }
             }
         }
         msg = msg.replaceAll("%", "%%");
@@ -163,19 +168,12 @@ public class PlayerListener implements Listener {
         return plugin.getLang().get(p, "chat.lobby").replaceAll("<player>", p.getName()).replaceAll("<msg>", msg);
     }
 
-    private String formatTeam(Player p, String msg) {
-        return getTeamString(p, null, msg);
+    private String formatTeam(Player p, Team team, String msg) {
+        return plugin.getLang().get(p, "chat.team").replaceAll("<team>", team.getName()).replaceAll("<player>", p.getName()).replaceAll("<msg>", msg);
     }
 
     private String formatGame(Player p, Team team, String msg) {
-        return getTeamString(p, team.getName(), msg);
-    }
-
-    public String getTeamString(Player p, String team, String msg){
-        if (team == null){
-            return plugin.getLang().get(p, "chat.team").replaceAll("<team>", "").replaceAll("<player>", p.getName()).replaceAll("<msg>", msg);
-        }
-        return plugin.getLang().get(p, "chat.global").replaceAll("<team>", team).replaceAll("<player>", p.getName()).replaceAll("<msg>", msg.replaceFirst("!", ""));
+        return plugin.getLang().get(p, "chat.global").replaceAll("<team>", team.getName()).replaceAll("<player>", p.getName()).replaceAll("<msg>", msg.replaceFirst("!", ""));
     }
 
     @EventHandler

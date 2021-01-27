@@ -17,7 +17,7 @@ import java.util.List;
 public class ConfigManager {
 
     private UltraCTW plugin;
-    private boolean totalBreak, sendLobbyOnQuit, bungeeModeEnabled, bungeeModeAutoJoin, bungeeModeKickOnFinish, instaKillOnVoidFlag, instaKillOnVoidCTW, lobbyScoreboard, hungerFlag, hungerCTW, breakMap, kitLevelsOrder, excluideDefKits, itemLobbyEnabled, placeholdersAPI, redPanelInLocked, holograms, holographicdisplays;
+    private boolean autoJoinFinish, mobGriefing, totalBreak, sendLobbyOnQuit, bungeeModeEnabled, bungeeModeAutoJoin, bungeeModeKickOnFinish, instaKillOnVoidFlag, instaKillOnVoidCTW, lobbyScoreboard, hungerFlag, hungerCTW, breakMap, kitLevelsOrder, excluideDefKits, itemLobbyEnabled, placeholdersAPI, redPanelInLocked, holograms, holographicdisplays;
     private Location mainLobby, topKills, topWins, topCaptured, topBounty;
     private short redPanelData;
     private Material back, redPanelMaterial;
@@ -35,6 +35,7 @@ public class ConfigManager {
     }
 
     public void reload() {
+        this.mobGriefing = plugin.getConfig().getBoolean("mobGriefing");
         this.totalBreak = plugin.getConfig().getBoolean("breakMap.totalBreak");
         this.sendLobbyOnQuit = plugin.getConfig().getBoolean("bungeeMode.sendLobbyOnQuit");
         this.bungeeModeEnabled = plugin.getConfig().getBoolean("bungeeMode.enabled");
@@ -75,6 +76,7 @@ public class ConfigManager {
         this.streak4 = XSound.matchXSound(plugin.getConfig().getString("sounds.streak4")).orElse(XSound.UI_BUTTON_CLICK).parseSound();
         this.streak5 = XSound.matchXSound(plugin.getConfig().getString("sounds.streak5")).orElse(XSound.UI_BUTTON_CLICK).parseSound();
         this.limitOfYSpawn = plugin.getConfig().getInt("gameDefaults.limitOfYSpawn");
+        this.autoJoinFinish = plugin.getConfig().getBoolean("gameDefaults.autoJoinFinish");
         this.timeToKill = plugin.getConfig().getInt("gameDefaults.timeToKill");
         this.bountyMin = plugin.getConfig().getDouble("bounty.min");
         this.bountyMax = plugin.getConfig().getDouble("bounty.max");

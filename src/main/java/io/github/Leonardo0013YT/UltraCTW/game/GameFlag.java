@@ -257,7 +257,7 @@ public class GameFlag {
         String[] s3 = top.get(2).split(":");
         for (Player on : cached) {
             if (!team.getMembers().contains(on)) {
-                plugin.getVc().getNMS().sendTitle(on, plugin.getLang().get("titles.lose.title"), plugin.getLang().get("titles.lose.subtitle"), 0, 40, 0);
+                plugin.getVc().getReflection().sendTitle(plugin.getLang().get("titles.lose.title"), plugin.getLang().get("titles.lose.subtitle"), 0, 40, 0, on);
                 continue;
             }
             for (String s : plugin.getLang().getList("messages.winFlag")) {
@@ -271,10 +271,10 @@ public class GameFlag {
             ctw.setXp(ctw.getXp() + plugin.getCm().getXpWin());
             ctw.setWins(ctw.getWins() + 1);
             plugin.getLvl().checkUpgrade(w);
-            plugin.getVc().getNMS().sendTitle(w, plugin.getLang().get("titles.win.title").replaceAll("<color>", team.getColor() + ""), plugin.getLang().get("titles.win.subtitle"), 0, 40, 0);
             plugin.getWem().execute(this, w, ctw.getWinEffect());
             plugin.getWdm().execute(this, w, ctw.getWinDance());
         }
+        plugin.getVc().getReflection().sendTitle(plugin.getLang().get("titles.win.title").replaceAll("<color>", team.getColor() + ""), plugin.getLang().get("titles.win.subtitle"), 0, 40, 0, team.getMembers());
         new BukkitRunnable() {
             @Override
             public void run() {
@@ -430,9 +430,7 @@ public class GameFlag {
     }
 
     public void sendGameTitle(String title, String subtitle, int fadeIn, int stay, int fadeOut) {
-        for (Player p : cached) {
-            plugin.getVc().getNMS().sendTitle(p, title, subtitle, fadeIn, stay, fadeOut);
-        }
+        plugin.getVc().getReflection().sendTitle(title, subtitle, fadeIn, stay, fadeOut, cached);
     }
 
     public void sendGameSound(Sound sound) {

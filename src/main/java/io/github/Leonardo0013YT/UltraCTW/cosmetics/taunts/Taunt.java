@@ -100,9 +100,7 @@ public class Taunt implements Purchasable {
         new BukkitRunnable() {
             @Override
             public void run() {
-                if (d != null) {
-                    UltraCTW.get().getVc().getNMS().sendTitle(d, title, subtitle, 0, 60, 0);
-                }
+                UltraCTW.get().getVc().getReflection().sendTitle(title, subtitle, 0, 60, 0, d);
             }
         }.runTaskLater(UltraCTW.get(), 5L);
         if (k == null) {
@@ -163,9 +161,7 @@ public class Taunt implements Purchasable {
         new BukkitRunnable() {
             @Override
             public void run() {
-                if (d != null) {
-                    UltraCTW.get().getVc().getNMS().sendTitle(d, title, subtitle, 0, 60, 0);
-                }
+                UltraCTW.get().getVc().getReflection().sendTitle(title, subtitle, 0, 60, 0, d);
             }
         }.runTaskLater(UltraCTW.get(), 5L);
         if (k == null) {

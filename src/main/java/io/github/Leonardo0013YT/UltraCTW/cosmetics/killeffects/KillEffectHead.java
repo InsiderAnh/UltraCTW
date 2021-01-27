@@ -47,6 +47,10 @@ public class KillEffectHead implements KillEffect, Cloneable {
         task = new BukkitRunnable() {
             @Override
             public void run() {
+                if (armor == null || armor.isDead()){
+                    stop();
+                    return;
+                }
                 if (!death.isOnline()) {
                     stop();
                     return;

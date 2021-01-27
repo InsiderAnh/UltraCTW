@@ -21,5 +21,4 @@ public interface NMS {
 
     void freezeEntity(Entity en);
 
-    void sendTitle(Player p, String title, String subtitle, int fadeIn, int stay, int fadeOut);
 }

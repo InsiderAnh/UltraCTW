@@ -71,21 +71,4 @@ public class NMS_v1_11_r1 implements NMS {
         nmsEn.f(compound);
     }
 
-    @Override
-    public void sendTitle(Player p, String title, String subtitle, int fadeIn, int stay, int fadeOut) {
-        PlayerConnection pConn = ((CraftPlayer) p).getHandle().playerConnection;
-        PacketPlayOutTitle pTitleInfo = new PacketPlayOutTitle(PacketPlayOutTitle.EnumTitleAction.TIMES, null, fadeIn, stay, fadeOut);
-        pConn.sendPacket(pTitleInfo);
-        if (subtitle != null) {
-            IChatBaseComponent iComp = IChatBaseComponent.ChatSerializer.a("{\"text\": \"" + subtitle + "\"}");
-            PacketPlayOutTitle pSubtitle = new PacketPlayOutTitle(PacketPlayOutTitle.EnumTitleAction.SUBTITLE, iComp);
-            pConn.sendPacket(pSubtitle);
-        }
-        if (title != null) {
-            IChatBaseComponent iComp = IChatBaseComponent.ChatSerializer.a("{\"text\": \"" + title + "\"}");
-            PacketPlayOutTitle pTitle = new PacketPlayOutTitle(PacketPlayOutTitle.EnumTitleAction.TITLE, iComp);
-            pConn.sendPacket(pTitle);
-        }
-    }
-
 }

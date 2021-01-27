@@ -31,7 +31,7 @@ public class Utils {
         return df.format(value);
     }
 
-    public static String getProgressBar(int current, int max){
+    public static String getProgressBar(int current, int max) {
         float percent = (float) current / max;
         double por = percent * 100;
         return new DecimalFormat("####.#").format(por);
@@ -217,110 +217,6 @@ public class Utils {
 
     public static String getLocationString(Location loc) {
         return loc.getWorld().getName() + ";" + loc.getX() + ";" + loc.getY() + ";" + loc.getZ() + ";" + loc.getYaw() + ";" + loc.getPitch();
-    }
-
-    public static ChatColor getChatColorByString(String color) {
-        if (color.contains("§b")) {
-            return ChatColor.AQUA;
-        }
-        if (color.contains("§1")) {
-            return ChatColor.DARK_BLUE;
-        }
-        if (color.contains("§0")) {
-            return ChatColor.BLACK;
-        }
-        if (color.contains("§9")) {
-            return ChatColor.BLUE;
-        }
-        if (color.contains("§3")) {
-            return ChatColor.DARK_AQUA;
-        }
-        if (color.contains("§c")) {
-            return ChatColor.RED;
-        }
-        if (color.contains("§4")) {
-            return ChatColor.DARK_RED;
-        }
-        if (color.contains("§7")) {
-            return ChatColor.GRAY;
-        }
-        if (color.contains("§8")) {
-            return ChatColor.DARK_GRAY;
-        }
-        if (color.contains("§2")) {
-            return ChatColor.DARK_GREEN;
-        }
-        if (color.contains("§a")) {
-            return ChatColor.GREEN;
-        }
-        if (color.contains("§6")) {
-            return ChatColor.GOLD;
-        }
-        if (color.contains("§d")) {
-            return ChatColor.LIGHT_PURPLE;
-        }
-        if (color.contains("§5")) {
-            return ChatColor.DARK_PURPLE;
-        }
-        if (color.contains("§f")) {
-            return ChatColor.WHITE;
-        }
-        if (color.contains("§e")) {
-            return ChatColor.YELLOW;
-        }
-        return ChatColor.WHITE;
-    }
-
-    public static int getDataByChatColor(ChatColor color) {
-        if (color.equals(ChatColor.AQUA)) {
-            return 3;
-        }
-        if (color.equals(ChatColor.DARK_BLUE)) {
-            return 11;
-        }
-        if (color.equals(ChatColor.BLACK)) {
-            return 15;
-        }
-        if (color.equals(ChatColor.BLUE)) {
-            return 11;
-        }
-        if (color.equals(ChatColor.DARK_AQUA)) {
-            return 9;
-        }
-        if (color.equals(ChatColor.RED)) {
-            return 6;
-        }
-        if (color.equals(ChatColor.GOLD)) {
-            return 1;
-        }
-        if (color.equals(ChatColor.DARK_RED)) {
-            return 14;
-        }
-        if (color.equals(ChatColor.DARK_GRAY)) {
-            return 7;
-        }
-        if (color.equals(ChatColor.GRAY)) {
-            return 8;
-        }
-        if (color.equals(ChatColor.DARK_GREEN)) {
-            return 13;
-        }
-        if (color.equals(ChatColor.GREEN)) {
-            return 5;
-        }
-        if (color.equals(ChatColor.LIGHT_PURPLE)) {
-            return 2;
-        }
-        if (color.equals(ChatColor.DARK_PURPLE)) {
-            return 10;
-        }
-        if (color.equals(ChatColor.WHITE)) {
-            return 0;
-        }
-        if (color.equals(ChatColor.YELLOW)) {
-            return 4;
-        }
-        return 0;
     }
 
     public static Color getColorByChatColor(ChatColor color) {

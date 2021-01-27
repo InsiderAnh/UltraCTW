@@ -14,10 +14,12 @@ import java.util.*;
 public class WorldController {
 
     private String clear;
+    private UltraCTW plugin;
     private WorldEdit edit;
 
     public WorldController(UltraCTW plugin) {
         clear = plugin.getConfig().getString("schemaToClearLobby");
+        this.plugin = plugin;
         if (plugin.getVc().is1_13to16()) {
             edit = new WorldEditUtils_New(plugin);
         } else {
@@ -64,7 +66,7 @@ public class WorldController {
         w.setTicksPerAnimalSpawns(1);
         w.setTicksPerMonsterSpawns(1);
         w.setAutoSave(false);
-        w.setGameRuleValue("mobGriefing", "true");
+        w.setGameRuleValue("mobGriefing", String.valueOf(plugin.getCm().isMobGriefing()));
         w.setGameRuleValue("doFireTick", "false");
         w.setGameRuleValue("showDeathMessages", "false");
         w.setGameRuleValue("doDaylightCycle", "false");

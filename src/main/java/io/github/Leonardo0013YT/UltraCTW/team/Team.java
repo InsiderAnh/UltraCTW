@@ -107,7 +107,7 @@ public class Team {
     }
 
     public void sendTitle(String title, String subtitle, int in, int stay, int out) {
-        members.forEach(m -> plugin.getVc().getNMS().sendTitle(m, title, subtitle, in, stay, out));
+        plugin.getVc().getReflection().sendTitle(title, subtitle, in, stay, out, members);
     }
 
     public void sendMessage(String msg) {

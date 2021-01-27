@@ -10,6 +10,7 @@ import io.github.Leonardo0013YT.UltraCTW.interfaces.CTWPlayer;
 import io.github.Leonardo0013YT.UltraCTW.objects.MineCountdown;
 import io.github.Leonardo0013YT.UltraCTW.objects.ObjectPotion;
 import io.github.Leonardo0013YT.UltraCTW.team.FlagTeam;
+import io.github.Leonardo0013YT.UltraCTW.team.Team;
 import io.github.Leonardo0013YT.UltraCTW.upgrades.Upgrade;
 import io.github.Leonardo0013YT.UltraCTW.upgrades.UpgradeLevel;
 import io.github.Leonardo0013YT.UltraCTW.utils.Utils;
@@ -56,12 +57,17 @@ public class FlagListener implements Listener {
             e.getRecipients().addAll(g.getCached());
         } else {
             FlagTeam t = g.getTeamPlayer(p);
-            if (e.getMessage().startsWith("!")) {
-                msg = formatGame(p, t, e.getMessage());
-                e.getRecipients().addAll(g.getCached());
+            if (t == null){
+               msg = formatLobby(p, e.getMessage());
+               e.getRecipients().addAll(g.getCached());
             } else {
-                msg = formatTeam(p, t, e.getMessage());
-                e.getRecipients().addAll(t.getMembers());
+                if (e.getMessage().startsWith("!")) {
+                    msg = formatGame(p, t, e.getMessage());
+                    e.getRecipients().addAll(g.getCached());
+                } else {
+                    msg = formatTeam(p, t, e.getMessage());
+                    e.getRecipients().addAll(t.getMembers());
+                }
             }
         }
         msg = msg.replaceAll("%", "%%");
@@ -73,16 +79,10 @@ public class FlagListener implements Listener {
     }
 
     private String formatTeam(Player p, FlagTeam team, String msg) {
-        if (team == null) {
-            return plugin.getLang().get(p, "chat.team").replaceAll("<team>", "").replaceAll("<player>", p.getName()).replaceAll("<msg>", msg);
-        }
         return plugin.getLang().get(p, "chat.team").replaceAll("<team>", team.getName()).replaceAll("<player>", p.getName()).replaceAll("<msg>", msg);
     }
 
     private String formatGame(Player p, FlagTeam team, String msg) {
-        if (team == null) {
-            return plugin.getLang().get(p, "chat.team").replaceAll("<team>", "").replaceAll("<player>", p.getName()).replaceAll("<msg>", msg);
-        }
         return plugin.getLang().get(p, "chat.global").replaceAll("<team>", team.getName()).replaceAll("<player>", p.getName()).replaceAll("<msg>", msg.replaceFirst("!", ""));
     }
 

@@ -10,6 +10,7 @@ bungeeMode:
   kickOnFinish: false
   lobbyServer: LobbyCTW-1
 mainLobby: null
+mobGriefing: false
 redPanelInLocked: true
 progressBarAmount: 10
 excluideDefKits: true
@@ -61,6 +62,7 @@ flagDefaults:
         - DIG_SPEED:1:true
         - DURABILITY:1:true
 gameDefaults:
+  autoJoinFinish: true
   hunger: true
   instaKillOnVoid: true
   maxMultiplier: 5

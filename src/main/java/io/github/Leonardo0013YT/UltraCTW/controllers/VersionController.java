@@ -15,10 +15,12 @@ public class VersionController {
     private boolean is1_13to15 = false;
     private boolean is1_9to15 = false;
     private boolean is1_12 = false;
+    private NMSReflection reflection;
 
     public VersionController(UltraCTW plugin) {
         this.plugin = plugin;
         setupVersion();
+        this.reflection = new NMSReflection();
     }
 
     private void setupVersion() {
@@ -110,6 +112,10 @@ public class VersionController {
                 break;
         }
         return null;
+    }
+
+    public NMSReflection getReflection() {
+        return reflection;
     }
 
     public void disable() {
