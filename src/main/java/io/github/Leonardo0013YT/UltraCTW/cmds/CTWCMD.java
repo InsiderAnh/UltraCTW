@@ -30,6 +30,9 @@ public class CTWCMD implements CommandExecutor {
                 return true;
             }
             switch (args[0].toLowerCase()) {
+                case "stats":
+                    p.sendMessage(plugin.getLang().get(p, "stats"));
+                    break;
                 case "lobby":
                     plugin.getUim().openContentInventory(p, plugin.getUim().getMenus("lobby"));
                     break;
@@ -319,6 +322,10 @@ public class CTWCMD implements CommandExecutor {
                 case "tauntsmenu":
                     plugin.getUim().getPages().put(p, 1);
                     plugin.getUim().createTauntsSelectorMenu(p);
+                    break;
+                case "shopkeepermenu":
+                    plugin.getUim().getPages().put(p, 1);
+                    plugin.getUim().createShopKeeperSelectorMenu(p);
                     break;
                 case "multiplier":
                     if (!p.hasPermission("ctw.admin")) {

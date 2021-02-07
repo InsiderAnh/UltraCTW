@@ -165,17 +165,15 @@ public class UltraInventoryMenu {
 
     public void createKitLevelSelectorMenu(Player p, Kit k) {
         Inventory inv = Bukkit.createInventory(null, 54, plugin.getLang().get(p, "menus.kitlevels.title"));
-        ItemStack close = ItemBuilder.item(XMaterial.matchXMaterial(plugin.getCm().getBack()), plugin.getLang().get(p, "menus.kitlevels.close.nameItem"), plugin.getLang().get(p, "menus.kitlevels.close.loreItem"));
-        for (KitLevel kl : k.getLevels().values()) {
-            ItemStack i = kl.getIcon(p);
-            inv.setItem(kl.getSlot(), i);
-        }
-        inv.setItem(49, close);
-        p.openInventory(inv);
+        fillKits(p, k, inv);
     }
 
     public void createFlagKitLevelSelectorMenu(Player p, Kit k) {
         Inventory inv = Bukkit.createInventory(null, 54, plugin.getLang().get(p, "menus.kitflaglevels.title"));
+        fillKits(p, k, inv);
+    }
+
+    private void fillKits(Player p, Kit k, Inventory inv) {
         ItemStack close = ItemBuilder.item(XMaterial.matchXMaterial(plugin.getCm().getBack()), plugin.getLang().get(p, "menus.kitlevels.close.nameItem"), plugin.getLang().get(p, "menus.kitlevels.close.loreItem"));
         for (KitLevel kl : k.getLevels().values()) {
             ItemStack i = kl.getIcon(p);

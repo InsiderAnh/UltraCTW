@@ -311,7 +311,7 @@ public class GameFlag {
         }
     }
 
-    public void addKill(Player p) {
+    public void addKill(Player p, boolean bowKill) {
         if (gamePlayer.containsKey(p)) {
             GamePlayer gp = gamePlayer.get(p);
             gp.setKills(gp.getKills() + 1);
@@ -319,7 +319,11 @@ public class GameFlag {
             CTWPlayer ctw = plugin.getDb().getCTWPlayer(p);
             ctw.addCoins(plugin.getCm().getGCoinsKills());
             ctw.setXp(ctw.getXp() + plugin.getCm().getXpKill());
-            ctw.setKills(ctw.getKills() + 1);
+            if (bowKill){
+                ctw.setBowKills(ctw.getBowKills() + 1);
+            } else {
+                ctw.setKills(ctw.getKills() + 1);
+            }
             plugin.getLvl().checkUpgrade(p);
         }
     }

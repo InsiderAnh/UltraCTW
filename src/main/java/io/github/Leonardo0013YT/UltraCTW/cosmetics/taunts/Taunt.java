@@ -80,7 +80,7 @@ public class Taunt implements Purchasable {
         if (UltraCTW.get().getTgm().hasTag(d)) {
             k = UltraCTW.get().getTgm().getTagged(d).getLast();
             if (game.getPlayers().contains(k)) {
-                game.addKill(k);
+                game.addKill(k, cause.equals(EntityDamageEvent.DamageCause.PROJECTILE));
                 UltraCTW.get().getStm().addKill(k, game);
                 k.sendMessage(UltraCTW.get().getLang().get("messages.kill").replaceAll("<xp>", String.valueOf(UltraCTW.get().getCm().getXpKill())).replaceAll("<coins>", String.valueOf(UltraCTW.get().getCm().getCoinsKill())).replaceAll("<streak>", UltraCTW.get().getStm().getPrefix(k)));
                 Streak st = UltraCTW.get().getStm().get(d);
@@ -141,7 +141,7 @@ public class Taunt implements Purchasable {
         if (UltraCTW.get().getTgm().hasTag(d)) {
             k = UltraCTW.get().getTgm().getTagged(d).getLast();
             if (game.getPlayers().contains(k)) {
-                game.addKill(k);
+                game.addKill(k, cause.equals(EntityDamageEvent.DamageCause.PROJECTILE));
                 UltraCTW.get().getStm().addKill(k, game);
                 k.sendMessage(UltraCTW.get().getLang().get("messages.kill").replaceAll("<xp>", String.valueOf(UltraCTW.get().getCm().getXpKill())).replaceAll("<coins>", String.valueOf(UltraCTW.get().getCm().getCoinsKill())).replaceAll("<streak>", UltraCTW.get().getStm().getPrefix(k)));
                 Streak st = UltraCTW.get().getStm().get(d);

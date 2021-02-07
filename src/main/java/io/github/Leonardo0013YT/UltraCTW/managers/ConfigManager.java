@@ -17,7 +17,7 @@ import java.util.List;
 public class ConfigManager {
 
     private UltraCTW plugin;
-    private boolean autoJoinFinish, mobGriefing, totalBreak, sendLobbyOnQuit, bungeeModeEnabled, bungeeModeAutoJoin, bungeeModeKickOnFinish, instaKillOnVoidFlag, instaKillOnVoidCTW, lobbyScoreboard, hungerFlag, hungerCTW, breakMap, kitLevelsOrder, excluideDefKits, itemLobbyEnabled, placeholdersAPI, redPanelInLocked, holograms, holographicdisplays;
+    private boolean statsCMD, autoJoinFinish, mobGriefing, totalBreak, sendLobbyOnQuit, bungeeModeEnabled, bungeeModeAutoJoin, bungeeModeKickOnFinish, instaKillOnVoidFlag, instaKillOnVoidCTW, lobbyScoreboard, hungerFlag, hungerCTW, breakMap, kitLevelsOrder, excluideDefKits, itemLobbyEnabled, placeholdersAPI, redPanelInLocked, holograms, holographicdisplays;
     private Location mainLobby, topKills, topWins, topCaptured, topBounty;
     private short redPanelData;
     private Material back, redPanelMaterial;
@@ -35,6 +35,7 @@ public class ConfigManager {
     }
 
     public void reload() {
+        this.statsCMD = plugin.getConfig().getBoolean("statsCMD");
         this.mobGriefing = plugin.getConfig().getBoolean("mobGriefing");
         this.totalBreak = plugin.getConfig().getBoolean("breakMap.totalBreak");
         this.sendLobbyOnQuit = plugin.getConfig().getBoolean("bungeeMode.sendLobbyOnQuit");

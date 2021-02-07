@@ -38,7 +38,7 @@ public class GameNoState implements Game {
     private final ArrayList<Location> placed = new ArrayList<>();
     private Squared lobbyProtection;
     private final Location lobby, spectator;
-    private int teamSize, woolSize, min, starting, defKit, time = 0, max;
+    private int teamSize, woolSize, min, starting, defKit, time = 0, max, worldTime;
     private State state;
 
     public GameNoState(UltraCTW plugin, String path, int id) {
@@ -63,6 +63,8 @@ public class GameNoState implements Game {
         this.teamSize = plugin.getArenas().getInt(path + ".teamSize");
         this.woolSize = plugin.getArenas().getInt(path + ".woolSize");
         this.defKit = plugin.getArenas().getIntOrDefault(path + ".defKit", 0);
+        this.worldTime = plugin.getArenas().getIntOrDefault(path + ".worldTime", 500);
+        lobby.getWorld().setTime(worldTime);
         plugin.getKm().getDefaultKits().add(defKit);
         this.starting = plugin.getCm().getStarting();
         this.min = plugin.getArenas().getInt(path + ".min");
@@ -143,7 +145,7 @@ public class GameNoState implements Game {
         updateWorld(w);
         teams.values().forEach(Team::reset);
         plugin.getWc().resetMap(new Location(lobby.getWorld(), 0, 75, 0), schematic);
-        lobby.getWorld().setTime(500);
+        lobby.getWorld().setTime(worldTime);
         lobby.getWorld().getEntities().stream().filter(e -> !e.getType().equals(EntityType.PLAYER)).forEach(Entity::remove);
         starting = plugin.getCm().getStarting();
         time = 0;
@@ -330,7 +332,7 @@ public class GameNoState implements Game {
     }
 
     @Override
-    public void addKill(Player p) {
+    public void addKill(Player p, boolean bowKill) {
         if (gamePlayer.containsKey(p)) {
             GamePlayer gp = gamePlayer.get(p);
             gp.setKills(gp.getKills() + 1);
@@ -338,7 +340,11 @@ public class GameNoState implements Game {
             CTWPlayer ctw = plugin.getDb().getCTWPlayer(p);
             ctw.addCoins(plugin.getCm().getGCoinsKills());
             ctw.setXp(ctw.getXp() + plugin.getCm().getXpKill());
-            ctw.setKills(ctw.getKills() + 1);
+            if (bowKill){
+                ctw.setBowKills(ctw.getBowKills() + 1);
+            } else {
+                ctw.setKills(ctw.getKills() + 1);
+            }
             plugin.getLvl().checkUpgrade(p);
         }
     }

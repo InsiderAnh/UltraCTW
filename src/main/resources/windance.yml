@@ -15,7 +15,7 @@ windances:
     price: 0
     isBuy: false
     slot: 10
-    permission: ultraskywars.windances.fireworks
+    permission: ultractw.windances.fireworks
     page: 1
   fireworks:
     id: 1
@@ -38,7 +38,7 @@ windances:
     isBuy: false
     slot: 11
     page: 1
-    permission: ultraskywars.windances.fireworks
+    permission: ultractw.windances.fireworks
   thunder:
     id: 2
     icon:
@@ -60,7 +60,7 @@ windances:
     isBuy: false
     slot: 12
     page: 1
-    permission: ultraskywars.windances.thunder
+    permission: ultractw.windances.thunder
   explode:
     id: 3
     icon:
@@ -82,7 +82,7 @@ windances:
     isBuy: false
     slot: 13
     page: 1
-    permission: ultraskywars.windances.explode
+    permission: ultractw.windances.explode
   daynight:
     id: 4
     icon:
@@ -104,7 +104,7 @@ windances:
     isBuy: false
     slot: 14
     page: 1
-    permission: ultraskywars.windances.daynight
+    permission: ultractw.windances.daynight
   anvilland:
     id: 5
     icon:
@@ -126,7 +126,7 @@ windances:
     isBuy: false
     slot: 15
     page: 1
-    permission: ultraskywars.windances.anvilland
+    permission: ultractw.windances.anvilland
   icewalker:
     id: 6
     icon:
@@ -148,7 +148,7 @@ windances:
     isBuy: false
     slot: 16
     page: 1
-    permission: ultraskywars.windances.icewalker
+    permission: ultractw.windances.icewalker
   meteors:
     id: 7
     icon:
@@ -169,7 +169,7 @@ windances:
     isBuy: false
     slot: 19
     page: 1
-    permission: ultraskywars.windances.meteors
+    permission: ultractw.windances.meteors
   pigland:
     id: 8
     icon:
@@ -190,7 +190,7 @@ windances:
     isBuy: false
     slot: 20
     page: 1
-    permission: ultraskywars.windances.pigland
+    permission: ultractw.windances.pigland
   wolfs:
     id: 9
     icon:
@@ -212,4 +212,4 @@ windances:
     isBuy: false
     slot: 21
     page: 1
-    permission: ultraskywars.windances.wolfs
+    permission: ultractw.windances.wolfs

@@ -5,6 +5,7 @@ import org.bukkit.entity.Player;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.Collection;
 
 public class NMSReflection {
@@ -56,7 +57,7 @@ public class NMSReflection {
     }
 
     public void sendTitle(String title, String subtitle, int fadeIn, int stay, int fadeOut, Player... players) {
-        sendTitle(title, subtitle, fadeIn, stay, fadeOut, players);
+        sendTitle(title, subtitle, fadeIn, stay, fadeOut, Arrays.asList(players));
     }
 
     public void sendTitle(String title, String subtitle, int fadeIn, int stay, int fadeOut, Collection<Player> players) {
@@ -67,6 +68,7 @@ public class NMSReflection {
             Object titlePacket = packetPlayOutTitle.newInstance(enumTitle, titleC);
             Object subtitlePacket = packetPlayOutTitle.newInstance(enumSubtitle, subtitleC);
             for (Player p : players){
+                if (p == null || !p.isOnline()) continue;
                 sendPacket(p, timesPacket);
                 sendPacket(p, titlePacket);
                 sendPacket(p, subtitlePacket);

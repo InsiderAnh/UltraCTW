@@ -421,42 +421,7 @@ public class MySQLDatabase implements IDatabase {
     }
 
     private void loadPlayerData(Player p, CTWPlayer pd) {
-        CTWPlayer now = new PlayerCTW();
-        now.setShopkeepers(pd.getShopkeepers());
-        now.setBounty(pd.getBounty());
-        now.setWoolCaptured(pd.getWoolCaptured());
-        now.setXp(pd.getXp());
-        now.setLevel(pd.getLevel());
-        now.setPlaced(pd.getPlaced());
-        now.setBroken(pd.getBroken());
-        now.setPlayed(pd.getPlayed());
-        now.setWalked(pd.getWalked());
-        now.setsShots(pd.getsShots());
-        now.setShots(pd.getShots());
-        now.setWins(pd.getWins());
-        now.setDeaths(pd.getDeaths());
-        now.setShopKeeper(pd.getShopKeeper());
-        now.setKillEffect(pd.getKillEffect());
-        now.setKillSound(pd.getKillSound());
-        now.setTaunt(pd.getTaunt());
-        now.setTrail(pd.getTrail());
-        now.setWinDance(pd.getWinDance());
-        now.setAssists(pd.getAssists());
-        now.setWinEffect(pd.getWinEffect());
-        now.setCoins(pd.getCoins());
-        now.setKill5(pd.getKill5());
-        now.setKill25(pd.getKill25());
-        now.setKill50(pd.getKill50());
-        now.setKilleffects(pd.getKilleffects());
-        now.setKills(pd.getKills());
-        now.setKillsounds(pd.getKillsounds());
-        now.setParting(pd.getParting());
-        now.setTaunts(pd.getTaunts());
-        now.setTrails(pd.getTrails());
-        now.setWindances(pd.getWindances());
-        now.setWineffects(pd.getWineffects());
-        players.put(p.getUniqueId(), now);
-        Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () -> Bukkit.getServer().getPluginManager().callEvent(new PlayerLoadEvent(p)));
+        loadPlayerData(p.getUniqueId(), pd);
     }
 
     private void createTable() {

@@ -19,10 +19,6 @@ public class Placeholders extends PlaceholderExpansion {
         return "ctw";
     }
 
-    public String getPlugin() {
-        return null;
-    }
-
     public String getAuthor() {
         return "Leonardo0013YT";
     }
@@ -153,11 +149,26 @@ public class Placeholders extends PlaceholderExpansion {
         if (id.equals("coins")) {
             return "" + plugin.getAdm().getCoins(p);
         }
+        if (id.equals("bow_distance")) {
+            return "" + sw.getMaxBowDistance();
+        }
+        if (id.equals("bowkill_distance")) {
+            return "" + sw.getBowKillDistance();
+        }
+        if (id.equals("captured")) {
+            return "" + sw.getWoolCaptured();
+        }
         if (id.equals("xp")) {
             return "" + sw.getXp();
         }
         if (id.equals("kills")) {
             return "" + sw.getKills();
+        }
+        if (id.equals("bow_kills")) {
+            return "" + sw.getBowKills();
+        }
+        if (id.equals("total_kills")) {
+            return "" + sw.getTotalKills();
         }
         if (id.equals("wins")) {
             return "" + sw.getWins();

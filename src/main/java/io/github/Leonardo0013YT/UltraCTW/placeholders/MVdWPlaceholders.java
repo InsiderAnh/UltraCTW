@@ -88,6 +88,46 @@ public class MVdWPlaceholders {
             }
             return "";
         });
+        PlaceholderAPI.registerPlaceholder(plugin, "ctw_bow_kills", e -> {
+            Player p = e.getPlayer();
+            CTWPlayer sw = plugin.getDb().getCTWPlayer(p);
+            if (sw != null) {
+                return "" + sw.getBowKills();
+            }
+            return "";
+        });
+        PlaceholderAPI.registerPlaceholder(plugin, "ctw_total_ills", e -> {
+            Player p = e.getPlayer();
+            CTWPlayer sw = plugin.getDb().getCTWPlayer(p);
+            if (sw != null) {
+                return "" + sw.getTotalKills();
+            }
+            return "";
+        });
+        PlaceholderAPI.registerPlaceholder(plugin, "ctw_bow_distance", e -> {
+            Player p = e.getPlayer();
+            CTWPlayer sw = plugin.getDb().getCTWPlayer(p);
+            if (sw != null) {
+                return "" + sw.getMaxBowDistance();
+            }
+            return "";
+        });
+        PlaceholderAPI.registerPlaceholder(plugin, "ctw_bowkill_distance", e -> {
+            Player p = e.getPlayer();
+            CTWPlayer sw = plugin.getDb().getCTWPlayer(p);
+            if (sw != null) {
+                return "" + sw.getBowKillDistance();
+            }
+            return "";
+        });
+        PlaceholderAPI.registerPlaceholder(plugin, "ctw_captured", e -> {
+            Player p = e.getPlayer();
+            CTWPlayer sw = plugin.getDb().getCTWPlayer(p);
+            if (sw != null) {
+                return "" + sw.getWoolCaptured();
+            }
+            return "";
+        });
         PlaceholderAPI.registerPlaceholder(plugin, "ctw_xp", e -> {
             Player p = e.getPlayer();
             CTWPlayer sw = plugin.getDb().getCTWPlayer(p);

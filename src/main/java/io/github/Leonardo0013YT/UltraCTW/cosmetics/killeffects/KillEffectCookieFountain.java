@@ -50,6 +50,7 @@ public class KillEffectCookieFountain implements KillEffect, Cloneable {
                 for (int i = 0; i < 2; i++) {
                     it.add(spawnCookie(loc, random(-xRandom, xRandom), yRandom, random(-zRandom, zRandom)));
                 }
+                executes++;
             }
         }.runTaskTimer(UltraCTW.get(), 2, 2);
         new BukkitRunnable() {

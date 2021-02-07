@@ -1,10 +1,11 @@
 name: UltraCaptureTheWool
 main: io.github.Leonardo0013YT.UltraCTW.UltraCTW
-version: 2.2.4
+version: 2.2.6
 author: Leonardo0013YT
 softdepend: [PlaceholderAPI, MVdWPlaceholderAPI]
 depend: [NametagEdit, ProtocolLib, WorldEdit, FastAsyncWorldEdit]
 commands:
+  stats:
   ctws:
     aliases: [ultractws]
   ctw:

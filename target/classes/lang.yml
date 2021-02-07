@@ -1,5 +1,18 @@
 activated: "&aActivated"
 deactivated: "&cDeactivated"
+stats: |-
+  &b%player_name% &estats
+  &7
+  &eKills: &b%ctw_kills%
+  &eWins: &b%ctw_wins%
+  &eMuertes: &b%ctw_deaths%
+  &eShots: &b%ctw_shots%
+  &eSuccess Shots: &b%ctw_sshots%
+  &eWalked: &b%ctw_walked%
+  &ePlayed: &b%ctw_played%
+  &ePlaced: &b%ctw_placed%
+  &eBroken: &b%ctw_break%
+  &7
 progressBar:
   symbol: "|"
   in: "&3"
@@ -440,6 +453,16 @@ scoreboards:
       &7
       &emc.spigot.net
 menus:
+  last:
+    nameItem: '&aLast Page'
+    loreItem: |-
+      &7Click to back a last
+      &7page.
+  next:
+    nameItem: '&aNext Page'
+    loreItem: |-
+      &7Click to back a last
+      &7page.
   upgrades:
     title: "&eUpgrade NPC"
   buffDebuff:

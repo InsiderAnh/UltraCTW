@@ -90,6 +90,14 @@ public class PlayerListener implements Listener {
     }
 
     @EventHandler
+    public void onTNT(EntityExplodeEvent e){
+        String name = e.getLocation().getWorld().getName();
+        if (plugin.getGm().getGameNames().containsKey(name)) {
+            e.blockList().clear();
+        }
+    }
+
+    @EventHandler
     public void onInteractEntity(CTWNPCInteractEvent e) {
         Player p = e.getPlayer();
         Game g = plugin.getGm().getGameByPlayer(p);
@@ -147,7 +155,7 @@ public class PlayerListener implements Listener {
                 msg = formatLobby(p, e.getMessage());
                 e.getRecipients().addAll(g.getCached());
             } else {
-                if (e.getMessage().startsWith("!")) {
+                if (ChatColor.stripColor(e.getMessage()).startsWith("!")) {
                     msg = formatGame(p, t, e.getMessage());
                     e.getRecipients().addAll(g.getCached());
                 } else {
@@ -489,8 +497,7 @@ public class PlayerListener implements Listener {
             if (e.getDamager() instanceof Projectile && ((Projectile) e.getDamager()).getShooter() instanceof Player) {
                 Player d = (Player) ((Projectile) e.getDamager()).getShooter();
                 if (checkDamage(e, p, d)) return;
-                CTWPlayer ctw = plugin.getDb().getCTWPlayer(d);
-                ctw.setsShots(ctw.getsShots() + 1);
+                FlagListener.addStats(e, p, d, plugin);
             }
         }
     }
@@ -553,6 +560,14 @@ public class PlayerListener implements Listener {
                 respawn(tp, g, p);
             }
         }.runTaskLater(plugin, 3L);
+    }
+
+    @EventHandler
+    public void onRespawn(PlayerRespawnEvent e){
+        Player p = e.getPlayer();
+        Game g = plugin.getGm().getGameByPlayer(p);
+        if (g == null) return;
+        e.setRespawnLocation(g.getSpectator());
     }
 
     private void executeTauntDefault(Player p, Game g) {
@@ -642,8 +657,18 @@ public class PlayerListener implements Listener {
         Player p = e.getPlayer();
         from.getWorld().getPlayers().forEach(pl -> pl.hidePlayer(p));
         from.getWorld().getPlayers().forEach(p::hidePlayer);
-        to.getWorld().getPlayers().forEach(pl -> pl.showPlayer(p));
-        to.getWorld().getPlayers().forEach(p::showPlayer);
+        for (Player pl : to.getWorld().getPlayers()){
+            if (!pl.canSee(p)){
+                continue;
+            }
+            pl.showPlayer(p);
+        }
+        for (Player pl : to.getWorld().getPlayers()){
+            if (!p.canSee(pl)){
+                continue;
+            }
+            p.showPlayer(pl);
+        }
     }
 
     private boolean check(Player p1, Player p2) {
@@ -651,7 +676,6 @@ public class PlayerListener implements Listener {
     }
 
     private void respawn(Team team, Game g, Player p) {
-        p.playEffect(EntityEffect.HURT);
         p.getWorld().playSound(p.getLocation(), XSound.ENTITY_PLAYER_HURT.parseSound(), 1.0F, 1.0F);
         p.closeInventory();
         p.getInventory().clear();
@@ -663,6 +687,7 @@ public class PlayerListener implements Listener {
         p.teleport(team.getSpawn());
         p.setFoodLevel(20);
         plugin.getKm().giveDefaultKit(p, g, team);
+        NametagEdit.getApi().setNametag(p, team.getColor() + "", "");
         for (ChatColor c : team.getColors()) {
             if (team.getInProgress().get(c).isEmpty()) continue;
             team.getInProgress().get(c).remove(p.getUniqueId());

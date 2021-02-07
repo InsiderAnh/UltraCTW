@@ -39,45 +39,9 @@ public class KillEffectsManager {
         if (uwe == null || uwe.getType().equals("none")) {
             return;
         }
-        KillEffect we;
-        switch (uwe.getType().toLowerCase()) {
-            case "blood":
-                we = new KillEffectBlood();
-                we.start(p, death, loc);
-                break;
-            case "diamondexplode":
-                we = new KillEffectDiamondExplode();
-                we.start(p, death, loc);
-                break;
-            case "firework":
-                we = new KillEffectFirework();
-                we.start(p, death, loc);
-                break;
-            case "flower":
-                we = new KillEffectFlowerPower();
-                we.start(p, death, loc);
-                break;
-            case "squid":
-                we = new KillEffectSquid();
-                we.start(p, death, loc);
-                break;
-            case "thunder":
-                we = new KillEffectThunder();
-                we.start(p, death, loc);
-                break;
-            case "head":
-                we = new KillEffectHead();
-                we.start(p, death, loc);
-                break;
-            case "snow":
-                we = new KillEffectSnowExplosion();
-                we.start(p, death, loc);
-                break;
-            default:
-                we = new KillEffectTNT();
-                we.start(p, death, loc);
-                break;
-        }
+        KillEffect we = getKillEffect(uwe);
+        we.loadCustoms(plugin, "killeffects." + uwe.getType().toLowerCase());
+        we.start(p, death, loc);
         game.addKillEffects(we);
     }
 
@@ -86,46 +50,39 @@ public class KillEffectsManager {
         if (uwe == null || uwe.getType().equals("none")) {
             return;
         }
-        KillEffect we;
+        KillEffect we = getKillEffect(uwe);
+        we.loadCustoms(plugin, "killeffects." + uwe.getType().toLowerCase());
+        we.start(p, death, loc);
+        game.addKillEffects(we);
+    }
+
+    public KillEffect getKillEffect(UltraKillEffect uwe){
         switch (uwe.getType().toLowerCase()) {
             case "blood":
-                we = new KillEffectBlood();
-                we.start(p, death, loc);
-                break;
+                return new KillEffectBlood();
             case "diamondexplode":
-                we = new KillEffectDiamondExplode();
-                we.start(p, death, loc);
-                break;
-            case "firework":
-                we = new KillEffectFirework();
-                we.start(p, death, loc);
-                break;
+                return new KillEffectDiamondExplode();
+            case "fireworks":
+                return new KillEffectFirework();
             case "flower":
-                we = new KillEffectFlowerPower();
-                we.start(p, death, loc);
-                break;
+                return new KillEffectFlowerPower();
             case "squid":
-                we = new KillEffectSquid();
-                we.start(p, death, loc);
-                break;
+                return new KillEffectSquid();
             case "thunder":
-                we = new KillEffectThunder();
-                we.start(p, death, loc);
-                break;
+                return new KillEffectThunder();
             case "head":
-                we = new KillEffectHead();
-                we.start(p, death, loc);
-                break;
+                return new KillEffectHead();
             case "snow":
-                we = new KillEffectSnowExplosion();
-                we.start(p, death, loc);
-                break;
+                return new KillEffectSnowExplosion();
+            case "cookie":
+                return new KillEffectCookieFountain();
+            case "gift":
+                return new KillEffectGiftExplosion();
+            case "heart":
+                return new KillEffectHeartExplosion();
             default:
-                we = new KillEffectTNT();
-                we.start(p, death, loc);
-                break;
+                return new KillEffectTNT();
         }
-        game.addKillEffects(we);
     }
 
     public UltraKillEffect getKillEffectByItem(Player p, ItemStack item) {

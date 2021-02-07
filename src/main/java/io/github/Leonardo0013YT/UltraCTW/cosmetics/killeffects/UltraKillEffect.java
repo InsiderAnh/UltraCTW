@@ -6,6 +6,7 @@ import io.github.Leonardo0013YT.UltraCTW.interfaces.CTWPlayer;
 import io.github.Leonardo0013YT.UltraCTW.utils.ItemBuilder;
 import io.github.Leonardo0013YT.UltraCTW.utils.NBTEditor;
 import io.github.Leonardo0013YT.UltraCTW.xseries.XMaterial;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -21,9 +22,9 @@ public class UltraKillEffect implements Purchasable {
 
     public UltraKillEffect(UltraCTW plugin, String s) {
         this.id = plugin.getKilleffect().getInt(s + ".id");
-        this.name = plugin.getKilleffect().get(null, s + ".name");
-        this.type = plugin.getKilleffect().get(null, s + ".type");
-        this.permission = plugin.getKilleffect().get(null, s + ".permission");
+        this.name = plugin.getKilleffect().get(s + ".name");
+        this.type = plugin.getKilleffect().get(s + ".type");
+        this.permission = plugin.getKilleffect().get(s + ".permission");
         this.slot = plugin.getKilleffect().getInt(s + ".slot");
         this.page = plugin.getKilleffect().getInt(s + ".page");
         this.price = plugin.getKilleffect().getInt(s + ".price");
@@ -67,6 +68,9 @@ public class UltraKillEffect implements Purchasable {
     }
 
     public ItemStack getIcon(Player p) {
+        if (icon == null || icon.getType().equals(Material.AIR)){
+            icon = new ItemStack(Material.BEDROCK);
+        }
         if (!icon.hasItemMeta()) {
             return icon;
         }

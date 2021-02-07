@@ -61,7 +61,7 @@ public class FlagListener implements Listener {
                msg = formatLobby(p, e.getMessage());
                e.getRecipients().addAll(g.getCached());
             } else {
-                if (e.getMessage().startsWith("!")) {
+                if (ChatColor.stripColor(e.getMessage()).startsWith("!")) {
                     msg = formatGame(p, t, e.getMessage());
                     e.getRecipients().addAll(g.getCached());
                 } else {
@@ -148,39 +148,47 @@ public class FlagListener implements Listener {
             Player p = (Player) e.getEntity();
             if (e.getDamager() instanceof Player) {
                 Player d = (Player) e.getDamager();
-                GameFlag g = plugin.getGm().getGameFlagByPlayer(p);
-                if (g == null) return;
-                FlagTeam tp = g.getTeamPlayer(p);
-                FlagTeam td = g.getTeamPlayer(d);
-                if (tp == null || td == null) {
-                    e.setCancelled(true);
-                    return;
-                }
-                if (tp.getId() == td.getId()) {
-                    e.setCancelled(true);
-                    return;
-                }
-                double damage = e.getFinalDamage();
-                plugin.getTgm().setTag(d, p, damage);
+                sendDamage(e, p, d);
             }
             if (e.getDamager() instanceof Projectile && ((Projectile) e.getDamager()).getShooter() instanceof Player) {
                 Player d = (Player) ((Projectile) e.getDamager()).getShooter();
-                GameFlag g = plugin.getGm().getGameFlagByPlayer(p);
-                if (g == null) return;
-                FlagTeam tp = g.getTeamPlayer(p);
-                FlagTeam td = g.getTeamPlayer(d);
-                if (tp == null || td == null) {
-                    e.setCancelled(true);
-                    return;
-                }
-                if (tp.getId() == td.getId()) {
-                    e.setCancelled(true);
-                    return;
-                }
-                double damage = e.getFinalDamage();
-                plugin.getTgm().setTag(d, p, damage);
+                sendDamage(e, p, d);
+                addStats(e, p, d, plugin);
             }
         }
+    }
+
+    static void addStats(EntityDamageByEntityEvent e, Player p, Player d, UltraCTW plugin) {
+        CTWPlayer ctw = plugin.getDb().getCTWPlayer(d);
+        if (p.getWorld().equals(d.getWorld())){
+            int distance = (int) d.getLocation().distance(p.getLocation());
+            if (ctw.getMaxBowDistance() < distance){
+                ctw.setMaxBowDistance(distance);
+            }
+            if (p.getHealth() - e.getFinalDamage() <= 0){
+                if (ctw.getBowKillDistance() < distance){
+                    ctw.setBowKillDistance(distance);
+                }
+            }
+        }
+        ctw.setsShots(ctw.getsShots() + 1);
+    }
+
+    private void sendDamage(EntityDamageByEntityEvent e, Player p, Player d) {
+        GameFlag g = plugin.getGm().getGameFlagByPlayer(p);
+        if (g == null) return;
+        FlagTeam tp = g.getTeamPlayer(p);
+        FlagTeam td = g.getTeamPlayer(d);
+        if (tp == null || td == null) {
+            e.setCancelled(true);
+            return;
+        }
+        if (tp.getId() == td.getId()) {
+            e.setCancelled(true);
+            return;
+        }
+        double damage = e.getFinalDamage();
+        plugin.getTgm().setTag(d, p, damage);
     }
 
     @EventHandler

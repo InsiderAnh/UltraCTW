@@ -68,6 +68,20 @@ public interface CTWPlayer {
 
     void setAssists(int assists);
 
+    void setBowKillDistance(int bowKillDistance);
+
+    int getBowKillDistance();
+
+    void setBowKills(int bowKills);
+
+    void setMaxBowDistance(int maxBowDistance);
+
+    int getMaxBowDistance();
+
+    int getBowKills();
+
+    int getTotalKills();
+
     int getKit();
 
     void setKit(int kit);

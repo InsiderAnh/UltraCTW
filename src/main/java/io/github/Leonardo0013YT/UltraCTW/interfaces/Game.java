@@ -36,7 +36,7 @@ public interface Game {
 
     void win(Team team);
 
-    void addKill(Player p);
+    void addKill(Player p, boolean bowKill);
 
     void addDeath(Player p);
 

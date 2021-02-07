@@ -7,6 +7,7 @@ import com.google.gson.GsonBuilder;
 import io.github.Leonardo0013YT.UltraCTW.adapters.ICTWPlayerAdapter;
 import io.github.Leonardo0013YT.UltraCTW.cmds.CTWCMD;
 import io.github.Leonardo0013YT.UltraCTW.cmds.SetupCMD;
+import io.github.Leonardo0013YT.UltraCTW.cmds.StatsCMD;
 import io.github.Leonardo0013YT.UltraCTW.config.Settings;
 import io.github.Leonardo0013YT.UltraCTW.controllers.ChestController;
 import io.github.Leonardo0013YT.UltraCTW.controllers.VersionController;
@@ -158,6 +159,9 @@ public class UltraCTW extends JavaPlugin {
         new ProtocolLib(this);
         getCommand("ctws").setExecutor(new SetupCMD(this));
         getCommand("ctw").setExecutor(new CTWCMD(this));
+        if (cm.isStatsCMD()){
+            getCommand("stats").setExecutor(new StatsCMD(this));
+        }
         getServer().getPluginManager().registerEvents(new SetupListener(this), this);
         getServer().getPluginManager().registerEvents(new MenuListener(this), this);
         getServer().getPluginManager().registerEvents(new PlayerListener(this), this);
