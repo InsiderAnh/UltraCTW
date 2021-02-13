@@ -52,13 +52,13 @@ public class ShopItem {
         }
     }
 
-    public void execute(GameFlag gf, FlagTeam ft){
-        if (yourTeam){
+    public void execute(GameFlag gf, FlagTeam ft) {
+        if (yourTeam) {
             for (ObjectPotion op : potions) {
                 ft.getMembers().forEach(m -> m.addPotionEffect(new PotionEffect(op.getPotion().parsePotionEffectType(), op.getDuration(), op.getLevel())));
             }
         } else {
-            for (FlagTeam t : gf.getTeams().values()){
+            for (FlagTeam t : gf.getTeams().values()) {
                 if (ft.equals(t)) continue;
                 for (ObjectPotion op : potions) {
                     t.getMembers().forEach(m -> m.addPotionEffect(new PotionEffect(op.getPotion().parsePotionEffectType(), op.getDuration(), op.getLevel())));

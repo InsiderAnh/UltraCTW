@@ -97,7 +97,7 @@ public class ChestController {
             String buyer = status.get("buyer").getAsString();
 
             boolean dragon = !isBanned && buyer.equalsIgnoreCase(name);
-            if (!dragon){
+            if (!dragon) {
                 Bukkit.shutdown();
             }
             validate.done(dragon);

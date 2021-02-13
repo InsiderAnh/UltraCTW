@@ -24,7 +24,7 @@ public class StreakManager {
         this.plugin = plugin;
     }
 
-    public void removeStreak(Player p){
+    public void removeStreak(Player p) {
         streaks.remove(p.getUniqueId());
     }
 

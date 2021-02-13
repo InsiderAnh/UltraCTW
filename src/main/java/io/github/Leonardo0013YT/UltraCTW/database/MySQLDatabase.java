@@ -2,11 +2,10 @@ package io.github.Leonardo0013YT.UltraCTW.database;
 
 import com.zaxxer.hikari.HikariDataSource;
 import io.github.Leonardo0013YT.UltraCTW.UltraCTW;
-import io.github.Leonardo0013YT.UltraCTW.api.events.PlayerLoadEvent;
 import io.github.Leonardo0013YT.UltraCTW.enums.TopType;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.CTWPlayer;
-import io.github.Leonardo0013YT.UltraCTW.interfaces.Request;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.IDatabase;
+import io.github.Leonardo0013YT.UltraCTW.interfaces.Request;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;

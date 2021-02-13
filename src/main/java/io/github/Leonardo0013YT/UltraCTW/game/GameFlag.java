@@ -87,7 +87,7 @@ public class GameFlag {
             teams.put(color, new FlagTeam(plugin, this, path + ".teams." + c, tid));
             teamsID.put(tid, color);
         }
-        for (String s : plugin.getConfig().getConfigurationSection("flagDefaults.phases").getKeys(false)){
+        for (String s : plugin.getConfig().getConfigurationSection("flagDefaults.phases").getKeys(false)) {
             events.put(events.size(), new GameEvent(plugin, "flagDefaults.phases." + s));
         }
         this.starting = plugin.getCm().getStarting();
@@ -193,9 +193,9 @@ public class GameFlag {
                     FlagTeam ft = getTeamPlayer(on);
                     CTWPlayer ctw = plugin.getDb().getCTWPlayer(on);
                     Kit kit = plugin.getKm().getKits().get(ctw.getKit());
-                    if (kit != null){
+                    if (kit != null) {
                         KitLevel kitLevel = kit.getLevels().get(ctw.getKitLevel());
-                        if (kitLevel != null){
+                        if (kitLevel != null) {
                             kitLevel.giveKitLevel(on, ft);
                         }
                     }
@@ -214,7 +214,7 @@ public class GameFlag {
             for (GameEvent e : events.values()) {
                 if (e.getTime() < 0) continue;
                 e.reduce();
-                if (e.getTime() == 0){
+                if (e.getTime() == 0) {
                     e.start(this);
                     nowEvent++;
                 }
@@ -319,7 +319,7 @@ public class GameFlag {
             CTWPlayer ctw = plugin.getDb().getCTWPlayer(p);
             ctw.addCoins(plugin.getCm().getGCoinsKills());
             ctw.setXp(ctw.getXp() + plugin.getCm().getXpKill());
-            if (bowKill){
+            if (bowKill) {
                 ctw.setBowKills(ctw.getBowKills() + 1);
             } else {
                 ctw.setKills(ctw.getKills() + 1);
@@ -328,15 +328,15 @@ public class GameFlag {
         }
     }
 
-    public GameEvent getNowEvent(){
-        if (events.containsKey(nowEvent)){
+    public GameEvent getNowEvent() {
+        if (events.containsKey(nowEvent)) {
             return events.get(nowEvent);
         }
         return null;
     }
 
-    public GameEvent getLastEvent(){
-        if (events.containsKey(nowEvent - 1)){
+    public GameEvent getLastEvent() {
+        if (events.containsKey(nowEvent - 1)) {
             return events.get(nowEvent - 1);
         }
         return null;

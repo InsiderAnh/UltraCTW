@@ -10,7 +10,6 @@ import io.github.Leonardo0013YT.UltraCTW.interfaces.CTWPlayer;
 import io.github.Leonardo0013YT.UltraCTW.objects.MineCountdown;
 import io.github.Leonardo0013YT.UltraCTW.objects.ObjectPotion;
 import io.github.Leonardo0013YT.UltraCTW.team.FlagTeam;
-import io.github.Leonardo0013YT.UltraCTW.team.Team;
 import io.github.Leonardo0013YT.UltraCTW.upgrades.Upgrade;
 import io.github.Leonardo0013YT.UltraCTW.upgrades.UpgradeLevel;
 import io.github.Leonardo0013YT.UltraCTW.utils.Utils;
@@ -45,6 +44,22 @@ public class FlagListener implements Listener {
         this.plugin = plugin;
     }
 
+    static void addStats(EntityDamageByEntityEvent e, Player p, Player d, UltraCTW plugin) {
+        CTWPlayer ctw = plugin.getDb().getCTWPlayer(d);
+        if (p.getWorld().equals(d.getWorld())) {
+            int distance = (int) d.getLocation().distance(p.getLocation());
+            if (ctw.getMaxBowDistance() < distance) {
+                ctw.setMaxBowDistance(distance);
+            }
+            if (p.getHealth() - e.getFinalDamage() <= 0) {
+                if (ctw.getBowKillDistance() < distance) {
+                    ctw.setBowKillDistance(distance);
+                }
+            }
+        }
+        ctw.setsShots(ctw.getsShots() + 1);
+    }
+
     @EventHandler
     public void onChat(AsyncPlayerChatEvent e) {
         Player p = e.getPlayer();
@@ -57,9 +72,9 @@ public class FlagListener implements Listener {
             e.getRecipients().addAll(g.getCached());
         } else {
             FlagTeam t = g.getTeamPlayer(p);
-            if (t == null){
-               msg = formatLobby(p, e.getMessage());
-               e.getRecipients().addAll(g.getCached());
+            if (t == null) {
+                msg = formatLobby(p, e.getMessage());
+                e.getRecipients().addAll(g.getCached());
             } else {
                 if (ChatColor.stripColor(e.getMessage()).startsWith("!")) {
                     msg = formatGame(p, t, e.getMessage());
@@ -119,7 +134,7 @@ public class FlagListener implements Listener {
         FlagTeam ft = g.getTeamByLoc(loc);
         FlagTeam yt = g.getTeamPlayer(p);
         if (ft == null) {
-            if (!g.getPlaced().contains(loc)){
+            if (!g.getPlaced().contains(loc)) {
                 p.sendMessage(plugin.getLang().get("messages.onlyBreakPlaced"));
                 e.setCancelled(true);
             } else {
@@ -158,22 +173,6 @@ public class FlagListener implements Listener {
         }
     }
 
-    static void addStats(EntityDamageByEntityEvent e, Player p, Player d, UltraCTW plugin) {
-        CTWPlayer ctw = plugin.getDb().getCTWPlayer(d);
-        if (p.getWorld().equals(d.getWorld())){
-            int distance = (int) d.getLocation().distance(p.getLocation());
-            if (ctw.getMaxBowDistance() < distance){
-                ctw.setMaxBowDistance(distance);
-            }
-            if (p.getHealth() - e.getFinalDamage() <= 0){
-                if (ctw.getBowKillDistance() < distance){
-                    ctw.setBowKillDistance(distance);
-                }
-            }
-        }
-        ctw.setsShots(ctw.getsShots() + 1);
-    }
-
     private void sendDamage(EntityDamageByEntityEvent e, Player p, Player d) {
         GameFlag g = plugin.getGm().getGameFlagByPlayer(p);
         if (g == null) return;
@@ -207,7 +206,7 @@ public class FlagListener implements Listener {
             Player k = plugin.getTgm().getTagged(p).getLast();
             if (k != null) {
                 CTWPlayer sk = plugin.getDb().getCTWPlayer(k);
-                for (ObjectPotion op : plugin.getCm().getEffectsOnKill()){
+                for (ObjectPotion op : plugin.getCm().getEffectsOnKill()) {
                     k.addPotionEffect(new PotionEffect(op.getPotion().parsePotionEffectType(), op.getDuration(), op.getLevel()));
                 }
                 GamePlayer gp = g.getGamePlayer().get(k);
@@ -242,8 +241,8 @@ public class FlagListener implements Listener {
         if (sw != null) {
             plugin.getTm().execute(p, g, sw.getTaunt());
         }
-        if (!g.isState(State.FINISH)){
-            new BukkitRunnable(){
+        if (!g.isState(State.FINISH)) {
+            new BukkitRunnable() {
                 @Override
                 public void run() {
                     p.teleport(team.getSpawn());
@@ -288,7 +287,7 @@ public class FlagListener implements Listener {
                 g.checkWin();
             }
         }
-        if (to.getBlockY() < 10){
+        if (to.getBlockY() < 10) {
             if (plugin.getCm().isInstaKillOnVoidFlag()) {
                 p.damage(10000);
             }
@@ -302,7 +301,7 @@ public class FlagListener implements Listener {
         if (g == null) return;
         if (e.getSlotType().equals(InventoryType.SlotType.ARMOR) && e.getSlot() == 39) {
             if (e.getCurrentItem() == null) return;
-            if (e.getCurrentItem().getType().name().endsWith("BANNER")){
+            if (e.getCurrentItem().getType().name().endsWith("BANNER")) {
                 e.setCancelled(true);
             }
         }
@@ -329,7 +328,7 @@ public class FlagListener implements Listener {
         g.getPlaced().add(b.getLocation());
     }
 
-    public void respawn(Player p, GameFlag gf, FlagTeam ft, GamePlayer gp){
+    public void respawn(Player p, GameFlag gf, FlagTeam ft, GamePlayer gp) {
         p.getInventory().addItem(plugin.getIm().getPickaxe());
         GameEvent ge = gf.getLastEvent();
         if (ge != null) {
@@ -338,12 +337,14 @@ public class FlagListener implements Listener {
         if (gp.getPickaxeKey() != null) {
             Upgrade upgrade1 = plugin.getUm().getUpgrade(gp.getPickaxeKey());
             UpgradeLevel u1 = upgrade1.getLevel(gp.getPiUpgrade());
-            upgrade1.apply(r -> { }, p, ft, u1);
+            upgrade1.apply(r -> {
+            }, p, ft, u1);
         }
-        if (gp.getTeamHaste() != null){
+        if (gp.getTeamHaste() != null) {
             Upgrade upgrade2 = plugin.getUm().getUpgrade(gp.getTeamHaste());
             UpgradeLevel u2 = upgrade2.getLevel(ft.getUpgradeHaste());
-            upgrade2.apply(r -> { }, p, ft, u2);
+            upgrade2.apply(r -> {
+            }, p, ft, u2);
         }
     }
 

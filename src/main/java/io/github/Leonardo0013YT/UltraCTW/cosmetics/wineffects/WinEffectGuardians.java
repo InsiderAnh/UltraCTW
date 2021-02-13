@@ -97,6 +97,7 @@ public class WinEffectGuardians implements WinEffect, Cloneable {
             final double add = Math.PI / 36;
             double lastStart = 0;
             double angle = 0;
+
             @Override
             public void run() {
                 if (!p.getWorld().getName().equals(world.getName())) {
@@ -120,11 +121,11 @@ public class WinEffectGuardians implements WinEffect, Cloneable {
 
     @Override
     public void stop() {
-        for (Guardian s : guardians){
+        for (Guardian s : guardians) {
             if (s == null || s.isDead()) continue;
             s.remove();
         }
-        for (ArmorStand s : armors){
+        for (ArmorStand s : armors) {
             if (s == null || s.isDead()) continue;
             s.remove();
         }

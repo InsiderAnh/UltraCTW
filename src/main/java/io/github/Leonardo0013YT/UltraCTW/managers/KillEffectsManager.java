@@ -56,7 +56,7 @@ public class KillEffectsManager {
         game.addKillEffects(we);
     }
 
-    public KillEffect getKillEffect(UltraKillEffect uwe){
+    public KillEffect getKillEffect(UltraKillEffect uwe) {
         switch (uwe.getType().toLowerCase()) {
             case "blood":
                 return new KillEffectBlood();

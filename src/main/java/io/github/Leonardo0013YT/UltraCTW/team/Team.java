@@ -61,11 +61,23 @@ public class Team {
         }
     }
 
-    public void updateWorld(World w){
+    public boolean isNearby(Location loc) {
+        if (!loc.getWorld().equals(spawn.getWorld())) {
+            return false;
+        }
+        for (Location s : spawners.keySet()) {
+            if (s.distance(loc) < 3) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void updateWorld(World w) {
         wools.keySet().forEach(o -> o.setWorld(w));
         spawners.keySet().forEach(o -> o.setWorld(w));
         spawn.setWorld(w);
-        for (Squared s : squareds){
+        for (Squared s : squareds) {
             s.getMax().setWorld(w);
             s.getMin().setWorld(w);
         }

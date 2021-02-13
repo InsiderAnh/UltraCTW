@@ -28,7 +28,7 @@ public class ScoreboardManager {
             return;
         }
         if (!plugin.getGm().isPlayerInGame(p) && plugin.getCm().isLobbyScoreboard()) {
-            if (!scoreboard.hasBoard(p)){
+            if (!scoreboard.hasBoard(p)) {
                 scoreboard.createBoard(p, main(p, plugin.getLang().get(p, "scoreboards.main.title")));
             }
             scoreboard.getBoard(p).setAll(main(p, plugin.getLang().get(p, "scoreboards.main.lines")).split("\\n"));
@@ -41,12 +41,12 @@ public class ScoreboardManager {
         if (game != null) {
             Team team = game.getTeamPlayer(p);
             if (game.isState(State.WAITING)) {
-                if (!scoreboard.hasBoard(p)){
+                if (!scoreboard.hasBoard(p)) {
                     scoreboard.createBoard(p, waiting(p, plugin.getLang().get(p, "scoreboards.waiting.title"), game));
                 }
                 scoreboard.getBoard(p).setAll(waiting(p, plugin.getLang().get(p, "scoreboards.waiting.lines"), game).split("\\n"));
             } else if (game.isState(State.STARTING)) {
-                if (!scoreboard.hasBoard(p)){
+                if (!scoreboard.hasBoard(p)) {
                     scoreboard.createBoard(p, starting(p, plugin.getLang().get(p, "scoreboards.starting.title"), game));
                 }
                 scoreboard.getBoard(p).setAll(starting(p, plugin.getLang().get(p, "scoreboards.starting.lines"), game).split("\\n"));
@@ -57,7 +57,7 @@ public class ScoreboardManager {
                 GamePlayer gp = game.getGamePlayer(p);
                 Team t1 = game.getTeamByID(0);
                 Team t2 = game.getTeamByID(1);
-                if (!scoreboard.hasBoard(p)){
+                if (!scoreboard.hasBoard(p)) {
                     scoreboard.createBoard(p, simple(p, plugin.getLang().get(p, "scoreboards.simple-game.title"), game, team, gp, t1, t2));
                 }
                 scoreboard.getBoard(p).setAll(simple(p, plugin.getLang().get(p, "scoreboards.simple-game.lines"), game, team, gp, t1, t2).split("\\n"));
@@ -66,17 +66,17 @@ public class ScoreboardManager {
         GameFlag gameFlag = plugin.getGm().getGameFlagByPlayer(p);
         if (gameFlag != null) {
             if (gameFlag.isState(State.WAITING)) {
-                if (!scoreboard.hasBoard(p)){
+                if (!scoreboard.hasBoard(p)) {
                     scoreboard.createBoard(p, waitingFlag(p, plugin.getLang().get(p, "scoreboards.waitingFlag.title"), gameFlag));
                 }
                 scoreboard.getBoard(p).setAll(waitingFlag(p, plugin.getLang().get(p, "scoreboards.waitingFlag.lines"), gameFlag).split("\\n"));
             } else if (gameFlag.isState(State.STARTING)) {
-                if (!scoreboard.hasBoard(p)){
+                if (!scoreboard.hasBoard(p)) {
                     scoreboard.createBoard(p, startingFlag(p, plugin.getLang().get(p, "scoreboards.startingFlag.title"), gameFlag));
                 }
                 scoreboard.getBoard(p).setAll(startingFlag(p, plugin.getLang().get(p, "scoreboards.startingFlag.lines"), gameFlag).split("\\n"));
             } else {
-                if (!scoreboard.hasBoard(p)){
+                if (!scoreboard.hasBoard(p)) {
                     scoreboard.createBoard(p, flag(p, plugin.getLang().get(p, "scoreboards.flag-game.title"), gameFlag));
                 }
                 scoreboard.getBoard(p).setAll(flag(p, plugin.getLang().get(p, "scoreboards.flag-game.lines"), gameFlag).split("\\n"));
@@ -119,9 +119,9 @@ public class ScoreboardManager {
                 .replace("<deaths>", String.valueOf(gp.getDeaths()));
     }
 
-    public String getEvent(GameFlag fg){
+    public String getEvent(GameFlag fg) {
         GameEvent ge = fg.getNowEvent();
-        if (ge != null){
+        if (ge != null) {
             return plugin.getLang().get("phases." + ge.getType().name()) + " " + Utils.convertTime(ge.getTime());
         }
         return plugin.getLang().get("phases.none");
@@ -182,7 +182,7 @@ public class ScoreboardManager {
                 .replace("<deaths>", String.valueOf(gp.getDeaths()));
     }
 
-    public void remove(Player p){
+    public void remove(Player p) {
         scoreboard.removeBoard(p);
     }
 

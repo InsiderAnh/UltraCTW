@@ -23,6 +23,7 @@ public class WinEffectChicken implements WinEffect {
     public void start(Player p, Game game) {
         task = new BukkitRunnable() {
             String name = game.getSpectator().getWorld().getName();
+
             @Override
             public void run() {
                 if (p == null || !p.isOnline() || !name.equals(p.getWorld().getName())) {
@@ -48,6 +49,7 @@ public class WinEffectChicken implements WinEffect {
     public void start(Player p, GameFlag game) {
         task = new BukkitRunnable() {
             String name = game.getSpectator().getWorld().getName();
+
             @Override
             public void run() {
                 if (p == null || !p.isOnline() || !name.equals(p.getWorld().getName())) {

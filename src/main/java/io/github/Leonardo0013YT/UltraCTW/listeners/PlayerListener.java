@@ -63,7 +63,7 @@ public class PlayerListener implements Listener {
         Player p = e.getPlayer();
         plugin.getLvl().checkUpgrade(p);
         Utils.updateSB(p);
-        if (plugin.getCm().isBungeeModeEnabled() && plugin.getCm().isBungeeModeAutoJoin() && plugin.getGm().getSelectedGame() != null){
+        if (plugin.getCm().isBungeeModeEnabled() && plugin.getCm().isBungeeModeAutoJoin() && plugin.getGm().getSelectedGame() != null) {
             Game game = plugin.getGm().getSelectedGame();
             plugin.getGm().addPlayerGame(p, game.getId());
         }
@@ -90,7 +90,7 @@ public class PlayerListener implements Listener {
     }
 
     @EventHandler
-    public void onTNT(EntityExplodeEvent e){
+    public void onTNT(EntityExplodeEvent e) {
         String name = e.getLocation().getWorld().getName();
         if (plugin.getGm().getGameNames().containsKey(name)) {
             e.blockList().clear();
@@ -206,7 +206,7 @@ public class PlayerListener implements Listener {
             g.getWools().remove(l);
             return;
         }
-        if (plugin.getCm().getBreakBypass().contains(l.getBlock().getType().name())){
+        if (plugin.getCm().getBreakBypass().contains(l.getBlock().getType().name())) {
             CTWPlayer ctw = plugin.getDb().getCTWPlayer(p);
             ctw.setBroken(ctw.getBroken() + 1);
             return;
@@ -221,8 +221,8 @@ public class PlayerListener implements Listener {
             p.sendMessage(plugin.getLang().get("messages.noBreak"));
             return;
         }
-        if (!g.getPlaced().contains(l)){
-            if (!plugin.getCm().isTotalBreak()){
+        if (!g.getPlaced().contains(l)) {
+            if (!plugin.getCm().isTotalBreak()) {
                 p.sendMessage(plugin.getLang().get("messages.onlyBreakPlaced"));
                 e.setCancelled(true);
                 return;
@@ -240,7 +240,7 @@ public class PlayerListener implements Listener {
             Player p = (Player) e.getEntity();
             Game g = plugin.getGm().getGameByPlayer(p);
             if (g != null) {
-                if (plugin.getCm().isHungerCTW()){
+                if (plugin.getCm().isHungerCTW()) {
                     if (g.isState(State.WAITING) || g.isState(State.STARTING) || g.isState(State.FINISH) || g.isState(State.RESTARTING)) {
                         e.setCancelled(true);
                     }
@@ -334,7 +334,12 @@ public class PlayerListener implements Listener {
             p.sendMessage(plugin.getLang().get("messages.noPlace"));
             return;
         }
-        if (!plugin.getCm().getBreakBypass().contains(l.getBlock().getType().name()) && !plugin.getCm().isTotalBreak()){
+        if (e.getBlockPlaced().getType().equals(Material.HOPPER) && g.isNearby(l)) {
+            e.setCancelled(true);
+            p.sendMessage(plugin.getLang().get("messages.noPlaceHopper"));
+            return;
+        }
+        if (!plugin.getCm().getBreakBypass().contains(l.getBlock().getType().name()) && !plugin.getCm().isTotalBreak()) {
             g.getPlaced().add(l);
         }
         CTWPlayer ctw = plugin.getDb().getCTWPlayer(p);
@@ -371,7 +376,7 @@ public class PlayerListener implements Listener {
             ctw.setWalked(ctw.getWalked() + 1);
         }
         if (to.getBlockY() < 10) {
-            if (plugin.getCm().isInstaKillOnVoidCTW()){
+            if (plugin.getCm().isInstaKillOnVoidCTW()) {
                 p.damage(1000);
             }
         }
@@ -389,7 +394,7 @@ public class PlayerListener implements Listener {
     public void onDrop(PlayerDropItemEvent e) {
         Player p = e.getPlayer();
         ItemStack item = e.getItemDrop().getItemStack();
-        if (NBTEditor.contains(item,"FLAG", "PICKAXE", "DEFAULT")){
+        if (NBTEditor.contains(item, "FLAG", "PICKAXE", "DEFAULT")) {
             e.setCancelled(true);
             return;
         }
@@ -521,7 +526,7 @@ public class PlayerListener implements Listener {
     }
 
     @EventHandler
-    public void onDeath(PlayerDeathEvent e){
+    public void onDeath(PlayerDeathEvent e) {
         Player p = e.getEntity();
         Player d = p.getKiller();
         Game g = plugin.getGm().getGameByPlayer(p);
@@ -529,10 +534,10 @@ public class PlayerListener implements Listener {
         e.getDrops().clear();
         e.setDroppedExp(0);
         e.setDeathMessage(null);
-        if (d != null){
+        if (d != null) {
             CTWPlayer sk = plugin.getDb().getCTWPlayer(d);
-            if (sk != null){
-                for (ObjectPotion op : plugin.getCm().getEffectsOnKill()){
+            if (sk != null) {
+                for (ObjectPotion op : plugin.getCm().getEffectsOnKill()) {
                     d.addPotionEffect(new PotionEffect(op.getPotion().parsePotionEffectType(), op.getDuration(), op.getLevel()));
                 }
                 if (p.getLastDamageCause() == null || p.getLastDamageCause().getCause() == null) {
@@ -551,7 +556,7 @@ public class PlayerListener implements Listener {
             executeTauntDefault(p, g);
         }
         plugin.getTgm().executeRewards(p, p.getMaxHealth());
-        new BukkitRunnable(){
+        new BukkitRunnable() {
             @Override
             public void run() {
                 p.spigot().respawn();
@@ -563,7 +568,7 @@ public class PlayerListener implements Listener {
     }
 
     @EventHandler
-    public void onRespawn(PlayerRespawnEvent e){
+    public void onRespawn(PlayerRespawnEvent e) {
         Player p = e.getPlayer();
         Game g = plugin.getGm().getGameByPlayer(p);
         if (g == null) return;
@@ -617,9 +622,9 @@ public class PlayerListener implements Listener {
             return;
         }
         ItemStack item = p.getItemInHand();
-        if ((item.getType().equals(Material.LAVA_BUCKET) || item.getType().equals(Material.WATER_BUCKET))){
+        if ((item.getType().equals(Material.LAVA_BUCKET) || item.getType().equals(Material.WATER_BUCKET))) {
             Game game = plugin.getGm().getGameByPlayer(p);
-            if (game != null){
+            if (game != null) {
                 Squared s = game.getPlayerSquared(p);
                 if (s != null && s.isNoBreak()) {
                     e.setCancelled(true);
@@ -632,7 +637,7 @@ public class PlayerListener implements Listener {
             GameFlag gamef = plugin.getGm().getGameFlagByPlayer(p);
             if (game != null) {
                 plugin.getGem().createTeamsMenu(p, game);
-            } else if (gamef != null){
+            } else if (gamef != null) {
                 plugin.getGem().createTeamsMenu(p, gamef);
             }
         }
@@ -641,7 +646,7 @@ public class PlayerListener implements Listener {
         }
         if (item.equals(plugin.getIm().getLeave())) {
             plugin.getGm().removePlayerGame(p, true);
-            if (plugin.getCm().isBungeeModeEnabled() && plugin.getCm().isSendLobbyOnQuit()){
+            if (plugin.getCm().isBungeeModeEnabled() && plugin.getCm().isSendLobbyOnQuit()) {
                 plugin.sendToServer(p, plugin.getCm().getBungeeModeLobbyServer());
             }
         }
@@ -657,16 +662,10 @@ public class PlayerListener implements Listener {
         Player p = e.getPlayer();
         from.getWorld().getPlayers().forEach(pl -> pl.hidePlayer(p));
         from.getWorld().getPlayers().forEach(p::hidePlayer);
-        for (Player pl : to.getWorld().getPlayers()){
-            if (!pl.canSee(p)){
-                continue;
-            }
+        for (Player pl : to.getWorld().getPlayers()) {
             pl.showPlayer(p);
         }
-        for (Player pl : to.getWorld().getPlayers()){
-            if (!p.canSee(pl)){
-                continue;
-            }
+        for (Player pl : to.getWorld().getPlayers()) {
             p.showPlayer(pl);
         }
     }

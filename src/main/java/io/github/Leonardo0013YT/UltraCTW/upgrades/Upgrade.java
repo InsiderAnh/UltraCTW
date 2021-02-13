@@ -51,7 +51,7 @@ public class Upgrade {
             p.addPotionEffect(new PotionEffect(up.getPotion().parsePotionEffectType(), up.getDuration(), up.getLevel()));
         }
         if (upgrade.getEnchantments().isEmpty()) return;
-        if (p.getItemInHand() == null || p.getItemInHand().getType().equals(Material.AIR)){
+        if (p.getItemInHand() == null || p.getItemInHand().getType().equals(Material.AIR)) {
             return;
         }
         ItemStack item = p.getItemInHand();

@@ -14,7 +14,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 
-@Getter@Setter
+@Getter
+@Setter
 public class GameEvent {
 
     private int time;
@@ -23,12 +24,12 @@ public class GameEvent {
     private PhaseType type;
     private ArrayList<UpgradeEnchantment> enchantments = new ArrayList<>();
 
-    public GameEvent(UltraCTW plugin, String path){
+    public GameEvent(UltraCTW plugin, String path) {
         this.time = plugin.getConfig().getInt(path + ".time");
         this.type = PhaseType.valueOf(plugin.getConfig().getString(path + ".type"));
         this.reset = time;
         this.material = Material.valueOf(plugin.getConfig().getString(path + ".pickaxe"));
-        for (String s : plugin.getConfig().getStringList(path + ".enchants")){
+        for (String s : plugin.getConfig().getStringList(path + ".enchants")) {
             if (s.equals("NONE")) continue;
             String[] st = s.split(":");
             XEnchantment e = XEnchantment.matchXEnchantment(st[0]).orElse(XEnchantment.DIG_SPEED);
@@ -38,18 +39,18 @@ public class GameEvent {
         }
     }
 
-    public GameEvent(int time, Material material, ArrayList<UpgradeEnchantment> enchantments){
+    public GameEvent(int time, Material material, ArrayList<UpgradeEnchantment> enchantments) {
         this.time = time;
         this.material = material;
         this.enchantments = enchantments;
     }
 
-    public void reduce(){
+    public void reduce() {
         time--;
     }
 
-    public void start(GameFlag flag){
-        for (Player on : flag.getPlayers()){
+    public void start(GameFlag flag) {
+        for (Player on : flag.getPlayers()) {
             applyEnchant(on);
             on.sendMessage(UltraCTW.get().getLang().get("messages.startPhase").replace("<phase>", UltraCTW.get().getLang().get("phases." + type.name())));
         }
@@ -57,9 +58,10 @@ public class GameEvent {
 
     private void applyEnchant(Player on) {
         for (ItemStack item : on.getInventory().getContents()) {
-            if (item == null || item.getType().equals(Material.AIR) || !item.getType().name().endsWith("PICKAXE")) continue;
+            if (item == null || item.getType().equals(Material.AIR) || !item.getType().name().endsWith("PICKAXE"))
+                continue;
             boolean nbt = NBTEditor.contains(item, "FLAG", "PICKAXE", "DEFAULT");
-            if (!nbt){
+            if (!nbt) {
                 continue;
             }
             ItemStack newPickaxe = new ItemStack(item);
@@ -75,15 +77,15 @@ public class GameEvent {
         }
     }
 
-    public void apply(Player on){
+    public void apply(Player on) {
         applyEnchant(on);
     }
 
-    public void reset(){
+    public void reset() {
         this.time = reset;
     }
 
-    public GameEvent clone(){
+    public GameEvent clone() {
         return new GameEvent(reset, material, enchantments);
     }
 

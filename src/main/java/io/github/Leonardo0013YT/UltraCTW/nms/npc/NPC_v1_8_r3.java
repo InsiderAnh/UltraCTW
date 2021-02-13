@@ -38,7 +38,7 @@ public class NPC_v1_8_r3 implements NPC {
         this.showing = false;
         this.npcType = npcType;
         this.nmsWorld = ((CraftWorld) loc.getWorld()).getHandle();
-        if (type.equals(EntityType.IRON_GOLEM) || type.equals(EntityType.WITHER)){
+        if (type.equals(EntityType.IRON_GOLEM) || type.equals(EntityType.WITHER)) {
             up += 0.75;
         }
     }
@@ -173,7 +173,7 @@ public class NPC_v1_8_r3 implements NPC {
     }
 
     private byte newDirection(float loc) {
-        return (byte) ((int)(loc * 256.0F / 360.0F));
+        return (byte) ((int) (loc * 256.0F / 360.0F));
     }
 
 }

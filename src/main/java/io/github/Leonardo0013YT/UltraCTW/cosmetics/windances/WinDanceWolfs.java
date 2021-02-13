@@ -25,7 +25,7 @@ public class WinDanceWolfs implements WinDance, Cloneable {
     @Override
     public void start(Player p, Game game) {
         World world = game.getSpectator().getWorld();
-        for (int i = 0; i < 20; i++){
+        for (int i = 0; i < 20; i++) {
             int x = ThreadLocalRandom.current().nextInt(0, 4);
             int z = ThreadLocalRandom.current().nextInt(0, 4);
             Location center = p.getLocation().clone().add(x, 1, z);
@@ -38,7 +38,7 @@ public class WinDanceWolfs implements WinDance, Cloneable {
     @Override
     public void start(Player p, GameFlag game) {
         World world = game.getSpectator().getWorld();
-        for (int i = 0; i < 20; i++){
+        for (int i = 0; i < 20; i++) {
             int x = ThreadLocalRandom.current().nextInt(0, 4);
             int z = ThreadLocalRandom.current().nextInt(0, 4);
             Location center = p.getLocation().clone().add(x, 1, z);

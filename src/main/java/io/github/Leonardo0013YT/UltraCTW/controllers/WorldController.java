@@ -29,7 +29,7 @@ public class WorldController {
 
     public void deleteWorld(String name) {
         World w = Bukkit.getWorld(name);
-        if (w != null){
+        if (w != null) {
             Bukkit.unloadWorld(w, false);
         }
         File path = new File(Bukkit.getWorldContainer(), name);
@@ -75,7 +75,8 @@ public class WorldController {
     }
 
     public void resetMap(Location spawn, String schematic) {
-        edit.paste(spawn, schematic, true, (b) -> {});
+        edit.paste(spawn, schematic, true, (b) -> {
+        });
     }
 
     public ChunkGenerator getChunkGenerator() {

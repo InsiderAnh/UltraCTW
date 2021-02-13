@@ -47,7 +47,7 @@ public class KillEffectHead implements KillEffect, Cloneable {
         task = new BukkitRunnable() {
             @Override
             public void run() {
-                if (armor == null || armor.isDead() || p == null || !p.isOnline()){
+                if (armor == null || armor.isDead() || p == null || !p.isOnline()) {
                     stop();
                     return;
                 }
@@ -58,7 +58,7 @@ public class KillEffectHead implements KillEffect, Cloneable {
                 pased++;
                 if (pased >= 20) {
                     p.playSound(p.getLocation(), punchSound.parseSound(), 1.0f, 1.0f);
-                    if (armor != null){
+                    if (armor != null) {
                         armor.getWorld().playEffect(armor.getLocation(), Effect.STEP_SOUND, Material.COAL_BLOCK);
                         armor.remove();
                     }
@@ -78,7 +78,7 @@ public class KillEffectHead implements KillEffect, Cloneable {
 
     @Override
     public void stop() {
-        if (armor != null){
+        if (armor != null) {
             armor.remove();
         }
         if (task != null) {

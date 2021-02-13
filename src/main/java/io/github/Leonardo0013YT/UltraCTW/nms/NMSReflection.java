@@ -67,7 +67,7 @@ public class NMSReflection {
             Object timesPacket = packetPlayOutTimes.newInstance(enumTimes, null, fadeIn, stay, fadeOut);
             Object titlePacket = packetPlayOutTitle.newInstance(enumTitle, titleC);
             Object subtitlePacket = packetPlayOutTitle.newInstance(enumSubtitle, subtitleC);
-            for (Player p : players){
+            for (Player p : players) {
                 if (p == null || !p.isOnline()) continue;
                 sendPacket(p, timesPacket);
                 sendPacket(p, titlePacket);

@@ -50,6 +50,8 @@ public interface Game {
 
     boolean isState(State state);
 
+    boolean isNearby(Location loc);
+
     void addPlayerRandomTeam(Player p);
 
     void addPlayerTeam(Player p, Team team);

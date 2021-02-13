@@ -15,23 +15,13 @@ public class PlayerCTW implements CTWPlayer {
     private int kit = 999999, kitLevel = 1, level = 1, xp = 0, shopKeeper = 0, winDance = 999999, winEffect = 0, killEffect = 999999, taunt = 0, trail = 999999, parting = 999999, killSound = 999999, assists = 0, kill5 = 0, kill25 = 0, kill50 = 0;
 
     @Override
-    public void setBowKillDistance(int bowKillDistance) {
-        this.bowKillDistance = bowKillDistance;
-    }
-
-    @Override
     public int getBowKillDistance() {
         return bowKillDistance;
     }
 
     @Override
-    public void setBowKills(int bowKills) {
-        this.bowKills = bowKills;
-    }
-
-    @Override
-    public void setMaxBowDistance(int maxBowDistance) {
-        this.maxBowDistance = maxBowDistance;
+    public void setBowKillDistance(int bowKillDistance) {
+        this.bowKillDistance = bowKillDistance;
     }
 
     @Override
@@ -40,12 +30,22 @@ public class PlayerCTW implements CTWPlayer {
     }
 
     @Override
+    public void setMaxBowDistance(int maxBowDistance) {
+        this.maxBowDistance = maxBowDistance;
+    }
+
+    @Override
     public int getBowKills() {
         return bowKills;
     }
 
     @Override
-    public int getTotalKills(){
+    public void setBowKills(int bowKills) {
+        this.bowKills = bowKills;
+    }
+
+    @Override
+    public int getTotalKills() {
         return bowKills + kills;
     }
 

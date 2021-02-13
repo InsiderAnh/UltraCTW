@@ -26,7 +26,6 @@ public class GameNoState implements Game {
     private final String name, schematic;
     private final HashSet<Player> cached = new HashSet<>(), players = new HashSet<>(), spectators = new HashSet<>(), inLobby = new HashSet<>(), inGame = new HashSet<>();
     private final HashMap<ChatColor, Team> teams = new HashMap<>();
-    private HashMap<UUID, ChatColor> playerTeam = new HashMap<>();
     private final HashMap<Integer, ChatColor> teamsID = new HashMap<>();
     private final HashMap<Player, GamePlayer> gamePlayer = new HashMap<>();
     private final ArrayList<Squared> protection = new ArrayList<>();
@@ -36,8 +35,9 @@ public class GameNoState implements Game {
     private final HashMap<Location, ItemStack> wools = new HashMap<>();
     private final ArrayList<Location> npcShop = new ArrayList<>(), npcKits = new ArrayList<>();
     private final ArrayList<Location> placed = new ArrayList<>();
-    private Squared lobbyProtection;
     private final Location lobby, spectator;
+    private HashMap<UUID, ChatColor> playerTeam = new HashMap<>();
+    private Squared lobbyProtection;
     private int teamSize, woolSize, min, starting, defKit, time = 0, max, worldTime;
     private State state;
 
@@ -152,20 +152,20 @@ public class GameNoState implements Game {
         setState(State.WAITING);
     }
 
-    public void updateWorld(World w){
+    public void updateWorld(World w) {
         lobbyProtection.getMax().setWorld(w);
         lobbyProtection.getMin().setWorld(w);
         teams.values().forEach(t -> t.updateWorld(w));
         lobby.setWorld(w);
         spectator.setWorld(w);
-        for (Location l : npcShop){
+        for (Location l : npcShop) {
             l.setWorld(w);
         }
-        for (Location l : npcKits){
+        for (Location l : npcKits) {
             l.setWorld(w);
         }
         wools.keySet().forEach(l -> l.setWorld(w));
-        for (Squared s : protection){
+        for (Squared s : protection) {
             s.getMin().setWorld(w);
             s.getMax().setWorld(w);
         }
@@ -303,7 +303,7 @@ public class GameNoState implements Game {
         new BukkitRunnable() {
             @Override
             public void run() {
-                if (plugin.getCm().isBungeeModeEnabled() && plugin.getCm().isBungeeModeKickOnFinish()){
+                if (plugin.getCm().isBungeeModeEnabled() && plugin.getCm().isBungeeModeKickOnFinish()) {
                     for (Player on : back) {
                         if (on == null || !on.isOnline()) continue;
                         plugin.sendToServer(on, plugin.getCm().getBungeeModeLobbyServer());
@@ -317,7 +317,7 @@ public class GameNoState implements Game {
             }
         }.runTaskLater(plugin, 20 * 8);
         Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, this::reset, 20 * 11);
-        if (plugin.getCm().isAutoJoinFinish()){
+        if (plugin.getCm().isAutoJoinFinish()) {
             new BukkitRunnable() {
                 @Override
                 public void run() {
@@ -340,7 +340,7 @@ public class GameNoState implements Game {
             CTWPlayer ctw = plugin.getDb().getCTWPlayer(p);
             ctw.addCoins(plugin.getCm().getGCoinsKills());
             ctw.setXp(ctw.getXp() + plugin.getCm().getXpKill());
-            if (bowKill){
+            if (bowKill) {
                 ctw.setBowKills(ctw.getBowKills() + 1);
             } else {
                 ctw.setKills(ctw.getKills() + 1);
@@ -386,6 +386,16 @@ public class GameNoState implements Game {
     @Override
     public boolean isState(State state) {
         return this.state.equals(state);
+    }
+
+    @Override
+    public boolean isNearby(Location loc) {
+        for (Team team : teams.values()) {
+            if (team.isNearby(loc)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override

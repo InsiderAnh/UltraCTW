@@ -40,7 +40,7 @@ public class NPC_v1_14_r1 implements NPC {
         this.nmsWorld = ((CraftWorld) loc.getWorld()).getHandle();
         this.showing = false;
         this.npcType = npcType;
-        if (type.equals(EntityType.IRON_GOLEM) || type.equals(EntityType.WITHER)){
+        if (type.equals(EntityType.IRON_GOLEM) || type.equals(EntityType.WITHER)) {
             up += 0.75;
         }
     }

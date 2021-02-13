@@ -104,11 +104,12 @@ public class UltraCTW extends JavaPlugin {
         upgrades = new Settings(this, "upgrades", false, false);
         debugMode = getConfig().getBoolean("debugMode");
         cc = new ChestController(this);
-        new BukkitRunnable(){
+        new BukkitRunnable() {
             @Override
             public void run() {
                 try {
-                    cc.chests((n) -> {});
+                    cc.chests((n) -> {
+                    });
                 } catch (Exception ignored) {
                 }
             }
@@ -159,7 +160,7 @@ public class UltraCTW extends JavaPlugin {
         new ProtocolLib(this);
         getCommand("ctws").setExecutor(new SetupCMD(this));
         getCommand("ctw").setExecutor(new CTWCMD(this));
-        if (cm.isStatsCMD()){
+        if (cm.isStatsCMD()) {
             getCommand("stats").setExecutor(new StatsCMD(this));
         }
         getServer().getPluginManager().registerEvents(new SetupListener(this), this);
@@ -180,7 +181,7 @@ public class UltraCTW extends JavaPlugin {
                 getGm().getFlagGames().values().forEach(GameFlag::update);
             }
         }.runTaskTimer(this, 20, 20);
-        new BukkitRunnable(){
+        new BukkitRunnable() {
             @Override
             public void run() {
                 Utils.updateSB();

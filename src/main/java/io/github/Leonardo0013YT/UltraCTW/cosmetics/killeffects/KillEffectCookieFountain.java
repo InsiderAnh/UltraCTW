@@ -39,8 +39,9 @@ public class KillEffectCookieFountain implements KillEffect, Cloneable {
         if (death == null || !death.isOnline()) {
             return;
         }
-        task = new BukkitRunnable(){
+        task = new BukkitRunnable() {
             int executes = 0;
+
             @Override
             public void run() {
                 if (executes >= flowersAmount) {
@@ -65,7 +66,7 @@ public class KillEffectCookieFountain implements KillEffect, Cloneable {
 
     @Override
     public void stop() {
-        if (task != null){
+        if (task != null) {
             task.cancel();
         }
         for (Item itemStack : it) {

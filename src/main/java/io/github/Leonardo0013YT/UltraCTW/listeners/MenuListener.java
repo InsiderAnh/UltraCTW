@@ -74,14 +74,14 @@ public class MenuListener implements Listener {
             ShopItem si = shop.getItems().get(sKey);
             GameFlag gf = plugin.getGm().getGameFlagByPlayer(p);
             GamePlayer gp = gf.getGamePlayer(p);
-            if (si.getPrice() > gp.getCoins()){
+            if (si.getPrice() > gp.getCoins()) {
                 p.sendMessage(plugin.getLang().get("messages.noCoins"));
                 return;
             }
             FlagTeam ft = gf.getTeamPlayer(p);
             if (ft == null) return;
             si.execute(gf, ft);
-            if (si.isYourTeam()){
+            if (si.isYourTeam()) {
                 ft.sendMessage(plugin.getLang().get("messages.buyedTeam").replace("<player>", p.getName()).replace("<enchant>", si.getName()));
             } else {
                 ft.sendMessage(plugin.getLang().get("messages.buyedOtherTeam").replace("<player>", p.getName()).replace("<enchant>", si.getName()));
@@ -136,7 +136,7 @@ public class MenuListener implements Listener {
             if (next.getPrice() < gp.getCoins()) {
                 AtomicBoolean hand = new AtomicBoolean(true);
                 upgrade.apply(r -> {
-                    if (!r){
+                    if (!r) {
                         p.sendMessage(plugin.getLang().get("messages.needItemHand"));
                         hand.set(false);
                     }

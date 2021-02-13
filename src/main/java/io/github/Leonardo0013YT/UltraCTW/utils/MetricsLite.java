@@ -26,6 +26,13 @@ import java.util.zip.GZIPOutputStream;
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class MetricsLite {
 
+    public static final int B_STATS_VERSION = 1;
+    private static final String URL = "https://bStats.org/submitData/bukkit";
+    private static boolean logFailedRequests;
+    private static boolean logSentData;
+    private static boolean logResponseStatusText;
+    private static String serverUUID;
+
     static {
         if (System.getProperty("bstats.relocatecheck") == null || !System.getProperty("bstats.relocatecheck").equals("false")) {
             final String defaultPackage = new String(
@@ -37,23 +44,9 @@ public class MetricsLite {
         }
     }
 
-    public static final int B_STATS_VERSION = 1;
-
-    private static final String URL = "https://bStats.org/submitData/bukkit";
-
-    private boolean enabled;
-
-    private static boolean logFailedRequests;
-
-    private static boolean logSentData;
-
-    private static boolean logResponseStatusText;
-
-    private static String serverUUID;
-
     private final Plugin plugin;
-
     private final int pluginId;
+    private boolean enabled;
 
     public MetricsLite(Plugin plugin, int pluginId) {
         if (plugin == null) {
@@ -80,7 +73,8 @@ public class MetricsLite {
             ).copyDefaults(true);
             try {
                 config.save(configFile);
-            } catch (IOException ignored) { }
+            } catch (IOException ignored) {
+            }
         }
 
         serverUUID = config.getString("serverUuid");
@@ -95,13 +89,65 @@ public class MetricsLite {
                     service.getField("B_STATS_VERSION");
                     found = true;
                     break;
-                } catch (NoSuchFieldException ignored) { }
+                } catch (NoSuchFieldException ignored) {
+                }
             }
             Bukkit.getServicesManager().register(MetricsLite.class, this, plugin, ServicePriority.Normal);
             if (!found) {
                 startSubmitting();
             }
         }
+    }
+
+    private static void sendData(Plugin plugin, JsonObject data) throws Exception {
+        if (data == null) {
+            throw new IllegalArgumentException("Data cannot be null!");
+        }
+        if (Bukkit.isPrimaryThread()) {
+            throw new IllegalAccessException("This method must not be called from the main thread!");
+        }
+        if (logSentData) {
+            plugin.getLogger().info("Sending data to bStats: " + data);
+        }
+        HttpsURLConnection connection = (HttpsURLConnection) new URL(URL).openConnection();
+
+        byte[] compressedData = compress(data.toString());
+
+        connection.setRequestMethod("POST");
+        connection.addRequestProperty("Accept", "application/json");
+        connection.addRequestProperty("Connection", "close");
+        connection.addRequestProperty("Content-Encoding", "gzip"); // We gzip our request
+        connection.addRequestProperty("Content-Length", String.valueOf(compressedData.length));
+        connection.setRequestProperty("Content-Type", "application/json"); // We send our data in JSON format
+        connection.setRequestProperty("User-Agent", "MC-Server/" + B_STATS_VERSION);
+
+        connection.setDoOutput(true);
+        try (DataOutputStream outputStream = new DataOutputStream(connection.getOutputStream())) {
+            outputStream.write(compressedData);
+        }
+
+        StringBuilder builder = new StringBuilder();
+        try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                builder.append(line);
+            }
+        }
+
+        if (logResponseStatusText) {
+            plugin.getLogger().info("Sent data to bStats and received response: " + builder);
+        }
+    }
+
+    private static byte[] compress(final String str) throws IOException {
+        if (str == null) {
+            return null;
+        }
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        try (GZIPOutputStream gzip = new GZIPOutputStream(outputStream)) {
+            gzip.write(str.getBytes(StandardCharsets.UTF_8));
+        }
+        return outputStream.toByteArray();
     }
 
     public boolean isEnabled() {
@@ -206,7 +252,8 @@ public class MetricsLite {
                     } catch (NullPointerException | NoSuchMethodException | IllegalAccessException | InvocationTargetException ignored) {
                     }
                 }
-            } catch (NoSuchFieldException ignored) { }
+            } catch (NoSuchFieldException ignored) {
+            }
         }
 
         data.add("plugins", pluginData);
@@ -220,57 +267,6 @@ public class MetricsLite {
                 }
             }
         }).start();
-    }
-
-    private static void sendData(Plugin plugin, JsonObject data) throws Exception {
-        if (data == null) {
-            throw new IllegalArgumentException("Data cannot be null!");
-        }
-        if (Bukkit.isPrimaryThread()) {
-            throw new IllegalAccessException("This method must not be called from the main thread!");
-        }
-        if (logSentData) {
-            plugin.getLogger().info("Sending data to bStats: " + data);
-        }
-        HttpsURLConnection connection = (HttpsURLConnection) new URL(URL).openConnection();
-
-        byte[] compressedData = compress(data.toString());
-
-        connection.setRequestMethod("POST");
-        connection.addRequestProperty("Accept", "application/json");
-        connection.addRequestProperty("Connection", "close");
-        connection.addRequestProperty("Content-Encoding", "gzip"); // We gzip our request
-        connection.addRequestProperty("Content-Length", String.valueOf(compressedData.length));
-        connection.setRequestProperty("Content-Type", "application/json"); // We send our data in JSON format
-        connection.setRequestProperty("User-Agent", "MC-Server/" + B_STATS_VERSION);
-
-        connection.setDoOutput(true);
-        try (DataOutputStream outputStream = new DataOutputStream(connection.getOutputStream())) {
-            outputStream.write(compressedData);
-        }
-
-        StringBuilder builder = new StringBuilder();
-        try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
-            String line;
-            while ((line = bufferedReader.readLine()) != null) {
-                builder.append(line);
-            }
-        }
-
-        if (logResponseStatusText) {
-            plugin.getLogger().info("Sent data to bStats and received response: " + builder);
-        }
-    }
-
-    private static byte[] compress(final String str) throws IOException {
-        if (str == null) {
-            return null;
-        }
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        try(GZIPOutputStream gzip = new GZIPOutputStream(outputStream)) {
-            gzip.write(str.getBytes(StandardCharsets.UTF_8));
-        }
-        return outputStream.toByteArray();
     }
 
 }

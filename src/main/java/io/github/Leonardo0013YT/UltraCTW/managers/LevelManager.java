@@ -31,7 +31,7 @@ public class LevelManager {
         }
     }
 
-    public void remove(Player p){
+    public void remove(Player p) {
         playerLevel.remove(p.getUniqueId());
     }
 

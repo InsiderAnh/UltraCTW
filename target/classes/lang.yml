@@ -55,6 +55,7 @@ phases:
   PHASE_IV: "Phase IV"
   none: "None"
 messages:
+  noPlaceHopper: "&cYou can't put hoppers in this place."
   noYourWool: "&cThis is not a wool of your team, contact admins about this is not configured."
   maxPlayers: "&aThe maximum number of people has been reached."
   startPhase: "&eThe &a<phase> &ehas been applied."

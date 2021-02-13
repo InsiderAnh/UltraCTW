@@ -1752,8 +1752,8 @@ public class SetupListener implements Listener {
             }
             if (display.equals(plugin.getLang().get(p, "menus.teamsetup.squared.nameItem"))) {
                 Selection s = as.getSelection();
-                if (e.getClick().equals(ClickType.RIGHT)){
-                    if (ts.getSquareds().isEmpty()){
+                if (e.getClick().equals(ClickType.RIGHT)) {
+                    if (ts.getSquareds().isEmpty()) {
                         p.sendMessage(plugin.getLang().get("setup.arena.noLast"));
                         return;
                     }
@@ -2042,8 +2042,8 @@ public class SetupListener implements Listener {
                 }
             }
             if (display.equals(plugin.getLang().get(p, "menus.setup.squared.nameItem"))) {
-                if (e.getClick().equals(ClickType.RIGHT)){
-                    if (as.getSquareds().isEmpty()){
+                if (e.getClick().equals(ClickType.RIGHT)) {
+                    if (as.getSquareds().isEmpty()) {
                         p.sendMessage(plugin.getLang().get("setup.arena.noLast"));
                         return;
                     }

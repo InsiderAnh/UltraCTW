@@ -43,7 +43,7 @@ public class ConfigManager {
         this.bungeeModeAutoJoin = plugin.getConfig().getBoolean("bungeeMode.autoJoin");
         this.bungeeModeKickOnFinish = plugin.getConfig().getBoolean("bungeeMode.kickOnFinish");
         this.bungeeModeLobbyServer = plugin.getConfig().getString("bungeeMode.lobbyServer");
-        for (String s : plugin.getConfig().getStringList("effectsOnKill")){
+        for (String s : plugin.getConfig().getStringList("effectsOnKill")) {
             String[] st = s.split(":");
             XPotion potion = XPotion.matchXPotion(st[0]).orElse(XPotion.REGENERATION);
             int level = Integer.parseInt(st[1]);

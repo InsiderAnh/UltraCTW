@@ -1,8 +1,8 @@
 package io.github.Leonardo0013YT.UltraCTW.cosmetics.killeffects;
 
 import io.github.Leonardo0013YT.UltraCTW.UltraCTW;
-import io.github.Leonardo0013YT.UltraCTW.interfaces.Purchasable;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.CTWPlayer;
+import io.github.Leonardo0013YT.UltraCTW.interfaces.Purchasable;
 import io.github.Leonardo0013YT.UltraCTW.utils.ItemBuilder;
 import io.github.Leonardo0013YT.UltraCTW.utils.NBTEditor;
 import io.github.Leonardo0013YT.UltraCTW.xseries.XMaterial;
@@ -68,7 +68,7 @@ public class UltraKillEffect implements Purchasable {
     }
 
     public ItemStack getIcon(Player p) {
-        if (icon == null || icon.getType().equals(Material.AIR)){
+        if (icon == null || icon.getType().equals(Material.AIR)) {
             icon = new ItemStack(Material.BEDROCK);
         }
         if (!icon.hasItemMeta()) {

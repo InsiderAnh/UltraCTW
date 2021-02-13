@@ -204,7 +204,7 @@ public class CTWCMD implements CommandExecutor {
                 case "leave":
                     plugin.getGm().removePlayerGame(p, true);
                     p.sendMessage(plugin.getLang().get("messages.leaveGame"));
-                    if (plugin.getCm().isBungeeModeEnabled() && plugin.getCm().isSendLobbyOnQuit()){
+                    if (plugin.getCm().isBungeeModeEnabled() && plugin.getCm().isSendLobbyOnQuit()) {
                         plugin.sendToServer(p, plugin.getCm().getBungeeModeLobbyServer());
                     }
                     break;
@@ -214,7 +214,7 @@ public class CTWCMD implements CommandExecutor {
                         return true;
                     }
                     String type = args[1].toLowerCase();
-                    switch (type){
+                    switch (type) {
                         case "wool":
                             if (plugin.getGm().isPlayerInGame(p)) {
                                 p.sendMessage(plugin.getLang().get("messages.alreadyIngame"));
@@ -222,7 +222,7 @@ public class CTWCMD implements CommandExecutor {
                             }
                             Game selected2 = plugin.getGm().getSelectedGame();
                             if (selected2 == null) return true;
-                            if (selected2.getPlayers().size() >= selected2.getMax()){
+                            if (selected2.getPlayers().size() >= selected2.getMax()) {
                                 p.sendMessage(plugin.getLang().get("messages.maxPlayers"));
                                 return true;
                             }
@@ -253,7 +253,7 @@ public class CTWCMD implements CommandExecutor {
                     }
                     if (plugin.getGm().getSelectedGame() != null) {
                         Game selected = plugin.getGm().getSelectedGame();
-                        if (selected.getPlayers().size() >= selected.getMax()){
+                        if (selected.getPlayers().size() >= selected.getMax()) {
                             p.sendMessage(plugin.getLang().get("messages.maxPlayers"));
                             return true;
                         }
@@ -284,7 +284,7 @@ public class CTWCMD implements CommandExecutor {
                         p.sendMessage(plugin.getLang().get("messages.gameNotExists"));
                         return true;
                     }
-                    if (found2.isState(State.GAME)){
+                    if (found2.isState(State.GAME)) {
                         p.sendMessage(plugin.getLang().get("messages.alreadyStart"));
                         return true;
                     }

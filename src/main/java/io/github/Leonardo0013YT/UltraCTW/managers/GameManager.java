@@ -59,7 +59,7 @@ public class GameManager {
     }
 
     public void reset() {
-        if (games.isEmpty()){
+        if (games.isEmpty()) {
             return;
         }
         Game selectedGame = new ArrayList<>(games.values()).get(ThreadLocalRandom.current().nextInt(0, games.values().size()));
@@ -67,11 +67,11 @@ public class GameManager {
     }
 
     public void reset(Game game) {
-        if (games.isEmpty()){
+        if (games.isEmpty()) {
             return;
         }
         ArrayList<Game> back = new ArrayList<>(games.values());
-        if (games.size() != 1){
+        if (games.size() != 1) {
             back.remove(game);
         }
         Game selectedGame = new ArrayList<>(back).get(ThreadLocalRandom.current().nextInt(0, back.size()));
@@ -86,26 +86,26 @@ public class GameManager {
     }
 
     public void updatePlayersPlaceholder() {
-        if (getSelectedGame() != null){
+        if (getSelectedGame() != null) {
             players.put("wool", getSelectedGame().getPlayers().size());
         } else {
             players.put("wool", 0);
         }
         int count = 0;
-        for (GameFlag gf : flagGames.values()){
+        for (GameFlag gf : flagGames.values()) {
             count += gf.getPlayers().size();
         }
         players.put("flag", count);
         lastUpdatePlayers = System.currentTimeMillis();
     }
 
-    public GameFlag getRandomGameFlag(){
+    public GameFlag getRandomGameFlag() {
         GameFlag fg = null;
         int amount = 0;
         for (GameFlag gf : flagGames.values()) {
             if (gf.isState(State.GAME) || gf.isState(State.FINISH) || gf.isState(State.RESTARTING)) continue;
             if (gf.getPlayers().size() >= gf.getMax()) continue;
-            if (amount <= gf.getPlayers().size()){
+            if (amount <= gf.getPlayers().size()) {
                 fg = gf;
                 amount = gf.getPlayers().size();
             }

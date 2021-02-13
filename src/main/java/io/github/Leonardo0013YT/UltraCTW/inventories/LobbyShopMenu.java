@@ -21,7 +21,7 @@ public class LobbyShopMenu implements UltraInventory {
     public LobbyShopMenu(UltraCTW plugin, String name) {
         this.plugin = plugin;
         this.name = name;
-        this.title = plugin.getLang().get( "menus." + name + ".title");
+        this.title = plugin.getLang().get("menus." + name + ".title");
         if (plugin.getMenus().isSet("menus." + name)) {
             this.rows = plugin.getMenus().getInt("menus." + name + ".rows");
             Map<Integer, ItemStack> config = new HashMap<>();
@@ -32,13 +32,13 @@ public class LobbyShopMenu implements UltraInventory {
                     int slot = Integer.parseInt(c);
                     ItemStack litem = plugin.getMenus().getConfig().getItemStack("menus." + name + ".items." + c);
                     ItemStack item = ItemBuilder.parse(plugin.getMenus().getConfig().getItemStack("menus." + name + ".items." + c).clone(),
-                            new String[]{"{LOBBYKEEPERS}", plugin.getLang().get( "menus.lobby.shopkeepers.nameItem"), plugin.getLang().get( "menus.lobby.shopkeepers.loreItem")},
-                            new String[]{"{LOBBYTRAILS}", plugin.getLang().get( "menus.lobby.trails.nameItem"), plugin.getLang().get( "menus.lobby.trails.loreItem")},
-                            new String[]{"{LOBBYTAUNTS}", plugin.getLang().get( "menus.lobby.taunts.nameItem"), plugin.getLang().get( "menus.lobby.taunts.loreItem")},
-                            new String[]{"{LOBBYKILLSOUND}", plugin.getLang().get( "menus.lobby.killsound.nameItem"), plugin.getLang().get( "menus.lobby.killsound.loreItem")},
-                            new String[]{"{LOBBYKILLEFFECTS}", plugin.getLang().get( "menus.lobby.killeffects.nameItem"), plugin.getLang().get( "menus.lobby.killeffects.loreItem")},
-                            new String[]{"{LOBBYWINDANCES}", plugin.getLang().get( "menus.lobby.windances.nameItem"), plugin.getLang().get( "menus.lobby.windances.loreItem")},
-                            new String[]{"{LOBBYWINEFFECTS}", plugin.getLang().get( "menus.lobby.wineffects.nameItem"), plugin.getLang().get( "menus.lobby.wineffects.loreItem")});
+                            new String[]{"{LOBBYKEEPERS}", plugin.getLang().get("menus.lobby.shopkeepers.nameItem"), plugin.getLang().get("menus.lobby.shopkeepers.loreItem")},
+                            new String[]{"{LOBBYTRAILS}", plugin.getLang().get("menus.lobby.trails.nameItem"), plugin.getLang().get("menus.lobby.trails.loreItem")},
+                            new String[]{"{LOBBYTAUNTS}", plugin.getLang().get("menus.lobby.taunts.nameItem"), plugin.getLang().get("menus.lobby.taunts.loreItem")},
+                            new String[]{"{LOBBYKILLSOUND}", plugin.getLang().get("menus.lobby.killsound.nameItem"), plugin.getLang().get("menus.lobby.killsound.loreItem")},
+                            new String[]{"{LOBBYKILLEFFECTS}", plugin.getLang().get("menus.lobby.killeffects.nameItem"), plugin.getLang().get("menus.lobby.killeffects.loreItem")},
+                            new String[]{"{LOBBYWINDANCES}", plugin.getLang().get("menus.lobby.windances.nameItem"), plugin.getLang().get("menus.lobby.windances.loreItem")},
+                            new String[]{"{LOBBYWINEFFECTS}", plugin.getLang().get("menus.lobby.wineffects.nameItem"), plugin.getLang().get("menus.lobby.wineffects.loreItem")});
                     contents.put(slot, item);
                     config.put(slot, litem);
                 }
@@ -121,13 +121,13 @@ public class LobbyShopMenu implements UltraInventory {
                     int slot = Integer.parseInt(c);
                     ItemStack litem = plugin.getMenus().getConfig().getItemStack("menus." + name + ".items." + c);
                     ItemStack item = ItemBuilder.parse(plugin.getMenus().getConfig().getItemStack("menus." + name + ".items." + c).clone(),
-                            new String[]{"{LOBBYKEEPERS}", plugin.getLang().get( "menus.lobby.shopkeepers.nameItem"), plugin.getLang().get( "menus.lobby.shopkeepers.loreItem")},
-                            new String[]{"{LOBBYTRAILS}", plugin.getLang().get( "menus.lobby.trails.nameItem"), plugin.getLang().get( "menus.lobby.trails.loreItem")},
-                            new String[]{"{LOBBYTAUNTS}", plugin.getLang().get( "menus.lobby.taunts.nameItem"), plugin.getLang().get( "menus.lobby.taunts.loreItem")},
-                            new String[]{"{LOBBYKILLSOUND}", plugin.getLang().get( "menus.lobby.killsound.nameItem"), plugin.getLang().get( "menus.lobby.killsound.loreItem")},
-                            new String[]{"{LOBBYKILLEFFECTS}", plugin.getLang().get( "menus.lobby.killeffects.nameItem"), plugin.getLang().get( "menus.lobby.killeffects.loreItem")},
-                            new String[]{"{LOBBYWINDANCES}", plugin.getLang().get( "menus.lobby.windances.nameItem"), plugin.getLang().get( "menus.lobby.windances.loreItem")},
-                            new String[]{"{LOBBYWINEFFECTS}", plugin.getLang().get( "menus.lobby.wineffects.nameItem"), plugin.getLang().get( "menus.lobby.wineffects.loreItem")});
+                            new String[]{"{LOBBYKEEPERS}", plugin.getLang().get("menus.lobby.shopkeepers.nameItem"), plugin.getLang().get("menus.lobby.shopkeepers.loreItem")},
+                            new String[]{"{LOBBYTRAILS}", plugin.getLang().get("menus.lobby.trails.nameItem"), plugin.getLang().get("menus.lobby.trails.loreItem")},
+                            new String[]{"{LOBBYTAUNTS}", plugin.getLang().get("menus.lobby.taunts.nameItem"), plugin.getLang().get("menus.lobby.taunts.loreItem")},
+                            new String[]{"{LOBBYKILLSOUND}", plugin.getLang().get("menus.lobby.killsound.nameItem"), plugin.getLang().get("menus.lobby.killsound.loreItem")},
+                            new String[]{"{LOBBYKILLEFFECTS}", plugin.getLang().get("menus.lobby.killeffects.nameItem"), plugin.getLang().get("menus.lobby.killeffects.loreItem")},
+                            new String[]{"{LOBBYWINDANCES}", plugin.getLang().get("menus.lobby.windances.nameItem"), plugin.getLang().get("menus.lobby.windances.loreItem")},
+                            new String[]{"{LOBBYWINEFFECTS}", plugin.getLang().get("menus.lobby.wineffects.nameItem"), plugin.getLang().get("menus.lobby.wineffects.loreItem")});
                     contents.put(slot, item);
                     config.put(slot, litem);
                 }

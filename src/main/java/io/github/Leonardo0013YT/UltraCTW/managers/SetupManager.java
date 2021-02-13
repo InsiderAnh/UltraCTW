@@ -23,6 +23,10 @@ public class SetupManager {
     private HashMap<Player, FlagTeamSetup> setupTeamFlag = new HashMap<>();
     private HashMap<UUID, String> delete = new HashMap<>();
 
+    public SetupManager(UltraCTW plugin) {
+        this.plugin = plugin;
+    }
+
     public void setDelete(Player p, String name) {
         delete.put(p.getUniqueId(), name);
     }
@@ -37,10 +41,6 @@ public class SetupManager {
 
     public String getDelete(Player p) {
         return delete.get(p.getUniqueId());
-    }
-
-    public SetupManager(UltraCTW plugin) {
-        this.plugin = plugin;
     }
 
     public void setSetupKit(Player p, KitSetup ks) {

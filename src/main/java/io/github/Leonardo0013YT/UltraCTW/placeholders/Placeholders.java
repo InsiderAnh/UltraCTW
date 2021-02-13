@@ -35,10 +35,10 @@ public class Placeholders extends PlaceholderExpansion {
     @Override
     public String onPlaceholderRequest(Player p, String id) {
         CTWPlayer sw = plugin.getDb().getCTWPlayer(p);
-        if (id.equals("players_wool")){
+        if (id.equals("players_wool")) {
             return "" + plugin.getGm().getGameSize("wool");
         }
-        if (id.equals("players_flag")){
+        if (id.equals("players_flag")) {
             return "" + plugin.getGm().getGameSize("flag");
         }
         if (id.equals("total_trails")) {
@@ -147,7 +147,7 @@ public class Placeholders extends PlaceholderExpansion {
             return "" + sw.getLevel();
         }
         if (id.equals("coins")) {
-            return "" + plugin.getAdm().getCoins(p);
+            return Utils.format(plugin.getAdm().getCoins(p));
         }
         if (id.equals("bow_distance")) {
             return "" + sw.getMaxBowDistance();

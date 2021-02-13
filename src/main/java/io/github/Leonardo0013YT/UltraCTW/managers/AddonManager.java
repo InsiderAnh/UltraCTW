@@ -34,10 +34,10 @@ public class AddonManager {
                 plugin.getCm().reload();
             }
         }
-        if (h != null){
+        if (h != null) {
             h.remove();
         }
-        if (hd != null){
+        if (hd != null) {
             hd.remove();
         }
         new BukkitRunnable() {

@@ -140,7 +140,7 @@ public class MVdWPlaceholders {
             Player p = e.getPlayer();
             CTWPlayer sw = plugin.getDb().getCTWPlayer(p);
             if (sw != null) {
-                return "" + plugin.getAdm().getCoins(p);
+                return Utils.format(plugin.getAdm().getCoins(p));
             }
             return "";
         });
