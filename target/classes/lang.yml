@@ -55,6 +55,8 @@ phases:
   PHASE_IV: "Phase IV"
   none: "None"
 messages:
+  kickCTW: "&cYou can't log in when the game is started."
+  noIngame: '&cYou can''t execute that command in a game.'
   noPlaceHopper: "&cYou can't put hoppers in this place."
   noYourWool: "&cThis is not a wool of your team, contact admins about this is not configured."
   maxPlayers: "&aThe maximum number of people has been reached."
