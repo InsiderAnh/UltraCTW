@@ -6,6 +6,7 @@ addons:
 bungeeMode:
   enabled: false
   autoJoin: true
+  kickOnStarted: true
   sendLobbyOnQuit: true
   kickOnFinish: false
   lobbyServer: LobbyCTW-1
@@ -18,6 +19,9 @@ kitLevelsOrder: true
 lobbyScoreboard: true
 statsCMD: true
 updatePlayersPlaceholder: 5
+whitelistedCMD:
+  - /sw leave
+  - /sw forcestart
 effectsOnKill:
   - "REGENERATION:2:5"
 redPanel:

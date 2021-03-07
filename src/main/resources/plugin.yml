@@ -1,6 +1,6 @@
 name: UltraCaptureTheWool
 main: io.github.Leonardo0013YT.UltraCTW.UltraCTW
-version: 2.2.6
+version: 2.2.8
 author: Leonardo0013YT
 softdepend: [ PlaceholderAPI, MVdWPlaceholderAPI ]
 depend: [ NametagEdit, ProtocolLib, WorldEdit, FastAsyncWorldEdit ]

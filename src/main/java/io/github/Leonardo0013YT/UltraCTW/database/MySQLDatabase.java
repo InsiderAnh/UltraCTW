@@ -383,6 +383,10 @@ public class MySQLDatabase implements IDatabase {
 
     private void loadPlayerData(UUID p, CTWPlayer pd) {
         CTWPlayer now = new PlayerCTW();
+        now.setBowKillDistance(pd.getBowKillDistance());
+        now.setMaxBowDistance(pd.getMaxBowDistance());
+        now.setBowKills(pd.getBowKills());
+        now.setBowKillDistance(pd.getBowKillDistance());
         now.setShopkeepers(pd.getShopkeepers());
         now.setBounty(pd.getBounty());
         now.setWoolCaptured(pd.getWoolCaptured());

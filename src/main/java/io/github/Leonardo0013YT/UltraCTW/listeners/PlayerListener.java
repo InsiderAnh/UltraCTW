@@ -59,6 +59,17 @@ public class PlayerListener implements Listener {
     }
 
     @EventHandler
+    public void onLogin(PlayerLoginEvent e){
+        if (plugin.getCm().isBungeeModeEnabled() && plugin.getCm().isKickOnStarted() && plugin.getGm().getSelectedGame() != null) {
+            Game game = plugin.getGm().getSelectedGame();
+            if (game.isState(State.GAME) || game.isState(State.FINISH) || game.isState(State.RESTARTING)){
+                e.setResult(PlayerLoginEvent.Result.KICK_FULL);
+                e.setKickMessage(plugin.getLang().get("messages.kickCTW"));
+            }
+        }
+    }
+
+    @EventHandler
     public void onLoad(PlayerLoadEvent e) {
         Player p = e.getPlayer();
         plugin.getLvl().checkUpgrade(p);
@@ -668,6 +679,25 @@ public class PlayerListener implements Listener {
         for (Player pl : to.getWorld().getPlayers()) {
             p.showPlayer(pl);
         }
+    }
+
+    @EventHandler
+    public void onCMD(PlayerCommandPreprocessEvent e) {
+        Player p = e.getPlayer();
+        Game game = plugin.getGm().getGameByPlayer(p);
+        if (game == null) {
+            return;
+        }
+        if (p.hasPermission("ultractw.mod")) {
+            return;
+        }
+        for (String cmd : plugin.getCm().getWhitelistedCMD()) {
+            if (e.getMessage().startsWith(cmd)) {
+                return;
+            }
+        }
+        e.setCancelled(true);
+        p.sendMessage(plugin.getLang().get(p, "messages.noIngame"));
     }
 
     private boolean check(Player p1, Player p2) {

@@ -16,8 +16,8 @@ import java.util.List;
 @Getter
 public class ConfigManager {
 
-    private UltraCTW plugin;
-    private boolean statsCMD, autoJoinFinish, mobGriefing, totalBreak, sendLobbyOnQuit, bungeeModeEnabled, bungeeModeAutoJoin, bungeeModeKickOnFinish, instaKillOnVoidFlag, instaKillOnVoidCTW, lobbyScoreboard, hungerFlag, hungerCTW, breakMap, kitLevelsOrder, excluideDefKits, itemLobbyEnabled, placeholdersAPI, redPanelInLocked, holograms, holographicdisplays;
+    private final UltraCTW plugin;
+    private boolean kickOnStarted, statsCMD, autoJoinFinish, mobGriefing, totalBreak, sendLobbyOnQuit, bungeeModeEnabled, bungeeModeAutoJoin, bungeeModeKickOnFinish, instaKillOnVoidFlag, instaKillOnVoidCTW, lobbyScoreboard, hungerFlag, hungerCTW, breakMap, kitLevelsOrder, excluideDefKits, itemLobbyEnabled, placeholdersAPI, redPanelInLocked, holograms, holographicdisplays;
     private Location mainLobby, topKills, topWins, topCaptured, topBounty;
     private short redPanelData;
     private Material back, redPanelMaterial;
@@ -26,8 +26,8 @@ public class ConfigManager {
     private int ironGenerating, updatePlayersPlaceholder, gracePeriod, limitOfYSpawn, itemLobbySlot, maxMultiplier, gCoinsKills, gCoinsWins, gCoinsAssists, gCoinsCapture, coinsKill, coinsWin, coinsAssists, coinsCapture, xpKill, xpWin, xpAssists, xpCapture, starting, progressBarAmount, timeToKill;
     private double bountyMin, bountyMax, bountyPerKill;
     private String bungeeModeLobbyServer, itemLobbyCMD;
-    private List<String> noDrop, breakBypass;
-    private List<ObjectPotion> effectsOnKill = new ArrayList<>();
+    private List<String> whitelistedCMD, noDrop, breakBypass;
+    private final List<ObjectPotion> effectsOnKill = new ArrayList<>();
 
     public ConfigManager(UltraCTW plugin) {
         this.plugin = plugin;
@@ -39,6 +39,7 @@ public class ConfigManager {
         this.mobGriefing = plugin.getConfig().getBoolean("mobGriefing");
         this.totalBreak = plugin.getConfig().getBoolean("breakMap.totalBreak");
         this.sendLobbyOnQuit = plugin.getConfig().getBoolean("bungeeMode.sendLobbyOnQuit");
+        this.kickOnStarted = plugin.getConfig().getBoolean("bungeeMode.kickOnStarted");
         this.bungeeModeEnabled = plugin.getConfig().getBoolean("bungeeMode.enabled");
         this.bungeeModeAutoJoin = plugin.getConfig().getBoolean("bungeeMode.autoJoin");
         this.bungeeModeKickOnFinish = plugin.getConfig().getBoolean("bungeeMode.kickOnFinish");
@@ -64,6 +65,7 @@ public class ConfigManager {
         this.excluideDefKits = plugin.getConfig().getBoolean("excluideDefKits");
         this.itemLobbyEnabled = plugin.getConfig().getBoolean("items.lobby.enabled");
         this.itemLobbySlot = plugin.getConfig().getInt("items.lobby.slot");
+        this.whitelistedCMD = plugin.getConfig().getStringList("whitelistedCMD");
         this.itemLobbyCMD = plugin.getConfig().getString("items.lobby.cmd");
         this.maxMultiplier = plugin.getConfig().getInt("gameDefaults.maxMultiplier");
         this.topKills = Utils.getStringLocation(plugin.getConfig().getString("topKills"));
