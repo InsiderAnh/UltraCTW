@@ -2,6 +2,8 @@ package io.github.Leonardo0013YT.UltraCTW.setup;
 
 import io.github.Leonardo0013YT.UltraCTW.UltraCTW;
 import io.github.Leonardo0013YT.UltraCTW.enums.PhaseType;
+import io.github.Leonardo0013YT.UltraCTW.objects.Selection;
+import io.github.Leonardo0013YT.UltraCTW.objects.Squared;
 import io.github.Leonardo0013YT.UltraCTW.utils.Utils;
 import lombok.Getter;
 import lombok.Setter;
@@ -26,7 +28,9 @@ public class FlagSetup {
     private ArrayList<String> npcUpgrades = new ArrayList<>(), npcBuff = new ArrayList<>(), npcShop = new ArrayList<>(), npcKits = new ArrayList<>();
     private ArrayList<PhaseType> phases = new ArrayList<>();
     private FlagTeamSetup actual;
+    private Selection selection = new Selection();
     private int pool = 10, min, teamSize;
+    private Squared protection;
 
     public FlagSetup(UltraCTW plugin, Player p, String name, String schematic) {
         this.plugin = plugin;
@@ -70,6 +74,10 @@ public class FlagSetup {
         plugin.getArenas().set(path + ".npcBuff", npcBuff);
         plugin.getArenas().set(path + ".npcShop", npcShop);
         plugin.getArenas().set(path + ".npcKits", npcKits);
+        if (protection != null) {
+            plugin.getArenas().set(path + ".lobbyProtection.min", Utils.getLocationString(protection.getMin()));
+            plugin.getArenas().set(path + ".lobbyProtection.max", Utils.getLocationString(protection.getMax()));
+        }
         int id = 0;
         for (Location l : mines.keySet()) {
             String tpath = "arenas." + name + ".mines." + id;

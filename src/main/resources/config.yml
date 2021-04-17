@@ -20,8 +20,8 @@ lobbyScoreboard: true
 statsCMD: true
 updatePlayersPlaceholder: 5
 whitelistedCMD:
-  - /sw leave
-  - /sw forcestart
+  - /ctw leave
+  - /ctw forcestart
 effectsOnKill:
   - "REGENERATION:2:5"
 redPanel:
@@ -110,3 +110,15 @@ items:
 materials:
   lobby: DIAMOND
   closeitem: BOOK
+win-commands:
+  enabled: false
+  cmds:
+    - "say <player> is a pro!"
+death-commands:
+  enabled: false
+  cmds:
+    - "say <player> is a noob!"
+kill-commands:
+  enabled: false
+  cmds:
+    - "say <player> is a killer!"

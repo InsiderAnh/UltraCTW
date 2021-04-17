@@ -1444,6 +1444,12 @@ menus:
         &eClick to save!
   flag:
     title: "&aFlag Arena"
+    protection:
+      nameItem: "&eLobby Protection"
+      loreItem: |-
+        &7Lobby protection cuboid.
+        &7
+        &eClick to set protection!
     npcKits:
       nameItem: "&eNPC Kits"
       loreItem: |-

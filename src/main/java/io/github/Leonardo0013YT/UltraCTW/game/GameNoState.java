@@ -291,6 +291,9 @@ public class GameNoState implements Game {
         for (Player w : team.getMembers()) {
             CTWPlayer ctw = plugin.getDb().getCTWPlayer(w);
             if (ctw == null) continue;
+            if (plugin.getCm().isWCMDEnabled()) {
+                plugin.getCm().getWinCommands().forEach(c -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), c.replaceAll("<player>", w.getName())));
+            }
             ctw.addCoins(plugin.getCm().getGCoinsWins());
             ctw.setXp(ctw.getXp() + plugin.getCm().getXpWin());
             ctw.setWins(ctw.getWins() + 1);

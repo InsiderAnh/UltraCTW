@@ -17,7 +17,7 @@ import java.util.List;
 public class ConfigManager {
 
     private final UltraCTW plugin;
-    private boolean kickOnStarted, statsCMD, autoJoinFinish, mobGriefing, totalBreak, sendLobbyOnQuit, bungeeModeEnabled, bungeeModeAutoJoin, bungeeModeKickOnFinish, instaKillOnVoidFlag, instaKillOnVoidCTW, lobbyScoreboard, hungerFlag, hungerCTW, breakMap, kitLevelsOrder, excluideDefKits, itemLobbyEnabled, placeholdersAPI, redPanelInLocked, holograms, holographicdisplays;
+    private boolean wCMDEnabled, kCMDEnabled, dCMDEnabled, kickOnStarted, statsCMD, autoJoinFinish, mobGriefing, totalBreak, sendLobbyOnQuit, bungeeModeEnabled, bungeeModeAutoJoin, bungeeModeKickOnFinish, instaKillOnVoidFlag, instaKillOnVoidCTW, lobbyScoreboard, hungerFlag, hungerCTW, breakMap, kitLevelsOrder, excluideDefKits, itemLobbyEnabled, placeholdersAPI, redPanelInLocked, holograms, holographicdisplays;
     private Location mainLobby, topKills, topWins, topCaptured, topBounty;
     private short redPanelData;
     private Material back, redPanelMaterial;
@@ -26,6 +26,7 @@ public class ConfigManager {
     private int ironGenerating, updatePlayersPlaceholder, gracePeriod, limitOfYSpawn, itemLobbySlot, maxMultiplier, gCoinsKills, gCoinsWins, gCoinsAssists, gCoinsCapture, coinsKill, coinsWin, coinsAssists, coinsCapture, xpKill, xpWin, xpAssists, xpCapture, starting, progressBarAmount, timeToKill;
     private double bountyMin, bountyMax, bountyPerKill;
     private String bungeeModeLobbyServer, itemLobbyCMD;
+    private List<String> winCommands, killCommands, deathCommands;
     private List<String> whitelistedCMD, noDrop, breakBypass;
     private final List<ObjectPotion> effectsOnKill = new ArrayList<>();
 
@@ -35,6 +36,12 @@ public class ConfigManager {
     }
 
     public void reload() {
+        this.wCMDEnabled = plugin.getConfig().getBoolean("win-commands.enabled");
+        this.kCMDEnabled = plugin.getConfig().getBoolean("kill-commands.enabled");
+        this.dCMDEnabled = plugin.getConfig().getBoolean("death-commands.enabled");
+        this.winCommands = plugin.getConfig().getStringList("win-commands.cmds");
+        this.killCommands = plugin.getConfig().getStringList("kill-commands.cmds");
+        this.deathCommands = plugin.getConfig().getStringList("death-commands.cmds");
         this.statsCMD = plugin.getConfig().getBoolean("statsCMD");
         this.mobGriefing = plugin.getConfig().getBoolean("mobGriefing");
         this.totalBreak = plugin.getConfig().getBoolean("breakMap.totalBreak");

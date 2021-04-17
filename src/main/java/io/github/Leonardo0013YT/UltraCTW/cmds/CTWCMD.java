@@ -30,6 +30,46 @@ public class CTWCMD implements CommandExecutor {
                 return true;
             }
             switch (args[0].toLowerCase()) {
+                case "buffdebuff": {
+                    GameFlag gf = plugin.getGm().getGameFlagByPlayer(p);
+                    if (gf != null) {
+                        plugin.getFgm().createMainBuffDebuffMenu(p);
+                    }
+                    break;
+                }
+                case "upgrades": {
+                    GameFlag gf = plugin.getGm().getGameFlagByPlayer(p);
+                    if (gf != null) {
+                        plugin.getFgm().createMainUpgradeMenu(p);
+                    }
+                    break;
+                }
+                case "kits": {
+                    Game g = plugin.getGm().getGameByPlayer(p);
+                    if (g != null){
+                        plugin.getUim().getPages().put(p, 1);
+                        plugin.getUim().createKitSelectorMenu(p);
+                    } else {
+                        GameFlag gf = plugin.getGm().getGameFlagByPlayer(p);
+                        if (gf != null) {
+                            plugin.getUim().getPages().put(p, 1);
+                            plugin.getUim().createKitSelectorMenu(p);
+                        }
+                    }
+                    break;
+                }
+                case "shop": {
+                    Game g = plugin.getGm().getGameByPlayer(p);
+                    if (g != null) {
+                        plugin.getGem().createShopMenu(p);
+                    } else {
+                        GameFlag gf = plugin.getGm().getGameFlagByPlayer(p);
+                        if (gf != null) {
+                            plugin.getGem().createShopMenu(p);
+                        }
+                    }
+                    break;
+                }
                 case "stats":
                     p.sendMessage(plugin.getLang().get(p, "stats"));
                     break;

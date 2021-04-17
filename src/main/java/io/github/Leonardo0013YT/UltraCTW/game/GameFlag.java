@@ -12,14 +12,12 @@ import io.github.Leonardo0013YT.UltraCTW.interfaces.KillEffect;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.WinDance;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.WinEffect;
 import io.github.Leonardo0013YT.UltraCTW.objects.MineCountdown;
+import io.github.Leonardo0013YT.UltraCTW.objects.Squared;
 import io.github.Leonardo0013YT.UltraCTW.team.FlagTeam;
 import io.github.Leonardo0013YT.UltraCTW.utils.Utils;
 import io.github.Leonardo0013YT.UltraCTW.xseries.XSound;
 import lombok.Getter;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Sound;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -34,22 +32,24 @@ import java.util.List;
 @Getter
 public class GameFlag {
 
-    private UltraCTW plugin;
-    private int id, teamSize, starting, min, max, pool, time = 0, nowEvent = 0;
-    private HashMap<Integer, GameEvent> events = new HashMap<>();
-    private ArrayList<Player> cached = new ArrayList<>(), players = new ArrayList<>(), spectators = new ArrayList<>();
-    private String name, schematic;
-    private Location lobby, spectator;
-    private ArrayList<Location> npcUpgrades = new ArrayList<>(), npcBuff = new ArrayList<>(), npcShop = new ArrayList<>(), npcKits = new ArrayList<>();
-    private ArrayList<WinEffect> winEffects = new ArrayList<>();
-    private ArrayList<WinDance> winDances = new ArrayList<>();
-    private ArrayList<KillEffect> killEffects = new ArrayList<>();
-    private HashMap<ChatColor, FlagTeam> teams = new HashMap<>();
-    private HashMap<Integer, ChatColor> teamsID = new HashMap<>();
-    private HashMap<Player, GamePlayer> gamePlayer = new HashMap<>();
-    private HashMap<Location, Material> mines = new HashMap<>();
-    private HashMap<Location, MineCountdown> countdowns = new HashMap<>();
-    private ArrayList<Location> placed = new ArrayList<>();
+    private final UltraCTW plugin;
+    private int starting, time = 0, nowEvent = 0;
+    private final int id, teamSize, min, max, pool;
+    private final HashMap<Integer, GameEvent> events = new HashMap<>();
+    private final ArrayList<Player> cached = new ArrayList<>(), players = new ArrayList<>(), spectators = new ArrayList<>();
+    private final String name, schematic;
+    private final Location lobby, spectator;
+    private final ArrayList<Location> npcUpgrades = new ArrayList<>(), npcBuff = new ArrayList<>(), npcShop = new ArrayList<>(), npcKits = new ArrayList<>();
+    private final ArrayList<WinEffect> winEffects = new ArrayList<>();
+    private final ArrayList<WinDance> winDances = new ArrayList<>();
+    private final ArrayList<KillEffect> killEffects = new ArrayList<>();
+    private final HashMap<ChatColor, FlagTeam> teams = new HashMap<>();
+    private final HashMap<Integer, ChatColor> teamsID = new HashMap<>();
+    private final HashMap<Player, GamePlayer> gamePlayer = new HashMap<>();
+    private final HashMap<Location, Material> mines = new HashMap<>();
+    private final HashMap<Location, MineCountdown> countdowns = new HashMap<>();
+    private Squared lobbyProtection;
+    private final ArrayList<Location> placed = new ArrayList<>();
     private State state;
 
     public GameFlag(UltraCTW plugin, String path, int id) {
@@ -89,6 +89,9 @@ public class GameFlag {
         }
         for (String s : plugin.getConfig().getConfigurationSection("flagDefaults.phases").getKeys(false)) {
             events.put(events.size(), new GameEvent(plugin, "flagDefaults.phases." + s));
+        }
+        if (plugin.getArenas().isSet(path + ".lobbyProtection.min")) {
+            this.lobbyProtection = new Squared(Utils.getStringLocation(plugin.getArenas().get(path + ".lobbyProtection.max")), Utils.getStringLocation(plugin.getArenas().get(path + ".lobbyProtection.min")), false, true);
         }
         this.starting = plugin.getCm().getStarting();
         this.min = plugin.getArenas().getInt(path + ".min");
@@ -161,8 +164,25 @@ public class GameFlag {
         teams.values().forEach(FlagTeam::reset);
         events.values().forEach(GameEvent::reset);
         plugin.getWc().resetMap(new Location(lobby.getWorld(), 0, 75, 0), schematic);
-        lobby.getWorld().setTime(500);
-        lobby.getWorld().getEntities().stream().filter(e -> !e.getType().equals(EntityType.PLAYER)).forEach(Entity::remove);
+        World w = lobby.getWorld();
+        lobbyProtection.getMax().setWorld(w);
+        lobbyProtection.getMin().setWorld(w);
+        w.setTime(500);
+        w.getEntities().stream().filter(e -> !e.getType().equals(EntityType.PLAYER)).forEach(Entity::remove);
+        teams.values().forEach(t -> t.updateWorld(w));
+        spectator.setWorld(w);
+        for (Location l : npcBuff) {
+            l.setWorld(w);
+        }
+        for (Location l : npcShop) {
+            l.setWorld(w);
+        }
+        for (Location l : npcUpgrades) {
+            l.setWorld(w);
+        }
+        for (Location l : npcKits) {
+            l.setWorld(w);
+        }
         starting = plugin.getCm().getStarting();
         setState(State.WAITING);
         time = 0;
@@ -267,6 +287,9 @@ public class GameFlag {
         for (Player w : team.getMembers()) {
             CTWPlayer ctw = plugin.getDb().getCTWPlayer(w);
             if (ctw == null) continue;
+            if (plugin.getCm().isWCMDEnabled()) {
+                plugin.getCm().getWinCommands().forEach(c -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), c.replaceAll("<player>", w.getName())));
+            }
             ctw.addCoins(plugin.getCm().getGCoinsWins());
             ctw.setXp(ctw.getXp() + plugin.getCm().getXpWin());
             ctw.setWins(ctw.getWins() + 1);

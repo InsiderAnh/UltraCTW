@@ -32,6 +32,7 @@ public class SetupFlagArenaMenu implements UltraInventory {
                 ItemStack litem = plugin.getMenus().getConfig().getItemStack("menus." + name + ".items." + c);
                 ItemStack item = ItemBuilder.parse(plugin.getMenus().getConfig().getItemStack("menus." + name + ".items." + c).clone(),
                         new String[]{"{NAME}", plugin.getLang().get("menus.flag.name.nameItem"), plugin.getLang().get("menus.flag.name.loreItem")},
+                        new String[]{"{PROTECTION}", plugin.getLang().get("menus.flag.protection.nameItem"), plugin.getLang().get("menus.flag.protection.loreItem")},
                         new String[]{"{NPCUPGRADE}", plugin.getLang().get("menus.flag.npcUpgrade.nameItem"), plugin.getLang().get("menus.flag.npcUpgrade.loreItem")},
                         new String[]{"{NPCBUFF}", plugin.getLang().get("menus.flag.npcBuff.nameItem"), plugin.getLang().get("menus.flag.npcBuff.loreItem")},
                         new String[]{"{NPCSHOP}", plugin.getLang().get("menus.flag.npcShop.nameItem"), plugin.getLang().get("menus.flag.npcShop.loreItem")},
@@ -124,6 +125,7 @@ public class SetupFlagArenaMenu implements UltraInventory {
                 ItemStack litem = plugin.getMenus().getConfig().getItemStack("menus." + name + ".items." + c);
                 ItemStack item = ItemBuilder.parse(plugin.getMenus().getConfig().getItemStack("menus." + name + ".items." + c).clone(),
                         new String[]{"{NAME}", plugin.getLang().get("menus.flag.name.nameItem"), plugin.getLang().get("menus.flag.name.loreItem")},
+                        new String[]{"{PROTECTION}", plugin.getLang().get("menus.flag.protection.nameItem"), plugin.getLang().get("menus.flag.protection.loreItem")},
                         new String[]{"{NPCUPGRADE}", plugin.getLang().get("menus.flag.npcUpgrade.nameItem"), plugin.getLang().get("menus.flag.npcUpgrade.loreItem")},
                         new String[]{"{NPCBUFF}", plugin.getLang().get("menus.flag.npcBuff.nameItem"), plugin.getLang().get("menus.flag.npcBuff.loreItem")},
                         new String[]{"{NPCSHOP}", plugin.getLang().get("menus.flag.npcShop.nameItem"), plugin.getLang().get("menus.flag.npcShop.loreItem")},

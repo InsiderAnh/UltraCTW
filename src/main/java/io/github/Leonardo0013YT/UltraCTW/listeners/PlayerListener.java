@@ -542,12 +542,18 @@ public class PlayerListener implements Listener {
         Player d = p.getKiller();
         Game g = plugin.getGm().getGameByPlayer(p);
         if (g == null) return;
+        if (plugin.getCm().isDCMDEnabled()) {
+            plugin.getCm().getDeathCommands().forEach(c -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), c.replaceAll("<player>", p.getName())));
+        }
         e.getDrops().clear();
         e.setDroppedExp(0);
         e.setDeathMessage(null);
         if (d != null) {
             CTWPlayer sk = plugin.getDb().getCTWPlayer(d);
             if (sk != null) {
+                if (plugin.getCm().isKCMDEnabled()) {
+                    plugin.getCm().getKillCommands().forEach(c -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), c.replaceAll("<player>", d.getName())));
+                }
                 for (ObjectPotion op : plugin.getCm().getEffectsOnKill()) {
                     d.addPotionEffect(new PotionEffect(op.getPotion().parsePotionEffectType(), op.getDuration(), op.getLevel()));
                 }

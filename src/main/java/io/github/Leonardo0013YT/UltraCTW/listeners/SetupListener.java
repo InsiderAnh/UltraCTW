@@ -1942,6 +1942,24 @@ public class SetupListener implements Listener {
             FlagSetup as = plugin.getSm().getSetupFlag(p);
             ItemMeta im = e.getCurrentItem().getItemMeta();
             String display = im.getDisplayName();
+            if (display.equals(plugin.getLang().get(p, "menus.flag.protection.nameItem"))) {
+                Selection s = as.getSelection();
+                if (s.getPos1() == null || s.getPos2() == null) {
+                    p.sendMessage(plugin.getLang().get("setup.arena.needPositions"));
+                    return;
+                }
+                as.setProtection(new Squared(s.getPos2(), s.getPos1(), false, true));
+                p.sendMessage(plugin.getLang().get("setup.arena.setProteccion"));
+                s.setPos1(null);
+                s.setPos2(null);
+                plugin.getUim().openInventory(p, plugin.getUim().getMenus("flag"),
+                        new String[]{"<name>", as.getName()},
+                        new String[]{"<schematic>", as.getSchematic()},
+                        new String[]{"<min>", "" + as.getMin()},
+                        new String[]{"<teamSize>", "" + as.getTeamSize()},
+                        new String[]{"<lobby>", Utils.getFormatedLocation(as.getLobby())},
+                        new String[]{"<spect>", Utils.getFormatedLocation(as.getSpectator())});
+            }
             if (display.equals(plugin.getLang().get(p, "menus.flag.npcKits.nameItem"))) {
                 as.getNpcKits().add(Utils.getLocationString(p.getLocation()));
                 p.sendMessage(plugin.getLang().get("setup.arena.setNPCKits"));

@@ -577,6 +577,14 @@ menus:
   flag:
     rows: 6
     items:
+      '22':
+        ==: org.bukkit.inventory.ItemStack
+        type: IRON_AXE
+        meta:
+          ==: ItemMeta
+          meta-type: UNSPECIFIC
+          display-name: '{PROTECTION}'
+          repair-cost: 1
       '49':
         ==: org.bukkit.inventory.ItemStack
         type: NETHER_STAR
