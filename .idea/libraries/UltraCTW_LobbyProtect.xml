@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="UltraCTW-LobbyProtect">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../UltraCTW-LobbyProtect/out/artifacts/UltraCTW_LobbyProtect_jar/UltraCTW-LobbyProtect.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>
