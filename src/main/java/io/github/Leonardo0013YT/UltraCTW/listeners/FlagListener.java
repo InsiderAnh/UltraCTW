@@ -9,6 +9,7 @@ import io.github.Leonardo0013YT.UltraCTW.game.GamePlayer;
 import io.github.Leonardo0013YT.UltraCTW.interfaces.CTWPlayer;
 import io.github.Leonardo0013YT.UltraCTW.objects.MineCountdown;
 import io.github.Leonardo0013YT.UltraCTW.objects.ObjectPotion;
+import io.github.Leonardo0013YT.UltraCTW.objects.Squared;
 import io.github.Leonardo0013YT.UltraCTW.team.FlagTeam;
 import io.github.Leonardo0013YT.UltraCTW.upgrades.Upgrade;
 import io.github.Leonardo0013YT.UltraCTW.upgrades.UpgradeLevel;
@@ -262,6 +263,15 @@ public class FlagListener implements Listener {
         FlagTeam team = g.getTeamPlayer(p);
         if (team == null) return;
         if (!team.getFlag().getWorld().getName().equals(p.getLocation().getWorld().getName())) return;
+        if (g.isState(State.WAITING) || g.isState(State.STARTING)) {
+            if (g.getLobbyProtection() != null) {
+                Squared s = g.getLobbyProtection();
+                if (!s.isInCuboid(p)) {
+                    p.teleport(g.getLobby());
+                }
+            }
+            return;
+        }
         Location to = e.getTo();
         Location from = e.getFrom();
         if (to.getBlockX() != from.getBlockX() || to.getBlockY() != from.getBlockY() || to.getBlockZ() != from.getBlockZ()) {

@@ -9,6 +9,9 @@
       <root url="jar://$PROJECT_DIR$/../../APIS/spigot-1.14.4.jar!/" />
       <root url="jar://$PROJECT_DIR$/../../APIS/spigot-1.15.2.jar!/" />
       <root url="jar://$PROJECT_DIR$/../../APIS/spigot-1.16.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../APIS/spigot-1.16.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../APIS/spigot-1.16.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../APIS/spigot-1.16.3.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
@@ -20,6 +23,9 @@
       <root url="jar://$PROJECT_DIR$/../../APIS/spigot-1.14.4.jar!/" />
       <root url="jar://$PROJECT_DIR$/../../APIS/spigot-1.15.2.jar!/" />
       <root url="jar://$PROJECT_DIR$/../../APIS/spigot-1.16.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../APIS/spigot-1.16.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../APIS/spigot-1.16.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../APIS/spigot-1.16.3.jar!/" />
     </SOURCES>
   </library>
 </component>

@@ -287,6 +287,8 @@ public class SetupCMD implements CommandExecutor {
                     plugin.getWc().resetMap(w2.getSpawnLocation(), schematic2);
                     p.teleport(w2.getSpawnLocation());
                     p.getInventory().remove(plugin.getIm().getSetup());
+                    p.getInventory().remove(plugin.getIm().getPoints());
+                    p.getInventory().addItem(plugin.getIm().getPoints());
                     p.getInventory().addItem(plugin.getIm().getSetup());
                     break;
                 case "kits":

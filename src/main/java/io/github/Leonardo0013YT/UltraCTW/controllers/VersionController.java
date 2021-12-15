@@ -70,6 +70,21 @@ public class VersionController {
                     is1_9to15 = true;
                     is1_13to15 = true;
                     break;
+                case "v1_16_R1":
+                    nms = new NMS_v1_16_r1();
+                    is1_9to15 = true;
+                    is1_13to15 = true;
+                    break;
+                case "v1_16_R2":
+                    nms = new NMS_v1_16_r2();
+                    is1_9to15 = true;
+                    is1_13to15 = true;
+                    break;
+                case "v1_16_R3":
+                    nms = new NMS_v1_16_r3();
+                    is1_9to15 = true;
+                    is1_13to15 = true;
+                    break;
                 default:
                     plugin.sendLogMessage("§cYou have an outdated version §e1.8§c, please use version §a1.8.8§c.");
                     disable();
@@ -106,6 +121,12 @@ public class VersionController {
                 return new NPC_v1_14_r1(plugin);
             case "v1_15_R1":
                 return new NPC_v1_15_r1(plugin);
+            case "v1_16_R1":
+                return new NPC_v1_16_r1(plugin);
+            case "v1_16_R2":
+                return new NPC_v1_16_r2(plugin);
+            case "v1_16_R3":
+                return new NPC_v1_16_r3(plugin);
             default:
                 plugin.sendLogMessage("§cYou have an outdated version §e1.8§c, please use version §a1.8.8§c.");
                 disable();

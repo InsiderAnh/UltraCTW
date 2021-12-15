@@ -11,10 +11,10 @@ import java.util.HashMap;
 @Getter
 public class Kit {
 
-    private HashMap<Integer, KitLevel> levels = new HashMap<>();
-    private int id, slot, page;
-    private String name, permission;
-    private boolean flag;
+    private final HashMap<Integer, KitLevel> levels = new HashMap<>();
+    private final int id, slot, page;
+    private final String name, permission;
+    private final boolean flag;
 
     public Kit(UltraCTW plugin, String path) {
         this.id = plugin.getKits().getInt(path + ".id");

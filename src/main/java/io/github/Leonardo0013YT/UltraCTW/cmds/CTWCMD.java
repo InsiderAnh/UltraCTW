@@ -446,6 +446,170 @@ public class CTWCMD implements CommandExecutor {
                     sendHelp(sender);
                     break;
             }
+        } else {
+            if (args.length < 1) {
+                sendHelp(sender);
+                return true;
+            }
+            switch (args[0].toLowerCase()) {
+                case "gcoins":
+                    if (args.length < 4) {
+                        sendHelp(sender);
+                        return true;
+                    }
+                    switch (args[1].toLowerCase()) {
+                        case "add":
+                            Player on = Bukkit.getPlayer(args[2]);
+                            if (on == null) {
+                                sender.sendMessage(plugin.getLang().get("setup.noOnline"));
+                                return true;
+                            }
+                            int amount;
+                            try {
+                                amount = Integer.parseInt(args[3]);
+                            } catch (NumberFormatException e) {
+                                sender.sendMessage(plugin.getLang().get("setup.noNumber"));
+                                return true;
+                            }
+                            CTWPlayer sw = plugin.getDb().getCTWPlayer(on);
+                            sw.addCoins(amount);
+                            sender.sendMessage(plugin.getLang().get("coins.add.you").replaceAll("<coins>", String.valueOf(amount)).replaceAll("<player>", on.getName()));
+                            on.sendMessage(plugin.getLang().get("coins.add.receiver").replaceAll("<coins>", String.valueOf(amount)).replaceAll("<sender>", sender.getName()));
+                            Utils.updateSB(on);
+                            break;
+                        case "remove":
+                            Player on1 = Bukkit.getPlayer(args[2]);
+                            if (on1 == null) {
+                                sender.sendMessage(plugin.getLang().get("setup.noOnline"));
+                                return true;
+                            }
+                            int amount1;
+                            try {
+                                amount1 = Integer.parseInt(args[3]);
+                            } catch (NumberFormatException e) {
+                                sender.sendMessage(plugin.getLang().get("setup.noNumber"));
+                                return true;
+                            }
+                            CTWPlayer sw1 = plugin.getDb().getCTWPlayer(on1);
+                            sw1.removeCoins(amount1);
+                            sender.sendMessage(plugin.getLang().get("coins.remove.you").replaceAll("<coins>", String.valueOf(amount1)).replaceAll("<player>", on1.getName()));
+                            on1.sendMessage(plugin.getLang().get("coins.remove.receiver").replaceAll("<coins>", String.valueOf(amount1)).replaceAll("<sender>", sender.getName()));
+                            Utils.updateSB(on1);
+                            break;
+                        case "set":
+                            Player on2 = Bukkit.getPlayer(args[2]);
+                            if (on2 == null) {
+                                sender.sendMessage(plugin.getLang().get("setup.noOnline"));
+                                return true;
+                            }
+                            int amount2;
+                            try {
+                                amount2 = Integer.parseInt(args[3]);
+                            } catch (NumberFormatException e) {
+                                sender.sendMessage(plugin.getLang().get("setup.noNumber"));
+                                return true;
+                            }
+                            CTWPlayer sw2 = plugin.getDb().getCTWPlayer(on2);
+                            sw2.setCoins(amount2);
+                            sender.sendMessage(plugin.getLang().get("coins.set.you").replaceAll("<coins>", String.valueOf(amount2)).replaceAll("<player>", on2.getName()));
+                            on2.sendMessage(plugin.getLang().get("coins.set.receiver").replaceAll("<coins>", String.valueOf(amount2)).replaceAll("<sender>", sender.getName()));
+                            Utils.updateSB(on2);
+                            break;
+                        default:
+                            sendHelp(sender);
+                            break;
+                    }
+                    break;
+                case "coins":
+                    if (args.length < 4) {
+                        sendHelp(sender);
+                        return true;
+                    }
+                    switch (args[1].toLowerCase()) {
+                        case "add":
+                            Player on = Bukkit.getPlayer(args[2]);
+                            if (on == null) {
+                                sender.sendMessage(plugin.getLang().get("setup.noOnline"));
+                                return true;
+                            }
+                            int amount;
+                            try {
+                                amount = Integer.parseInt(args[3]);
+                            } catch (NumberFormatException e) {
+                                sender.sendMessage(plugin.getLang().get("setup.noNumber"));
+                                return true;
+                            }
+                            Game gpgg = plugin.getGm().getGameByPlayer(on);
+                            GameFlag gpgf = plugin.getGm().getGameFlagByPlayer(on);
+                            GamePlayer gp;
+                            if (gpgg != null) {
+                                gp = gpgg.getGamePlayer(on);
+                            } else {
+                                gp = gpgf.getGamePlayer(on);
+                            }
+                            gp.addCoins(amount);
+                            sender.sendMessage(plugin.getLang().get("coins.add.you").replaceAll("<coins>", String.valueOf(amount)).replaceAll("<player>", on.getName()));
+                            on.sendMessage(plugin.getLang().get("coins.add.receiver").replaceAll("<coins>", String.valueOf(amount)).replaceAll("<sender>", sender.getName()));
+                            Utils.updateSB(on);
+                            break;
+                        case "remove":
+                            Player on1 = Bukkit.getPlayer(args[2]);
+                            if (on1 == null) {
+                                sender.sendMessage(plugin.getLang().get("setup.noOnline"));
+                                return true;
+                            }
+                            int amount1;
+                            try {
+                                amount1 = Integer.parseInt(args[3]);
+                            } catch (NumberFormatException e) {
+                                sender.sendMessage(plugin.getLang().get("setup.noNumber"));
+                                return true;
+                            }
+                            Game gpgg1 = plugin.getGm().getGameByPlayer(on1);
+                            GameFlag gpgf1 = plugin.getGm().getGameFlagByPlayer(on1);
+                            GamePlayer gp1;
+                            if (gpgg1 != null) {
+                                gp1 = gpgg1.getGamePlayer(on1);
+                            } else {
+                                gp1 = gpgf1.getGamePlayer(on1);
+                            }
+                            gp1.removeCoins(amount1);
+                            sender.sendMessage(plugin.getLang().get("coins.remove.you").replaceAll("<coins>", String.valueOf(amount1)).replaceAll("<player>", on1.getName()));
+                            on1.sendMessage(plugin.getLang().get("coins.remove.receiver").replaceAll("<coins>", String.valueOf(amount1)).replaceAll("<sender>", sender.getName()));
+                            Utils.updateSB(on1);
+                            break;
+                        case "set":
+                            Player on2 = Bukkit.getPlayer(args[2]);
+                            if (on2 == null) {
+                                sender.sendMessage(plugin.getLang().get("setup.noOnline"));
+                                return true;
+                            }
+                            int amount2;
+                            try {
+                                amount2 = Integer.parseInt(args[3]);
+                            } catch (NumberFormatException e) {
+                                sender.sendMessage(plugin.getLang().get("setup.noNumber"));
+                                return true;
+                            }
+                            Game gpgg2 = plugin.getGm().getGameByPlayer(on2);
+                            GameFlag gpgf2 = plugin.getGm().getGameFlagByPlayer(on2);
+                            GamePlayer gp2;
+                            if (gpgg2 != null) {
+                                gp2 = gpgg2.getGamePlayer(on2);
+                            } else {
+                                gp2 = gpgf2.getGamePlayer(on2);
+                            }
+                            gp2.setCoins(amount2);
+                            sender.sendMessage(plugin.getLang().get("coins.set.you").replaceAll("<coins>", String.valueOf(amount2)).replaceAll("<player>", on2.getName()));
+                            on2.sendMessage(plugin.getLang().get("coins.set.receiver").replaceAll("<coins>", String.valueOf(amount2)).replaceAll("<sender>", sender.getName()));
+                            Utils.updateSB(on2);
+                            break;
+                        default:
+                            sendHelp(sender);
+                            break;
+                    }
+                    break;
+            }
         }
         return false;
     }
